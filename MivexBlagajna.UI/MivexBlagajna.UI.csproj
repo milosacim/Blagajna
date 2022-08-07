@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\**" />
+    <EmbeddedResource Remove="Views\**" />
+    <None Remove="Views\**" />
+    <Page Remove="Views\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="App.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -21,6 +28,8 @@
 <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 
 <PackageReference Include="Syncfusion.Shared.WPF" Version="20.2.0.40" />
+
+<PackageReference Include="Syncfusion.Themes.FluentDark.WPF" Version="20.2.0.40" />
 
 <PackageReference Include="Syncfusion.Themes.MaterialLight.WPF" Version="20.2.0.40" />
 
@@ -44,9 +53,5 @@
   
   <ItemGroup>
     <Resource Include="App.ico" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Views\" />
   </ItemGroup>
 </Project>

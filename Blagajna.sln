@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MivexBlagajna.DataAccess", "MivexBlagajna.DataAccess\MivexBlagajna.DataAccess.csproj", "{9A1560C6-D453-4FA7-9015-641A31CA8CEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MivexBlagajna.DataAccess", "MivexBlagajna.DataAccess\MivexBlagajna.DataAccess.csproj", "{9A1560C6-D453-4FA7-9015-641A31CA8CEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MivexBlagajna.Data", "MivexBlagajna.Data\MivexBlagajna.Data.csproj", "{5049EC8E-9424-4F3D-A72B-6FB5179ECFA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MivexBlagajna.Data", "MivexBlagajna.Data\MivexBlagajna.Data.csproj", "{5049EC8E-9424-4F3D-A72B-6FB5179ECFA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MivexBlagajna.UI", "MivexBlagajna.UI\MivexBlagajna.UI.csproj", "{C24D28A4-1CDB-463B-BC65-4CFE1DC10ED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MivexBlagajna.UI", "MivexBlagajna.UI\MivexBlagajna.UI.csproj", "{C24D28A4-1CDB-463B-BC65-4CFE1DC10ED8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
