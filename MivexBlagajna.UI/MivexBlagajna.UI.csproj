@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="App.ico" />
+  </ItemGroup>
+  <ItemGroup>
+
+<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
+  <PrivateAssets>all</PrivateAssets>
+  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+</PackageReference>
+
+<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+
+<PackageReference Include="Syncfusion.Shared.WPF" Version="20.2.0.40" />
+
+<PackageReference Include="Syncfusion.Themes.MaterialLight.WPF" Version="20.2.0.40" />
+
+<PackageReference Include="Syncfusion.Themes.Office2019Colorful.WPF" Version="20.2.0.40" />
+<PackageReference Include="Syncfusion.Tools.WPF" Version="20.2.0.40" />
+<PackageReference Include="Syncfusion.Data.WPF" Version="20.2.0.36" />
+<PackageReference Include="Syncfusion.SfGrid.WPF" Version="20.2.0.36" />
+<PackageReference Include="Syncfusion.SfChart.WPF" Version="20.2.0.36" />
+<PackageReference Include="Syncfusion.SfDiagram.WPF" Version="20.2.0.36" />
+<PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.2.0.40" />
+</ItemGroup>
+  
+  <ItemGroup>
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\MivexBlagajna.DataAccess\MivexBlagajna.DataAccess.csproj" />
+    <ProjectReference Include="..\MivexBlagajna.Data\MivexBlagajna.Data.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Resource Include="App.ico" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Views\" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,42 @@
+<syncfusion:RibbonWindow x:Class="MivexBlagajna.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls ="clr-namespace:MivexBlagajna.UI.Controls"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"  
+        xmlns:syncfusionSkin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+        syncfusionSkin:SfSkinManager.Theme="{syncfusionSkin:SkinManagerExtension ThemeName=Office2019Colorful}"
+        Title="MainWindow" Height="350" Width="525" Icon="App.ico">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <syncfusion:Ribbon x:Name="_ribbon" VerticalAlignment="Top">
+
+            <syncfusion:RibbonTab Caption="Sifarnik" IsChecked="True">
+
+                <syncfusion:RibbonBar Name="sifarnik" Width="150" Header="Sifarnik">
+                    <syncfusion:RibbonButton SizeForm="Large" Label="Komitenti" FontSize="10" Margin="20 5 10 0"/>
+                    <syncfusion:RibbonButton SizeForm="Large" Label="Mesta troska" FontSize="10" Margin="10 5 10 0"/>
+                </syncfusion:RibbonBar>
+
+            </syncfusion:RibbonTab>
+
+            <syncfusion:RibbonTab Caption="Pregledi" IsChecked="False">
+
+                <syncfusion:RibbonBar Name="pregledi" Width="150" Header="Pregledi">
+                    <syncfusion:RibbonButton SizeForm="Large" Label="Uplata / Isplata" FontSize="10" Margin="20 5 10 0"/>
+                    <syncfusion:RibbonButton SizeForm="Large" Label="Finansijska kartica" FontSize="10" Margin="10 5 10 0"/>
+                </syncfusion:RibbonBar>
+
+            </syncfusion:RibbonTab>
+
+        </syncfusion:Ribbon>
+        
+        <controls:DockingAdapter Grid.Row="1" ActiveDocument="{Binding ActiveDocument, Mode=TwoWay}">
+            
+        </controls:DockingAdapter>
+    </Grid>
+</syncfusion:RibbonWindow>
