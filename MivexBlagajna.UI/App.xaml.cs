@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MivexBlagajna.DataAccess;
+using MivexBlagajna.DataAccess.Services;
 using MivexBlagajna.UI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,8 @@ namespace MivexBlagajna.UI
                 options.UseSqlServer("Server=192.168.0.144;Database=MivexBlagajnaDb;User Id=retail01;Password=mivex***032;"), ServiceLifetime.Singleton );
 
             services.AddSingleton<MainWindow>();
+
+            services.AddSingleton<IKomitentDataService, KomitentiDataService>();
 
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<KomitentiViewModel>();

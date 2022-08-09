@@ -1,19 +1,23 @@
-﻿using Syncfusion.Windows.Shared;
+﻿using MivexBlagajna.DataAccess.Services;
+using Syncfusion.Windows.Shared;
 using System.Collections.ObjectModel;
 
 namespace MivexBlagajna.UI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private ObservableCollection<ViewModelBase> _workspaces;
-        private ViewModelBase _selectedViewModel;
-        private ViewModelBase _activeDocument;
+        private ObservableCollection<ViewModelBase>? _workspaces;
+        private ViewModelBase? _selectedViewModel;
+        private ViewModelBase? _activeDocument;
+        private DelegateCommand<object>? _openNewTabCommand;
+        private IKomitentDataService _service;
+        private KomitentiViewModel _komitentiViewModel;
 
-
-
-        public MainViewModel()
+        public MainViewModel(IKomitentDataService service, KomitentiViewModel komitentiViewModel)
         {
             Workspaces = new ObservableCollection<ViewModelBase>();
+            _service = service;
+            _komitentiViewModel = komitentiViewModel;
         }
 
         public ObservableCollection<ViewModelBase> Workspaces
@@ -21,7 +25,6 @@ namespace MivexBlagajna.UI.ViewModels
             get { return _workspaces; }
             set { _workspaces = value; }
         }
-
 
         public ViewModelBase ActiveViewModel
         {
@@ -31,7 +34,7 @@ namespace MivexBlagajna.UI.ViewModels
 
         public void OpenViewinWorkspaceTab()
         {
-            KomitentiViewModel viewModel = new KomitentiViewModel("Komitenti", DockState.Document);
+            KomitentiViewModel viewModel = _komitentiViewModel;
             Workspaces.Add(viewModel);
             ActiveViewModel = viewModel;
         }
@@ -39,10 +42,10 @@ namespace MivexBlagajna.UI.ViewModels
         public async void SelectViewModel(object parameter)
         {
             SelectedViewModel = parameter as ViewModelBase;
-            //if (SelectedViewModel != null)
-            //{
-            //    await SelectedViewModel.LoadAsync();
-            //}
+            if (SelectedViewModel != null)
+            {
+                await SelectedViewModel.LoadAsync();
+            }
         }
 
         public ViewModelBase SelectedViewModel
@@ -54,8 +57,6 @@ namespace MivexBlagajna.UI.ViewModels
             }
         }
 
-        private DelegateCommand<object> _openNewTabCommand;
-
         public DelegateCommand<object> OpenNewTabCommand
         {
             get
@@ -66,8 +67,6 @@ namespace MivexBlagajna.UI.ViewModels
                 }
                 return _openNewTabCommand;
             }
-
         }
-
     }
 }

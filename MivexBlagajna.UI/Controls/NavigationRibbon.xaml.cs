@@ -23,6 +23,12 @@ namespace MivexBlagajna.UI.Controls
         public NavigationRibbon()
         {
             InitializeComponent();
+            Loaded += NavigationRibbon_Loaded;
+        }
+
+        private void NavigationRibbon_Loaded(object sender, RoutedEventArgs e)
+        {
+            _ribbon.BackStageButton.Visibility = Visibility.Collapsed;
         }
     }
 }
