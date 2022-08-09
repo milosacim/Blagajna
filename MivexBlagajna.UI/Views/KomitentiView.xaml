@@ -44,7 +44,7 @@
 
             <Label Content="Sifra: " Grid.Row="1" />
             <TextBox Grid.Row="2" Width="50" HorizontalAlignment="Left" Margin="5 0 0 0"
-                     Text="{Binding SelectedKomitent.Naziv}"/>
+                     Text="{Binding SelectedKomitent.Sifra}"/>
 
             <StackPanel Orientation="Horizontal" Grid.Row="5">
                 <Label Content="Naziv: " Grid.Row="3" Margin="0 10 0 0"/>
@@ -52,8 +52,8 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Row="6">
-                <TextBox Width="150" HorizontalAlignment="Left" Margin="5 0 0 0"/>
-                <TextBox Width="150" HorizontalAlignment="Left" Margin="15 0 0 0"/>
+                <TextBox Width="150" HorizontalAlignment="Left" Margin="5 0 0 0" Text="{Binding SelectedKomitent.Naziv}"/>
+                <TextBox Width="150" HorizontalAlignment="Left" Margin="15 0 0 0" Text="{Binding SelectedKomitent.Naziv2}"/>
             </StackPanel>
         </Grid>
         

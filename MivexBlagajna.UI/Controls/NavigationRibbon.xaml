@@ -23,7 +23,8 @@
                     FontSize="10"
                     Label="Komitenti"
                     SizeForm="Large" 
-                    Command="{Binding OpenNewTabCommand}"/>
+                    Command="{Binding SelectViewModelCommand}" 
+                    CommandParameter="{Binding KomitentiViewModel}"/>
                 <syncfusion:RibbonButton
                     Margin="10,5,10,0"
                     FontSize="10"

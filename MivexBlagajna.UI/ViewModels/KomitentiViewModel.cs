@@ -39,11 +39,12 @@ namespace MivexBlagajna.UI.ViewModels
         public override async Task LoadAsync()
         {
             var komitenti = await _komitentiDataService.GetAllAsync();
+
             if (komitenti != null)
             {
                 foreach (var komitent in komitenti)
                 {
-                    komitenti.Add(komitent);
+                    Komitenti.Add(new SingleKomitentViewModel(komitent));
                 }
             }
             SelectedKomitent = Komitenti.Last();
