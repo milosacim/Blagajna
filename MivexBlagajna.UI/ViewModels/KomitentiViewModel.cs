@@ -5,7 +5,9 @@
         private string _header;
         private DockState _state;
 
-        public KomitentiViewModel(string header, DockState state)
+        public KomitentiViewModel(
+            string header, 
+            DockState state)
         {
             _header = header;
             _state = state;

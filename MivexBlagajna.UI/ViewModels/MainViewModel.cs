@@ -1,5 +1,4 @@
-﻿using MivexBlagajna.Data.Models.UI_Models;
-using Syncfusion.Windows.Shared;
+﻿using Syncfusion.Windows.Shared;
 using System.Collections.ObjectModel;
 
 namespace MivexBlagajna.UI.ViewModels
