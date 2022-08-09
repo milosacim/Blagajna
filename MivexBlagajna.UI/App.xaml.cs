@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MivexBlagajna.DataAccess;
+using MivexBlagajna.UI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -20,8 +21,8 @@ namespace MivexBlagajna.UI
         {
             IServiceProvider serviceProvider = CreateServiceProvider();
 
-            Window window = serviceProvider.GetRequiredService<MainWindow>();
-            window.Show();
+            Window? window = serviceProvider.GetService<MainWindow>();
+            window?.Show();
             base.OnStartup(e);
         }
 
@@ -32,7 +33,11 @@ namespace MivexBlagajna.UI
             services.AddDbContext<MivexBlagajnaDbContext>( options => 
                 options.UseSqlServer("Server=192.168.0.144;Database=MivexBlagajnaDb;User Id=retail01;Password=mivex***032;"), ServiceLifetime.Singleton );
 
-            services.AddScoped(s => new MainWindow());
+            services.AddSingleton<MainWindow>();
+
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<KomitentiViewModel>();
+            services.AddSingleton<MestaTroskaViewModel>();
 
             return services.BuildServiceProvider();
         }

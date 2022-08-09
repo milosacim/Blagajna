@@ -1,8 +1,9 @@
-﻿using Syncfusion.Windows.Tools.Controls;
+﻿
+using MivexBlagajna.UI;
 
 namespace MivexBlagajna.Data.Models.UI_Models
 {
-    public class Workspace
+    public class Workspace : IDockElement
     {
         private string _header;
         private DockState _state;
@@ -18,6 +19,5 @@ namespace MivexBlagajna.Data.Models.UI_Models
             get { return _state; }
             set { _state = value; }
         }
-
     }
 }

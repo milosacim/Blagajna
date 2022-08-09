@@ -22,7 +22,8 @@
                     Margin="20,5,10,0"
                     FontSize="10"
                     Label="Komitenti"
-                    SizeForm="Large" />
+                    SizeForm="Large" 
+                    Command="{Binding OpenNewTabCommand}"/>
                 <syncfusion:RibbonButton
                     Margin="10,5,10,0"
                     FontSize="10"

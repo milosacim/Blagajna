@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MivexBlagajna.UI.ViewModels;
 using Syncfusion.SfSkinManager;
 using Syncfusion.Windows.Tools.Controls;
 
@@ -21,9 +22,12 @@ namespace MivexBlagajna.UI
     /// </summary>
     public partial class MainWindow : RibbonWindow
     {
-        public MainWindow()
+        private MainViewModel _viewModel;
+        public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
+            _viewModel = viewModel;
+            DataContext = _viewModel;
             this.Loaded += MainWindow_Loaded;
         }
 

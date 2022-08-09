@@ -2,7 +2,9 @@
     x:Class="MivexBlagajna.UI.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="[controls ]clr-namespace:MivexBlagajna.UI.Controls"
+    xmlns:controls="clr-namespace:MivexBlagajna.UI.Controls"
+    xmlns:views ="clr-namespace:MivexBlagajna.UI.Views"
+    xmlns:viewmodels="clr-namespace:MivexBlagajna.UI.ViewModels"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:syncfusionSkin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
     Title="MainWindow"
@@ -10,6 +12,15 @@
     Height="350"
     syncfusionSkin:SfSkinManager.Theme="{syncfusionSkin:SkinManagerExtension ThemeName=FluentDark}"
     Icon="App.ico">
+
+    <Window.Resources>
+        
+        <DataTemplate DataType="{x:Type viewmodels:KomitentiViewModel}">
+            <views:KomitentiView />
+        </DataTemplate>
+
+    </Window.Resources>
+    
     <Grid>
 
         <Grid.RowDefinitions>
@@ -19,7 +30,8 @@
 
         <controls:NavigationRibbon />
 
-        <controls:DockingAdapter Grid.Row="1" ActiveDocument="{Binding ActiveDocument, Mode=TwoWay}" />
+        <controls:DockingAdapter Grid.Row="1" ItemsSource="{Binding Workspaces}"
+                                 ActiveDocument="{Binding ActiveViewModel, Mode=TwoWay}"/>
 
     </Grid>
 
