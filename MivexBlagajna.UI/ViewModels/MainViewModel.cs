@@ -10,7 +10,6 @@ namespace MivexBlagajna.UI.ViewModels
         private ObservableCollection<ViewModelBase> _workspaces;
         private ViewModelBase? _selectedViewModel;
         private ViewModelBase _activeDocument;
-        //private DelegateCommand<object>? _openNewTabCommand;
 
         public MainViewModel(KomitentiViewModel komitentiViewModel)
         {
@@ -41,13 +40,6 @@ namespace MivexBlagajna.UI.ViewModels
             }
         }
 
-        //public void OpenViewinWorkspaceTab()
-        //{
-        //    ViewModelBase viewModel = SelectedViewModel;
-        //    Workspaces.Add(viewModel);
-        //    ActiveViewModel = viewModel;
-        //}
-
         public async void SelectViewModel(object parameter)
         {
             SelectedViewModel = parameter as ViewModelBase;
@@ -56,25 +48,18 @@ namespace MivexBlagajna.UI.ViewModels
             {
                 await SelectedViewModel.LoadAsync();
             }
-            Workspaces.Add(SelectedViewModel);
-            ActiveViewModel = SelectedViewModel;
+            if (SelectedViewModel != null && ActiveViewModel == SelectedViewModel)
+            {
+                return;
+            } else
+            {
+                Workspaces.Add(SelectedViewModel);
+                ActiveViewModel = SelectedViewModel;
+            }
         }
 
         public KomitentiViewModel KomitentiViewModel { get; }
         public Commands.DelegateCommand SelectViewModelCommand { get; }
-
-
-        //public DelegateCommand<object> OpenNewTabCommand
-        //{
-        //    get
-        //    {
-        //        if (_openNewTabCommand == null)
-        //        {
-        //            _openNewTabCommand = new DelegateCommand<object>(param => OpenViewinWorkspaceTab());
-        //        }
-        //        return _openNewTabCommand;
-        //    }
-        //}
 
     }
 }

@@ -19,6 +19,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     Naziv2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Ime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Prezime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PunNaziv = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostanskiBroj = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Mesto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Adresa = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -34,13 +35,13 @@ namespace MivexBlagajna.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Komitenti",
-                columns: new[] { "Id", "Adresa", "FizickoLice", "Ime", "KontaktOsoba", "Mesto", "Naziv", "Naziv2", "PostanskiBroj", "PravnoLice", "Prezime", "Sifra", "Telefon" },
+                columns: new[] { "Id", "Adresa", "FizickoLice", "Ime", "KontaktOsoba", "Mesto", "Naziv", "Naziv2", "PostanskiBroj", "PravnoLice", "Prezime", "PunNaziv", "Sifra", "Telefon" },
                 values: new object[,]
                 {
-                    { 1, "Bulevar Oslobodilaca Cacka 105b", false, null, null, "Cacak", "Mivex", "Mivex DOO", "32000", true, null, 1, null },
-                    { 2, "Trbusani bb", true, "Milos", null, "Trbusani", null, null, "32205", false, "Acimovic", 2, "064/040-8769" },
-                    { 3, "Bulevar Oslobodilaca Cacka 105b", true, "Ivan", null, "Cacak", null, null, "32000", false, "Cvorovic", 3, "064/828-1500" },
-                    { 4, "Ljubic", false, null, null, "Cacak", "Maloprodaja Ljubic", "Mivex Maloprodaja Ljubic", "32000", true, null, 4, "032/352-468" }
+                    { 1, "Bulevar Oslobodilaca Cacka 105b", false, null, null, "Cacak", "Mivex", "Mivex DOO", "32000", true, null, null, 1, null },
+                    { 2, "Trbusani bb", true, "Milos", null, "Trbusani", null, null, "32205", false, "Acimovic", null, 2, "064/040-8769" },
+                    { 3, "Bulevar Oslobodilaca Cacka 105b", true, "Ivan", null, "Cacak", null, null, "32000", false, "Cvorovic", null, 3, "064/828-1500" },
+                    { 4, "Ljubic", false, null, null, "Cacak", "Maloprodaja Ljubic", "Mivex Maloprodaja Ljubic", "32000", true, null, null, 4, "032/352-468" }
                 });
         }
 

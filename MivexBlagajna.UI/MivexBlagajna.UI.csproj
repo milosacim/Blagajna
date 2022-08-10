@@ -10,6 +10,11 @@
 
   <ItemGroup>
     <None Remove="App.ico" />
+    <None Remove="Images\icons8-add-48.png" />
+    <None Remove="Images\icons8-cost-60.png" />
+    <None Remove="Images\icons8-customer-48.png" />
+    <None Remove="Images\icons8-edit-property-48.png" />
+    <None Remove="Images\icons8-remove-48.png" />
   </ItemGroup>
   <ItemGroup>
 
@@ -20,9 +25,13 @@
 
 <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 
+<PackageReference Include="Prism.Core" Version="8.1.97" />
+
 <PackageReference Include="Syncfusion.Shared.WPF" Version="20.2.0.40" />
 
 <PackageReference Include="Syncfusion.Themes.FluentDark.WPF" Version="20.2.0.40" />
+
+<PackageReference Include="Syncfusion.Themes.FluentLight.WPF" Version="20.2.0.43" />
 
 <PackageReference Include="Syncfusion.Themes.MaterialLight.WPF" Version="20.2.0.40" />
 
@@ -32,7 +41,7 @@
 <PackageReference Include="Syncfusion.SfGrid.WPF" Version="20.2.0.36" />
 <PackageReference Include="Syncfusion.SfChart.WPF" Version="20.2.0.36" />
 <PackageReference Include="Syncfusion.SfDiagram.WPF" Version="20.2.0.36" />
-<PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.2.0.40" />
+<PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.2.0.43" />
 </ItemGroup>
   
   <ItemGroup>
@@ -46,5 +55,20 @@
   
   <ItemGroup>
     <Resource Include="App.ico" />
+    <Resource Include="Images\icons8-add-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-cost-60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-customer-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-edit-property-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-remove-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 </Project>

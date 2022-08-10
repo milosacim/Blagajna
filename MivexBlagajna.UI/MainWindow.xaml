@@ -10,7 +10,7 @@
     Title="MainWindow"
     Width="525"
     Height="350"
-    syncfusionSkin:SfSkinManager.Theme="{syncfusionSkin:SkinManagerExtension ThemeName=Office2019Colorful}"
+    syncfusionSkin:SfSkinManager.Theme="{syncfusionSkin:SkinManagerExtension ThemeName=MaterialLight}"
     Icon="App.ico">
 
     <Window.Resources>

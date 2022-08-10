@@ -128,5 +128,19 @@ namespace MivexBlagajna.UI.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public string PunNaziv
+        {
+            get
+            {
+                if (_model.PravnoLice == true)
+                {
+                    return $"{_model.Sifra} - {_model.Naziv}";
+                } else
+                {
+                    return $"{_model.Sifra} - {_model.Ime} {_model.Prezime}";
+                }
+            }
+        }
     }
 }

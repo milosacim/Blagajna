@@ -9,17 +9,20 @@ namespace MivexBlagajna.UI.ViewModels
     {
         private string _header;
         private DockState _state;
-        private IKomitentDataService _komitentiDataService;
-        private SingleKomitentViewModel _selectedKomitent;
+        //private IKomitentDataService _komitentiDataService;
+        //private SingleKomitentViewModel _selectedKomitent;
 
-        public KomitentiViewModel(
-            IKomitentDataService komitentiDataService,
+        public KomitentiViewModel(IKomitentiNavigationViewModel komitentiNavigationViewModel,
+            IKomitentiDetailViewModel komitentiDetailViewModel,
+            //IKomitentDataService komitentiDataService,
             string header = "Komitenti",
             DockState state = DockState.Document)
         {
+            KomitentiNavigationViewModel = komitentiNavigationViewModel;
+            KomitentiDetailViewModel = komitentiDetailViewModel;
             _header = header;
             _state = state;
-            _komitentiDataService = komitentiDataService;
+            //_komitentiDataService = komitentiDataService;
         }
 
         public string? Header
@@ -34,26 +37,35 @@ namespace MivexBlagajna.UI.ViewModels
             set { _state = value; }
         }
 
-        public ObservableCollection<SingleKomitentViewModel>? Komitenti { get; } = new();
+        public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
+        public IKomitentiDetailViewModel KomitentiDetailViewModel { get; }
 
         public override async Task LoadAsync()
         {
-            var komitenti = await _komitentiDataService.GetAllAsync();
+            await KomitentiNavigationViewModel.LoadAsync();
+            //if (Komitenti.Any())
+            //{
+            //    return;
+            //}
 
-            if (komitenti != null)
-            {
-                foreach (var komitent in komitenti)
-                {
-                    Komitenti.Add(new SingleKomitentViewModel(komitent));
-                }
-            }
-            SelectedKomitent = Komitenti.Last();
-        }
+            //var komitenti = await _komitentiDataService.GetAllAsync();
 
-        public SingleKomitentViewModel SelectedKomitent
-        {
-            get { return _selectedKomitent; }
-            set { _selectedKomitent = value; OnPropertyChanged(); }
+            //if (komitenti != null)
+            //{
+            //    foreach (var komitent in komitenti)
+            //    {
+            //        Komitenti.Add(new SingleKomitentViewModel(komitent));
+            //    }
+            //}
+            //SelectedKomitent = Komitenti.Last();
         }
+        //public ObservableCollection<SingleKomitentViewModel>? Komitenti { get; } = new();
+
+
+        //public SingleKomitentViewModel SelectedKomitent
+        //{
+        //    get { return _selectedKomitent; }
+        //    set { _selectedKomitent = value; OnPropertyChanged(); }
+        //}
     }
 }

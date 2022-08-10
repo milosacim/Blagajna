@@ -11,7 +11,7 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20220805101635_initial")]
+    [Migration("20220810080720_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +59,9 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Prezime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PunNaziv")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Sifra")

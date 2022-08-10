@@ -8,7 +8,7 @@ namespace MivexBlagajna.UI
 {
     public interface IDockElement
     {
-        string Header { get; set; }
+        string? Header { get; set; }
         DockState State { get; set; }
     }
 }
