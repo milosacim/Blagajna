@@ -10,7 +10,25 @@
     <Border>
 
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            
+            <StackPanel Orientation="Horizontal">
+
+                <TextBox Text="Pretrazi: " Width="100" x:Name="Pretraga"/>
+                <Label Content="Pravno lice" Margin="10 0 0 0"/>
+                <CheckBox />
+                <Label Content="Fizicko lice" />
+                <CheckBox />
+
+            </StackPanel>
+            
             <ListView 
+                x:Name="ListOfKomitenti"
+                Margin="0 10"
+                Grid.Row="1"
                 ItemsSource="{Binding Komitenti}" 
                 SelectedItem="{Binding SelectedKomitent, Mode=TwoWay}"
                 DisplayMemberPath="PunNaziv"

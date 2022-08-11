@@ -18,7 +18,10 @@ namespace MivexBlagajna.DataAccess.Services
                 .Select(k => new LookupKomitent
                 {
                     Id = k.Id,
-                    PunNaziv = k.PravnoLice == true ? $"{k.Sifra} - {k.Naziv}" : $"{k.Sifra} - {k.Ime} {k.Prezime}"
+                    PunNaziv = k.PravnoLice == true ? $"{k.Sifra} - {k.Naziv}" : $"{k.Sifra} - {k.Ime} {k.Prezime}",
+                    PravnoLice = k.PravnoLice,
+                    FizickoLice = k.FizickoLice
+
                 }).ToListAsync();
 
         }

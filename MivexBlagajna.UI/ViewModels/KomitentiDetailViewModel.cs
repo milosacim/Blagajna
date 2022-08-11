@@ -28,7 +28,7 @@ namespace MivexBlagajna.UI.ViewModels
 
             };
         }
-
+        7
         private async void OnSaveExecute()
         {
             await _komitentDataService.SaveAsync(Komitent);

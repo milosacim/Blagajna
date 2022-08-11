@@ -15,7 +15,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition />
@@ -26,12 +26,11 @@
             <navigation:KomitentiNavigationView DataContext="{Binding KomitentiNavigationViewModel}" Margin="10"/>
         </StackPanel>
 
-        <details:KomitentDetailView Grid.Column="1" DataContext="{Binding KomitentiDetailViewModel}" />
+        <Grid Grid.Column="1">
+            <Border BorderBrush="LightGray" BorderThickness="1">
 
-        <Grid Grid.Row="1" Grid.Column="1" Margin="0 50 20 20 ">
-            <syncfusion:SfDataGrid ItemsSource="{Binding Komitenti}">
-
-            </syncfusion:SfDataGrid>
+            </Border>
+            <details:KomitentDetailView DataContext="{Binding KomitentiDetailViewModel}" Margin="10 0"/>
         </Grid>
 
     </Grid>

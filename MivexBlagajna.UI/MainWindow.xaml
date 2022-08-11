@@ -10,7 +10,7 @@
     Title="Blagajna - Mivex D.O.O Cacak"
     Width="525"
     Height="350"
-    syncfusionSkin:SfSkinManager.Theme="{syncfusionSkin:SkinManagerExtension ThemeName=FluentLight}"
+    syncfusionSkin:SfSkinManager.Theme="{syncfusionSkin:SkinManagerExtension ThemeName=FluentDark}"
     Icon="App.ico">
 
     <Window.Resources>

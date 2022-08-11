@@ -46,12 +46,14 @@
                     Margin="20,5,10,0"
                     FontSize="12"
                     Label="Uplata / Isplata"
-                    SizeForm="Large" />
+                    SizeForm="Large" 
+                    LargeIcon="/Images/icons8-cash-register-64.png"/>
                 <syncfusion:RibbonButton
                     Margin="10,5,10,0"
                     FontSize="12"
                     Label="Finansijska kartica"
-                    SizeForm="Large" />
+                    SizeForm="Large" 
+                    LargeIcon="/Images/icons8-report-file-48.png"/>
             </syncfusion:RibbonBar>
 
         </syncfusion:RibbonTab>
