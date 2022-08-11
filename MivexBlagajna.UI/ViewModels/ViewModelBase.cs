@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels
 {
-    public class ViewModelBase : NotificationObject, INotifyPropertyChanged
+    public class ViewModelBase :  INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

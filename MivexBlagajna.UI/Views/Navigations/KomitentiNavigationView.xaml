@@ -6,11 +6,15 @@
              xmlns:local="clr-namespace:MivexBlagajna.UI.Views.Navigations"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <ListView 
+    
+    <Border>
+
+        <Grid>
+            <ListView 
                 ItemsSource="{Binding Komitenti}" 
                 SelectedItem="{Binding SelectedKomitent, Mode=TwoWay}"
                 DisplayMemberPath="PunNaziv"
                   />
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>

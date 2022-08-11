@@ -15,6 +15,8 @@
     <None Remove="Images\icons8-customer-48.png" />
     <None Remove="Images\icons8-edit-property-48.png" />
     <None Remove="Images\icons8-remove-48.png" />
+    <None Remove="Images\icons8-save-48.png" />
+    <None Remove="Images\icons8-unavailable-50.png" />
   </ItemGroup>
   <ItemGroup>
 
@@ -68,6 +70,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-remove-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-save-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-unavailable-50.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

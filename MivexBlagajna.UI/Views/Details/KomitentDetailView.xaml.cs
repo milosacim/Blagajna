@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Syncfusion.Windows.Tools.Controls;
 
 namespace MivexBlagajna.UI.Views.Details
 {
@@ -23,6 +24,111 @@ namespace MivexBlagajna.UI.Views.Details
         public KomitentDetailView()
         {
             InitializeComponent();
+        }
+
+        private void EnableTextBox_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var el in from Panel p in DetailsGrid.Children
+                               from UIElement el in p.Children
+                               select el)
+            {
+                switch (el)
+                {
+                    case TextBox when ((TextBox)el).Name != "sifraTextBox":
+                        el.IsEnabled = true;
+                        break;
+                    case Panel:
+                        {
+                            foreach (UIElement el2 in ((Panel)el).Children)
+                            {
+                                if (el2 is CheckBox)
+                                {
+                                    el2.IsEnabled = true;
+                                }
+                            }
+
+                            break;
+                        }
+                }
+            }
+
+            foreach (var el in from Panel p in ButtonsPanel.Children
+                               from UIElement el in p.Children
+                               where el is ButtonAdv && el.IsEnabled == false && ((ButtonAdv)el).Name == "SaveBtn"
+                               select el)
+            {
+                el.IsEnabled = true;
+            }
+        }
+
+        private void DisableTextBox_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var el in from Panel p in DetailsGrid.Children
+                               from UIElement el in p.Children
+                               select el)
+            {
+                switch (el)
+                {
+                    case TextBox when ((TextBox)el).IsEnabled == true:
+                        el.IsEnabled = false;
+                        break;
+                    case Panel:
+                        {
+                            foreach (UIElement el2 in ((Panel)el).Children)
+                            {
+                                if (el2 is CheckBox)
+                                {
+                                    el2.IsEnabled = false;
+                                }
+                            }
+
+                            break;
+                        }
+                }
+            }
+
+            foreach (var el in from Panel p in ButtonsPanel.Children
+                               from UIElement el in p.Children
+                               where el is ButtonAdv && el.IsEnabled == true && ((ButtonAdv)el).Name == "SaveBtn"
+                               select el)
+            {
+                el.IsEnabled = false;
+            }
+        }
+
+        private void AfterSaveDisable_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var el in from Panel p in DetailsGrid.Children
+                               from UIElement el in p.Children
+                               select el)
+            {
+                switch (el)
+                {
+                    case TextBox when ((TextBox)el).IsEnabled == true:
+                        el.IsEnabled = false;
+                        break;
+                    case Panel:
+                        {
+                            foreach (UIElement el2 in ((Panel)el).Children)
+                            {
+                                if (el2 is CheckBox)
+                                {
+                                    el2.IsEnabled = false;
+                                }
+                            }
+
+                            break;
+                        }
+                }
+            }
+
+            foreach (var el in from Panel p in ButtonsPanel.Children
+                               from UIElement el in p.Children
+                               where el is ButtonAdv && el.IsEnabled == true && ((ButtonAdv)el).Name == "SaveBtn"
+                               select el)
+            {
+                el.IsEnabled = false;
+            }
         }
     }
 }

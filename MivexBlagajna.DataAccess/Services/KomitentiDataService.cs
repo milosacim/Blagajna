@@ -19,5 +19,12 @@ namespace MivexBlagajna.DataAccess.Services
         {
             return await _context.Komitenti.SingleAsync(k => k.Id == id);
         }
+
+        public async Task SaveAsync(Komitent komitent)
+        {
+            _context.Komitenti.Add(komitent);
+            _context.Entry(komitent).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
     }
 }

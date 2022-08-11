@@ -1,9 +1,11 @@
 ﻿using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services;
 using MivexBlagajna.UI.Events;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels
 {
@@ -20,6 +22,28 @@ namespace MivexBlagajna.UI.ViewModels
             _komitentDataService = komitentDataService;
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OpenKomitentDetailViewEvent>().Subscribe(OnOpenKomitentDetailView);
+
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanEnecute);
+            {
+
+            };
+        }
+
+        private async void OnSaveExecute()
+        {
+            await _komitentDataService.SaveAsync(Komitent);
+            _eventAggregator.GetEvent<AfterKomitentSavedEvent>().Publish(
+                new AfterKomitentSavedEventArgs
+                {
+                    Id = Komitent.Id,
+                    PunNaziv = Komitent.PravnoLice == true ? $"{Komitent.Sifra} - {Komitent.Naziv}" : $"{Komitent.Sifra} - {Komitent.Ime} {Komitent.Prezime}"
+                });
+        }
+
+        private bool OnSaveCanEnecute()
+        {
+            //TODO: Proveriti da li je validan Komitent
+            return true;
         }
 
         private async void OnOpenKomitentDetailView(int komitentId)
@@ -37,6 +61,8 @@ namespace MivexBlagajna.UI.ViewModels
             get { return _komitent; }
             set { _komitent = value; OnPropertyChanged(); }
         }
+
+        public ICommand SaveCommand { get; }
 
     }
 }

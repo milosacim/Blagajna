@@ -11,5 +11,7 @@ namespace MivexBlagajna.DataAccess.Services
     {
         Task<List<Komitent>> GetAllAsync();
         Task<Komitent> GetByIdAsync(int id);
+
+        Task SaveAsync(Komitent komitent);
     }
 }

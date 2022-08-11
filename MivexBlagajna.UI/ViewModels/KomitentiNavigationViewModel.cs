@@ -2,7 +2,9 @@
 using MivexBlagajna.DataAccess.Services;
 using MivexBlagajna.UI.Events;
 using Prism.Events;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels
@@ -17,22 +19,30 @@ namespace MivexBlagajna.UI.ViewModels
         {
             _lookupKomitentDataService = lookupKomitentDataService;
             _eventAggregator = eventAggregator;
-            Komitenti = new ObservableCollection<LookupKomitent>();
+            Komitenti = new ObservableCollection<KomitentiNavigationItemViewModel>();
+            _eventAggregator.GetEvent<AfterKomitentSavedEvent>().Subscribe(AfterKomitentSaved);
         }
-        public async Task LoadAsync()
+
+        private void AfterKomitentSaved(AfterKomitentSavedEventArgs obj)
+        {
+            var lookupitem = Komitenti.Single(l => l.Id == obj.Id);
+            lookupitem.PunNaziv = obj.PunNaziv;
+        }
+
+        public async override Task LoadAsync()
         {
             var lookup = await _lookupKomitentDataService.GetLookupKomitentAsync();
             Komitenti.Clear();
             foreach (var item in lookup)
             {
-                Komitenti.Add(item);
+                Komitenti.Add(new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv));
             }
         }
-        public ObservableCollection<LookupKomitent> Komitenti { get; }
+        public ObservableCollection<KomitentiNavigationItemViewModel> Komitenti { get; }
 
-        private LookupKomitent _selectedKomitent;
+        private KomitentiNavigationItemViewModel _selectedKomitent;
 
-        public LookupKomitent SelectedKomitent
+        public KomitentiNavigationItemViewModel SelectedKomitent
         {
             get { return _selectedKomitent; }
             set

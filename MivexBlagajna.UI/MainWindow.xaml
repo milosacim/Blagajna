@@ -7,10 +7,10 @@
     xmlns:viewmodels="clr-namespace:MivexBlagajna.UI.ViewModels"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:syncfusionSkin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
-    Title="MainWindow"
+    Title="Blagajna - Mivex D.O.O Cacak"
     Width="525"
     Height="350"
-    syncfusionSkin:SfSkinManager.Theme="{syncfusionSkin:SkinManagerExtension ThemeName=MaterialLight}"
+    syncfusionSkin:SfSkinManager.Theme="{syncfusionSkin:SkinManagerExtension ThemeName=FluentLight}"
     Icon="App.ico">
 
     <Window.Resources>
