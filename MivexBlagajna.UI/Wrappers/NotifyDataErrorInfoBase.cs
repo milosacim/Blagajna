@@ -20,6 +20,7 @@ namespace MivexBlagajna.UI.Wrappers
         protected virtual void OnErrorsChanged(string propertyName)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName)); // helper method koji podize ErrorsChanged Event
+            base.OnPropertyChanged(nameof(HasErrors));
         }
         protected void AddError(string propertyName, string error)    // Ako _errorsByPropertyName ne sadrzi Tkey za propertyName onda se kreira nova Lista za taj Tkey,
         {

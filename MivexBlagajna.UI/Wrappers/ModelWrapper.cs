@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace MivexBlagajna.UI.Wrappers
@@ -20,14 +21,35 @@ namespace MivexBlagajna.UI.Wrappers
         {
             typeof(T).GetProperty(propertyName).SetValue(Model, value);
             OnPropertyChanged(propertyName);
-            ValidatePropertyInternal(propertyName);
+            ValidatePropertyInternal(propertyName, value);
         }
 
-        private void ValidatePropertyInternal(string propertyName)
+        private void ValidatePropertyInternal(string propertyName, object currentValue )
         {
             ClearErrors(propertyName);
 
+            ValidateDataAnnotations(propertyName, currentValue);
+
+            ValidateCustomErrors(propertyName);
+        }
+
+        private void ValidateDataAnnotations(string propertyName, object currentValue)
+        {
+            var context = new ValidationContext(Model) { MemberName = propertyName };
+            var results = new List<ValidationResult>();
+
+            Validator.TryValidateProperty(currentValue, context, results);
+
+            foreach (var result in results)
+            {
+                AddError(propertyName, result.ErrorMessage);
+            }
+        }
+
+        private void ValidateCustomErrors(string propertyName)
+        {
             var errors = ValidateProperty(propertyName);
+
             if (errors != null)
             {
                 foreach (var error in errors)
@@ -35,7 +57,7 @@ namespace MivexBlagajna.UI.Wrappers
                     AddError(propertyName, error);
                 }
             }
-}
+        }
 
         protected virtual IEnumerable<string> ValidateProperty(string propertyName)
         {

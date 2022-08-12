@@ -29,9 +29,6 @@ namespace MivexBlagajna.UI.ViewModels
             _eventAggregator.GetEvent<OpenKomitentDetailViewEvent>().Subscribe(OnOpenKomitentDetailView);
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanEnecute);
-            {
-
-            };
         }
 
         #endregion
@@ -52,6 +49,15 @@ namespace MivexBlagajna.UI.ViewModels
             var komitent = await _komitentDataService.GetByIdAsync(komitentId);
 
             Komitent = new KomitentWrapper(komitent);
+            Komitent.PropertyChanged += (s, e) =>
+              {
+                  if (e.PropertyName == nameof(Komitent.HasErrors))
+                  {
+                      ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+
+                  }
+              };
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
         private async void OnSaveExecute()
         {
@@ -65,8 +71,9 @@ namespace MivexBlagajna.UI.ViewModels
         }
         private bool OnSaveCanEnecute()
         {
-            //TODO: Proveriti da li je validan Komitent
-            return true;
+            // TODO: Proveriti da li je bilo promene na Komitentu
+
+            return Komitent != null && !Komitent.HasErrors;
         }
         private async void OnOpenKomitentDetailView(int komitentId)
         {
