@@ -7,9 +7,34 @@
              xmlns:local="clr-namespace:MivexBlagajna.UI.Views.Details"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    <Grid >
+
+    <UserControl.Resources>
         
+        <Style TargetType="TextBox">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <StackPanel>
+                            <AdornedElementPlaceholder x:Name="placeholder"/>
+                            <TextBlock FontSize="10" Foreground="Red" Text="{Binding ElementName=placeholder,
+                                Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Background" Value="#FFA1AA" />
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
+                        Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+    </UserControl.Resources>
+
+    <Grid >
+
         <Grid.RowDefinitions>
 
             <RowDefinition Height="auto"/>
@@ -18,7 +43,7 @@
 
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Detalji" HorizontalAlignment="Center" Margin="20"/>
+        <TextBlock Text="Detalji" HorizontalAlignment="Center" Margin="20" FontWeight="SemiBold" FontSize="16"/>
 
         <Grid Grid.Row="1" x:Name="DetailsGrid">
 
@@ -42,63 +67,94 @@
 
                 </StackPanel>
 
-                <Label Content="Sifra: "/>
-                <TextBox Width="100" Text="{Binding Komitent.Sifra, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" x:Name="sifraTextBox" HorizontalAlignment="Left"/>
+                <Label Content="Sifra: " />
+                <TextBox Height="20" Width="100" Text="{Binding Komitent.Sifra, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" x:Name="sifraTextBox" HorizontalAlignment="Left"/>
 
                 <Label Content="Naziv: "/>
-                <TextBox Width="400" Text="{Binding Komitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                <TextBox Height="20" Width="300" Text="{Binding Komitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
 
-                <Label Content="Naziv 2: "/>
-                <TextBox Width="400" Text="{Binding Komitent.Naziv2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                <Label Content="Naziv 2: " Margin="0 10 0 0"/>
+                <TextBox Height="20" Width="300" Text="{Binding Komitent.Naziv2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
 
-                <Label Content="Ime: "/>
-                <TextBox Width="400" Text="{Binding Komitent.Ime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                <Label Content="Ime: " Margin="0 10 0 0"/>
+                <TextBox Height="20" Width="300" Text="{Binding Komitent.Ime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
 
-                <Label Content="Prezime: "/>
-                <TextBox Width="400" Text="{Binding Komitent.Prezime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                <Label Content="Prezime: " Margin="0 10 0 0"/>
+                <TextBox Height="20" Width="300" Text="{Binding Komitent.Prezime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
             </StackPanel>
 
-            <StackPanel Orientation="Vertical" Grid.Column="1" Margin=" 10 40 0 0">
+            <StackPanel Orientation="Vertical" Grid.Column="1" Margin=" 10 30 0 0">
 
                 <Label  Content="Postanski broj: "/>
-                <TextBox Width="100" Text="{Binding Komitent.PostanskiBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" HorizontalAlignment="Left"/>
+                <TextBox Height="20" Width="100" Text="{Binding Komitent.PostanskiBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" HorizontalAlignment="Left"/>
 
-                <Label Content="Mesto: "/>
-                <TextBox Text="{Binding Komitent.Mesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Width="200"/>
+                <Label Content="Mesto: " Margin="0 10 0 0"/>
+                <TextBox Height="20" Width="300" Text="{Binding Komitent.Mesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
 
-                <Label Content="Adresa: "/>
-                <TextBox Text="{Binding Komitent.Adresa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Width="200"/>
+                <Label Content="Adresa: " Margin="0 10 0 0"/>
+                <TextBox Height="20" Width="300" Text="{Binding Komitent.Adresa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
 
-                <Label Content="Kontakt Osoba: "/>
-                <TextBox Text="{Binding Komitent.KontaktOsoba, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Width="200"/>
+                <Label Content="Kontakt Osoba: " Margin="0 10 0 0"/>
+                <TextBox Height="20" Width="300" Text="{Binding Komitent.KontaktOsoba, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
 
-                <Label Content="Telefon: "/>
-                <TextBox Text="{Binding Komitent.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Width="200"/>
+                <Label Content="Telefon: " Margin="0 10 0 0"/>
+                <TextBox Height="20" Width="300" Text="{Binding Komitent.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
 
             </StackPanel>
 
             <StackPanel Grid.Column="2" VerticalAlignment="Bottom" x:Name="ButtonsPanel">
+                
                 <StackPanel  Orientation="Horizontal" Margin="10 0" Height="50" >
 
-                    <syncfusion:ButtonAdv Width="55" SizeMode="Large" Label="Dodaj" Margin="25 0" LargeIcon="/Images/icons8-add-48.png"/>
+                    <syncfusion:ButtonAdv 
+                                    Width="55" 
+                                    SizeMode="Large" 
+                                    Label="Dodaj" 
+                                    Margin="25 0" 
+                                    LargeIcon="/Images/icons8-add-48.png"/>
+                    
                     <syncfusion:ButtonAdv 
                                     Width="55"
                                     SizeMode="Large" 
                                     Label="Izmeni" 
                                     LargeIcon="/Images/icons8-edit-property-48.png"
-                                    Click="EnableTextBox_Click"
-                                    />
-                    <syncfusion:ButtonAdv Width="55" SizeMode="Large" Label="Obrisi" Margin="25 0" LargeIcon="/Images/icons8-remove-48.png"/>
+                                    Click="EnableTextBox_Click"/>
+                    
+                    <syncfusion:ButtonAdv 
+                                    Width="55" 
+                                    SizeMode="Large" 
+                                    Label="Obrisi" 
+                                    Margin="25 0" 
+                                    LargeIcon="/Images/icons8-remove-48.png"/>
 
                 </StackPanel>
+                
                 <StackPanel Margin="10 30 0 10" Orientation="Horizontal" Height="50">
-                    <syncfusion:ButtonAdv Width="55" SizeMode="Large" Label="Sacuvaj" Margin="60 0 25 0" LargeIcon="/Images/icons8-save-48.png" IsEnabled="False" x:Name="SaveBtn" Command="{Binding SaveCommand}" Click="AfterSaveDisable_Click"/>
-                    <syncfusion:ButtonAdv Width="55" SizeMode="Large" Label="Otkazi" LargeIcon="/Images/icons8-unavailable-50.png" Click="DisableTextBox_Click"/>
+                    
+                    <syncfusion:ButtonAdv 
+                                    x:Name="SaveBtn" 
+                                    Label="Sacuvaj" 
+                                    Margin="60 0 25 0" 
+                                    Width="55" 
+                                    SizeMode="Large" 
+                                    LargeIcon="/Images/icons8-save-48.png" 
+                                    IsEnabled="False" 
+                                    Command="{Binding SaveCommand}" 
+                                    Click="AfterSaveDisable_Click"/>
+                    
+                    <syncfusion:ButtonAdv 
+                                    Width="55" 
+                                    SizeMode="Large" 
+                                    Label="Otkazi" 
+                                    LargeIcon="/Images/icons8-unavailable-50.png" 
+                                    Click="DisableTextBox_Click"/>
+                    
                 </StackPanel>
+                
             </StackPanel>
 
         </Grid>
-        
+
         <!--TODO: Napraviti datagrid sa svim komitentima-->
 
         <Grid Grid.Row="2" Margin="20 20 20 20 ">

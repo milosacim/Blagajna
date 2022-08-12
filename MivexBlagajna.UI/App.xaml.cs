@@ -5,12 +5,8 @@ using MivexBlagajna.DataAccess.Services;
 using MivexBlagajna.UI.ViewModels;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace MivexBlagajna.UI
 {
@@ -50,6 +46,12 @@ namespace MivexBlagajna.UI
             services.AddSingleton<MestaTroskaViewModel>();
 
             return services.BuildServiceProvider();
+        }
+
+        private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("Desila se neočekivana greška. Obavestite administratora." + Environment.NewLine + e.Exception.Message, "Unexpected Error");
+            e.Handled = true;
         }
     }
 }
