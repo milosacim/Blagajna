@@ -20,7 +20,7 @@ namespace MivexBlagajna.UI.Wrappers
         protected virtual void SetValue<TValue>(TValue value, [CallerMemberName] string propertyName = null)
         {
             typeof(T).GetProperty(propertyName).SetValue(Model, value);
-            OnPropertyChanged(propertyName);
+            OnModelPropertyChanged(propertyName);
             ValidatePropertyInternal(propertyName, value);
         }
 

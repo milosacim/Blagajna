@@ -24,7 +24,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _punNaziv = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MivexBlagajna.Data.Models;
 
-namespace MivexBlagajna.DataAccess.Services
+namespace MivexBlagajna.DataAccess.Services.Lookups
 {
     public class LookupKomitentDataService : ILookupKomitentDataService
     {

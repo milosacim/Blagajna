@@ -31,7 +31,7 @@ namespace MivexBlagajna.UI.ViewModels
         public ViewModelBase ActiveViewModel
         {
             get { return _activeDocument; }
-            set { _activeDocument = value; OnPropertyChanged("ActiveViewModel"); }
+            set { _activeDocument = value; OnModelPropertyChanged("ActiveViewModel"); }
         }
         public ViewModelBase? SelectedViewModel
         {
@@ -39,9 +39,10 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _selectedViewModel = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
+
         public async void SelectViewModel(object parameter)
         {
             SelectedViewModel = parameter as ViewModelBase;

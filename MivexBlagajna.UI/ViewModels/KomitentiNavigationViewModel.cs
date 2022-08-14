@@ -1,5 +1,6 @@
 ﻿using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services;
+using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.UI.Events;
 using Prism.Events;
 using System;
@@ -48,7 +49,8 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _selectedKomitent = value; 
-                OnPropertyChanged();
+                OnModelPropertyChanged();
+
                 if (_selectedKomitent != null)
                 {
                     _eventAggregator.GetEvent<OpenKomitentDetailViewEvent>().Publish(_selectedKomitent.Id);

@@ -16,7 +16,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.Id = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public int Sifra
@@ -25,7 +25,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.Sifra = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public string? Naziv
@@ -34,7 +34,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.Naziv = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public string? Naziv2
@@ -43,7 +43,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.Naziv2 = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
 
@@ -53,7 +53,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.Ime = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public string? Prezime
@@ -62,7 +62,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.Prezime = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public string? PostanskiBroj
@@ -71,7 +71,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.PostanskiBroj = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public string? Mesto
@@ -80,7 +80,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.Mesto = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public string? Adresa
@@ -89,7 +89,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.Adresa = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public string? KontaktOsoba
@@ -98,7 +98,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.KontaktOsoba = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public string? Telefon
@@ -107,7 +107,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.KontaktOsoba = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public bool PravnoLice
@@ -116,7 +116,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.PravnoLice = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
         public bool FizickoLice
@@ -125,7 +125,7 @@ namespace MivexBlagajna.UI.ViewModels
             set
             {
                 _model.FizickoLice = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
 

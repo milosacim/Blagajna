@@ -1,5 +1,6 @@
 ﻿using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services;
+using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Events;
 using MivexBlagajna.UI.Wrappers;
 using Prism.Commands;
@@ -14,19 +15,21 @@ namespace MivexBlagajna.UI.ViewModels
     {
         #region Fields
 
-        private readonly IKomitentDataService _komitentDataService;
+        private readonly IKomitentRepository _komitentRepository;
         private readonly IEventAggregator _eventAggregator;
         private KomitentWrapper _komitent;
+        private bool _hasChanges;
+
 
         #endregion
 
         #region Konstruktor
-        public KomitentiDetailViewModel(IKomitentDataService komitentDataService
+        public KomitentiDetailViewModel(IKomitentRepository komitentRepository
             , IEventAggregator eventAggregator)
         {
-            _komitentDataService = komitentDataService;
+            _komitentRepository = komitentRepository;
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<OpenKomitentDetailViewEvent>().Subscribe(OnOpenKomitentDetailView);
+
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanEnecute);
         }
@@ -37,7 +40,7 @@ namespace MivexBlagajna.UI.ViewModels
         public KomitentWrapper Komitent
         {
             get { return _komitent; }
-            set { _komitent = value; OnPropertyChanged(); }
+            set { _komitent = value; OnModelPropertyChanged(); }
         }
         public ICommand SaveCommand { get; }
 
@@ -46,11 +49,16 @@ namespace MivexBlagajna.UI.ViewModels
         #region Methods
         public async Task LoadAsync(int komitentId)
         {
-            var komitent = await _komitentDataService.GetByIdAsync(komitentId);
+            var komitent = await _komitentRepository.GetByIdAsync(komitentId);
 
             Komitent = new KomitentWrapper(komitent);
             Komitent.PropertyChanged += (s, e) =>
               {
+                  if (!HasChanges)
+                  {
+                      HasChanges = _komitentRepository.HasChanges();
+                  }
+
                   if (e.PropertyName == nameof(Komitent.HasErrors))
                   {
                       ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
@@ -59,9 +67,27 @@ namespace MivexBlagajna.UI.ViewModels
               };
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
+
+
+        public bool HasChanges
+        {
+            get { return _hasChanges; }
+            set
+            {
+                if (_hasChanges != value)
+                {
+                    _hasChanges = value;
+                    OnModelPropertyChanged();
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
+                
+            }
+        }
+
         private async void OnSaveExecute()
         {
-            await _komitentDataService.SaveAsync(Komitent.Model);
+            await _komitentRepository.SaveAsync();
+            HasChanges = _komitentRepository.HasChanges();
             _eventAggregator.GetEvent<AfterKomitentSavedEvent>().Publish(
                 new AfterKomitentSavedEventArgs
                 {
@@ -71,14 +97,9 @@ namespace MivexBlagajna.UI.ViewModels
         }
         private bool OnSaveCanEnecute()
         {
-            // TODO: Proveriti da li je bilo promene na Komitentu
+            return Komitent != null && !Komitent.HasErrors && HasChanges;
+        }
 
-            return Komitent != null && !Komitent.HasErrors;
-        }
-        private async void OnOpenKomitentDetailView(int komitentId)
-        {
-            await LoadAsync(komitentId);
-        }
         #endregion
     }
 }

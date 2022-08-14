@@ -2,7 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using MivexBlagajna.DataAccess;
 using MivexBlagajna.DataAccess.Services;
+using MivexBlagajna.DataAccess.Services.Lookups;
+using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.ViewModels;
+using MivexBlagajna.UI.Views.Services;
 using Prism.Events;
 using System;
 using System.Windows;
@@ -30,20 +33,22 @@ namespace MivexBlagajna.UI
             IServiceCollection services = new ServiceCollection();
 
             services.AddDbContext<MivexBlagajnaDbContext>( options => 
-                options.UseSqlServer("Server=192.168.0.144;Database=MivexBlagajnaDb;User Id=retail01;Password=mivex***032;"), ServiceLifetime.Scoped );
+                options.UseSqlServer("Server=192.168.0.144;Database=MivexBlagajnaDb;User Id=retail01;Password=mivex***032;"), ServiceLifetime.Transient );
 
-            services.AddScoped<MainWindow>();
+
+
+            services.AddTransient<IKomitentRepository, KomitentRepository>();
+            services.AddTransient<ILookupKomitentDataService, LookupKomitentDataService>();
+            services.AddTransient<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
+            services.AddTransient<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
+            services.AddTransient<Func<IKomitentiDetailViewModel>>(s => () => s.GetService<IKomitentiDetailViewModel>());
+            services.AddTransient<IMessageDialogService, MessageDialogService>();
 
             services.AddSingleton<IEventAggregator, EventAggregator>();
-            services.AddSingleton<IKomitentDataService, KomitentiDataService>();
-            services.AddSingleton<ILookupKomitentDataService, LookupKomitentDataService>();
-            services.AddSingleton<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
-            services.AddSingleton<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
-
-            services.AddScoped<Func<MivexBlagajnaDbContext>>(s => () => s.GetService<MivexBlagajnaDbContext>());
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<KomitentiViewModel>();
             services.AddSingleton<MestaTroskaViewModel>();
+            services.AddSingleton<MainWindow>();
 
             return services.BuildServiceProvider();
         }

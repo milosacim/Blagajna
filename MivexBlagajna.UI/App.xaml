@@ -6,7 +6,5 @@
     xmlns:viewmodels="clr-namespace:MivexBlagajna.UI.ViewModels"
     xmlns:views="[views ]clr-namespace:MivexBlagajna.UI.Views"
     DispatcherUnhandledException="Application_DispatcherUnhandledException">
-    <Application.Resources>
-
-    </Application.Resources>
+    <Application.Resources />
 </Application>

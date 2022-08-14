@@ -9,7 +9,7 @@ namespace MivexBlagajna.UI.ViewModels
     {
         #region Implementacija INotifyPropertyChanged interfejsa
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnModelPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
