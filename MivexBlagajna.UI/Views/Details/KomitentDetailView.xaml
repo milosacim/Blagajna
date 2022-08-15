@@ -209,7 +209,8 @@
                         Click="DisableTextBox_Click"
                         Label="Otkazi"
                         LargeIcon="/Images/icons8-unavailable-50.png"
-                        SizeMode="Large" />
+                        SizeMode="Large" 
+                        Command="{Binding CancelCommand}"/>
 
                 </StackPanel>
 

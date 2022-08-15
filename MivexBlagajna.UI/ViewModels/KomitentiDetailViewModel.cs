@@ -30,8 +30,21 @@ namespace MivexBlagajna.UI.ViewModels
             _komitentRepository = komitentRepository;
             _eventAggregator = eventAggregator;
 
-
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanEnecute);
+            CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
+        }
+
+        private bool OnCancelCanExecute()
+        {
+            return Komitent != null && !Komitent.HasErrors && HasChanges;
+        }
+
+        private async void OnCancelExecute()
+        {
+            var komitentId = Komitent.Id;
+            await _komitentRepository.CancelChanges(komitentId);
+            HasChanges = _komitentRepository.HasChanges();
+            _eventAggregator.GetEvent<OnKomitentCancelChangesEvent>().Publish(komitentId);
         }
 
         #endregion
@@ -43,6 +56,7 @@ namespace MivexBlagajna.UI.ViewModels
             set { _komitent = value; OnModelPropertyChanged(); }
         }
         public ICommand SaveCommand { get; }
+        public ICommand CancelCommand { get; }
 
         #endregion
 
@@ -62,10 +76,12 @@ namespace MivexBlagajna.UI.ViewModels
                   if (e.PropertyName == nameof(Komitent.HasErrors))
                   {
                       ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                      ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
 
                   }
               };
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
         }
 
 
@@ -79,8 +95,9 @@ namespace MivexBlagajna.UI.ViewModels
                     _hasChanges = value;
                     OnModelPropertyChanged();
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                    ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
                 }
-                
+
             }
         }
 

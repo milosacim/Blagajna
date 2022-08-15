@@ -21,6 +21,13 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
             return _context.ChangeTracker.HasChanges();
         }
 
+        public async Task CancelChanges(int id)
+        {
+            var entity = await _context.Komitenti.SingleAsync(k => k.Id == id);
+            _context.Entry(entity).CurrentValues.SetValues(_context.Entry(entity).OriginalValues);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
