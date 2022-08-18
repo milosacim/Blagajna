@@ -24,24 +24,6 @@ namespace MivexBlagajna.UI.Views.Navigations
         public KomitentiNavigationView()
         {
             InitializeComponent();
-            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListOfKomitenti.ItemsSource);
-            //view.Filter = FilterList;
         }
-
-        //private bool FilterList(object item)
-        //{
-        //    if (string.IsNullOrEmpty(Pretraga.Text))
-        //    {
-        //        return true;
-        //    } else
-        //    {
-        //        return (item as KomitentiNavigationItemViewModel).PunNaziv.IndexOf(Pretraga.Text, StringComparison.OrdinalIgnoreCase) >= 0;
-        //    }
-        //}
-
-        //private void TxtFilter_Changed(object sender, TextChangedEventArgs e)
-        //{
-        //    CollectionViewSource.GetDefaultView(ListOfKomitenti.ItemsSource).Refresh();
-        //}
     }
 }

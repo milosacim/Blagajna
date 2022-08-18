@@ -14,7 +14,7 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
 
         public async Task<IEnumerable<LookupKomitent>> GetLookupKomitentAsync()
         {
-            return await _context.Komitenti.AsNoTracking()
+            return await _context.Komitenti
                 .Select(k => new LookupKomitent
                 {
                     Id = k.Id,

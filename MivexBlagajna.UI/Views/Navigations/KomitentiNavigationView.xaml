@@ -22,11 +22,12 @@
                 <TextBox
                     x:Name="Pretraga"
                     Width="100"
-                    Text="Pretrazi: " />
-                <Label Margin="10,0,0,0" Content="Pravno lice" />
-                <CheckBox />
-                <Label Content="Fizicko lice" />
-                <CheckBox />
+                    Text="{Binding NazivFilter,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    />
+                <Label Margin="10,0,0,0" Content="Pravna lica" />
+                <CheckBox IsChecked="{Binding PravnoLiceFilter, UpdateSourceTrigger=Explicit, Mode=TwoWay}"/>
+                <Label Content="Fizicka lica" />
+                <CheckBox IsChecked="{Binding FizickoLiceFilter, UpdateSourceTrigger=Explicit, Mode=TwoWay}"/>
 
             </StackPanel>
 

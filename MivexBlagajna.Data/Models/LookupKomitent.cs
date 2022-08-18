@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string? PunNaziv { get; set; }
-        public bool? PravnoLice { get; set; }
-        public bool? FizickoLice { get; set; }
+        public bool PravnoLice { get; set; }
+        public bool FizickoLice { get; set; }
     }
 }

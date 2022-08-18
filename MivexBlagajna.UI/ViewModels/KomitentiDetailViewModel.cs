@@ -116,7 +116,6 @@ namespace MivexBlagajna.UI.ViewModels
         {
             return Komitent != null && !Komitent.HasErrors && HasChanges;
         }
-
         #endregion
     }
 }
