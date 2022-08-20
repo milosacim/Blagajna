@@ -16,9 +16,7 @@ namespace MivexBlagajna.UI.ViewModels
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IKomitentiDetailViewModel _komitentiDetailViewModel;
-        private IKomitentiNavigationViewModel _komitentiNavigationViewModel;
         private Func<IKomitentiDetailViewModel> _komitentiDetailViewModelCreator;
-        private Func<IKomitentiNavigationViewModel> _komitentiNavigationViewModelCreator;
         private string _header;
         private DockState _state;
         #endregion
@@ -28,19 +26,19 @@ namespace MivexBlagajna.UI.ViewModels
             IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService,
             Func<IKomitentiDetailViewModel> komitentiDetailViewModelCreator,
-            Func<IKomitentiNavigationViewModel> komitentiNavigationViewModelCreator,
+            IKomitentiNavigationViewModel komitentiNavigationViewModel,
             string header = "Komitenti",
             DockState state = DockState.Document)
         {
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _komitentiDetailViewModelCreator = komitentiDetailViewModelCreator;
-            _komitentiNavigationViewModelCreator = komitentiNavigationViewModelCreator;
             _eventAggregator.GetEvent<OpenKomitentDetailViewEvent>().Subscribe(OnOpenKomitentDetailView);
             _eventAggregator.GetEvent<OnKomitentCancelChangesEvent>().Subscribe(OnKomitentCancelChanges);
-            _eventAggregator.GetEvent<OnKomitentiNavigationFilterChangedEvent>().Subscribe(OnFilteredNavigation);
             _header = header;
             _state = state;
+
+            KomitentiNavigationViewModel = komitentiNavigationViewModel;
         }
         #endregion
 
@@ -55,12 +53,7 @@ namespace MivexBlagajna.UI.ViewModels
             get { return _state; }
             set { _state = value; }
         }
-        public IKomitentiNavigationViewModel KomitentiNavigationViewModel
-        {
-            get { return _komitentiNavigationViewModel; }
-            set { _komitentiNavigationViewModel = value; OnModelPropertyChanged(); }
-        }
-
+        public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
         public IKomitentiDetailViewModel KomitentiDetailViewModel
         {
             get { return _komitentiDetailViewModel; }
@@ -71,8 +64,7 @@ namespace MivexBlagajna.UI.ViewModels
         #region Methods
         public override async Task LoadAsync()
         {
-            KomitentiNavigationViewModel = _komitentiNavigationViewModelCreator();
-            await KomitentiNavigationViewModel.LoadAsync("", false, false);
+            await KomitentiNavigationViewModel.LoadAsync();
         }
         private async void OnOpenKomitentDetailView(int komitentId)
         {
@@ -101,12 +93,6 @@ namespace MivexBlagajna.UI.ViewModels
 
             KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
             await KomitentiDetailViewModel.LoadAsync(komitentId);
-        }
-
-        private async void OnFilteredNavigation(FilterChangedArgs obj)
-        {
-            KomitentiNavigationViewModel = _komitentiNavigationViewModelCreator();
-            await KomitentiNavigationViewModel.LoadAsync(obj.NazivFilter, obj.FizickoLiceFilter, obj.PravnoLiceFilter);
         }
         #endregion
     }

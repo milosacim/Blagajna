@@ -12,6 +12,7 @@ namespace MivexBlagajna.UI.Commands
         private Action<object> _execute;
         private Func<object?, bool>? _canExecute;
 
+        public event EventHandler? CanExecuteChanged;
         public DelegateCommand(Action<object> execute, Func<object?, bool>? canExecute = null)
         {
             ArgumentNullException.ThrowIfNull(execute);
@@ -21,11 +22,7 @@ namespace MivexBlagajna.UI.Commands
         }
 
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-
-        public event EventHandler? CanExecuteChanged;
-
         public bool CanExecute(object? parameter) => _canExecute is null || _canExecute(parameter);
-
         public void Execute(object? parameter) => _execute(parameter);
     }
 }

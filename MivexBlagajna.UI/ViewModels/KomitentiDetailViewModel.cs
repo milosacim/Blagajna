@@ -84,7 +84,6 @@ namespace MivexBlagajna.UI.ViewModels
             ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
         }
 
-
         public bool HasChanges
         {
             get { return _hasChanges; }
