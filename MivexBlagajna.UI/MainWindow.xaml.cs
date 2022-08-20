@@ -17,9 +17,6 @@ using Syncfusion.Windows.Tools.Controls;
 
 namespace MivexBlagajna.UI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : RibbonWindow
     {
         private MainViewModel _viewModel;
@@ -28,11 +25,12 @@ namespace MivexBlagajna.UI
             InitializeComponent();
             _viewModel = viewModel;
             DataContext = _viewModel;
-            this.Loaded += MainWindow_Loaded;
+            Loaded += MainWindow_Loaded;
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+          
         }
 
 

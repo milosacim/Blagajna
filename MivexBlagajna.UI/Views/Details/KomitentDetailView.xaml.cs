@@ -52,13 +52,6 @@ namespace MivexBlagajna.UI.Views.Details
                 }
             }
 
-            foreach (var el in from Panel p in ButtonsPanel.Children
-                               from UIElement el in p.Children
-                               where el is ButtonAdv && el.IsEnabled == false && ((ButtonAdv)el).Name == "SaveBtn"
-                               select el)
-            {
-                el.IsEnabled = true;
-            }
         }
 
         private void DisableTextBox_Click(object sender, RoutedEventArgs e)
@@ -86,14 +79,6 @@ namespace MivexBlagajna.UI.Views.Details
                         }
                 }
             }
-
-            foreach (var el in from Panel p in ButtonsPanel.Children
-                               from UIElement el in p.Children
-                               where el is ButtonAdv && el.IsEnabled == true && ((ButtonAdv)el).Name == "SaveBtn"
-                               select el)
-            {
-                el.IsEnabled = false;
-            }
         }
 
         private void AfterSaveDisable_Click(object sender, RoutedEventArgs e)
@@ -120,14 +105,6 @@ namespace MivexBlagajna.UI.Views.Details
                             break;
                         }
                 }
-            }
-
-            foreach (var el in from Panel p in ButtonsPanel.Children
-                               from UIElement el in p.Children
-                               where el is ButtonAdv && el.IsEnabled == true && ((ButtonAdv)el).Name == "SaveBtn"
-                               select el)
-            {
-                el.IsEnabled = false;
             }
         }
     }

@@ -7,36 +7,39 @@ namespace MivexBlagajna.UI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        #region Fields
         private ObservableCollection<ViewModelBase> _workspaces;
         private ViewModelBase? _selectedViewModel;
         private ViewModelBase _activeDocument;
+        #endregion
 
+        #region Konstruktor
         public MainViewModel(KomitentiViewModel komitentiViewModel)
         {
             Workspaces = new ObservableCollection<ViewModelBase>();
             KomitentiViewModel = komitentiViewModel;
             SelectViewModelCommand = new Commands.DelegateCommand(SelectViewModel);
         }
+        #endregion
 
+        #region Properties
         public ObservableCollection<ViewModelBase> Workspaces
         {
             get { return _workspaces; }
             set { _workspaces = value; }
         }
-
         public ViewModelBase ActiveViewModel
         {
             get { return _activeDocument; }
-            set { _activeDocument = value; OnPropertyChanged("ActiveViewModel"); }
+            set { _activeDocument = value; OnModelPropertyChanged("ActiveViewModel"); }
         }
-
         public ViewModelBase? SelectedViewModel
         {
             get { return _selectedViewModel; }
             set
             {
                 _selectedViewModel = value;
-                OnPropertyChanged();
+                OnModelPropertyChanged();
             }
         }
 
@@ -57,9 +60,11 @@ namespace MivexBlagajna.UI.ViewModels
                 ActiveViewModel = SelectedViewModel;
             }
         }
-
         public KomitentiViewModel KomitentiViewModel { get; }
-        public Commands.DelegateCommand SelectViewModelCommand { get; }
+        #endregion
 
+        #region Commands
+        public Commands.DelegateCommand SelectViewModelCommand { get; }
+        #endregion
     }
 }
