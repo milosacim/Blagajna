@@ -20,7 +20,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private readonly IKomitentRepository _komitentRepository;
         private readonly IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
-
         private KomitentWrapper _komitent;
         private bool _hasChanges;
 
@@ -36,31 +35,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanEnecute);
             CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
             CreateNewKomitentCommand = new DelegateCommand(OnCreateNewKomitentExecute);
-        }
-
-        private async void OnCreateNewKomitentExecute()
-        {
-            await LoadAsync(null);
-        }
-        private bool OnCancelCanExecute()
-        {
-            return Komitent != null && !Komitent.HasErrors && HasChanges;
-        }
-        private async void OnCancelExecute()
-        {
-            var komitentId = await _komitentRepository.GetLastKomitentIdAsync();
-            HasChanges = _komitentRepository.HasChanges();
-
-            if (HasChanges)
-            {
-                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
-                if (result == MessageDialogResult.Potvrdi)
-                {
-                    _komitentRepository.CancelChanges();
-                    await LoadAsync(komitentId);
-                    HasChanges = _komitentRepository.HasChanges();
-                }
-            }
+            DeleteKomitentCommand = new DelegateCommand(DeleteKomitentAsync);
         }
 
         #endregion
@@ -75,6 +50,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         public ICommand CancelCommand { get; }
         public ICommand CreateNewKomitentCommand { get; }
         public ICommand CancelNewKomitentCommand { get; }
+        public ICommand DeleteKomitentCommand { get; }
         public bool HasChanges
         {
             get { return _hasChanges; }
@@ -142,6 +118,40 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private bool OnSaveCanEnecute()
         {
             return Komitent != null && !Komitent.HasErrors && HasChanges;
+        }
+        private async void DeleteKomitentAsync()
+        {
+            _komitentRepository.Remove(Komitent.Model);
+            await _komitentRepository.SaveAsync();
+            _eventAggregator.GetEvent<OnKomitentDeletedEvent>().Publish(Komitent.Id);
+        }
+        private async void OnCreateNewKomitentExecute()
+        {
+            await LoadAsync(null);
+        }
+        private bool OnCancelCanExecute()
+        {
+            return Komitent != null && !Komitent.HasErrors && HasChanges;
+        }
+        private async void OnCancelExecute()
+        {
+            var komitentId = await _komitentRepository.GetLastKomitentIdAsync();
+            HasChanges = _komitentRepository.HasChanges();
+
+            if (HasChanges)
+            {
+                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
+                if (result == MessageDialogResult.Potvrdi)
+                {
+                    _komitentRepository.CancelChanges();
+                    await LoadAsync(komitentId);
+                    HasChanges = _komitentRepository.HasChanges();
+                }
+                else
+                {
+                    return;
+                }
+            }
         }
 
         #endregion

@@ -188,7 +188,8 @@
                         Margin="25,0"
                         Label="Obrisi"
                         LargeIcon="/Images/icons8-remove-48.png"
-                        SizeMode="Large" />
+                        SizeMode="Large" 
+                        Command="{Binding DeleteKomitentCommand}"/>
 
                 </StackPanel>
 
