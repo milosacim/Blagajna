@@ -1,6 +1,6 @@
 ﻿using MivexBlagajna.Data.Models;
 
-namespace MivexBlagajna.UI.ViewModels
+namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
     public class SingleKomitentViewModel : ViewModelBase
     {
@@ -136,7 +136,8 @@ namespace MivexBlagajna.UI.ViewModels
                 if (_model.PravnoLice == true)
                 {
                     return $"{_model.Sifra} - {_model.Naziv}";
-                } else
+                }
+                else
                 {
                     return $"{_model.Sifra} - {_model.Ime} {_model.Prezime}";
                 }

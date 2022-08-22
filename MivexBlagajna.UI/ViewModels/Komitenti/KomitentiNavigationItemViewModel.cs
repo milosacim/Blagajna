@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MivexBlagajna.UI.ViewModels
+namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
     public class KomitentiNavigationItemViewModel : ViewModelBase
     {
@@ -12,7 +12,7 @@ namespace MivexBlagajna.UI.ViewModels
         private bool _pravnoLice;
         private bool _fizickoLice;
 
-        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool fizickoLice=false, bool pravnoLice=false)
+        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool fizickoLice = false, bool pravnoLice = false)
         {
             Id = id;
             _punNaziv = punNaziv;

@@ -68,9 +68,9 @@
                 <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
 
                     <Label Content="Pravno lice: " />
-                    <CheckBox IsChecked="{Binding Komitent.PravnoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                    <CheckBox x:Name="pravno" IsChecked="{Binding Komitent.PravnoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
 
-                    <Label Content="Fizicko lice: " />
+                    <Label x:Name="fizicko" Content="Fizicko lice: " />
                     <CheckBox IsChecked="{Binding Komitent.FizickoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
 
                 </StackPanel>
@@ -100,6 +100,7 @@
 
                 <Label Margin="0,10,0,0" Content="Ime: " />
                 <TextBox
+                    x:Name ="ime"
                     Width="300"
                     Height="20"
                     IsEnabled="False"
@@ -107,6 +108,7 @@
 
                 <Label Margin="0,10,0,0" Content="Prezime: " />
                 <TextBox
+                    x:Name ="prezime"
                     Width="300"
                     Height="20"
                     IsEnabled="False"
@@ -171,7 +173,8 @@
                         Margin="25,0"
                         Label="Dodaj"
                         LargeIcon="/Images/icons8-add-48.png"
-                        SizeMode="Large" />
+                        SizeMode="Large"
+                        Command="{Binding CreateNewKomitentCommand}"/>
 
                     <syncfusion:ButtonAdv
                         Width="55"

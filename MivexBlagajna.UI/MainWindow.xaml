@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:MivexBlagajna.UI.Controls"
     xmlns:views ="clr-namespace:MivexBlagajna.UI.Views"
-    xmlns:viewmodels="clr-namespace:MivexBlagajna.UI.ViewModels"
+    xmlns:komitentiviewmodels="clr-namespace:MivexBlagajna.UI.ViewModels.Komitenti"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:syncfusionSkin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
     Title="Blagajna - Mivex D.O.O Cacak"
@@ -14,8 +14,8 @@
     Icon="App.ico">
 
     <Window.Resources>
-        
-        <DataTemplate DataType="{x:Type viewmodels:KomitentiViewModel}">
+
+        <DataTemplate DataType="{x:Type komitentiviewmodels:KomitentiViewModel}">
             <views:KomitentiView />
         </DataTemplate>
 

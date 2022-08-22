@@ -10,27 +10,30 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             _context = context;
         }
-
         public async Task<Komitent> GetByIdAsync(int id)
         {
             return await _context.Komitenti.SingleAsync(k => k.Id == id);
         }
-
         public bool HasChanges()
         {
             return _context.ChangeTracker.HasChanges();
         }
-
-        public async Task CancelChanges(int id)
+        public void CancelChanges()
         {
-            var entity = await _context.Komitenti.SingleAsync(k => k.Id == id);
-            _context.Entry(entity).CurrentValues.SetValues(_context.Entry(entity).OriginalValues);
-            await _context.SaveChangesAsync();
+            _context.ChangeTracker.Entries().First().State = EntityState.Detached;
+            HasChanges();
         }
-
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
+        }
+        public void Add(Komitent komitent)
+        {
+            _context.Komitenti.Add(komitent);
+        }
+        public async Task<int> GetLastKomitentIdAsync()
+        {
+            return await _context.Komitenti.MaxAsync(k => k.Id);
         }
     }
 }

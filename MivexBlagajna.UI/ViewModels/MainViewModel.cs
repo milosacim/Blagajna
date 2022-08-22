@@ -1,4 +1,5 @@
 ﻿using MivexBlagajna.DataAccess.Services;
+using MivexBlagajna.UI.ViewModels.Komitenti;
 using Syncfusion.Windows.Shared;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;

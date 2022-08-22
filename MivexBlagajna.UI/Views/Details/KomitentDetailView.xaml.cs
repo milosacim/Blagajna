@@ -107,5 +107,22 @@ namespace MivexBlagajna.UI.Views.Details
                 }
             }
         }
+
+        //private void pravno_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    foreach (var el in from Panel p in DetailsGrid.Children
+        //                       from UIElement el in p.Children
+        //                       select el)
+        //    {
+        //        switch (el)
+        //        {
+        //            case TextBox when ((TextBox)el).Name == "ime" || ((TextBox)el).Name == "prezime":
+        //                el.IsEnabled = false;
+        //                break;
+        //            default: el.IsEnabled = true;
+        //                break;
+        //        }
+        //    }
+        //}
     }
 }

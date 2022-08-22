@@ -1,17 +1,15 @@
-﻿using MivexBlagajna.Data.Models;
-using MivexBlagajna.DataAccess.Services;
-using MivexBlagajna.DataAccess.Services.Lookups;
+﻿using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.UI.Events;
+using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace MivexBlagajna.UI.ViewModels
+namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
     public class KomitentiNavigationViewModel : ViewModelBase, IKomitentiNavigationViewModel
     {
@@ -33,11 +31,7 @@ namespace MivexBlagajna.UI.ViewModels
             _eventAggregator.GetEvent<AfterKomitentSavedEvent>().Subscribe(AfterKomitentSaved);
             Komitenti = new ObservableCollection<KomitentiNavigationItemViewModel>();
             FilteredList = CollectionViewSource.GetDefaultView(Komitenti);
-
-            FilteredList.Filter = new Predicate<object>(o => FilterNaziv(o as KomitentiNavigationItemViewModel) && FilterPravnoLice(o as KomitentiNavigationItemViewModel) && FilterFizickoLice(o as KomitentiNavigationItemViewModel));
-
-            //FilteredList.Filter = new Predicate<object>(o => FilterPravnoLice(o as KomitentiNavigationItemViewModel));
-
+            FilteredList.Filter += new Predicate<object>(o => FilterNaziv(o as KomitentiNavigationItemViewModel) && FilterPravnoLice(o as KomitentiNavigationItemViewModel) && FilterFizickoLice(o as KomitentiNavigationItemViewModel));
         }
         #endregion
 
@@ -76,20 +70,29 @@ namespace MivexBlagajna.UI.ViewModels
         #endregion
 
         #region Methods
-        public async Task LoadAsync()
+        public async override Task LoadAsync()
         {
             var lookup = await _lookupKomitentDataService.GetLookupKomitentAsync();
             Komitenti.Clear();
 
             foreach (var item in lookup)
             {
-                Komitenti.Add(new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice));
+                if (item != null)
+                {
+                    Komitenti.Add(new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice));
+                }
             }
+            SelectedKomitent = Komitenti.Last();
         }
         private void AfterKomitentSaved(AfterKomitentSavedEventArgs obj)
         {
-            var lookupitem = Komitenti.Single(l => l.Id == obj.Id);
-            lookupitem.PunNaziv = obj.PunNaziv;
+            var lookupitem = Komitenti.SingleOrDefault(l => l.Id == obj.Id);
+            if (lookupitem == null)
+            {
+                Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv));
+            }
+
+            else { lookupitem.PunNaziv = obj.PunNaziv; }
         }
         private bool FilterNaziv(KomitentiNavigationItemViewModel item)
         {

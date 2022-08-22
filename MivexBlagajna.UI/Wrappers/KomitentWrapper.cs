@@ -158,6 +158,22 @@ namespace MivexBlagajna.UI.Wrappers
                         }
                     }
                     break;
+
+                //case nameof(PravnoLice):
+
+                //    if (testFizickoLice == testPravnoLice)
+                //    {
+                //        yield return "Morate odabrati jednu vrstu komitenta.";
+                //    }
+                //    break;
+
+                //case nameof(FizickoLice):
+
+                //    if (testFizickoLice == testPravnoLice)
+                //    {
+                //        yield return "Morate odabrati jednu vrstu komitenta.";
+                //    }
+                //    break;
             }
         }
         #endregion

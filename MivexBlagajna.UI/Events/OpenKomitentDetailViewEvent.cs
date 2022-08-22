@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.Events
 {
-    public class OpenKomitentDetailViewEvent : PubSubEvent<int>
+    public class OpenKomitentDetailViewEvent : PubSubEvent<int?>
     {
     }
 }

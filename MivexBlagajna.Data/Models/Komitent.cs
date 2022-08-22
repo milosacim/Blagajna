@@ -20,7 +20,9 @@ namespace MivexBlagajna.Data.Models
         public string? Adresa { get; set; }
         public string? KontaktOsoba { get; set; }
         public string? Telefon { get; set; }
+        [Required]
         public bool PravnoLice { get; set; }
+        [Required]
         public bool FizickoLice { get; set; }
     }
 }

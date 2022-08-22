@@ -5,6 +5,8 @@ using MivexBlagajna.DataAccess.Services;
 using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.ViewModels;
+using MivexBlagajna.UI.ViewModels.Komitenti;
+using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.Views.Services;
 using Prism.Events;
 using System;
