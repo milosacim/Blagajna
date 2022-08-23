@@ -1,8 +1,6 @@
-﻿using MivexBlagajna.DataAccess.Services;
-using MivexBlagajna.UI.ViewModels.Komitenti;
-using Syncfusion.Windows.Shared;
+﻿using MivexBlagajna.UI.ViewModels.Komitenti;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels
 {
@@ -65,7 +63,7 @@ namespace MivexBlagajna.UI.ViewModels
         #endregion
 
         #region Commands
-        public Commands.DelegateCommand SelectViewModelCommand { get; }
+        public ICommand SelectViewModelCommand { get; }
         #endregion
     }
 }

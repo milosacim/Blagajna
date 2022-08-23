@@ -1,6 +1,7 @@
-﻿namespace MivexBlagajna.UI.ViewModels
+﻿namespace MivexBlagajna.UI.ViewModels.MestaTroska
 {
     public class MestaTroskaViewModel : ViewModelBase
     {
+
     }
 }

@@ -224,12 +224,7 @@
 
         <!--  TODO: Napraviti datagrid sa svim komitentima  -->
 
-        <!--<Grid Grid.Row="2" Margin="20 20 20 20 ">
 
-            <syncfusion:SfDataGrid ItemsSource="{Binding Komitenti}">
-
-            </syncfusion:SfDataGrid>
-        </Grid>-->
 
     </Grid>
 </UserControl>
