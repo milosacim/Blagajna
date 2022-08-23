@@ -99,9 +99,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private void AfterKomitentSaved(AfterKomitentSavedEventArgs obj)
         {
             var lookupitem = Komitenti.SingleOrDefault(l => l.Id == obj.Id);
+
             if (lookupitem == null)
             {
-                Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv));
+                Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv, obj.PravnoLice, obj.FizickoLice));
             }
 
             else { lookupitem.PunNaziv = obj.PunNaziv; }
@@ -119,7 +120,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
             else
             {
-                return PravnoLiceFilter == false || item.PravnoLice == false;
+                return PravnoLiceFilter == false || item.PravnoLice == true;
             }
         }
         private bool FilterFizickoLice(KomitentiNavigationItemViewModel item)
@@ -130,7 +131,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
             else
             {
-                return FizickoLiceFilter == false || item.FizickoLice == false;
+                return FizickoLiceFilter == false || item.FizickoLice == true;
             }
         }
         #endregion

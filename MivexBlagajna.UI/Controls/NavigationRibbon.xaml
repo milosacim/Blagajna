@@ -15,8 +15,10 @@
 
             <syncfusion:RibbonBar
                 Name="sifarnik"
-                Width="150"
+                Width="300"
+                Height="auto"
                 Header="Sifarnik">
+                
                 <syncfusion:RibbonButton
                     Margin="20,5,10,0"
                     FontSize="12"
@@ -25,14 +27,16 @@
                     Command="{Binding SelectViewModelCommand}" 
                     CommandParameter="{Binding KomitentiViewModel}"
                     LargeIcon="/Images/icons8-customer-48.png"/>
+
                 <syncfusion:RibbonButton
                     Margin="10,5,10,0"
                     FontSize="12"
                     Label="Mesta troska"
                     SizeForm="Large" 
-                    LargeIcon="/Images/icons8-cost-60.png"
                     Command="{Binding SelectViewModelCommand}" 
-                    CommandParameter="{Binding MestaTroskaViewModel}"/>
+                    CommandParameter="{Binding MestaTroskaViewModel}"
+                    LargeIcon="/Images/icons8-cost-60.png"/>
+
             </syncfusion:RibbonBar>
 
         </syncfusion:RibbonTab>

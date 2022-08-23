@@ -1,13 +1,9 @@
-﻿using MivexBlagajna.DataAccess.Services;
-using MivexBlagajna.UI.Events;
+﻿using MivexBlagajna.UI.Events;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.Views.Services;
 using Prism.Events;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
@@ -46,12 +42,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         public string? Header
         {
             get { return _header; }
-            set { _header = value; }
+            set { }
         }
         public DockState State
         {
             get { return _state; }
-            set { _state = value; }
+            set { }
         }
         public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
         public IKomitentiDetailViewModel KomitentiDetailViewModel

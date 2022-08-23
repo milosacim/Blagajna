@@ -22,6 +22,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private IMessageDialogService _messageDialogService;
         private KomitentWrapper _komitent;
         private bool _hasChanges;
+        private TextBoxStatus _textBoxStatus;
 
         #endregion
 
@@ -32,10 +33,19 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _komitentRepository = komitentRepository;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
+
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanEnecute);
             CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
             CreateNewKomitentCommand = new DelegateCommand(OnCreateNewKomitentExecute);
             DeleteKomitentCommand = new DelegateCommand(DeleteKomitentAsync);
+            ChangeTextBoxStatusCommand = new DelegateCommand(ChangeTextBoxStatus);
+        }
+
+        private void ChangeTextBoxStatus()
+        {
+            TextBoxStatus = TextBoxStatus == TextBoxStatus.Enabled
+            ? TextBoxStatus.Disabled
+            : TextBoxStatus.Enabled;
         }
 
         #endregion
@@ -51,6 +61,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         public ICommand CreateNewKomitentCommand { get; }
         public ICommand CancelNewKomitentCommand { get; }
         public ICommand DeleteKomitentCommand { get; }
+        public ICommand ChangeTextBoxStatusCommand { get; }
         public bool HasChanges
         {
             get { return _hasChanges; }
@@ -66,6 +77,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             }
         }
+        public TextBoxStatus TextBoxStatus
+        {
+            get { return _textBoxStatus; }
+            set { _textBoxStatus = value; OnModelPropertyChanged(); }
+        }
+
 
         #endregion
 
@@ -76,6 +93,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             var komitent = komitentId.HasValue
                 ? await _komitentRepository.GetByIdAsync(komitentId.Value)
                 : await CreateNewKomitent();
+
+            var hasChanges = _komitentRepository.HasChanges();
 
             Komitent = new KomitentWrapper(komitent);
             Komitent.PropertyChanged += (s, e) =>
@@ -112,18 +131,30 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 new AfterKomitentSavedEventArgs
                 {
                     Id = Komitent.Id,
-                    PunNaziv = Komitent.PravnoLice == true ? $"{Komitent.Sifra} - {Komitent.Naziv}" : $"{Komitent.Sifra} - {Komitent.Ime} {Komitent.Prezime}"
+                    PunNaziv = Komitent.PravnoLice == true ? $"{Komitent.Sifra} - {Komitent.Naziv}" : $"{Komitent.Sifra} - {Komitent.Ime} {Komitent.Prezime}",
+                    PravnoLice = Komitent.PravnoLice,
+                    FizickoLice = Komitent.FizickoLice,
+
                 });
+            TextBoxStatus = TextBoxStatus.Enabled;
         }
         private bool OnSaveCanEnecute()
         {
-            return Komitent != null && !Komitent.HasErrors && HasChanges;
+            return Komitent != null && !Komitent.HasErrors && HasChanges && Komitent.PravnoLice != Komitent.FizickoLice;
         }
         private async void DeleteKomitentAsync()
         {
-            _komitentRepository.Remove(Komitent.Model);
-            await _komitentRepository.SaveAsync();
-            _eventAggregator.GetEvent<OnKomitentDeletedEvent>().Publish(Komitent.Id);
+            var result = _messageDialogService.ShowOKCancelDialog("Da li ste sigurni da zelite da obrisete komitenta?", "Question");
+            if (result == MessageDialogResult.Potvrdi)
+            {
+                _komitentRepository.Remove(Komitent.Model);
+                await _komitentRepository.SaveAsync();
+                _eventAggregator.GetEvent<OnKomitentDeletedEvent>().Publish(Komitent.Id);
+            }
+            else
+            {
+                return;
+            }
         }
         private async void OnCreateNewKomitentExecute()
         {
@@ -146,6 +177,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                     _komitentRepository.CancelChanges();
                     await LoadAsync(komitentId);
                     HasChanges = _komitentRepository.HasChanges();
+                    TextBoxStatus = TextBoxStatus.Enabled;
                 }
                 else
                 {
@@ -155,5 +187,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         }
 
         #endregion
+    }
+    public enum TextBoxStatus
+    {
+        Enabled,
+        Disabled,
     }
 }

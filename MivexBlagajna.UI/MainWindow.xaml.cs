@@ -31,6 +31,7 @@ namespace MivexBlagajna.UI
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+
         }
 
 

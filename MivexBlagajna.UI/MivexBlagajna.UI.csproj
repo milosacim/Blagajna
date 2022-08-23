@@ -87,4 +87,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="ViewModels\MestaTroska\" />
+  </ItemGroup>
 </Project>

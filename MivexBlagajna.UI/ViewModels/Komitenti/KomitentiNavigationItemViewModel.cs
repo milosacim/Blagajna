@@ -12,7 +12,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private bool _pravnoLice;
         private bool _fizickoLice;
 
-        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool fizickoLice = false, bool pravnoLice = false)
+        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool pravnoLice, bool fizickoLice)
         {
             Id = id;
             _punNaziv = punNaziv;
@@ -35,13 +35,21 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         public bool PravnoLice
         {
             get { return _pravnoLice; }
-            set { _pravnoLice = value; OnModelPropertyChanged(); }
+            set
+            {
+                _pravnoLice = value;
+                OnModelPropertyChanged();
+            }
         }
 
         public bool FizickoLice
         {
             get { return _fizickoLice; }
-            set { _fizickoLice = value; OnModelPropertyChanged(); }
+            set
+            {
+                _fizickoLice = value; 
+                OnModelPropertyChanged();
+            }
         }
     }
 }

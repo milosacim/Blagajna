@@ -1,4 +1,6 @@
-﻿using MivexBlagajna.UI.ViewModels.Komitenti;
+﻿using MivexBlagajna.UI.Commands;
+using MivexBlagajna.UI.ViewModels.Komitenti;
+using MivexBlagajna.UI.ViewModels.MestaTroska;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -13,11 +15,12 @@ namespace MivexBlagajna.UI.ViewModels
         #endregion
 
         #region Konstruktor
-        public MainViewModel(KomitentiViewModel komitentiViewModel)
+        public MainViewModel(KomitentiViewModel komitentiViewModel, MestaTroskaViewModel mestaTroskaViewModel)
         {
             Workspaces = new ObservableCollection<ViewModelBase>();
             KomitentiViewModel = komitentiViewModel;
-            SelectViewModelCommand = new Commands.DelegateCommand(SelectViewModel);
+            MestaTroskaViewModel = mestaTroskaViewModel;
+            SelectViewModelCommand = new DelegateCommand(SelectViewModel);
         }
         #endregion
 
@@ -30,7 +33,7 @@ namespace MivexBlagajna.UI.ViewModels
         public ViewModelBase ActiveViewModel
         {
             get { return _activeDocument; }
-            set { _activeDocument = value; OnModelPropertyChanged("ActiveViewModel"); }
+            set { _activeDocument = value; OnModelPropertyChanged(); }
         }
         public ViewModelBase? SelectedViewModel
         {
@@ -53,17 +56,19 @@ namespace MivexBlagajna.UI.ViewModels
             if (SelectedViewModel != null && ActiveViewModel == SelectedViewModel)
             {
                 return;
-            } else
+            } 
+            else
             {
                 Workspaces.Add(SelectedViewModel);
                 ActiveViewModel = SelectedViewModel;
             }
         }
         public KomitentiViewModel KomitentiViewModel { get; }
+        public MestaTroskaViewModel MestaTroskaViewModel { get; }
         #endregion
 
         #region Commands
-        public ICommand SelectViewModelCommand { get; }
+        public DelegateCommand SelectViewModelCommand { get; }
         #endregion
     }
 }
