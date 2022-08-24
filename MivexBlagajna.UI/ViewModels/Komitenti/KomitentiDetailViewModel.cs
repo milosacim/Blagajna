@@ -16,13 +16,13 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
     public class KomitentiDetailViewModel : ViewModelBase, IKomitentiDetailViewModel
     {
         #region Fields
-
         private readonly IKomitentRepository _komitentRepository;
         private readonly IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private KomitentWrapper _komitent;
         private bool _hasChanges;
         private TextBoxStatus _textBoxStatus;
+        private KomitentStatus _komitentStatus;
 
         #endregion
 
@@ -39,6 +39,14 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             CreateNewKomitentCommand = new DelegateCommand(OnCreateNewKomitentExecute);
             DeleteKomitentCommand = new DelegateCommand(DeleteKomitentAsync);
             ChangeTextBoxStatusCommand = new DelegateCommand(ChangeTextBoxStatus);
+            ChangeKomitentStatusCommand = new DelegateCommand(ChangeKomitentStatus);
+        }
+
+        private void ChangeKomitentStatus()
+        {
+            KomitentStatus = KomitentStatus == KomitentStatus.Fizicko
+                ? KomitentStatus.Pravno
+                : KomitentStatus.Fizicko;
         }
 
         private void ChangeTextBoxStatus()
@@ -56,12 +64,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             get { return _komitent; }
             set { _komitent = value; OnModelPropertyChanged(); }
         }
-        public ICommand SaveCommand { get; }
-        public ICommand CancelCommand { get; }
-        public ICommand CreateNewKomitentCommand { get; }
-        public ICommand CancelNewKomitentCommand { get; }
-        public ICommand DeleteKomitentCommand { get; }
-        public ICommand ChangeTextBoxStatusCommand { get; }
         public bool HasChanges
         {
             get { return _hasChanges; }
@@ -82,11 +84,27 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             get { return _textBoxStatus; }
             set { _textBoxStatus = value; OnModelPropertyChanged(); }
         }
+        public KomitentStatus KomitentStatus
+        {
+            get { return _komitentStatus; }
+            set { _komitentStatus = value; OnModelPropertyChanged(); }
+        }
+
+        // Komande
+        public ICommand SaveCommand { get; }
+        public ICommand CancelCommand { get; }
+        public ICommand CreateNewKomitentCommand { get; }
+        public ICommand CancelNewKomitentCommand { get; }
+        public ICommand DeleteKomitentCommand { get; }
+        public ICommand ChangeTextBoxStatusCommand { get; }
+        public ICommand ChangeKomitentStatusCommand { get; }
 
 
         #endregion
 
         #region Methods
+
+        // Loading
         public async Task LoadAsync(int? komitentId)
         {
 
@@ -114,6 +132,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
         }
+
+        // Creating
         private async Task<Komitent> CreateNewKomitent()
         {
             var lastKomitentId = await _komitentRepository.GetLastKomitentIdAsync();
@@ -123,11 +143,20 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _komitentRepository.Add(komitent);
             return komitent;
         }
+        private async void OnCreateNewKomitentExecute()
+        {
+            await LoadAsync(null);
+            TextBoxStatus = TextBoxStatus.Disabled;
+        }
+
+        // Saving
         private async void OnSaveExecute()
         {
             await _komitentRepository.SaveAsync();
             HasChanges = _komitentRepository.HasChanges();
-            _eventAggregator.GetEvent<AfterKomitentSavedEvent>().Publish(
+            if (!Komitent.HasErrors)
+            {
+                _eventAggregator.GetEvent<AfterKomitentSavedEvent>().Publish(
                 new AfterKomitentSavedEventArgs
                 {
                     Id = Komitent.Id,
@@ -136,12 +165,15 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                     FizickoLice = Komitent.FizickoLice,
 
                 });
+            }
             TextBoxStatus = TextBoxStatus.Enabled;
         }
         private bool OnSaveCanEnecute()
         {
-            return Komitent != null && !Komitent.HasErrors && HasChanges && Komitent.PravnoLice != Komitent.FizickoLice;
+            return Komitent != null && !Komitent.HasErrors && HasChanges;
         }
+
+        // Deleting
         private async void DeleteKomitentAsync()
         {
             var result = _messageDialogService.ShowOKCancelDialog("Da li ste sigurni da zelite da obrisete komitenta?", "Question");
@@ -156,13 +188,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 return;
             }
         }
-        private async void OnCreateNewKomitentExecute()
-        {
-            await LoadAsync(null);
-        }
+
+        // Canceling
         private bool OnCancelCanExecute()
         {
-            return Komitent != null && !Komitent.HasErrors && HasChanges;
+            return Komitent != null && HasChanges;
         }
         private async void OnCancelExecute()
         {
@@ -192,5 +222,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
     {
         Enabled,
         Disabled,
+    }
+    public enum KomitentStatus
+    {
+        Pravno,
+        Fizicko,
     }
 }

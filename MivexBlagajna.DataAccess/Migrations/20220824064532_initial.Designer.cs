@@ -11,7 +11,7 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20220822062348_initial")]
+    [Migration("20220824064532_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,13 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<string>("Ime")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Jmbg")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("KontaktOsoba")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaticniBroj")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mesto")
@@ -53,6 +59,9 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<string>("Naziv2")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Pib")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostanskiBroj")
                         .HasMaxLength(5)

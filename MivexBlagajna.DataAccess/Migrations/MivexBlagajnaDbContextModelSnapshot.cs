@@ -38,7 +38,13 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<string>("Ime")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Jmbg")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("KontaktOsoba")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaticniBroj")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mesto")
@@ -51,6 +57,9 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<string>("Naziv2")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Pib")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostanskiBroj")
                         .HasMaxLength(5)

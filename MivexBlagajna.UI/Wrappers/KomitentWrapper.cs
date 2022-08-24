@@ -59,6 +59,16 @@ namespace MivexBlagajna.UI.Wrappers
                 SetValue(value);
             }
         }
+
+        public string Jmbg
+        {
+            get => GetValue<string>();
+            set
+            {
+                SetValue(value);
+            }
+        }
+
         public string PostanskiBroj
         {
             get => GetValue<string>();
@@ -67,6 +77,25 @@ namespace MivexBlagajna.UI.Wrappers
                 SetValue(value);
             }
         }
+
+        public string Pib
+        {
+            get => GetValue<string>();
+            set
+            {
+                SetValue(value);
+            }
+        }
+
+        public string MaticniBroj
+        {
+            get => GetValue<string>();
+            set
+            {
+                SetValue(value);
+            }
+        }
+
         public string Mesto
         {
             get => GetValue<string>();
@@ -115,67 +144,7 @@ namespace MivexBlagajna.UI.Wrappers
                 SetValue(value);
             }
         }
-        #endregion
-
-        #region Methods
-
-        protected override IEnumerable<string> ValidateProperty(string propertyName)
-        {
-            var testPravnoLice = GetValue<bool>(nameof(PravnoLice));
-            var testFizickoLice = GetValue<bool>(nameof(FizickoLice));
-
-            switch (propertyName)
-            {
-                case nameof(Naziv):
-
-                    if (testPravnoLice)
-                    {
-                        if (string.Equals(Naziv, "", StringComparison.OrdinalIgnoreCase))
-                        {
-                            yield return "Morate uneti naziv komitenta!";
-                        }
-                    }
-                    break;
-
-                case nameof(Ime):
-
-                    if (testFizickoLice)
-                    {
-                        if (string.Equals(Ime, "", StringComparison.OrdinalIgnoreCase))
-                        {
-                            yield return "Morate uneti ime komitenta!";
-                        }
-                    }
-                    break;
-
-                case nameof(Prezime):
-
-                    if (testFizickoLice)
-                    {
-                        if (string.Equals(Prezime, "", StringComparison.OrdinalIgnoreCase))
-                        {
-                            yield return "Morate uneti prezime komitenta!";
-                        }
-                    }
-                    break;
-
-                //case nameof(PravnoLice):
-
-                //    if (testFizickoLice == testPravnoLice)
-                //    {
-                //        yield return "Morate odabrati jednu vrstu komitenta.";
-                //    }
-                //    break;
-
-                //case nameof(FizickoLice):
-
-                //    if (testFizickoLice == testPravnoLice)
-                //    {
-                //        yield return "Morate odabrati jednu vrstu komitenta.";
-                //    }
-                //    break;
-            }
-        }
+        
         #endregion
     }
 }

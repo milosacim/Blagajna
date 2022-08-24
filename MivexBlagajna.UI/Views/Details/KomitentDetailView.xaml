@@ -13,8 +13,10 @@
     <UserControl.Resources>
 
         <converters:KomitentiEnableTextBoxConverter x:Key="KomitentiTextBoxStatusConv"/>
+        <converters:KomitentStatusConverter x:Key="KomitentiStatusConv"/>
 
         <Style TargetType="TextBox">
+            
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
@@ -28,12 +30,14 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
                     <Setter Property="Background" Value="#FFA1AA" />
                     <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
                 </Trigger>
             </Style.Triggers>
+            
         </Style>
 
     </UserControl.Resources>
@@ -42,6 +46,8 @@
 
         <Grid.RowDefinitions>
 
+            <RowDefinition Height="auto" /> 
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
@@ -55,7 +61,78 @@
             FontWeight="SemiBold"
             Text="Detalji" />
 
-        <Grid x:Name="DetailsGrid" Grid.Row="1">
+        <StackPanel
+                x:Name="ButtonsPanel"
+                Grid.Column="2"
+                Grid.Row="1"
+                VerticalAlignment="Bottom">
+
+            <StackPanel
+                    Height="50"
+                    Orientation="Horizontal">
+
+                <syncfusion:ButtonAdv
+                        Width="55"
+                        Margin="15 0 0 0"
+                        Label="Dodaj"
+                        LargeIcon="/Images/icons8-add-48.png"
+                        SizeMode="Large"
+                        Command="{Binding CreateNewKomitentCommand}"/>
+
+                <syncfusion:ButtonAdv
+                        Width="55"
+                        Margin="10 0"
+                        Label="Izmeni"
+                        LargeIcon="/Images/icons8-edit-property-48.png"
+                        SizeMode="Large" 
+                        Command="{Binding ChangeTextBoxStatusCommand}"/>
+
+                <syncfusion:ButtonAdv
+                        Width="55"
+                        Label="Obrisi"
+                        LargeIcon="/Images/icons8-remove-48.png"
+                        SizeMode="Large" 
+                        Command="{Binding DeleteKomitentCommand}"/>
+
+                <syncfusion:ButtonAdv
+                        x:Name="SaveBtn"
+                        Width="55"
+                        Margin="30 0 0 0"
+                        Command="{Binding SaveCommand}"
+                        Label="Sacuvaj"
+                        LargeIcon="/Images/icons8-save-48.png"
+                        SizeMode="Large" />
+
+                <syncfusion:ButtonAdv
+                        Width="55"
+                        Margin="10 0"
+                        Label="Otkazi"
+                        LargeIcon="/Images/icons8-unavailable-50.png"
+                        SizeMode="Large" 
+                        Command="{Binding CancelCommand}"/>
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="10 10 0 0">
+
+            <Label 
+                Content="Pravno lice: " />
+            <CheckBox 
+                IsChecked="{Binding Komitent.PravnoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" 
+                Command="{Binding ChangeKomitentStatusCommand}"/>
+
+            <Label 
+                Content="Fizicko lice: " />
+            <CheckBox 
+                IsChecked="{Binding Komitent.FizickoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+
+        </StackPanel>
+
+        <Grid x:Name="DetailsGrid" Grid.Row="3" Margin="15 0 0 0">
 
             <Grid.ColumnDefinitions>
 
@@ -65,25 +142,9 @@
 
             </Grid.ColumnDefinitions>
 
-            <StackPanel Margin="25,5,0,10" Orientation="Vertical">
+            <StackPanel Orientation="Vertical">
 
-                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-
-                    <Label 
-                        Content="Pravno lice: " />
-                    <CheckBox 
-                        x:Name="pravno" 
-                        IsChecked="{Binding Komitent.PravnoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
-
-                    <Label 
-                        Content="Fizicko lice: " />
-                    <CheckBox 
-                        x:Name="fizicko" 
-                        IsChecked="{Binding Komitent.FizickoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
-
-                </StackPanel>
+                
 
                 <Label Content="Sifra: " />
                 <TextBox
@@ -98,132 +159,117 @@
                 <TextBox
                     Width="300"
                     Height="20"
-                    Text="{Binding Komitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                    Text="{Binding Komitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
+                    IsEnabled="{Binding KomitentStatus, Converter={StaticResource KomitentiStatusConv}}"
+                    />
 
-                <Label Margin="0,10,0,0" Content="Naziv 2: " />
+                <Label Content="Naziv 2: " />
                 <TextBox
                     Width="300"
                     Height="20"
                     Text="{Binding Komitent.Naziv2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                    IsEnabled="{Binding KomitentStatus, Converter={StaticResource KomitentiStatusConv}}"/>
 
-                <Label Margin="0,10,0,0" Content="Ime: " />
+                <Label Content="Ime: " />
                 <TextBox
                     x:Name ="ime"
                     Width="300"
                     Height="20"
-                    Text="{Binding Komitent.Ime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                    Text="{Binding Komitent.Ime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
+                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
 
-                <Label Margin="0,10,0,0" Content="Prezime: " />
+                <Label Content="Prezime: " />
                 <TextBox
                     x:Name ="prezime"
                     Width="300"
                     Height="20"
-                    Text="{Binding Komitent.Prezime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                    Text="{Binding Komitent.Prezime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
+                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+
+                <Label Content="JMBG: " />
+                <TextBox
+                    x:Name ="jmbg"
+                    Width="300"
+                    Height="20"
+                    Text="{Binding Komitent.Prezime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
+                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
             </StackPanel>
 
             <StackPanel
                 Grid.Column="1"
-                Margin="10,30,0,0"
+                Margin="10 0"
                 Orientation="Vertical">
 
-                <Label Content="Postanski broj: " />
-                <TextBox
-                    Width="100"
-                    Height="20"
-                    HorizontalAlignment="Left"
-                    Text="{Binding Komitent.PostanskiBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                <StackPanel Orientation="Horizontal">
 
-                <Label Margin="0,10,0,0" Content="Mesto: " />
-                <TextBox
-                    Width="300"
-                    Height="20"
-                    Text="{Binding Komitent.Mesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                    <StackPanel Margin="20 0 0 0">
+                        <Label Content="Postanski broj: "/>
+                        <TextBox
+                            Width="100"
+                            Height="20"
+                            HorizontalAlignment="Left"
+                            Text="{Binding Komitent.PostanskiBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                            IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                    </StackPanel>
 
-                <Label Margin="0,10,0,0" Content="Adresa: " />
-                <TextBox
-                    Width="300"
-                    Height="20"
-                    Text="{Binding Komitent.Adresa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                    <StackPanel Margin="10 0 0 0">
+                        <Label Content="PIB: "/>
+                        <TextBox
+                            Width="100"
+                            Height="20"
+                            HorizontalAlignment="Left"
+                            Text="{Binding Komitent.Pib, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                            IsEnabled="{Binding KomitentStatus, Converter={StaticResource KomitentiStatusConv}}"/>
+                    </StackPanel>
 
-                <Label Margin="0,10,0,0" Content="Kontakt Osoba: " />
-                <TextBox
-                    Width="300"
-                    Height="20"
-                    Text="{Binding Komitent.KontaktOsoba, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
-
-                <Label Margin="0,10,0,0" Content="Telefon: " />
-                <TextBox
-                    Width="300"
-                    Height="20"
-                    Text="{Binding Komitent.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
-
-            </StackPanel>
-
-            <StackPanel
-                x:Name="ButtonsPanel"
-                Grid.Column="2"
-                VerticalAlignment="Bottom">
-
-                <StackPanel
-                    Height="50"
-                    Margin="10,0"
-                    Orientation="Horizontal">
-
-                    <syncfusion:ButtonAdv
-                        Width="55"
-                        Margin="25,0"
-                        Label="Dodaj"
-                        LargeIcon="/Images/icons8-add-48.png"
-                        SizeMode="Large"
-                        Command="{Binding CreateNewKomitentCommand}"/>
-
-                    <syncfusion:ButtonAdv
-                        Width="55"
-                        Label="Izmeni"
-                        LargeIcon="/Images/icons8-edit-property-48.png"
-                        SizeMode="Large" 
-                        Command="{Binding ChangeTextBoxStatusCommand}"/>
-
-                    <syncfusion:ButtonAdv
-                        Width="55"
-                        Margin="25,0"
-                        Label="Obrisi"
-                        LargeIcon="/Images/icons8-remove-48.png"
-                        SizeMode="Large" 
-                        Command="{Binding DeleteKomitentCommand}"/>
+                    <StackPanel Margin="10 0 0 0">
+                        <Label Content="MB: "/>
+                        <TextBox
+                            Width="100"
+                            Height="20"
+                            HorizontalAlignment="Left"
+                            Text="{Binding Komitent.MaticniBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                            IsEnabled="{Binding KomitentStatus, Converter={StaticResource KomitentiStatusConv}}"/>
+                    </StackPanel>
 
                 </StackPanel>
 
-                <StackPanel
-                    Height="50"
-                    Margin="10,30,0,10"
-                    Orientation="Horizontal">
+                <StackPanel>
+                    <StackPanel Margin="20 0">
+                        <Label Content="Mesto: "/>
+                        <TextBox
+                            Width="320"
+                            Height="20"
+                            Text="{Binding Komitent.Mesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                            IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                    </StackPanel>
 
-                    <syncfusion:ButtonAdv
-                        x:Name="SaveBtn"
-                        Width="55"
-                        Margin="60,0,25,0"
-                        Command="{Binding SaveCommand}"
-                        Label="Sacuvaj"
-                        LargeIcon="/Images/icons8-save-48.png"
-                        SizeMode="Large" />
+                    <StackPanel Margin="20 0">
+                        <Label Content="Adresa: "/>
+                        <TextBox
+                        Width="320"
+                        Height="20"
+                        Text="{Binding Komitent.Adresa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                    </StackPanel>
 
-                    <syncfusion:ButtonAdv
-                        Width="55"
-                        Label="Otkazi"
-                        LargeIcon="/Images/icons8-unavailable-50.png"
-                        SizeMode="Large" 
-                        Command="{Binding CancelCommand}"/>
+                    <StackPanel Margin="20 0">
+                        <Label Content="Kontakt osoba: " />
+                        <TextBox
+                    Width="320"
+                    Height="20"
+                    Text="{Binding Komitent.KontaktOsoba, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                    </StackPanel>
 
+                    <StackPanel Margin="20 0">
+                        <Label Content="Telefon: "/>
+                        <TextBox
+                    Width="320"
+                    Height="20"
+                    Text="{Binding Komitent.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                    </StackPanel>
                 </StackPanel>
 
             </StackPanel>
