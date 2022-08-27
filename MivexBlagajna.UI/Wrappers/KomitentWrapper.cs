@@ -8,7 +8,7 @@ namespace MivexBlagajna.UI.Wrappers
     public class KomitentWrapper : ModelWrapper<Komitent>
     {
         #region Konstruktor
-        public KomitentWrapper(Komitent model) : base(model)
+        public KomitentWrapper(Komitent komitent) : base(komitent)
         {
 
         }
@@ -17,11 +17,10 @@ namespace MivexBlagajna.UI.Wrappers
 
         #region Properties
         // Propserties - value se setuje iz Komitent modela koji ova klasa wrapuje
-
-        public int Id { get => Model.Id; }
+        public int Id { get { return Model.Id; } }
         public int Sifra
         {
-            get => GetValue<int>();
+            get { return GetValue<int>(); }
             set
             {
                 SetValue(value);
@@ -29,7 +28,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Naziv
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -37,7 +40,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Naziv2
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -45,7 +52,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Ime
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -53,52 +64,71 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Prezime
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
             }
         }
-
         public string Jmbg
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
             }
         }
-
         public string PostanskiBroj
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
             }
         }
-
         public string Pib
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
             }
         }
-
         public string MaticniBroj
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
             }
         }
-
         public string Mesto
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -106,7 +136,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Adresa
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -114,7 +148,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string KontaktOsoba
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -122,7 +160,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Telefon
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -130,7 +172,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public bool PravnoLice
         {
-            get => GetValue<bool>();
+            get
+            {
+                return GetValue<bool>();
+            }
+
             set
             {
                 SetValue(value);
@@ -138,13 +184,58 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public bool FizickoLice
         {
-            get => GetValue<bool>();
+            get
+            {
+                return GetValue<bool>();
+            }
+
             set
             {
                 SetValue(value);
             }
         }
-        
+
         #endregion
+        //protected override IEnumerable<string> ValidateProperty(string propertyName)
+        //{
+        //    switch (propertyName)
+        //    {
+        //        case nameof(Naziv):
+
+        //            if (PravnoLice == true) 
+        //            {
+        //                if (string.IsNullOrWhiteSpace(Naziv))
+        //                {
+        //                    yield return "Morate uneti naziv komitentaaaa!";
+        //                }
+        //            }
+
+        //            break;
+
+        //        case nameof(Ime):
+
+        //            if (FizickoLice == true)
+        //            {
+        //                if (string.Equals(Ime, "", StringComparison.OrdinalIgnoreCase))
+        //                {
+        //                    yield return "Morate uneti ime komitenta!";
+        //                }
+        //            }
+
+        //            break;
+
+        //        case nameof(Prezime):
+
+        //            if (FizickoLice == true)
+        //            {
+        //                if (string.Equals(Prezime, "", StringComparison.OrdinalIgnoreCase))
+        //                {
+        //                    yield return "Morate uneti prezime komitenta!";
+        //                }
+        //            }
+
+        //            break;
+        //    }
+        //}
     }
 }

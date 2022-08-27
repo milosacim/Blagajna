@@ -9,12 +9,12 @@ using System.Windows.Data;
 
 namespace MivexBlagajna.UI.Converters
 {
-    internal class KomitentStatusConverter : IValueConverter
+    public class KomitentiEnableCheckBoxConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var status = (KomitentStatus)value;
-            return status == KomitentStatus.Pravno ? false : true;
+            var textboxStatus = (CheckBoxStatus)value;
+            return textboxStatus == CheckBoxStatus.Disabled ? false : true;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

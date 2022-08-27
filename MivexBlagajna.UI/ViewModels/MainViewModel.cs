@@ -56,7 +56,7 @@ namespace MivexBlagajna.UI.ViewModels
             if (SelectedViewModel != null && ActiveViewModel == SelectedViewModel)
             {
                 return;
-            } 
+            }
             else
             {
                 Workspaces.Add(SelectedViewModel);

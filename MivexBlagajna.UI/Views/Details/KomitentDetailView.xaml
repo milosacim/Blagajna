@@ -13,10 +13,10 @@
     <UserControl.Resources>
 
         <converters:KomitentiEnableTextBoxConverter x:Key="KomitentiTextBoxStatusConv"/>
-        <converters:KomitentStatusConverter x:Key="KomitentiStatusConv"/>
+        <converters:KomitentiEnableCheckBoxConverter x:Key="KomitentiCheckBoxStatusConv"/>
 
         <Style TargetType="TextBox">
-            
+
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
@@ -30,14 +30,14 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            
+
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
                     <Setter Property="Background" Value="#FFA1AA" />
                     <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
                 </Trigger>
             </Style.Triggers>
-            
+
         </Style>
 
     </UserControl.Resources>
@@ -46,7 +46,7 @@
 
         <Grid.RowDefinitions>
 
-            <RowDefinition Height="auto" /> 
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -121,14 +121,15 @@
                 Content="Pravno lice: " />
             <CheckBox 
                 IsChecked="{Binding Komitent.PravnoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" 
-                Command="{Binding ChangeKomitentStatusCommand}"/>
+                IsEnabled="{Binding CheckBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"
+                Command="{Binding ChangeTextBoxStatusCommand}"/>
 
             <Label 
                 Content="Fizicko lice: " />
             <CheckBox 
                 IsChecked="{Binding Komitent.FizickoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                IsEnabled="{Binding CheckBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"
+                Command="{Binding ChangeTextBoxStatusCommand}"/>
 
         </StackPanel>
 
@@ -144,7 +145,7 @@
 
             <StackPanel Orientation="Vertical">
 
-                
+
 
                 <Label Content="Sifra: " />
                 <TextBox
@@ -159,8 +160,8 @@
                 <TextBox
                     Width="300"
                     Height="20"
-                    Text="{Binding Komitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
-                    IsEnabled="{Binding KomitentStatus, Converter={StaticResource KomitentiStatusConv}}"
+                    Text="{Binding Komitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"
                     />
 
                 <Label Content="Naziv 2: " />
@@ -168,7 +169,7 @@
                     Width="300"
                     Height="20"
                     Text="{Binding Komitent.Naziv2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                    IsEnabled="{Binding KomitentStatus, Converter={StaticResource KomitentiStatusConv}}"/>
+                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
 
                 <Label Content="Ime: " />
                 <TextBox
@@ -191,7 +192,7 @@
                     x:Name ="jmbg"
                     Width="300"
                     Height="20"
-                    Text="{Binding Komitent.Prezime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
+                    Text="{Binding Komitent.Jmbg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
                     IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
             </StackPanel>
 
@@ -219,7 +220,7 @@
                             Height="20"
                             HorizontalAlignment="Left"
                             Text="{Binding Komitent.Pib, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                            IsEnabled="{Binding KomitentStatus, Converter={StaticResource KomitentiStatusConv}}"/>
+                            IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
                     </StackPanel>
 
                     <StackPanel Margin="10 0 0 0">
@@ -229,7 +230,7 @@
                             Height="20"
                             HorizontalAlignment="Left"
                             Text="{Binding Komitent.MaticniBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                            IsEnabled="{Binding KomitentStatus, Converter={StaticResource KomitentiStatusConv}}"/>
+                            IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
                     </StackPanel>
 
                 </StackPanel>

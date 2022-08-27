@@ -34,17 +34,6 @@ namespace MivexBlagajna.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Komitenti", x => x.Id);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Komitenti",
-                columns: new[] { "Id", "Adresa", "FizickoLice", "Ime", "Jmbg", "KontaktOsoba", "MaticniBroj", "Mesto", "Naziv", "Naziv2", "Pib", "PostanskiBroj", "PravnoLice", "Prezime", "Sifra", "Telefon" },
-                values: new object[,]
-                {
-                    { 1, "Bulevar Oslobodilaca Cacka 105b", false, null, null, null, null, "Cacak", "Mivex", "Mivex DOO", null, "32000", true, null, 1, null },
-                    { 2, "Trbusani bb", true, "Milos", null, null, null, "Trbusani", null, null, null, "32205", false, "Acimovic", 2, "064/040-8769" },
-                    { 3, "Bulevar Oslobodilaca Cacka 105b", true, "Ivan", null, null, null, "Cacak", null, null, null, "32000", false, "Cvorovic", 3, "064/828-1500" },
-                    { 4, "Ljubic", false, null, null, null, null, "Cacak", "Maloprodaja Ljubic", "Mivex Maloprodaja Ljubic", null, "32000", true, null, 4, "032/352-468" }
-                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

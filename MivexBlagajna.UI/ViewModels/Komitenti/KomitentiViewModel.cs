@@ -4,6 +4,7 @@ using MivexBlagajna.UI.Views.Services;
 using Prism.Events;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
@@ -31,6 +32,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _messageDialogService = messageDialogService;
             _komitentiDetailViewModelCreator = komitentiDetailViewModelCreator;
             _eventAggregator.GetEvent<OpenKomitentDetailViewEvent>().Subscribe(OnOpenKomitentDetailView);
+            _eventAggregator.GetEvent<OnCreateNewKomitentEvent>().Subscribe(LoadNewKomitent);
             _header = header;
             _state = state;
 
@@ -50,6 +52,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             set { }
         }
         public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
+        public ICommand CreateNewKomitentCommand { get; }
         public IKomitentiDetailViewModel KomitentiDetailViewModel
         {
             get { return _komitentiDetailViewModel; }
@@ -75,6 +78,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
             await KomitentiDetailViewModel.LoadAsync(komitentId);
+        }
+
+        public async void LoadNewKomitent(int? id)
+        {
+            KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
+            await KomitentiDetailViewModel.LoadAsync(id);
         }
         #endregion
     }

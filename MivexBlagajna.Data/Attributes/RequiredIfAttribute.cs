@@ -16,9 +16,12 @@ namespace MivexBlagajna.Data.Attributes
             DesiredValue = desiredValue;
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext context)
+        protected override ValidationResult IsValid(object? value, ValidationContext context)
         {
-            if (value != null) { return ValidationResult.Success; }
+            if ((string)value != "")
+            {
+                return ValidationResult.Success;
+            }
 
             var proprtyvalue = context.ObjectInstance.GetType().GetProperty(PropertyName).GetValue(context.ObjectInstance);
 

@@ -22,7 +22,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private KomitentWrapper _komitent;
         private bool _hasChanges;
         private TextBoxStatus _textBoxStatus;
-        private KomitentStatus _komitentStatus;
+        private CheckBoxStatus _checkBoxStatus;
 
         #endregion
 
@@ -34,19 +34,15 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
 
+            TextBoxStatus = TextBoxStatus.Disabled;
+            CheckBoxStatus = CheckBoxStatus.Disabled;
+
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanEnecute);
             CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
             CreateNewKomitentCommand = new DelegateCommand(OnCreateNewKomitentExecute);
             DeleteKomitentCommand = new DelegateCommand(DeleteKomitentAsync);
             ChangeTextBoxStatusCommand = new DelegateCommand(ChangeTextBoxStatus);
-            ChangeKomitentStatusCommand = new DelegateCommand(ChangeKomitentStatus);
-        }
-
-        private void ChangeKomitentStatus()
-        {
-            KomitentStatus = KomitentStatus == KomitentStatus.Fizicko
-                ? KomitentStatus.Pravno
-                : KomitentStatus.Fizicko;
+            ChangeCheckBoxStatusCommand = new DelegateCommand(ChangeCheckBoxStatus);
         }
 
         private void ChangeTextBoxStatus()
@@ -55,6 +51,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             ? TextBoxStatus.Disabled
             : TextBoxStatus.Enabled;
         }
+        private void ChangeCheckBoxStatus()
+        {
+            CheckBoxStatus = CheckBoxStatus == CheckBoxStatus.Enabled
+            ? CheckBoxStatus.Disabled
+            : CheckBoxStatus.Enabled;
+        }
 
         #endregion
 
@@ -62,7 +64,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         public KomitentWrapper Komitent
         {
             get { return _komitent; }
-            set { _komitent = value; OnModelPropertyChanged(); }
+            private set { _komitent = value; OnModelPropertyChanged(); }
         }
         public bool HasChanges
         {
@@ -84,10 +86,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             get { return _textBoxStatus; }
             set { _textBoxStatus = value; OnModelPropertyChanged(); }
         }
-        public KomitentStatus KomitentStatus
+        public CheckBoxStatus CheckBoxStatus
         {
-            get { return _komitentStatus; }
-            set { _komitentStatus = value; OnModelPropertyChanged(); }
+            get { return _checkBoxStatus; }
+            set { _checkBoxStatus = value; OnModelPropertyChanged(); }
         }
 
         // Komande
@@ -97,8 +99,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         public ICommand CancelNewKomitentCommand { get; }
         public ICommand DeleteKomitentCommand { get; }
         public ICommand ChangeTextBoxStatusCommand { get; }
-        public ICommand ChangeKomitentStatusCommand { get; }
-
+        public ICommand ChangeCheckBoxStatusCommand { get; }
 
         #endregion
 
@@ -107,7 +108,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         // Loading
         public async Task LoadAsync(int? komitentId)
         {
-
             var komitent = komitentId.HasValue
                 ? await _komitentRepository.GetByIdAsync(komitentId.Value)
                 : await CreateNewKomitent();
@@ -140,13 +140,14 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             var lastKomitent = await _komitentRepository.GetByIdAsync(lastKomitentId);
             var komitent = new Komitent();
             komitent.Sifra = lastKomitent.Sifra + 1;
+            CheckBoxStatus = CheckBoxStatus.Enabled;
             _komitentRepository.Add(komitent);
             return komitent;
         }
         private async void OnCreateNewKomitentExecute()
         {
             await LoadAsync(null);
-            TextBoxStatus = TextBoxStatus.Disabled;
+            _eventAggregator.GetEvent<OnCreateNewKomitentEvent>().Publish(null);
         }
 
         // Saving
@@ -205,9 +206,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 if (result == MessageDialogResult.Potvrdi)
                 {
                     _komitentRepository.CancelChanges();
+                    _komitentRepository.HasChanges();
                     await LoadAsync(komitentId);
-                    HasChanges = _komitentRepository.HasChanges();
-                    TextBoxStatus = TextBoxStatus.Enabled;
+                    TextBoxStatus = TextBoxStatus.Disabled;
+                    CheckBoxStatus = CheckBoxStatus.Disabled;
                 }
                 else
                 {
@@ -223,9 +225,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         Enabled,
         Disabled,
     }
-    public enum KomitentStatus
+
+    public enum CheckBoxStatus
     {
-        Pravno,
-        Fizicko,
+        Enabled,
+        Disabled,
     }
 }

@@ -13,13 +13,13 @@ namespace MivexBlagajna.UI.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var textboxStatus = (TextBoxStatus)value;
-            return textboxStatus == TextBoxStatus.Disabled ? true : false;
+            var test =  textboxStatus == TextBoxStatus.Disabled ? false : true;
+            return test;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var textboxStatus = (TextBoxStatus)value;
-            return textboxStatus == TextBoxStatus.Enabled ? true : false;
+            throw new NotImplementedException();
         }
     }
 }

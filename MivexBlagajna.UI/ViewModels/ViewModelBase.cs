@@ -18,10 +18,5 @@ namespace MivexBlagajna.UI.ViewModels
         #region LoadAsync definicija
         public virtual Task LoadAsync() => Task.CompletedTask;
         #endregion
-
-        //public T GetPropertyValue<T>(object src, string propertyName)
-        //{
-        //    return (T)src.GetType().GetProperty(propertyName).GetValue(src, null);
-        //}
     }
 }
