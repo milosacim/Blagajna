@@ -45,18 +45,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             ChangeCheckBoxStatusCommand = new DelegateCommand(ChangeCheckBoxStatus);
         }
 
-        private void ChangeTextBoxStatus()
-        {
-            TextBoxStatus = TextBoxStatus == TextBoxStatus.Enabled
-            ? TextBoxStatus.Disabled
-            : TextBoxStatus.Enabled;
-        }
-        private void ChangeCheckBoxStatus()
-        {
-            CheckBoxStatus = CheckBoxStatus == CheckBoxStatus.Enabled
-            ? CheckBoxStatus.Disabled
-            : CheckBoxStatus.Enabled;
-        }
+        
 
         #endregion
 
@@ -105,6 +94,19 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
         #region Methods
 
+        private void ChangeTextBoxStatus()
+        {
+            TextBoxStatus = TextBoxStatus == TextBoxStatus.Enabled
+            ? TextBoxStatus.Disabled
+            : TextBoxStatus.Enabled;
+        }
+        private void ChangeCheckBoxStatus()
+        {
+            CheckBoxStatus = CheckBoxStatus == CheckBoxStatus.Enabled
+            ? CheckBoxStatus.Disabled
+            : CheckBoxStatus.Enabled;
+        }
+
         // Loading
         public async Task LoadAsync(int? komitentId)
         {
@@ -138,6 +140,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         {
             var lastKomitentId = await _komitentRepository.GetLastKomitentIdAsync();
             var lastKomitent = await _komitentRepository.GetByIdAsync(lastKomitentId);
+
             var komitent = new Komitent();
             komitent.Sifra = lastKomitent.Sifra + 1;
             CheckBoxStatus = CheckBoxStatus.Enabled;
@@ -198,18 +201,16 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private async void OnCancelExecute()
         {
             var komitentId = await _komitentRepository.GetLastKomitentIdAsync();
-            HasChanges = _komitentRepository.HasChanges();
-
             if (HasChanges)
             {
                 var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
                 if (result == MessageDialogResult.Potvrdi)
                 {
                     _komitentRepository.CancelChanges();
-                    _komitentRepository.HasChanges();
-                    await LoadAsync(komitentId);
-                    TextBoxStatus = TextBoxStatus.Disabled;
                     CheckBoxStatus = CheckBoxStatus.Disabled;
+                    TextBoxStatus = TextBoxStatus.Disabled;
+                    await LoadAsync(komitentId);
+                    HasChanges = _komitentRepository.HasChanges();
                 }
                 else
                 {
