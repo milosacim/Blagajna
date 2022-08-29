@@ -95,7 +95,8 @@
                         Label="Obrisi"
                         LargeIcon="/Images/icons8-remove-48.png"
                         SizeMode="Large" 
-                        Command="{Binding DeleteKomitentCommand}"/>
+                        Command="{Binding DeleteKomitentCommand}"
+                        IsEnabled="{Binding HasChanges, Converter={StaticResource EnableEditBthConverter}}"/>
 
                 <syncfusion:ButtonAdv
                         x:Name="SaveBtn"

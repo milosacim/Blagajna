@@ -185,8 +185,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             if (result == MessageDialogResult.Potvrdi)
             {
                 _komitentRepository.Remove(Komitent.Model);
-                await _komitentRepository.SaveAsync();
                 _eventAggregator.GetEvent<OnKomitentDeletedEvent>().Publish(Komitent.Id);
+                await _komitentRepository.SaveAsync();
             }
             else
             {
