@@ -18,7 +18,10 @@ namespace MivexBlagajna.Data.Attributes
 
         protected override ValidationResult IsValid(object? value, ValidationContext context)
         {
-            if ((string)value != "")
+            if ((string)value == "")
+            {
+                return new ValidationResult(ErrorMessage);
+            } else
             {
                 return ValidationResult.Success;
             }

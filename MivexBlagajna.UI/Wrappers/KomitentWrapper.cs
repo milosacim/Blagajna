@@ -218,46 +218,5 @@ namespace MivexBlagajna.UI.Wrappers
             }
         }
         #endregion
-        //protected override IEnumerable<string> ValidateProperty(string propertyName)
-        //{
-        //    switch (propertyName)
-        //    {
-        //        case nameof(Naziv):
-
-        //            if (PravnoLice == true) 
-        //            {
-        //                if (string.IsNullOrWhiteSpace(Naziv))
-        //                {
-        //                    yield return "Morate uneti naziv komitentaaaa!";
-        //                }
-        //            }
-
-        //            break;
-
-        //        case nameof(Ime):
-
-        //            if (FizickoLice == true)
-        //            {
-        //                if (string.Equals(Ime, "", StringComparison.OrdinalIgnoreCase))
-        //                {
-        //                    yield return "Morate uneti ime komitenta!";
-        //                }
-        //            }
-
-        //            break;
-
-        //        case nameof(Prezime):
-
-        //            if (FizickoLice == true)
-        //            {
-        //                if (string.Equals(Prezime, "", StringComparison.OrdinalIgnoreCase))
-        //                {
-        //                    yield return "Morate uneti prezime komitenta!";
-        //                }
-        //            }
-
-        //            break;
-        //    }
-        //}
     }
 }

@@ -14,7 +14,6 @@ namespace MivexBlagajna.UI.Wrappers
         }
         protected virtual TValue GetValue<TValue>([CallerMemberName] string propertyName = null)
         {
-            ValidatePropertyInternal(propertyName, (TValue)typeof(T).GetProperty(propertyName).GetValue(Model));
             return (TValue)typeof(T).GetProperty(propertyName).GetValue(Model);
         }
         protected virtual void SetValue<TValue>(TValue value, [CallerMemberName] string propertyName = null)

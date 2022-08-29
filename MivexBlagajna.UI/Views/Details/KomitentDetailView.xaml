@@ -186,7 +186,7 @@
                     x:Name ="ime"
                     Width="300"
                     Height="20"
-                    Text="{Binding Komitent.Ime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
+                    Text="{Binding Komitent.Ime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                     IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label Content="Prezime: " />
@@ -194,7 +194,7 @@
                     x:Name ="prezime"
                     Width="300"
                     Height="20"
-                    Text="{Binding Komitent.Prezime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
+                    Text="{Binding Komitent.Prezime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                     IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                     />
 
@@ -203,7 +203,7 @@
                     x:Name ="jmbg"
                     Width="300"
                     Height="20"
-                    Text="{Binding Komitent.Jmbg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
+                    Text="{Binding Komitent.Jmbg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                     IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 

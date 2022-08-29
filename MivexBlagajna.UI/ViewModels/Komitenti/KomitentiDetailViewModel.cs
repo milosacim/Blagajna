@@ -116,6 +116,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
                   }
               };
+
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
         }
@@ -145,11 +146,27 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             if (Komitent.PravnoLice == true)
             {
+                Komitent.Naziv = "";
+                Komitent.Pib = "";
+                Komitent.MaticniBroj = "";
+
+                Komitent.Ime = null;
+                Komitent.Prezime = null;
+                Komitent.Jmbg = null;
+
                 IsPravnoLiceEditable = true;
                 IsFizickoLiceEditable = false;
             }
             else if (Komitent.FizickoLice == true)
             {
+                Komitent.Naziv = null;
+                Komitent.Pib = null;
+                Komitent.MaticniBroj = null;
+
+                Komitent.Ime = "";
+                Komitent.Prezime = "";
+                Komitent.Jmbg = "";
+
                 IsFizickoLiceEditable = true;
                 IsPravnoLiceEditable = false;
             }
@@ -185,8 +202,9 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             if (result == MessageDialogResult.Potvrdi)
             {
                 _komitentRepository.Remove(Komitent.Model);
-                _eventAggregator.GetEvent<OnKomitentDeletedEvent>().Publish(Komitent.Id);
                 await _komitentRepository.SaveAsync();
+                _eventAggregator.GetEvent<OnKomitentDeletedEvent>().Publish(Komitent.Id);
+
             }
             else
             {

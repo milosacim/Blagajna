@@ -17,6 +17,7 @@ namespace MivexBlagajna.Data.Models
         public string? Ime { get; set; }
         [RequiredIf(nameof(FizickoLice), "Morate uneti prezime komitenta!", true)]
         public string? Prezime { get; set; }
+        [RequiredIf(nameof(FizickoLice), "Morate uneti JMBG komitenta!", true)]
         public string? Jmbg { get; set; }
         [StringLength(5)]
         public string? PostanskiBroj { get; set; }
@@ -26,6 +27,7 @@ namespace MivexBlagajna.Data.Models
         public string? MaticniBroj { get; set; }
         public string? Mesto { get; set; }
         public string? Adresa { get; set; }
+        [RequiredIf(nameof(PravnoLice), "Morate uneti kontakt osobu!", true)]
         public string? KontaktOsoba { get; set; }
         public string? Telefon { get; set; }
         public bool PravnoLice { get; set; }
