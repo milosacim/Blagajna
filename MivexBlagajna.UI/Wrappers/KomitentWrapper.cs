@@ -10,7 +10,7 @@ namespace MivexBlagajna.UI.Wrappers
         #region Konstruktor
         public KomitentWrapper(Komitent komitent) : base(komitent)
         {
-
+            
         }
 
         #endregion
@@ -179,7 +179,14 @@ namespace MivexBlagajna.UI.Wrappers
 
             set
             {
-                SetValue(value);
+                if (true == value)
+                {
+                    FizickoLice = false;
+                    SetValue(value);
+                } else
+                {
+                    SetValue(value);
+                }
             }
         }
         public bool FizickoLice
@@ -191,10 +198,25 @@ namespace MivexBlagajna.UI.Wrappers
 
             set
             {
+                if (true == value)
+                {
+                    PravnoLice = false;
+                    SetValue(value);
+                }
+                else
+                {
+                    SetValue(value);
+                }
+            }
+        }
+        public bool IsEditable
+        {
+            get => GetValue<bool>();
+            set
+            {
                 SetValue(value);
             }
         }
-
         #endregion
         //protected override IEnumerable<string> ValidateProperty(string propertyName)
         //{

@@ -4,16 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:converters="clr-namespace:MivexBlagajna.UI.Converters"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
 
     <UserControl.Resources>
 
-        <converters:KomitentiEnableTextBoxConverter x:Key="KomitentiTextBoxStatusConv"/>
-        <converters:KomitentiEnableCheckBoxConverter x:Key="KomitentiCheckBoxStatusConv"/>
+        <converters:HasChangesToEnableButtonConverter x:Key="EnableEditBthConverter" />
 
         <Style TargetType="TextBox">
 
@@ -77,15 +76,19 @@
                         Label="Dodaj"
                         LargeIcon="/Images/icons8-add-48.png"
                         SizeMode="Large"
-                        Command="{Binding CreateNewKomitentCommand}"/>
+                        Command="{Binding CreateNewKomitentCommand}"
+                        IsEnabled="{Binding HasChanges, Converter={StaticResource EnableEditBthConverter}}"/>
 
                 <syncfusion:ButtonAdv
+                    x:Name="editBtn"
                         Width="55"
                         Margin="10 0"
                         Label="Izmeni"
                         LargeIcon="/Images/icons8-edit-property-48.png"
                         SizeMode="Large" 
-                        Command="{Binding ChangeTextBoxStatusCommand}"/>
+                        Command="{Binding EditKomitentPropertyCommand}"
+                        IsEnabled="{Binding HasChanges, Converter={StaticResource EnableEditBthConverter}}"
+                        />
 
                 <syncfusion:ButtonAdv
                         Width="55"
@@ -104,32 +107,38 @@
                         SizeMode="Large" />
 
                 <syncfusion:ButtonAdv
+                        x:Name="cancelBtn"
                         Width="55"
                         Margin="10 0"
                         Label="Otkazi"
                         LargeIcon="/Images/icons8-unavailable-50.png"
                         SizeMode="Large" 
-                        Command="{Binding CancelCommand}"/>
+                        Command="{Binding CancelCommand}"
+                        />
 
             </StackPanel>
 
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="10 10 0 0">
+        <StackPanel x:Name="CheckBoxPanel" Orientation="Horizontal" Grid.Row="2" Margin="10 10 0 0">
 
             <Label 
                 Content="Pravno lice: " />
             <CheckBox 
+                x:Name="pravnoLice"
                 IsChecked="{Binding Komitent.PravnoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                IsEnabled="{Binding CheckBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"
-                Command="{Binding ChangeTextBoxStatusCommand}"/>
+                IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding EditKomitentPropertyCommand}"
+                />
 
             <Label 
                 Content="Fizicko lice: " />
             <CheckBox 
+                x:Name="fizickoLice"
                 IsChecked="{Binding Komitent.FizickoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                IsEnabled="{Binding CheckBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"
-                Command="{Binding ChangeTextBoxStatusCommand}"/>
+                IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding EditKomitentPropertyCommand}"
+                />
 
         </StackPanel>
 
@@ -145,8 +154,6 @@
 
             <StackPanel Orientation="Vertical">
 
-
-
                 <Label Content="Sifra: " />
                 <TextBox
                     x:Name="sifraTextBox"
@@ -158,18 +165,20 @@
 
                 <Label Content="Naziv: " />
                 <TextBox
+                    x:Name="naziv"
                     Width="300"
                     Height="20"
                     Text="{Binding Komitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"
+                    IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                     />
 
                 <Label Content="Naziv 2: " />
                 <TextBox
+                    x:Name="naziv2"
                     Width="300"
                     Height="20"
                     Text="{Binding Komitent.Naziv2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                    IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label Content="Ime: " />
                 <TextBox
@@ -177,7 +186,7 @@
                     Width="300"
                     Height="20"
                     Text="{Binding Komitent.Ime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
-                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                    IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label Content="Prezime: " />
                 <TextBox
@@ -185,7 +194,8 @@
                     Width="300"
                     Height="20"
                     Text="{Binding Komitent.Prezime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
-                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                    IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
+                    />
 
                 <Label Content="JMBG: " />
                 <TextBox
@@ -193,12 +203,12 @@
                     Width="300"
                     Height="20"
                     Text="{Binding Komitent.Jmbg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
-                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                    IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <StackPanel
                 Grid.Column="1"
-                Margin="10 0"
+                Margin="10 45"
                 Orientation="Vertical">
 
                 <StackPanel Orientation="Horizontal">
@@ -206,31 +216,34 @@
                     <StackPanel Margin="20 0 0 0">
                         <Label Content="Postanski broj: "/>
                         <TextBox
+                            x:Name="postanskiBroj"
                             Width="100"
                             Height="20"
                             HorizontalAlignment="Left"
                             Text="{Binding Komitent.PostanskiBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                            IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                            IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
 
                     <StackPanel Margin="10 0 0 0">
                         <Label Content="PIB: "/>
                         <TextBox
+                            x:Name="pib"
                             Width="100"
                             Height="20"
                             HorizontalAlignment="Left"
                             Text="{Binding Komitent.Pib, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                            IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                            IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                     <StackPanel Margin="10 0 0 0">
                         <Label Content="MB: "/>
                         <TextBox
+                            x:Name="maticniBroj"
                             Width="100"
                             Height="20"
                             HorizontalAlignment="Left"
                             Text="{Binding Komitent.MaticniBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                            IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                            IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                 </StackPanel>
@@ -239,37 +252,41 @@
                     <StackPanel Margin="20 0">
                         <Label Content="Mesto: "/>
                         <TextBox
+                            x:Name="mesto"
                             Width="320"
                             Height="20"
                             Text="{Binding Komitent.Mesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                            IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                            IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
 
                     <StackPanel Margin="20 0">
                         <Label Content="Adresa: "/>
                         <TextBox
-                        Width="320"
-                        Height="20"
-                        Text="{Binding Komitent.Adresa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                            x:Name="adresa"
+                            Width="320"
+                            Height="20"
+                            Text="{Binding Komitent.Adresa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
 
                     <StackPanel Margin="20 0">
                         <Label Content="Kontakt osoba: " />
                         <TextBox
-                    Width="320"
-                    Height="20"
-                    Text="{Binding Komitent.KontaktOsoba, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}" />
+                            x:Name="kontaktOsoba"
+                            Width="320"
+                            Height="20"
+                            Text="{Binding Komitent.KontaktOsoba, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                            IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                     <StackPanel Margin="20 0">
                         <Label Content="Telefon: "/>
                         <TextBox
-                    Width="320"
-                    Height="20"
-                    Text="{Binding Komitent.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                    IsEnabled="{Binding TextBoxStatus, Converter={StaticResource KomitentiTextBoxStatusConv}}"/>
+                            x:Name="telefon"
+                            Width="320"
+                            Height="20"
+                            Text="{Binding Komitent.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                            IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </StackPanel>
 

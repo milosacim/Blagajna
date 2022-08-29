@@ -33,6 +33,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _komitentiDetailViewModelCreator = komitentiDetailViewModelCreator;
             _eventAggregator.GetEvent<OpenKomitentDetailViewEvent>().Subscribe(OnOpenKomitentDetailView);
             _eventAggregator.GetEvent<OnCreateNewKomitentEvent>().Subscribe(LoadNewKomitent);
+
             _header = header;
             _state = state;
 

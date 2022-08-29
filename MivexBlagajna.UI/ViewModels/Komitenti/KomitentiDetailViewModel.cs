@@ -21,8 +21,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private IMessageDialogService _messageDialogService;
         private KomitentWrapper _komitent;
         private bool _hasChanges;
-        private TextBoxStatus _textBoxStatus;
-        private CheckBoxStatus _checkBoxStatus;
+        private bool _isPravnoLiceEditable;
+        private bool _isFizickoLiceEditable;
 
         #endregion
 
@@ -34,18 +34,16 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
 
-            TextBoxStatus = TextBoxStatus.Disabled;
-            CheckBoxStatus = CheckBoxStatus.Disabled;
+            _isPravnoLiceEditable = false;
+            _isFizickoLiceEditable = false;
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanEnecute);
             CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
             CreateNewKomitentCommand = new DelegateCommand(OnCreateNewKomitentExecute);
             DeleteKomitentCommand = new DelegateCommand(DeleteKomitentAsync);
-            ChangeTextBoxStatusCommand = new DelegateCommand(ChangeTextBoxStatus);
-            ChangeCheckBoxStatusCommand = new DelegateCommand(ChangeCheckBoxStatus);
+            EditKomitentPropertyCommand = new DelegateCommand(EditKomitentProperty);
         }
 
-        
 
         #endregion
 
@@ -70,42 +68,28 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             }
         }
-        public TextBoxStatus TextBoxStatus
+        public bool IsPravnoLiceEditable
         {
-            get { return _textBoxStatus; }
-            set { _textBoxStatus = value; OnModelPropertyChanged(); }
+            get { return _isPravnoLiceEditable; }
+            set { _isPravnoLiceEditable = value; OnModelPropertyChanged(); }
         }
-        public CheckBoxStatus CheckBoxStatus
+        public bool IsFizickoLiceEditable
         {
-            get { return _checkBoxStatus; }
-            set { _checkBoxStatus = value; OnModelPropertyChanged(); }
+            get { return _isFizickoLiceEditable; }
+            set { _isFizickoLiceEditable = value; OnModelPropertyChanged(); }
         }
 
-        // Komande
+        // Commands
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand CreateNewKomitentCommand { get; }
         public ICommand CancelNewKomitentCommand { get; }
         public ICommand DeleteKomitentCommand { get; }
-        public ICommand ChangeTextBoxStatusCommand { get; }
-        public ICommand ChangeCheckBoxStatusCommand { get; }
+        public ICommand EditKomitentPropertyCommand { get; }
 
         #endregion
 
         #region Methods
-
-        private void ChangeTextBoxStatus()
-        {
-            TextBoxStatus = TextBoxStatus == TextBoxStatus.Enabled
-            ? TextBoxStatus.Disabled
-            : TextBoxStatus.Enabled;
-        }
-        private void ChangeCheckBoxStatus()
-        {
-            CheckBoxStatus = CheckBoxStatus == CheckBoxStatus.Enabled
-            ? CheckBoxStatus.Disabled
-            : CheckBoxStatus.Enabled;
-        }
 
         // Loading
         public async Task LoadAsync(int? komitentId)
@@ -117,6 +101,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             var hasChanges = _komitentRepository.HasChanges();
 
             Komitent = new KomitentWrapper(komitent);
+
             Komitent.PropertyChanged += (s, e) =>
               {
                   if (!HasChanges)
@@ -143,14 +128,31 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             var komitent = new Komitent();
             komitent.Sifra = lastKomitent.Sifra + 1;
-            CheckBoxStatus = CheckBoxStatus.Enabled;
             _komitentRepository.Add(komitent);
+            HasChanges = true;
             return komitent;
         }
         private async void OnCreateNewKomitentExecute()
         {
             await LoadAsync(null);
             _eventAggregator.GetEvent<OnCreateNewKomitentEvent>().Publish(null);
+        }
+
+        // Editing
+        private void EditKomitentProperty()
+        {
+            HasChanges = true;
+
+            if (Komitent.PravnoLice == true)
+            {
+                IsPravnoLiceEditable = true;
+                IsFizickoLiceEditable = false;
+            }
+            else if (Komitent.FizickoLice == true)
+            {
+                IsFizickoLiceEditable = true;
+                IsPravnoLiceEditable = false;
+            }
         }
 
         // Saving
@@ -170,7 +172,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
                 });
             }
-            TextBoxStatus = TextBoxStatus.Enabled;
         }
         private bool OnSaveCanEnecute()
         {
@@ -207,10 +208,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 if (result == MessageDialogResult.Potvrdi)
                 {
                     _komitentRepository.CancelChanges();
-                    CheckBoxStatus = CheckBoxStatus.Disabled;
-                    TextBoxStatus = TextBoxStatus.Disabled;
                     await LoadAsync(komitentId);
                     HasChanges = _komitentRepository.HasChanges();
+                    IsPravnoLiceEditable = false;
+                    IsFizickoLiceEditable = false;
                 }
                 else
                 {
@@ -220,16 +221,5 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         }
 
         #endregion
-    }
-    public enum TextBoxStatus
-    {
-        Enabled,
-        Disabled,
-    }
-
-    public enum CheckBoxStatus
-    {
-        Enabled,
-        Disabled,
     }
 }
