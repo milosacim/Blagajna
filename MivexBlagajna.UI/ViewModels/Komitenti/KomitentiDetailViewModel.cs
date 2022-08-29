@@ -83,9 +83,9 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand CreateNewKomitentCommand { get; }
+        public ICommand EditKomitentPropertyCommand { get; }
         public ICommand CancelNewKomitentCommand { get; }
         public ICommand DeleteKomitentCommand { get; }
-        public ICommand EditKomitentPropertyCommand { get; }
 
         #endregion
 
@@ -144,6 +144,17 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         {
             HasChanges = true;
 
+            if (Komitent.Id == 0)
+            {
+                EnableEditPropertyOnCreate();
+            }
+            else
+            {
+                EnableEditPropertyOnEdit();
+            }
+        }
+        private void EnableEditPropertyOnCreate()
+        {
             if (Komitent.PravnoLice == true)
             {
                 Komitent.Naziv = "";
@@ -166,6 +177,21 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 Komitent.Ime = "";
                 Komitent.Prezime = "";
                 Komitent.Jmbg = "";
+
+                IsFizickoLiceEditable = true;
+                IsPravnoLiceEditable = false;
+            }
+        }
+        private void EnableEditPropertyOnEdit()
+        {
+            if (Komitent.PravnoLice == true)
+            {
+
+                IsPravnoLiceEditable = true;
+                IsFizickoLiceEditable = false;
+            }
+            else if (Komitent.FizickoLice == true)
+            {
 
                 IsFizickoLiceEditable = true;
                 IsPravnoLiceEditable = false;
