@@ -1,7 +1,13 @@
 ﻿using MivexBlagajna.UI.Commands;
+using MivexBlagajna.UI.Controls;
 using MivexBlagajna.UI.ViewModels.Komitenti;
 using MivexBlagajna.UI.ViewModels.MestaTroska;
+using Syncfusion.Windows.Tools.Controls;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels
@@ -9,22 +15,29 @@ namespace MivexBlagajna.UI.ViewModels
     public class MainViewModel : ViewModelBase
     {
         #region Fields
-        private ObservableCollection<ViewModelBase> _workspaces;
+        private ObservableCollection<ViewModelBase>? _workspaces;
         private ViewModelBase? _selectedViewModel;
-        private ViewModelBase _activeDocument;
+        private ViewModelBase? _activeDocument;
         #endregion
 
         #region Konstruktor
-        public MainViewModel(KomitentiViewModel komitentiViewModel, MestaTroskaViewModel mestaTroskaViewModel)
+
+        public MainViewModel(
+            DockingAdapter adapter,
+            KomitentiViewModel komitentiViewModel,
+            MestaTroskaViewModel mestaTroskaViewModel)
         {
+            // Initializations
             Workspaces = new ObservableCollection<ViewModelBase>();
             KomitentiViewModel = komitentiViewModel;
             MestaTroskaViewModel = mestaTroskaViewModel;
             SelectViewModelCommand = new DelegateCommand(SelectViewModel);
         }
+
         #endregion
 
         #region Properties
+
         public ObservableCollection<ViewModelBase> Workspaces
         {
             get { return _workspaces; }
@@ -69,6 +82,7 @@ namespace MivexBlagajna.UI.ViewModels
 
         #region Commands
         public DelegateCommand SelectViewModelCommand { get; }
+        
         #endregion
     }
 }

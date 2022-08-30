@@ -52,8 +52,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             get { return _state; }
             set { }
         }
-        public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
         public ICommand CreateNewKomitentCommand { get; }
+        public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
         public IKomitentiDetailViewModel KomitentiDetailViewModel
         {
             get { return _komitentiDetailViewModel; }

@@ -35,9 +35,11 @@
 
         <controls:NavigationRibbon />
 
-        <controls:DockingAdapter Grid.Row="1" 
-                                 ItemsSource="{Binding Workspaces}"
-                                 ActiveDocument="{Binding ActiveViewModel, Mode=TwoWay}"/>
+        <controls:DockingAdapter 
+            x:Name="dockingadapter"
+            Grid.Row="1" 
+            ItemsSource="{Binding Workspaces}"
+            ActiveDocument="{Binding ActiveViewModel, Mode=TwoWay}"/>
 
     </Grid>
 

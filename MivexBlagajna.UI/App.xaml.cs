@@ -4,6 +4,7 @@ using MivexBlagajna.DataAccess;
 using MivexBlagajna.DataAccess.Services;
 using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.DataAccess.Services.Repositories;
+using MivexBlagajna.UI.Controls;
 using MivexBlagajna.UI.ViewModels;
 using MivexBlagajna.UI.ViewModels.Komitenti;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
@@ -38,8 +39,6 @@ namespace MivexBlagajna.UI
             services.AddDbContext<MivexBlagajnaDbContext>( options => 
                 options.UseSqlServer("Server=192.168.0.144;Database=MivexBlagajnaDb;User Id=retail01;Password=mivex***032;"), ServiceLifetime.Singleton );
 
-
-
             services.AddTransient<IKomitentRepository, KomitentRepository>();
             services.AddTransient<ILookupKomitentDataService, LookupKomitentDataService>();
             services.AddTransient<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
@@ -52,6 +51,7 @@ namespace MivexBlagajna.UI
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<KomitentiViewModel>();
             services.AddSingleton<MestaTroskaViewModel>();
+            services.AddSingleton<DockingAdapter>();
             services.AddSingleton<MainWindow>();
 
             return services.BuildServiceProvider();

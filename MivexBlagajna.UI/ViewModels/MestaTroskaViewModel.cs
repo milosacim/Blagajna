@@ -7,7 +7,7 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
         private string _header;
         private DockState _state;
         public MestaTroskaViewModel(string header = "Mesta troska",
-            DockState state = DockState.Tabbed)
+            DockState state = DockState.Document)
         {
             _header = header;
             _state = state;
