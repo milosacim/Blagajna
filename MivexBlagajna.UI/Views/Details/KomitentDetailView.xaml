@@ -173,7 +173,7 @@
                     IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                     />
 
-                <Label Content="Naziv 2: " />
+                <Label Content="Naziv 2: " Margin="0 5 0 0"/>
                 <TextBox
                     x:Name="naziv2"
                     Width="300"
@@ -181,7 +181,7 @@
                     Text="{Binding Komitent.Naziv2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                     IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}" />
 
-                <Label Content="Ime: " />
+                <Label Content="Ime: " Margin="0 5 0 0"/>
                 <TextBox
                     x:Name ="ime"
                     Width="300"
@@ -189,7 +189,7 @@
                     Text="{Binding Komitent.Ime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                     IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}" />
 
-                <Label Content="Prezime: " />
+                <Label Content="Prezime: " Margin="0 5 0 0"/>
                 <TextBox
                     x:Name ="prezime"
                     Width="300"
@@ -198,7 +198,7 @@
                     IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                     />
 
-                <Label Content="JMBG: " />
+                <Label Content="JMBG: " Margin="0 5 0 0"/>
                 <TextBox
                     x:Name ="jmbg"
                     Width="300"
@@ -250,8 +250,8 @@
                 </StackPanel>
 
                 <StackPanel>
-                    <StackPanel Margin="20 0">
-                        <Label Content="Mesto: "/>
+                    <StackPanel Margin="20 0" >
+                        <Label Content="Mesto: " Margin="0 5 0 0"/>
                         <TextBox
                             x:Name="mesto"
                             Width="320"
@@ -261,7 +261,7 @@
                     </StackPanel>
 
                     <StackPanel Margin="20 0">
-                        <Label Content="Adresa: "/>
+                        <Label Content="Adresa: " Margin="0 5 0 0"/>
                         <TextBox
                             x:Name="adresa"
                             Width="320"
@@ -271,7 +271,7 @@
                     </StackPanel>
 
                     <StackPanel Margin="20 0">
-                        <Label Content="Kontakt osoba: " />
+                        <Label Content="Kontakt osoba: " Margin="0 5 0 0"/>
                         <TextBox
                             x:Name="kontaktOsoba"
                             Width="320"
@@ -281,7 +281,7 @@
                     </StackPanel>
 
                     <StackPanel Margin="20 0">
-                        <Label Content="Telefon: "/>
+                        <Label Content="Telefon: " Margin="0 5 0 0"/>
                         <TextBox
                             x:Name="telefon"
                             Width="320"

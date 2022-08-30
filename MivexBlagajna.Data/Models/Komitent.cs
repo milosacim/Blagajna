@@ -9,25 +9,25 @@ namespace MivexBlagajna.Data.Models
         [Required]
         public int Sifra { get; set; }
         [StringLength(80)]
-        [RequiredIf(nameof(PravnoLice),"Morate uneti naziv komitenta!", true)]
+        [RequiredIf(nameof(PravnoLice),"Obavezno polje!", true)]
         public string? Naziv { get; set; }
         [StringLength(100)]
         public string? Naziv2 { get; set; }
-        [RequiredIf(nameof(FizickoLice), "Morate uneti ime komitenta!", true)]
+        [RequiredIf(nameof(FizickoLice), "Obavezno polje!", true)]
         public string? Ime { get; set; }
-        [RequiredIf(nameof(FizickoLice), "Morate uneti prezime komitenta!", true)]
+        [RequiredIf(nameof(FizickoLice), "Obavezno polje!", true)]
         public string? Prezime { get; set; }
-        [RequiredIf(nameof(FizickoLice), "Morate uneti JMBG komitenta!", true)]
+        [RequiredIf(nameof(FizickoLice), "Obavezno polje!", true)]
         public string? Jmbg { get; set; }
         [StringLength(5)]
         public string? PostanskiBroj { get; set; }
-        [RequiredIf(nameof(PravnoLice), "Morate uneti PIB komitenta!", true)]
+        [RequiredIf(nameof(PravnoLice), "Obavezno polje!", true)]
         public string? Pib { get; set; }
-        [RequiredIf(nameof(PravnoLice), "Morate uneti MB komitenta!", true)]
+        [RequiredIf(nameof(PravnoLice), "Obavezno polje!", true)]
         public string? MaticniBroj { get; set; }
         public string? Mesto { get; set; }
         public string? Adresa { get; set; }
-        [RequiredIf(nameof(PravnoLice), "Morate uneti kontakt osobu!", true)]
+        [RequiredIf(nameof(PravnoLice), "Obavezno polje!", true)]
         public string? KontaktOsoba { get; set; }
         public string? Telefon { get; set; }
         public bool PravnoLice { get; set; }
