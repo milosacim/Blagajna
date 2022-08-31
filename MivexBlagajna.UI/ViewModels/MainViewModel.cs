@@ -43,7 +43,7 @@ namespace MivexBlagajna.UI.ViewModels
             get { return _workspaces; }
             set { _workspaces = value; }
         }
-        public ViewModelBase ActiveViewModel
+        public ViewModelBase? ActiveViewModel
         {
             get { return _activeDocument; }
             set { _activeDocument = value; OnModelPropertyChanged(); }
