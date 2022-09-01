@@ -8,20 +8,19 @@ namespace MivexBlagajna.UI.Wrappers
     public class KomitentWrapper : ModelWrapper<Komitent>
     {
         #region Konstruktor
-        public KomitentWrapper(Komitent model) : base(model)
+        public KomitentWrapper(Komitent komitent) : base(komitent)
         {
-
+            
         }
 
         #endregion
 
         #region Properties
         // Propserties - value se setuje iz Komitent modela koji ova klasa wrapuje
-
-        public int Id { get => Model.Id; }
+        public int Id { get { return Model.Id; } }
         public int Sifra
         {
-            get => GetValue<int>();
+            get { return GetValue<int>(); }
             set
             {
                 SetValue(value);
@@ -29,7 +28,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Naziv
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -37,7 +40,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Naziv2
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -45,7 +52,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Ime
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -53,7 +64,23 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Prezime
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
+            set
+            {
+                SetValue(value);
+            }
+        }
+        public string Jmbg
+        {
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -61,7 +88,35 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string PostanskiBroj
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
+            set
+            {
+                SetValue(value);
+            }
+        }
+        public string Pib
+        {
+            get
+            {
+                return GetValue<string>();
+            }
+
+            set
+            {
+                SetValue(value);
+            }
+        }
+        public string MaticniBroj
+        {
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -69,7 +124,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Mesto
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -77,7 +136,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Adresa
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -85,7 +148,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string KontaktOsoba
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -93,7 +160,11 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public string Telefon
         {
-            get => GetValue<string>();
+            get
+            {
+                return GetValue<string>();
+            }
+
             set
             {
                 SetValue(value);
@@ -101,79 +172,49 @@ namespace MivexBlagajna.UI.Wrappers
         }
         public bool PravnoLice
         {
-            get => GetValue<bool>();
+            get
+            {
+                return GetValue<bool>();
+            }
+
             set
             {
-                SetValue(value);
+                if (true == value)
+                {
+                    FizickoLice = false;
+                    SetValue(value);
+                } else
+                {
+                    SetValue(value);
+                }
             }
         }
         public bool FizickoLice
         {
+            get
+            {
+                return GetValue<bool>();
+            }
+
+            set
+            {
+                if (true == value)
+                {
+                    PravnoLice = false;
+                    SetValue(value);
+                }
+                else
+                {
+                    SetValue(value);
+                }
+            }
+        }
+        public bool IsEditable
+        {
             get => GetValue<bool>();
             set
             {
                 SetValue(value);
-            }
-        }
-        #endregion
-
-        #region Methods
-
-        protected override IEnumerable<string> ValidateProperty(string propertyName)
-        {
-            var testPravnoLice = GetValue<bool>(nameof(PravnoLice));
-            var testFizickoLice = GetValue<bool>(nameof(FizickoLice));
-
-            switch (propertyName)
-            {
-                case nameof(Naziv):
-
-                    if (testPravnoLice)
-                    {
-                        if (string.Equals(Naziv, "", StringComparison.OrdinalIgnoreCase))
-                        {
-                            yield return "Morate uneti naziv komitenta!";
-                        }
-                    }
-                    break;
-
-                case nameof(Ime):
-
-                    if (testFizickoLice)
-                    {
-                        if (string.Equals(Ime, "", StringComparison.OrdinalIgnoreCase))
-                        {
-                            yield return "Morate uneti ime komitenta!";
-                        }
-                    }
-                    break;
-
-                case nameof(Prezime):
-
-                    if (testFizickoLice)
-                    {
-                        if (string.Equals(Prezime, "", StringComparison.OrdinalIgnoreCase))
-                        {
-                            yield return "Morate uneti prezime komitenta!";
-                        }
-                    }
-                    break;
-
-                //case nameof(PravnoLice):
-
-                //    if (testFizickoLice == testPravnoLice)
-                //    {
-                //        yield return "Morate odabrati jednu vrstu komitenta.";
-                //    }
-                //    break;
-
-                //case nameof(FizickoLice):
-
-                //    if (testFizickoLice == testPravnoLice)
-                //    {
-                //        yield return "Morate odabrati jednu vrstu komitenta.";
-                //    }
-                //    break;
             }
         }
         #endregion

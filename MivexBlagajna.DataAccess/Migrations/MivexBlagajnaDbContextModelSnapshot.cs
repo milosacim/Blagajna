@@ -38,7 +38,13 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<string>("Ime")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Jmbg")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("KontaktOsoba")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaticniBroj")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mesto")
@@ -51,6 +57,9 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<string>("Naziv2")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Pib")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostanskiBroj")
                         .HasMaxLength(5)
@@ -71,59 +80,6 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Komitenti");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Adresa = "Bulevar Oslobodilaca Cacka 105b",
-                            FizickoLice = false,
-                            Mesto = "Cacak",
-                            Naziv = "Mivex",
-                            Naziv2 = "Mivex DOO",
-                            PostanskiBroj = "32000",
-                            PravnoLice = true,
-                            Sifra = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Adresa = "Trbusani bb",
-                            FizickoLice = true,
-                            Ime = "Milos",
-                            Mesto = "Trbusani",
-                            PostanskiBroj = "32205",
-                            PravnoLice = false,
-                            Prezime = "Acimovic",
-                            Sifra = 2,
-                            Telefon = "064/040-8769"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Adresa = "Bulevar Oslobodilaca Cacka 105b",
-                            FizickoLice = true,
-                            Ime = "Ivan",
-                            Mesto = "Cacak",
-                            PostanskiBroj = "32000",
-                            PravnoLice = false,
-                            Prezime = "Cvorovic",
-                            Sifra = 3,
-                            Telefon = "064/828-1500"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Adresa = "Ljubic",
-                            FizickoLice = false,
-                            Mesto = "Cacak",
-                            Naziv = "Maloprodaja Ljubic",
-                            Naziv2 = "Mivex Maloprodaja Ljubic",
-                            PostanskiBroj = "32000",
-                            PravnoLice = true,
-                            Sifra = 4,
-                            Telefon = "032/352-468"
-                        });
                 });
 #pragma warning restore 612, 618
         }

@@ -1,11 +1,12 @@
 ﻿using Syncfusion.Windows.Shared;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels
 {
-    public class ViewModelBase :  INotifyPropertyChanged
+    public class ViewModelBase :  INotifyPropertyChanged, IDisposable
     {
         #region Implementacija INotifyPropertyChanged interfejsa
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -17,11 +18,11 @@ namespace MivexBlagajna.UI.ViewModels
 
         #region LoadAsync definicija
         public virtual Task LoadAsync() => Task.CompletedTask;
-        #endregion
 
-        //public T GetPropertyValue<T>(object src, string propertyName)
-        //{
-        //    return (T)src.GetType().GetProperty(propertyName).GetValue(src, null);
-        //}
+        #endregion
+        public virtual void Dispose()
+        {
+
+        }
     }
 }

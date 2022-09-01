@@ -5,6 +5,9 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using Prism.Events;
+using MivexBlagajna.UI.Events;
+using MivexBlagajna.UI.ViewModels;
 
 namespace MivexBlagajna.UI.Controls
 {
@@ -155,7 +158,11 @@ namespace MivexBlagajna.UI.Controls
                     ContentControl control = (from ContentControl element in PART_DockingManager.Children
                                               where element.Content == item
                                               select element).FirstOrDefault();
-                    PART_DockingManager.Children.Remove(control);
+
+                    if (item != null)
+                    {
+                        PART_DockingManager.Children.Remove(control);
+                    }
                 }
             }
 

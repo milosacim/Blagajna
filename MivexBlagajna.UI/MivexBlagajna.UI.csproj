@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\MestaTroska\**" />
+    <EmbeddedResource Remove="ViewModels\MestaTroska\**" />
+    <None Remove="ViewModels\MestaTroska\**" />
+    <Page Remove="ViewModels\MestaTroska\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="App.ico" />
     <None Remove="Images\icons8-add-48.png" />
     <None Remove="Images\icons8-cash-register-64.png" />
@@ -21,11 +28,6 @@
     <None Remove="Images\icons8-unavailable-50.png" />
   </ItemGroup>
   <ItemGroup>
-
-<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
-  <PrivateAssets>all</PrivateAssets>
-  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-</PackageReference>
 
 <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 

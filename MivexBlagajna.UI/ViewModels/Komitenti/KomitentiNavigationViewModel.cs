@@ -29,9 +29,21 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _lookupKomitentDataService = lookupKomitentDataService;
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<AfterKomitentSavedEvent>().Subscribe(AfterKomitentSaved);
+            _eventAggregator.GetEvent<OnKomitentDeletedEvent>().Subscribe(AfterKomitentDeleted);
             Komitenti = new ObservableCollection<KomitentiNavigationItemViewModel>();
             FilteredList = CollectionViewSource.GetDefaultView(Komitenti);
             FilteredList.Filter += new Predicate<object>(o => FilterNaziv(o as KomitentiNavigationItemViewModel) && FilterPravnoLice(o as KomitentiNavigationItemViewModel) && FilterFizickoLice(o as KomitentiNavigationItemViewModel));
+        }
+
+        private void AfterKomitentDeleted(int id)
+        {
+            var komitent = Komitenti.SingleOrDefault(k => k.Id == id);
+
+            if (komitent != null)
+            {
+                Komitenti.Remove(komitent);
+                SelectedKomitent = Komitenti.Last();
+            }
         }
         #endregion
 
@@ -87,9 +99,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private void AfterKomitentSaved(AfterKomitentSavedEventArgs obj)
         {
             var lookupitem = Komitenti.SingleOrDefault(l => l.Id == obj.Id);
+
             if (lookupitem == null)
             {
-                Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv));
+                Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv, obj.PravnoLice, obj.FizickoLice));
+                SelectedKomitent = lookupitem;
             }
 
             else { lookupitem.PunNaziv = obj.PunNaziv; }
@@ -107,7 +121,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
             else
             {
-                return PravnoLiceFilter == false || item.PravnoLice == false;
+                return PravnoLiceFilter == false || item.PravnoLice == true;
             }
         }
         private bool FilterFizickoLice(KomitentiNavigationItemViewModel item)
@@ -118,9 +132,16 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
             else
             {
-                return FizickoLiceFilter == false || item.FizickoLice == false;
+                return FizickoLiceFilter == false || item.FizickoLice == true;
             }
         }
+
+        public override void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            base.Dispose();
+        }
+
         #endregion
     }
 }

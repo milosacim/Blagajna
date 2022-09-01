@@ -6,5 +6,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Interfaces
     {
         Task LoadAsync(int? komitentId);
         bool HasChanges { get; }
+        void Dispose();
     }
 }
