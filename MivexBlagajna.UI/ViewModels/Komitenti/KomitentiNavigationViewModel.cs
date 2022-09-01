@@ -135,6 +135,13 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 return FizickoLiceFilter == false || item.FizickoLice == true;
             }
         }
+
+        public override void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            base.Dispose();
+        }
+
         #endregion
     }
 }

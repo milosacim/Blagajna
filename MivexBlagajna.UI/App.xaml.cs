@@ -46,11 +46,11 @@ namespace MivexBlagajna.UI
             services.AddTransient<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
             services.AddTransient<Func<IKomitentiDetailViewModel>>(s => () => s.GetService<IKomitentiDetailViewModel>());
             services.AddTransient<IMessageDialogService, MessageDialogService>();
+            services.AddTransient<MainViewModel>();
+            services.AddTransient<KomitentiViewModel>();
+            services.AddTransient<MestaTroskaViewModel>();
 
             services.AddSingleton<IEventAggregator, EventAggregator>();
-            services.AddSingleton<MainViewModel>();
-            services.AddSingleton<KomitentiViewModel>();
-            services.AddSingleton<MestaTroskaViewModel>();
             services.AddSingleton<DockingAdapter>();
             services.AddSingleton<MainWindow>();
 

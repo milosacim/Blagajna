@@ -32,8 +32,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _messageDialogService = messageDialogService;
             _komitentiDetailViewModelCreator = komitentiDetailViewModelCreator;
             _eventAggregator.GetEvent<OpenKomitentDetailViewEvent>().Subscribe(OnOpenKomitentDetailView);
-            _eventAggregator.GetEvent<OnCreateNewKomitentEvent>().Subscribe(LoadNewKomitent);
-
             _header = header;
             _state = state;
 
@@ -85,6 +83,24 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         {
             KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
             await KomitentiDetailViewModel.LoadAsync(id);
+        }
+
+        public override void Dispose()
+        {
+            if (KomitentiDetailViewModel != null && KomitentiNavigationViewModel != null)
+            {
+                if (KomitentiDetailViewModel.HasChanges)
+                {
+                    var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
+                    if (result == MessageDialogResult.Potvrdi)
+                    {
+                        KomitentiDetailViewModel.Dispose();
+                        KomitentiNavigationViewModel.Dispose();
+                    }
+                }
+            }
+
+            base.Dispose();
         }
         #endregion
     }

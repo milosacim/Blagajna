@@ -72,8 +72,15 @@ namespace MivexBlagajna.UI.ViewModels
             }
             else
             {
-                Workspaces.Add(SelectedViewModel);
-                ActiveViewModel = SelectedViewModel;
+                if (Workspaces.Contains(SelectedViewModel))
+                {
+                    ActiveViewModel = SelectedViewModel;
+                }
+                else
+                {
+                    Workspaces.Add(SelectedViewModel);
+                    ActiveViewModel = Workspaces.LastOrDefault();
+                }
             }
         }
         public KomitentiViewModel KomitentiViewModel { get; }
@@ -82,7 +89,7 @@ namespace MivexBlagajna.UI.ViewModels
 
         #region Commands
         public DelegateCommand SelectViewModelCommand { get; }
-        
+
         #endregion
     }
 }

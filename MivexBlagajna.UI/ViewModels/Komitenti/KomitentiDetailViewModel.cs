@@ -264,6 +264,17 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
         }
 
+        public override void Dispose()
+        {
+            if (HasChanges)
+            {
+                _komitentRepository.CancelChanges();
+                HasChanges = _komitentRepository.HasChanges();
+                GC.SuppressFinalize(this);
+            }
+            base.Dispose();
+        }
+
         #endregion
     }
 }

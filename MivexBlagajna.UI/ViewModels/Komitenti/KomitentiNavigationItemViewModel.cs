@@ -19,9 +19,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _pravnoLice = pravnoLice;
             _fizickoLice = fizickoLice;
         }
-
         public int Id { get; }
-
         public string PunNaziv
         {
             get { return _punNaziv; }
@@ -31,7 +29,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 OnModelPropertyChanged();
             }
         }
-
         public bool PravnoLice
         {
             get { return _pravnoLice; }
@@ -41,7 +38,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 OnModelPropertyChanged();
             }
         }
-
         public bool FizickoLice
         {
             get { return _fizickoLice; }

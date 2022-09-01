@@ -27,10 +27,13 @@ namespace MivexBlagajna.UI
 
         private void UpdateActiveTab(CloseButtonEventArgs e)
         {
+
             ViewModelBase item = (ViewModelBase)e.TargetItem.GetType().GetProperty(nameof(Content)).GetValue(e.TargetItem);
 
             if (_viewModel.Workspaces.Contains(item))
             {
+                item.Dispose();
+
                 _viewModel.Workspaces.Remove(item);
 
                 if (_viewModel.Workspaces.Count == 0)
