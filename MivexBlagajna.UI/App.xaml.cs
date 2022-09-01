@@ -40,6 +40,7 @@ namespace MivexBlagajna.UI
                 options.UseSqlServer("Server=192.168.0.144;Database=MivexBlagajnaDb;User Id=retail01;Password=mivex***032;"), ServiceLifetime.Singleton );
 
             services.AddTransient<IKomitentRepository, KomitentRepository>();
+            services.AddTransient<IMestoTroskaRepository, MestoTroskaRepository>();
             services.AddTransient<ILookupKomitentDataService, LookupKomitentDataService>();
             services.AddTransient<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
             services.AddTransient<MestaTroskaViewModel>();

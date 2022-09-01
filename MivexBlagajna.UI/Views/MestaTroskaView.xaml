@@ -3,10 +3,208 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:local="clr-namespace:MivexBlagajna.UI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Mesta Troska" />
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Margin="20 20 10 20">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Mesto Troška" HorizontalAlignment="Center" Margin="20" FontWeight="SemiBold"/>
+                
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                    <syncfusion:ButtonAdv 
+                    Label="Dodaj"
+                    SmallIcon="/Images/icons8-add-48.png"
+                    SizeMode="Normal" Width="80"/>
+                    <syncfusion:ButtonAdv 
+                    Label="Izmeni"
+                    SmallIcon="/Images/icons8-edit-property-48.png"
+                    SizeMode="Normal" Width="80"
+                    Margin="10 0 0 0"/>
+                    <syncfusion:ButtonAdv 
+                    Label="Obriši"
+                    SmallIcon="/Images/icons8-remove-48.png"
+                    SizeMode="Normal" Width="80"
+                    Margin="10 0 0 0"/>
+                    <syncfusion:ButtonAdv 
+                    Label="Sačuvaj"
+                    SmallIcon="/Images/icons8-save-48.png"
+                    SizeMode="Normal" Width="80"
+                    Margin="10 0 0 0"/>
+                    <syncfusion:ButtonAdv 
+                    Label="Otkaži"
+                    SmallIcon="/Images/icons8-unavailable-50.png"
+                    SizeMode="Normal" Width="80"
+                    Margin="10 0 0 0"/>
+
+                </StackPanel>
+            </Grid>
+            
+            <StackPanel Margin="20 0 10 20" Grid.Row="1" Orientation="Horizontal">
+
+                <StackPanel>
+
+                    <Label Content="Šifra" />
+                    <TextBox Width="100" IsEnabled="False" Text="{Binding SelectedMestoTroska.Sifra}"/>
+
+                </StackPanel>
+
+                <StackPanel Margin="20 0 0 0">
+
+                    <Label Content="Naziv" />
+                    <TextBox Width="315" IsEnabled="False" Text="{Binding SelectedMestoTroska.Naziv}"/>
+
+                </StackPanel>
+
+            </StackPanel>
+
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Margin="20 10 10 20">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Nosioci Troška" HorizontalAlignment="Center" Margin="20" FontWeight="SemiBold"/>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                    <syncfusion:ButtonAdv 
+                    Label="Dodaj"
+                    SmallIcon="/Images/icons8-add-48.png"
+                    SizeMode="Normal" Width="80"/>
+                    <syncfusion:ButtonAdv 
+                    Label="Izmeni"
+                    SmallIcon="/Images/icons8-edit-property-48.png"
+                    SizeMode="Normal" Width="80"
+                    Margin="10 0 0 0"/>
+                    <syncfusion:ButtonAdv 
+                    Label="Obriši"
+                    SmallIcon="/Images/icons8-remove-48.png"
+                    SizeMode="Normal" Width="80"
+                    Margin="10 0 0 0"/>
+                    <syncfusion:ButtonAdv 
+                    Label="Sačuvaj"
+                    SmallIcon="/Images/icons8-save-48.png"
+                    SizeMode="Normal" Width="80"
+                    Margin="10 0 0 0"/>
+                    <syncfusion:ButtonAdv 
+                    Label="Otkaži"
+                    SmallIcon="/Images/icons8-unavailable-50.png"
+                    SizeMode="Normal" Width="80"
+                    Margin="10 0 0 0"/>
+
+                </StackPanel>
+                
+            </Grid>
+
+            <Grid Margin="20 0 10 20" Grid.Row="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <syncfusion:ComboBoxAdv Width="300" HorizontalAlignment="Left" Margin="0 10 0 0" ItemsSource="{Binding MestaTroska}" DisplayMemberPath="Naziv"/>
+
+                <StackPanel Margin="0 10" Grid.Row="1" Orientation="Horizontal">
+
+                    <StackPanel>
+
+                        <Label Content="Šifra" />
+                        <TextBox Width="100" IsEnabled="False"/>
+
+                    </StackPanel>
+
+                    <StackPanel Margin="20 0 0 0">
+
+                        <Label Content="Naziv" />
+                        <TextBox Width="315" IsEnabled="False"/>
+
+                    </StackPanel>
+
+                </StackPanel>
+                
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="0">
+
+            <syncfusion:SfDataGrid 
+                Grid.Row="1"
+                Width="auto"
+                HorizontalAlignment="Left"
+                Margin="20 20 0 0"
+                ItemsSource="{Binding MestaTroska}"
+                AllowResizingColumns="True" 
+                AutoGenerateColumns="False" 
+                AllowFiltering="True"
+                SelectedItem="{Binding SelectedMestoTroska}">
+
+                <syncfusion:SfDataGrid.Columns>
+                    
+                    <syncfusion:GridTextColumn HeaderText="Sifra" MappingName="Sifra" />
+                    <syncfusion:GridTextColumn HeaderText="Mesto Troška" MappingName="Naziv"/>
+                    
+                </syncfusion:SfDataGrid.Columns>
+                
+            </syncfusion:SfDataGrid>
+
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+
+            <syncfusion:SfDataGrid 
+                Grid.Row="1"
+                Margin="20 20 0 0">
+
+                <syncfusion:SfDataGrid.Columns>
+
+                    <syncfusion:GridTextColumn HeaderText="Sifra" MappingName="Sifra" />
+                    <syncfusion:GridTextColumn HeaderText="Nosilac Troška" MappingName="Naziv"/>
+
+                </syncfusion:SfDataGrid.Columns>
+
+            </syncfusion:SfDataGrid>
+
+        </Grid>
+
     </Grid>
 </UserControl>

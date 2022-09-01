@@ -62,7 +62,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         #region Methods
         public override async Task LoadAsync()
         {
-            await KomitentiNavigationViewModel.LoadAsync();
+            if (KomitentiNavigationViewModel != null)
+            {
+                await KomitentiNavigationViewModel.LoadAsync();
+            }
         }
         private async void OnOpenKomitentDetailView(int? komitentId)
         {
@@ -99,7 +102,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                     }
                 }
             }
-
             base.Dispose();
         }
         #endregion

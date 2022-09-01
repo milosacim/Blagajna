@@ -138,7 +138,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
         public override void Dispose()
         {
-            GC.SuppressFinalize(this);
+            SelectedKomitent.Dispose();
             base.Dispose();
         }
 

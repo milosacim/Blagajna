@@ -159,10 +159,7 @@ namespace MivexBlagajna.UI.Controls
                                               where element.Content == item
                                               select element).FirstOrDefault();
 
-                    if (item != null)
-                    {
-                        PART_DockingManager.Children.Remove(control);
-                    }
+                    PART_DockingManager.Children.Remove(control);
                 }
             }
 

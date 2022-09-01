@@ -270,7 +270,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             {
                 _komitentRepository.CancelChanges();
                 HasChanges = _komitentRepository.HasChanges();
-                GC.SuppressFinalize(this);
             }
             base.Dispose();
         }
