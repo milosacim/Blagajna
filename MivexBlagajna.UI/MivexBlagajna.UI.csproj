@@ -31,23 +31,27 @@
 
 <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 
+<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+
 <PackageReference Include="Prism.Core" Version="8.1.97" />
 
-<PackageReference Include="Syncfusion.Shared.WPF" Version="20.2.0.40" />
+<PackageReference Include="Syncfusion.Shared.WPF" Version="20.2.0.46" />
 
-<PackageReference Include="Syncfusion.Themes.FluentDark.WPF" Version="20.2.0.40" />
+<PackageReference Include="Syncfusion.Themes.FluentDark.WPF" Version="20.2.0.46" />
 
-<PackageReference Include="Syncfusion.Themes.FluentLight.WPF" Version="20.2.0.43" />
+<PackageReference Include="Syncfusion.Themes.FluentLight.WPF" Version="20.2.0.46" />
 
-<PackageReference Include="Syncfusion.Themes.MaterialLight.WPF" Version="20.2.0.40" />
+<PackageReference Include="Syncfusion.Themes.MaterialDarkBlue.WPF" Version="20.2.0.46" />
 
-<PackageReference Include="Syncfusion.Themes.Office2019Colorful.WPF" Version="20.2.0.40" />
-<PackageReference Include="Syncfusion.Tools.WPF" Version="20.2.0.40" />
+<PackageReference Include="Syncfusion.Themes.MaterialLight.WPF" Version="20.2.0.46" />
+
+<PackageReference Include="Syncfusion.Themes.Office2019Colorful.WPF" Version="20.2.0.46" />
+<PackageReference Include="Syncfusion.Tools.WPF" Version="20.2.0.46" />
 <PackageReference Include="Syncfusion.Data.WPF" Version="20.2.0.36" />
 <PackageReference Include="Syncfusion.SfGrid.WPF" Version="20.2.0.36" />
-<PackageReference Include="Syncfusion.SfChart.WPF" Version="20.2.0.36" />
-<PackageReference Include="Syncfusion.SfDiagram.WPF" Version="20.2.0.36" />
-<PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.2.0.43" />
+<PackageReference Include="Syncfusion.SfChart.WPF" Version="20.2.0.46" />
+<PackageReference Include="Syncfusion.SfDiagram.WPF" Version="20.2.0.46" />
+<PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.2.0.46" />
 </ItemGroup>
   
   <ItemGroup>

@@ -57,7 +57,6 @@ namespace MivexBlagajna.UI.ViewModels
                 OnModelPropertyChanged();
             }
         }
-
         public async void SelectViewModel(object parameter)
         {
             SelectedViewModel = parameter as ViewModelBase;

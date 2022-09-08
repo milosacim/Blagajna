@@ -87,8 +87,7 @@
                         LargeIcon="/Images/icons8-edit-property-48.png"
                         SizeMode="Large" 
                         Command="{Binding EditKomitentPropertyCommand}"
-                        IsEnabled="{Binding HasChanges, Converter={StaticResource EnableEditBthConverter}}"
-                        />
+                        IsEnabled="{Binding HasChanges, Converter={StaticResource EnableEditBthConverter}}"/>
 
                 <syncfusion:ButtonAdv
                         Width="55"

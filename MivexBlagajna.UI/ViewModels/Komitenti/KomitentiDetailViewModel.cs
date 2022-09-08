@@ -16,8 +16,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
     public class KomitentiDetailViewModel : ViewModelBase, IKomitentiDetailViewModel
     {
         #region Fields
-        private readonly IKomitentRepository _komitentRepository;
-        private readonly IEventAggregator _eventAggregator;
+        private IKomitentRepository _komitentRepository;
+        private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private KomitentWrapper _komitent;
         private bool _hasChanges;
@@ -113,7 +113,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                   {
                       ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                       ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
-
                   }
               };
 
@@ -142,8 +141,9 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         // Editing
         private void EditKomitentProperty()
         {
-            HasChanges = true;
-
+            //HasChanges = true;
+            IsPravnoLiceEditable = true;
+            IsFizickoLiceEditable = true;
             if (Komitent.Id == 0)
             {
                 EnableEditPropertyOnCreate();
@@ -264,6 +264,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
         }
 
+        //Disposing
+
         public override void Dispose()
         {
             if (HasChanges)
@@ -271,6 +273,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 _komitentRepository.CancelChanges();
                 HasChanges = _komitentRepository.HasChanges();
             }
+
             base.Dispose();
         }
 

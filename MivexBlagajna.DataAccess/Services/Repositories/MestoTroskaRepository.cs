@@ -11,16 +11,19 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             _context = context;
         }
-
         public async Task<MestoTroska> GetByIdAsync(int id)
         {
             return await _context.MestaTroska.SingleAsync(k => k.Id == id);
         }
-
         public async Task<IEnumerable<MestoTroska>> GetAll()
         {
             IEnumerable<MestoTroska> mesta = await _context.MestaTroska.ToListAsync();
             return mesta;
+        }
+
+        public bool HasChanges()
+        {
+            return _context.ChangeTracker.HasChanges();
         }
 
         public async Task SaveAsync()
@@ -32,9 +35,15 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             _context.MestaTroska.Add(mestoTroska);
         }
+
         public void Remove(MestoTroska mestoTroska)
         {
             _context.MestaTroska.Remove(mestoTroska);
+        }
+
+        public async Task<int> GetLastMestoIdAsync()
+        {
+            return await _context.MestaTroska.MaxAsync(m => m.Id);
         }
     }
 }

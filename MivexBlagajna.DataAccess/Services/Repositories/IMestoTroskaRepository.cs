@@ -9,5 +9,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         Task<MestoTroska> GetByIdAsync(int id);
         void Remove(MestoTroska mestoTroska);
         Task SaveAsync();
+        bool HasChanges();
+        Task<int> GetLastMestoIdAsync();
     }
 }
