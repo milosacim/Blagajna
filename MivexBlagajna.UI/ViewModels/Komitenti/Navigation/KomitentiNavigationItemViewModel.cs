@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MivexBlagajna.UI.ViewModels.Komitenti
+namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 {
     public class KomitentiNavigationItemViewModel : ViewModelBase
     {
@@ -43,7 +43,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             get { return _fizickoLice; }
             set
             {
-                _fizickoLice = value; 
+                _fizickoLice = value;
                 OnModelPropertyChanged();
             }
         }

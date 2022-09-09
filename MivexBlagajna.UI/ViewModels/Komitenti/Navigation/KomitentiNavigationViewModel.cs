@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace MivexBlagajna.UI.ViewModels.Komitenti
+namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 {
     public class KomitentiNavigationViewModel : ViewModelBase, IKomitentiNavigationViewModel
     {

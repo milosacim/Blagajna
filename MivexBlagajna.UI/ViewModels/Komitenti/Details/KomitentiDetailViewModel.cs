@@ -11,7 +11,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MivexBlagajna.UI.ViewModels.Komitenti
+namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 {
     public class KomitentiDetailViewModel : ViewModelBase, IKomitentiDetailViewModel
     {

@@ -56,9 +56,11 @@
                                    BorderBrush="Transparent">
 
                 <syncfusion:SfDataGrid.Columns>
+                    
                     <syncfusion:GridTextColumn HeaderText="Komitent" MappingName="PunNaziv" Width="500"/>
                     <syncfusion:GridCheckBoxColumn HeaderText="Pravno lice" MappingName="PravnoLice" />
                     <syncfusion:GridCheckBoxColumn HeaderText="Fizicko lice" MappingName="FizickoLice" />
+                    
                 </syncfusion:SfDataGrid.Columns>
                 
             </syncfusion:SfDataGrid>

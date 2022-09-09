@@ -1,7 +1,11 @@
 ﻿using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services.Repositories;
+using MivexBlagajna.UI.Events;
+using MivexBlagajna.UI.ViewModels.Mesta_Troska.Details;
+using MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation;
 using MivexBlagajna.UI.Wrappers;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,54 +16,39 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
 {
     public class MestaTroskaViewModel : ViewModelBase, IDockElement
     {
+        #region Fields
+
+        private readonly Func<IMestaTroskaDetailsViewModel> _mestaTroskaDetailsViewModelsCreator;
+        private readonly IEventAggregator _eventAggregator;
         private string _header;
         private DockState _state;
-        private IMestoTroskaRepository _mestoTroskaRepository;
-        private MestoTroska _mestoTroska;
-        private bool _hasChanges;
+        private IMestaTroskaDetailsViewModel _mestaTroskaDetailsViewModel;
+
+        #endregion
+
+        #region Constructor
 
         public MestaTroskaViewModel(
-            IMestoTroskaRepository mestoTroskaRepository,
+            IMestaTroskaNavigationViewModel mestaTroskaNavigationViewModel,
+            Func<IMestaTroskaDetailsViewModel> mestaTroskaDetailsViewModelsCreator,
+            IEventAggregator eventAggregator,
             string header = "Mesta troska",
-            DockState state = DockState.Document )
+            DockState state = DockState.Document)
         {
             _header = header;
             _state = state;
-            _mestoTroskaRepository = mestoTroskaRepository;
-            MestaTroska = new ObservableCollection<MestoTroska>();
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+            _eventAggregator = eventAggregator;
+            _mestaTroskaDetailsViewModelsCreator = mestaTroskaDetailsViewModelsCreator;
+
+            MestaTroskaNavigationViewModel = mestaTroskaNavigationViewModel;
+
+            _eventAggregator.GetEvent<OnOpenMestoTroskaDetailsEvent>().Subscribe(OnOpenMestoTroskaDetails);
         }
 
-        private async void OnSaveExecute()
-        {
-            await _mestoTroskaRepository.SaveAsync();
-            HasChanges = _mestoTroskaRepository.HasChanges();
-        }
 
-        private bool OnSaveCanExecute()
-        {
-            return MestoTroska != null;
-        }
+        #endregion
 
-        public MestoTroska MestoTroska
-        {
-            get { return _mestoTroska; }
-            set { _mestoTroska = value; OnModelPropertyChanged(); }
-        }
-
-        
-        public bool HasChanges
-        {
-            get { return _hasChanges; }
-            set
-            {
-                if (_hasChanges != value)
-                {
-                    _hasChanges = value;
-                    OnModelPropertyChanged();
-                }
-            }
-        }   
+        #region Properties
         public string? Header
         {
             get { return _header; }
@@ -70,18 +59,36 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
             get { return _state; }
             set { }
         }
-        public ObservableCollection<MestoTroska> MestaTroska { get; }
-        public override async Task LoadAsync()
-        {
-            var mesta = await _mestoTroskaRepository.GetAll();
-            MestaTroska.Clear();
-            foreach (var mesto in mesta)
-            {
-                MestaTroska.Add(mesto);
-            }
+        public IMestaTroskaNavigationViewModel MestaTroskaNavigationViewModel { get; }
 
+        public IMestaTroskaDetailsViewModel MestaTroskaDetailsViewModel
+        {
+            get { return _mestaTroskaDetailsViewModel; }
+            set { _mestaTroskaDetailsViewModel = value; OnModelPropertyChanged(); }
         }
 
-        public ICommand SaveCommand { get; }
+        #endregion
+
+        #region Commands
+
+        #endregion
+
+        #region Methods
+
+        public async override Task LoadAsync()
+        {
+            if (MestaTroskaNavigationViewModel != null)
+            {
+                await MestaTroskaNavigationViewModel.LoadAsync();
+            }
+        }
+
+        private async void OnOpenMestoTroskaDetails(int? mestoTroskaId)
+        {
+            MestaTroskaDetailsViewModel = _mestaTroskaDetailsViewModelsCreator();
+            await MestaTroskaDetailsViewModel.LoadAsync(mestoTroskaId);
+        }
+
+        #endregion
     }
 }

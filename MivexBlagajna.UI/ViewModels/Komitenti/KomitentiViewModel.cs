@@ -11,12 +11,15 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
     public class KomitentiViewModel : ViewModelBase, IDockElement
     {
         #region Fields
+
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IKomitentiDetailViewModel _komitentiDetailViewModel;
         private Func<IKomitentiDetailViewModel> _komitentiDetailViewModelCreator;
+
         private string _header;
         private DockState _state;
+
         #endregion
 
         #region Constructor
