@@ -1,5 +1,6 @@
 ﻿using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.UI.Events;
+using MivexBlagajna.UI.Events.Komitenti;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using Prism.Events;
 using System;

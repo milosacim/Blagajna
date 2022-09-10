@@ -4,9 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:converters="clr-namespace:MivexBlagajna.UI.Converters"
              xmlns:local="clr-namespace:MivexBlagajna.UI.Views.Details"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+
+        <converters:IsEditableToEnableButtonConverter x:Key="EnableBthConverter" />
+
+    </UserControl.Resources>
     <Grid>
 
         <Grid.RowDefinitions>
@@ -18,9 +25,16 @@
         <StackPanel Margin="10 20 0 0" Orientation="Horizontal">
 
             <syncfusion:ButtonAdv Label="Dodaj" SizeMode="Normal" SmallIcon="/Images/icons8-add-48.png"/>
-            <syncfusion:ButtonAdv Margin="5 0 0 0" Label="Izmeni" SizeMode="Normal" SmallIcon="/Images/icons8-edit-property-48.png" />
+            <syncfusion:ButtonAdv 
+                Margin="5 0 0 0" 
+                Label="Izmeni" 
+                SizeMode="Normal" 
+                SmallIcon="/Images/icons8-edit-property-48.png" 
+                Command="{Binding EnableEditingCommand}"
+                IsEnabled="{Binding IsEditable, Converter={StaticResource EnableBthConverter}}"/>
+            
             <syncfusion:ButtonAdv Margin="5 0 0 0" Label="Obriši" SizeMode="Normal" SmallIcon="/Images/icons8-remove-48.png" />
-            <syncfusion:ButtonAdv Margin="5 0 0 0" Label="Sačuvaj" SizeMode="Normal" SmallIcon="/Images/icons8-save-48.png" />
+            <syncfusion:ButtonAdv Margin="5 0 0 0" Label="Sačuvaj" SizeMode="Normal" SmallIcon="/Images/icons8-save-48.png" Command="{Binding SaveCommand}"/>
             <syncfusion:ButtonAdv Margin="5 0 0 0" Label="Otkaži" SizeMode="Normal" SmallIcon="/Images/icons8-unavailable-50.png" />
 
         </StackPanel>
@@ -30,14 +44,18 @@
             <StackPanel>
 
                 <Label Content="Šifra"/>
-                <TextBox Text="{Binding MestoTroska.Sifra, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox 
+                    Text="{Binding MestoTroska.Sifra, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsEnabled="False"/>
 
             </StackPanel>
 
             <StackPanel Margin="5 0 0 0">
 
                 <Label Content="Mesto Troška"/>
-                <TextBox Text="{Binding MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox 
+                    Text="{Binding MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
 
             </StackPanel>
 

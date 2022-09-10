@@ -11,7 +11,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
 
-        <syncfusion:DockingManager UseDocumentContainer="True" ContainerMode="TDI" Margin="0 20">
+        <syncfusion:DockingManager x:Name="dockingManager" UseDocumentContainer="True" ContainerMode="TDI" Margin="0 20">
 
             <ContentControl x:Name="Nosioci" syncfusion:DockingManager.Header="Nosioci Troska" syncfusion:DockingManager.State="Document">
 

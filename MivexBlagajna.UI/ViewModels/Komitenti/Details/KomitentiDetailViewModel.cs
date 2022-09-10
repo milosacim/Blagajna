@@ -1,7 +1,7 @@
 ﻿using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services;
 using MivexBlagajna.DataAccess.Services.Repositories;
-using MivexBlagajna.UI.Events;
+using MivexBlagajna.UI.Events.Komitenti;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
@@ -97,8 +97,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             var komitent = komitentId.HasValue
                 ? await _komitentRepository.GetByIdAsync(komitentId.Value)
                 : await CreateNewKomitent();
-
-            var hasChanges = _komitentRepository.HasChanges();
 
             Komitent = new KomitentWrapper(komitent);
 

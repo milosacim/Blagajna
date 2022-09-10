@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Syncfusion.Windows.Shared;
+using Syncfusion.Windows.Tools.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,20 @@ namespace MivexBlagajna.UI.Views
         public MestaTroskaView()
         {
             InitializeComponent();
+
+            (this.dockingManager.DocContainer as DocumentContainer).Loaded += MestaTroskaView_Loaded;
+        }
+
+        private void MestaTroskaView_Loaded(object sender, RoutedEventArgs e)
+        {
+            TabControlExt tabControlExt = VisualUtils.FindDescendant(sender as Visual, typeof(TabControlExt)) as TabControlExt;
+            if (tabControlExt != null)
+            {
+                foreach (TabItemExt tabItemExt in tabControlExt.Items)
+                {
+                    tabItemExt.Width = 200;
+                }
+            }
         }
     }
 }
