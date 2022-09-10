@@ -133,7 +133,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         private async void OnCreateNewKomitentExecute()
         {
             await LoadAsync(null);
-            _eventAggregator.GetEvent<OnCreateNewKomitentEvent>().Publish(null);
         }
 
         // Editing

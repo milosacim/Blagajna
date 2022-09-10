@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MivexBlagajna.UI.Events.Komitenti
+namespace MivexBlagajna.UI.Events.Mesta_Troska
 {
-    public class OnCreateNewKomitentEvent : PubSubEvent<int?>
+    public class OnMestoTroskaDeletedEvent : PubSubEvent<int>
     {
     }
 }

@@ -84,11 +84,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
             await KomitentiDetailViewModel.LoadAsync(komitentId);
         }
-        public async void LoadNewKomitent(int? id)
-        {
-            KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
-            await KomitentiDetailViewModel.LoadAsync(id);
-        }
         public override void Dispose()
         {
             if (KomitentiDetailViewModel != null && KomitentiNavigationViewModel != null)

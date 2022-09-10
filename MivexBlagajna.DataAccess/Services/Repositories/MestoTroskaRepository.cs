@@ -26,6 +26,26 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
             return _context.ChangeTracker.HasChanges();
         }
 
+        public void CancelChanges()
+        {
+            var changedEntries = _context.ChangeTracker.Entries()
+                .Where(k => k.State != EntityState.Unchanged).ToList();
+
+            foreach (var entry in changedEntries)
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.State = EntityState.Detached;
+                        break;
+                    case EntityState.Modified:
+                        entry.CurrentValues.SetValues(entry.OriginalValues);
+                        entry.State = EntityState.Unchanged;
+                        break;
+                }
+            }
+        }
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
@@ -42,6 +62,11 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
 
         public async Task<int> GetLastMestoIdAsync()
+        {
+            return await _context.MestaTroska.MaxAsync(m => m.Id);
+        }
+
+        public async Task<int> GetLastIdAsync()
         {
             return await _context.MestaTroska.MaxAsync(m => m.Id);
         }
