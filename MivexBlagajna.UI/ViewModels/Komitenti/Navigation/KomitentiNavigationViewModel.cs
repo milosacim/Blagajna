@@ -104,10 +104,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             if (lookupitem == null)
             {
                 Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv, obj.PravnoLice, obj.FizickoLice));
-                SelectedKomitent = lookupitem;
+                SelectedKomitent = Komitenti.Last();
             }
 
             else { lookupitem.PunNaziv = obj.PunNaziv; }
+            
         }
         private bool FilterNaziv(KomitentiNavigationItemViewModel item)
         {

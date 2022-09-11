@@ -11,6 +11,9 @@ namespace MivexBlagajna.UI.Wrappers
     {
         public MestoTroskaWrapper(MestoTroska mestoTroska) : base(mestoTroska)
         {
+            Sifra = mestoTroska.Sifra;
+            Naziv = mestoTroska.Naziv;
+
         }
 
         public int Id { get { return Model.Id; } }

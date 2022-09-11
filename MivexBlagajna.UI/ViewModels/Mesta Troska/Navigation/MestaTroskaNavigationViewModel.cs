@@ -24,6 +24,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             MestaTroska = new ObservableCollection<MestaTroskaNavigationItemViewModel>();
 
             _eventAggregator.GetEvent<AfterMestoTroskaSavedEvent>().Subscribe(OnMestoTroskaSaved);
+            _eventAggregator.GetEvent<OnMestoTroskaDeletedEvent>().Subscribe(OnMestoTroskaDeleted);
         }
 
         private void OnMestoTroskaSaved(AfterMestoTroskaSavedArgs obj)
@@ -33,14 +34,22 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             if (lookupitem == null)
             {
                 MestaTroska.Add(new MestaTroskaNavigationItemViewModel(obj.Id, obj.Sifra, obj.Naziv));
-                SelectedMestoTroska = lookupitem;
+                SelectedMestoTroska = MestaTroska.First();
             }
 
             else { lookupitem.Sifra = obj.Sifra; lookupitem.Naziv = obj.Naziv; }
         }
+        private void OnMestoTroskaDeleted(int id)
+        {
+            var mesto = MestaTroska.SingleOrDefault(m => m.Id == id);
 
+            if (mesto != null)
+            {
+                MestaTroska.Remove(mesto);
+                SelectedMestoTroska = MestaTroska.Last();
+            }
+        }
         public ObservableCollection<MestaTroskaNavigationItemViewModel> MestaTroska { get; }
-
         public MestaTroskaNavigationItemViewModel SelectedMestoTroska
         {
             get { return _selectedMestoTroska; }
@@ -55,11 +64,12 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
                 }
             }
         }
-
         public async override Task LoadAsync()
         {
             var lookup = await _lookupMestoTroskaDataService.GetLookupMestoTroskaAsync();
+
             MestaTroska.Clear();
+
             foreach (var item in lookup)
             {
                 if (item != null)
@@ -68,6 +78,12 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
                 }
             }
             SelectedMestoTroska = MestaTroska.First();
+        }
+
+        public override void Dispose()
+        {
+            SelectedMestoTroska.Dispose();
+            base.Dispose();
         }
     }
 }

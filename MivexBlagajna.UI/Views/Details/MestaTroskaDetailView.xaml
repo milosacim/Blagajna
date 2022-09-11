@@ -15,6 +15,29 @@
 
         <converters:IsEditableToEnableButtonConverter x:Key="EnableBthConverter" />
 
+        <Style TargetType="TextBox">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <StackPanel>
+                            <AdornedElementPlaceholder x:Name="placeholder"/>
+                            <TextBlock
+                                FontSize="10"
+                                Foreground="Red"
+                                Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Background" Value="#FFA1AA" />
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </UserControl.Resources>
     <Grid>
 
@@ -28,6 +51,7 @@
 
             <syncfusion:ButtonAdv
                 Command="{Binding CreateCommand}"
+                IsEnabled="{Binding IsEditable, Converter={StaticResource EnableBthConverter}}"
                 Label="Dodaj"
                 SizeMode="Normal"
                 SmallIcon="/Images/icons8-add-48.png" />
@@ -41,6 +65,8 @@
 
             <syncfusion:ButtonAdv
                 Margin="5,0,0,0"
+                Command="{Binding DeleteCommand}"
+                IsEnabled="{Binding IsEditable, Converter={StaticResource EnableBthConverter}}"
                 Label="Obriši"
                 SizeMode="Normal"
                 SmallIcon="/Images/icons8-remove-48.png" />

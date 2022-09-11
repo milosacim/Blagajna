@@ -36,15 +36,12 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             EnableEditingCommand = new DelegateCommand(OnEditExecute);
-            CancelCommand = new DelegateCommand(OnCancelExecute, OnSaveCanExecute);
+            CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
             CreateCommand = new DelegateCommand(OnCreateExecute);
             DeleteCommand = new DelegateCommand(DeleteAsync);
         }
 
-        private async void OnCreateExecute()
-        {
-            await LoadAsync(null);
-        }
+        
 
         #endregion
 
@@ -62,7 +59,9 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         public bool IsEditable
         {
             get { return _isEditable; }
-            set { _isEditable = value; OnModelPropertyChanged(); }
+            set { _isEditable = value; OnModelPropertyChanged(); ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
+            }
         }
 
         // Commands
@@ -92,6 +91,12 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 {
                     HasChanges = _mestoTroskaRepository.HasChanges();
                 }
+
+                if (e.PropertyName == nameof(MestoTroska.HasErrors))
+                {
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                    ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
+                }
             };
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
@@ -102,21 +107,23 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         private async Task<MestoTroska> CreateNewMestoTroska()
         {
             var lastId = await _mestoTroskaRepository.GetLastIdAsync();
-            var lastMestoTroska = await _mestoTroskaRepository.GetByIdAsync(lastId);
 
             var mesto = new MestoTroska();
+
             mesto.Sifra = $"0{lastId + 1}";
+            mesto.Naziv = "";
             _mestoTroskaRepository.Add(mesto);
             HasChanges = true;
             return mesto;
         }
 
         // Command methods
+
+        // Saving
         private async void OnSaveExecute()
         {
             await _mestoTroskaRepository.SaveAsync();
             HasChanges = _mestoTroskaRepository.HasChanges();
-
             _eventAggregator.GetEvent<AfterMestoTroskaSavedEvent>().Publish(
                 new AfterMestoTroskaSavedArgs
                 {
@@ -125,43 +132,46 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                     Naziv = MestoTroska.Naziv
                 }
                 );
+            IsEditable = false;
         }
         private bool OnSaveCanExecute()
         {
-            return MestoTroska != null && HasChanges;
+            return MestoTroska != null && HasChanges && !MestoTroska.HasErrors;
         }
+
+        // Deleting
         private async void DeleteAsync()
         {
-            var result = _messageDialogService.ShowOKCancelDialog("Da li ste sigurni da zelite da obrisete komitenta?", "Question");
+            var result = _messageDialogService.ShowOKCancelDialog("Da li ste sigurni da zelite da obrisete mesto troška?", "Question");
             if (result == MessageDialogResult.Potvrdi)
             {
                 _mestoTroskaRepository.Remove(MestoTroska.Model);
                 await _mestoTroskaRepository.SaveAsync();
                 _eventAggregator.GetEvent<OnMestoTroskaDeletedEvent>().Publish(MestoTroska.Id);
-
             }
             else
             {
                 return;
             }
         }
+
+        //Canceling
+        private bool OnCancelCanExecute()
+        {
+            return IsEditable;
+        }
         private async void OnCancelExecute()
         {
+            var mestoId = await _mestoTroskaRepository.GetLastIdAsync();
             if (HasChanges)
             {
                 var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
                 if (result == MessageDialogResult.Potvrdi)
                 {
                     _mestoTroskaRepository.CancelChanges();
+                    await LoadAsync(mestoId);
                     HasChanges = _mestoTroskaRepository.HasChanges();
-                    if (MestoTroska.Id != 0)
-                    {
-                        await LoadAsync(MestoTroska.Id);
-                    }
-                    else
-                    {
-                        return ;
-                    }
+                    IsEditable = false;
 
                 }
                 else
@@ -169,7 +179,13 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                     return;
                 }
             }
+            else
+            {
+                IsEditable = false;
+            }
         }
+
+        //Editing
         private void OnEditExecute()
         {
             if (IsEditable == false)
@@ -180,6 +196,25 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             {
                 IsEditable = false;
             }
+        }
+
+        // Creating
+        private async void OnCreateExecute()
+        {
+            IsEditable = true;
+            await LoadAsync(null);
+        }
+
+        //Dispose method
+        public override void Dispose()
+        {
+            if (HasChanges)
+            {
+                _mestoTroskaRepository.CancelChanges();
+                HasChanges = _mestoTroskaRepository.HasChanges();
+            }
+
+            base.Dispose();
         }
 
         #endregion

@@ -49,7 +49,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             return await _context.Komitenti.MaxAsync(k => k.Id);
         }
-
         public void Remove(Komitent komitent)
         {
             _context.Komitenti.Remove(komitent);
