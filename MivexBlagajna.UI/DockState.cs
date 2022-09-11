@@ -3,6 +3,7 @@
     public enum DockState
     {
         Dock,
-        Document
+        Document,
+        Tabbed
     }
 }

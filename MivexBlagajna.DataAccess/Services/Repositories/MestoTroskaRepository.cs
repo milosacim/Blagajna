@@ -3,21 +3,29 @@ using MivexBlagajna.Data.Models;
 
 namespace MivexBlagajna.DataAccess.Services.Repositories
 {
-    public class KomitentRepository : IKomitentRepository
+    public class MestoTroskaRepository : IMestoTroskaRepository
     {
         private MivexBlagajnaDbContext _context;
-        public KomitentRepository(MivexBlagajnaDbContext context)
+
+        public MestoTroskaRepository(MivexBlagajnaDbContext context)
         {
             _context = context;
         }
-        public async Task<Komitent> GetByIdAsync(int id)
+        public async Task<MestoTroska> GetByIdAsync(int id)
         {
-            return await _context.Komitenti.SingleAsync(k => k.Id == id);
+            return await _context.MestaTroska.SingleAsync(m => m.Id == id);
         }
+        public async Task<IEnumerable<MestoTroska>> GetAll()
+        {
+            IEnumerable<MestoTroska> mesta = await _context.MestaTroska.ToListAsync();
+            return mesta;
+        }
+
         public bool HasChanges()
         {
             return _context.ChangeTracker.HasChanges();
         }
+
         public void CancelChanges()
         {
             var changedEntries = _context.ChangeTracker.Entries()
@@ -37,21 +45,30 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                 }
             }
         }
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
         }
-        public void Add(Komitent komitent)
+
+        public void Add(MestoTroska mestoTroska)
         {
-            _context.Komitenti.Add(komitent);
+            _context.MestaTroska.Add(mestoTroska);
         }
-        public async Task<int> GetLastKomitentIdAsync()
+
+        public void Remove(MestoTroska mestoTroska)
         {
-            return await _context.Komitenti.MaxAsync(k => k.Id);
+            _context.MestaTroska.Remove(mestoTroska);
         }
-        public void Remove(Komitent komitent)
+
+        public async Task<int> GetLastMestoIdAsync()
         {
-            _context.Komitenti.Remove(komitent);
+            return await _context.MestaTroska.MaxAsync(m => m.Id);
+        }
+
+        public async Task<int> GetLastIdAsync()
+        {
+            return await _context.MestaTroska.MaxAsync(m => m.Id);
         }
     }
 }

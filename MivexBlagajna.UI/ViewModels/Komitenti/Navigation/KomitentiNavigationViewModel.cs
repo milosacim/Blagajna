@@ -1,5 +1,6 @@
 ﻿using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.UI.Events;
+using MivexBlagajna.UI.Events.Komitenti;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using Prism.Events;
 using System;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace MivexBlagajna.UI.ViewModels.Komitenti
+namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 {
     public class KomitentiNavigationViewModel : ViewModelBase, IKomitentiNavigationViewModel
     {
@@ -29,9 +30,21 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _lookupKomitentDataService = lookupKomitentDataService;
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<AfterKomitentSavedEvent>().Subscribe(AfterKomitentSaved);
+            _eventAggregator.GetEvent<OnKomitentDeletedEvent>().Subscribe(AfterKomitentDeleted);
             Komitenti = new ObservableCollection<KomitentiNavigationItemViewModel>();
             FilteredList = CollectionViewSource.GetDefaultView(Komitenti);
             FilteredList.Filter += new Predicate<object>(o => FilterNaziv(o as KomitentiNavigationItemViewModel) && FilterPravnoLice(o as KomitentiNavigationItemViewModel) && FilterFizickoLice(o as KomitentiNavigationItemViewModel));
+        }
+
+        private void AfterKomitentDeleted(int id)
+        {
+            var komitent = Komitenti.SingleOrDefault(k => k.Id == id);
+
+            if (komitent != null)
+            {
+                Komitenti.Remove(komitent);
+                SelectedKomitent = Komitenti.Last();
+            }
         }
         #endregion
 
@@ -87,12 +100,15 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private void AfterKomitentSaved(AfterKomitentSavedEventArgs obj)
         {
             var lookupitem = Komitenti.SingleOrDefault(l => l.Id == obj.Id);
+
             if (lookupitem == null)
             {
-                Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv));
+                Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv, obj.PravnoLice, obj.FizickoLice));
+                SelectedKomitent = Komitenti.Last();
             }
 
             else { lookupitem.PunNaziv = obj.PunNaziv; }
+            
         }
         private bool FilterNaziv(KomitentiNavigationItemViewModel item)
         {
@@ -107,7 +123,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
             else
             {
-                return PravnoLiceFilter == false || item.PravnoLice == false;
+                return PravnoLiceFilter == false || item.PravnoLice == true;
             }
         }
         private bool FilterFizickoLice(KomitentiNavigationItemViewModel item)
@@ -118,9 +134,16 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
             else
             {
-                return FizickoLiceFilter == false || item.FizickoLice == false;
+                return FizickoLiceFilter == false || item.FizickoLice == true;
             }
         }
+
+        public override void Dispose()
+        {
+            SelectedKomitent.Dispose();
+            base.Dispose();
+        }
+
         #endregion
     }
 }

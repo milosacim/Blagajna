@@ -12,10 +12,13 @@ namespace MivexBlagajna.UI.Wrappers
         private Dictionary<string, List<string>> _errorsByPropertyName
              = new Dictionary<string, List<string>>();
         public bool HasErrors => _errorsByPropertyName.Any(); // true - ako _errorsByPropertyName sadrzi gresku
+
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
         public IEnumerable GetErrors(string? propertyName)
         {
-            return _errorsByPropertyName.ContainsKey(propertyName) ? _errorsByPropertyName[propertyName] : null; // vraca gresku za propertyName ako postoji taj TKey
+            return _errorsByPropertyName.ContainsKey(propertyName) 
+                ? _errorsByPropertyName[propertyName] 
+                : null; // vraca gresku za propertyName ako postoji taj TKey
         }
         protected virtual void OnErrorsChanged(string propertyName)
         {

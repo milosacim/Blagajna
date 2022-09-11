@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:MivexBlagajna.UI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     d:DesignHeight="450"
@@ -16,8 +15,10 @@
 
             <syncfusion:RibbonBar
                 Name="sifarnik"
-                Width="150"
+                Width="300"
+                Height="auto"
                 Header="Sifarnik">
+                
                 <syncfusion:RibbonButton
                     Margin="20,5,10,0"
                     FontSize="12"
@@ -26,12 +27,16 @@
                     Command="{Binding SelectViewModelCommand}" 
                     CommandParameter="{Binding KomitentiViewModel}"
                     LargeIcon="/Images/icons8-customer-48.png"/>
+
                 <syncfusion:RibbonButton
                     Margin="10,5,10,0"
                     FontSize="12"
                     Label="Mesta troska"
                     SizeForm="Large" 
+                    Command="{Binding SelectViewModelCommand}" 
+                    CommandParameter="{Binding MestaTroskaViewModel}"
                     LargeIcon="/Images/icons8-cost-60.png"/>
+
             </syncfusion:RibbonBar>
 
         </syncfusion:RibbonTab>

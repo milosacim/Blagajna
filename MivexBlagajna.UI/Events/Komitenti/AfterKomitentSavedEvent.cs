@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MivexBlagajna.UI.Events
+namespace MivexBlagajna.UI.Events.Komitenti
 {
     public class AfterKomitentSavedEvent : PubSubEvent<AfterKomitentSavedEventArgs>
     {
@@ -15,5 +15,7 @@ namespace MivexBlagajna.UI.Events
     {
         public int Id { get; set; }
         public string PunNaziv { get; set; }
+        public bool PravnoLice { get; set; }
+        public bool FizickoLice { get; set; }
     }
 }

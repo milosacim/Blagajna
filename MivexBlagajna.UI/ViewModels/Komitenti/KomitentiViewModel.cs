@@ -1,25 +1,25 @@
-﻿using MivexBlagajna.DataAccess.Services;
-using MivexBlagajna.UI.Events;
+﻿using MivexBlagajna.UI.Events;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.Views.Services;
 using Prism.Events;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
     public class KomitentiViewModel : ViewModelBase, IDockElement
     {
         #region Fields
+
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IKomitentiDetailViewModel _komitentiDetailViewModel;
         private Func<IKomitentiDetailViewModel> _komitentiDetailViewModelCreator;
+
         private string _header;
         private DockState _state;
+
         #endregion
 
         #region Constructor
@@ -46,13 +46,14 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         public string? Header
         {
             get { return _header; }
-            set { _header = value; }
+            set { }
         }
         public DockState State
         {
             get { return _state; }
-            set { _state = value; }
+            set { }
         }
+        public ICommand CreateNewKomitentCommand { get; }
         public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
         public IKomitentiDetailViewModel KomitentiDetailViewModel
         {
@@ -64,7 +65,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         #region Methods
         public override async Task LoadAsync()
         {
-            await KomitentiNavigationViewModel.LoadAsync();
+            if (KomitentiNavigationViewModel != null)
+            {
+                await KomitentiNavigationViewModel.LoadAsync();
+            }
         }
         private async void OnOpenKomitentDetailView(int? komitentId)
         {
@@ -79,6 +83,22 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
             await KomitentiDetailViewModel.LoadAsync(komitentId);
+        }
+        public override void Dispose()
+        {
+            if (KomitentiDetailViewModel != null && KomitentiNavigationViewModel != null)
+            {
+                if (KomitentiDetailViewModel.HasChanges)
+                {
+                    var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
+                    if (result == MessageDialogResult.Potvrdi)
+                    {
+                        KomitentiDetailViewModel.Dispose();
+                        KomitentiNavigationViewModel.Dispose();
+                    }
+                }
+            }
+            base.Dispose();
         }
         #endregion
     }

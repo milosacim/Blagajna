@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\MestaTroska\**" />
+    <EmbeddedResource Remove="ViewModels\MestaTroska\**" />
+    <None Remove="ViewModels\MestaTroska\**" />
+    <Page Remove="ViewModels\MestaTroska\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="App.ico" />
     <None Remove="Images\icons8-add-48.png" />
     <None Remove="Images\icons8-cash-register-64.png" />
@@ -22,30 +29,34 @@
   </ItemGroup>
   <ItemGroup>
 
-<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
-  <PrivateAssets>all</PrivateAssets>
-  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-</PackageReference>
-
 <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+
+<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
 
 <PackageReference Include="Prism.Core" Version="8.1.97" />
 
-<PackageReference Include="Syncfusion.Shared.WPF" Version="20.2.0.40" />
-
-<PackageReference Include="Syncfusion.Themes.FluentDark.WPF" Version="20.2.0.40" />
-
-<PackageReference Include="Syncfusion.Themes.FluentLight.WPF" Version="20.2.0.43" />
-
-<PackageReference Include="Syncfusion.Themes.MaterialLight.WPF" Version="20.2.0.40" />
-
-<PackageReference Include="Syncfusion.Themes.Office2019Colorful.WPF" Version="20.2.0.40" />
-<PackageReference Include="Syncfusion.Tools.WPF" Version="20.2.0.40" />
-<PackageReference Include="Syncfusion.Data.WPF" Version="20.2.0.36" />
 <PackageReference Include="Syncfusion.SfGrid.WPF" Version="20.2.0.36" />
-<PackageReference Include="Syncfusion.SfChart.WPF" Version="20.2.0.36" />
-<PackageReference Include="Syncfusion.SfDiagram.WPF" Version="20.2.0.36" />
-<PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.2.0.43" />
+
+<PackageReference Include="Syncfusion.Shared.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.FluentDark.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.FluentLight.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.MaterialDarkBlue.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.MaterialLight.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.MaterialLightBlue.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.Office2019Colorful.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.Office2019DarkGray.WPF" Version="20.2.0.48" />
+<PackageReference Include="Syncfusion.Tools.WPF" Version="20.2.0.48" />
+<PackageReference Include="Syncfusion.Data.WPF" Version="20.2.0.36" />
+<PackageReference Include="Syncfusion.SfChart.WPF" Version="20.2.0.48" />
+<PackageReference Include="Syncfusion.SfDiagram.WPF" Version="20.2.0.48" />
+<PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.2.0.48" />
 </ItemGroup>
   
   <ItemGroup>

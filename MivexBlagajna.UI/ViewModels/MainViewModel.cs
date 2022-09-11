@@ -1,38 +1,52 @@
-﻿using MivexBlagajna.DataAccess.Services;
+﻿using MivexBlagajna.UI.Commands;
+using MivexBlagajna.UI.Controls;
 using MivexBlagajna.UI.ViewModels.Komitenti;
-using Syncfusion.Windows.Shared;
+using MivexBlagajna.UI.ViewModels.MestaTroska;
+using Syncfusion.Windows.Tools.Controls;
+using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
         #region Fields
-        private ObservableCollection<ViewModelBase> _workspaces;
+        private ObservableCollection<ViewModelBase>? _workspaces;
         private ViewModelBase? _selectedViewModel;
-        private ViewModelBase _activeDocument;
+        private ViewModelBase? _activeDocument;
         #endregion
 
         #region Konstruktor
-        public MainViewModel(KomitentiViewModel komitentiViewModel)
+
+        public MainViewModel(
+            DockingAdapter adapter,
+            KomitentiViewModel komitentiViewModel,
+            MestaTroskaViewModel mestaTroskaViewModel)
         {
+            // Initializations
             Workspaces = new ObservableCollection<ViewModelBase>();
             KomitentiViewModel = komitentiViewModel;
-            SelectViewModelCommand = new Commands.DelegateCommand(SelectViewModel);
+            MestaTroskaViewModel = mestaTroskaViewModel;
+            SelectViewModelCommand = new DelegateCommand(SelectViewModel);
         }
+
         #endregion
 
         #region Properties
+
         public ObservableCollection<ViewModelBase> Workspaces
         {
             get { return _workspaces; }
             set { _workspaces = value; }
         }
-        public ViewModelBase ActiveViewModel
+        public ViewModelBase? ActiveViewModel
         {
             get { return _activeDocument; }
-            set { _activeDocument = value; OnModelPropertyChanged("ActiveViewModel"); }
+            set { _activeDocument = value; OnModelPropertyChanged(); }
         }
         public ViewModelBase? SelectedViewModel
         {
@@ -43,7 +57,6 @@ namespace MivexBlagajna.UI.ViewModels
                 OnModelPropertyChanged();
             }
         }
-
         public async void SelectViewModel(object parameter)
         {
             SelectedViewModel = parameter as ViewModelBase;
@@ -55,17 +68,27 @@ namespace MivexBlagajna.UI.ViewModels
             if (SelectedViewModel != null && ActiveViewModel == SelectedViewModel)
             {
                 return;
-            } else
+            }
+            else
             {
-                Workspaces.Add(SelectedViewModel);
-                ActiveViewModel = SelectedViewModel;
+                if (Workspaces.Contains(SelectedViewModel))
+                {
+                    ActiveViewModel = SelectedViewModel;
+                }
+                else
+                {
+                    Workspaces.Add(SelectedViewModel);
+                    ActiveViewModel = Workspaces.LastOrDefault();
+                }
             }
         }
         public KomitentiViewModel KomitentiViewModel { get; }
+        public MestaTroskaViewModel MestaTroskaViewModel { get; }
         #endregion
 
         #region Commands
-        public Commands.DelegateCommand SelectViewModelCommand { get; }
+        public DelegateCommand SelectViewModelCommand { get; }
+
         #endregion
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MivexBlagajna.UI.ViewModels.Komitenti
+namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 {
     public class KomitentiNavigationItemViewModel : ViewModelBase
     {
@@ -12,16 +12,14 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         private bool _pravnoLice;
         private bool _fizickoLice;
 
-        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool fizickoLice = false, bool pravnoLice = false)
+        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool pravnoLice, bool fizickoLice)
         {
             Id = id;
             _punNaziv = punNaziv;
             _pravnoLice = pravnoLice;
             _fizickoLice = fizickoLice;
         }
-
         public int Id { get; }
-
         public string PunNaziv
         {
             get { return _punNaziv; }
@@ -31,17 +29,23 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 OnModelPropertyChanged();
             }
         }
-
         public bool PravnoLice
         {
             get { return _pravnoLice; }
-            set { _pravnoLice = value; OnModelPropertyChanged(); }
+            set
+            {
+                _pravnoLice = value;
+                OnModelPropertyChanged();
+            }
         }
-
         public bool FizickoLice
         {
             get { return _fizickoLice; }
-            set { _fizickoLice = value; OnModelPropertyChanged(); }
+            set
+            {
+                _fizickoLice = value;
+                OnModelPropertyChanged();
+            }
         }
     }
 }
