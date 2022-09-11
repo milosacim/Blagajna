@@ -27,9 +27,39 @@
                 <Grid>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition />
+
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        Text="Mesta Troška" />
+
+                    <details:MestaTroskaDetailView
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        DataContext="{Binding MestaTroskaDetailsViewModel}" />
+
+                    <navigations:MestaTroskaNavigationView
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Margin="10,20"
+                        DataContext="{Binding MestaTroskaNavigationViewModel}" />
 
                 </Grid>
 
