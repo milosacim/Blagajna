@@ -23,11 +23,11 @@ namespace MivexBlagajna.DataAccess.Migrations
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.Komitent", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Komitent_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Komitent_Id"), 1L, 1);
 
                     b.Property<string>("Adresa")
                         .HasColumnType("nvarchar(max)");
@@ -77,14 +77,14 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<string>("Telefon")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Komitent_Id");
 
                     b.ToTable("Komitenti");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Komitent_Id = 1,
                             Adresa = "Bulevar Oslobodilaca Cacka 105b",
                             FizickoLice = false,
                             KontaktOsoba = "Ivan Čvorović",
@@ -100,7 +100,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            Komitent_Id = 2,
                             Adresa = "Bulevar Oslobodilaca Cacka 105b",
                             FizickoLice = false,
                             KontaktOsoba = "Dejan Čvorović",
@@ -116,7 +116,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            Komitent_Id = 3,
                             Adresa = "Bulevar Oslobodilaca Cacka 105b",
                             FizickoLice = false,
                             KontaktOsoba = "Ivan Čvorović",
@@ -132,7 +132,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = 4,
+                            Komitent_Id = 4,
                             Adresa = "Bulevar Oslobodilaca Cacka 105b",
                             FizickoLice = true,
                             Ime = "Ivan",
@@ -145,7 +145,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = 5,
+                            Komitent_Id = 5,
                             Adresa = "Milenka Nikšića 50",
                             FizickoLice = false,
                             KontaktOsoba = "Dragan Mladenović",
@@ -160,11 +160,11 @@ namespace MivexBlagajna.DataAccess.Migrations
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.MestoTroska", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MestoTroska_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MestoTroska_Id"), 1L, 1);
 
                     b.Property<string>("Naziv")
                         .IsRequired()
@@ -175,56 +175,56 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MestoTroska_Id");
 
                     b.ToTable("MestaTroska");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            MestoTroska_Id = 1,
                             Naziv = "Veleprodaja",
                             Sifra = "01"
                         },
                         new
                         {
-                            Id = 2,
+                            MestoTroska_Id = 2,
                             Naziv = "Maloprodaja",
                             Sifra = "02"
                         },
                         new
                         {
-                            Id = 3,
+                            MestoTroska_Id = 3,
                             Naziv = "Usluge",
                             Sifra = "03"
                         },
                         new
                         {
-                            Id = 4,
+                            MestoTroska_Id = 4,
                             Naziv = "Osnivači",
                             Sifra = "04"
                         },
                         new
                         {
-                            Id = 5,
+                            MestoTroska_Id = 5,
                             Naziv = "Cer",
                             Sifra = "05"
                         },
                         new
                         {
-                            Id = 6,
+                            MestoTroska_Id = 6,
                             Naziv = "Objekti",
                             Sifra = "06"
                         },
                         new
                         {
-                            Id = 7,
+                            MestoTroska_Id = 7,
                             Naziv = "Restoran",
                             Sifra = "07"
                         },
                         new
                         {
-                            Id = 8,
+                            MestoTroska_Id = 8,
                             Naziv = "Čačanka",
                             Sifra = "08"
                         });
@@ -232,40 +232,58 @@ namespace MivexBlagajna.DataAccess.Migrations
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.NosilacTroska", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("NosilacTroska_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NosilacTroska_id"), 1L, 1);
+
+                    b.Property<int>("MestoTroska_Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Naziv")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<int>("Nivo")
+                        .HasColumnType("int");
+
                     b.Property<string>("Sifra")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("mestoTroskaId")
-                        .HasColumnType("int");
+                    b.HasKey("NosilacTroska_id");
 
-                    b.HasKey("id");
-
-                    b.HasIndex("mestoTroskaId");
+                    b.HasIndex("MestoTroska_Id");
 
                     b.ToTable("NosiociTroska");
+
+                    b.HasData(
+                        new
+                        {
+                            NosilacTroska_id = 1,
+                            MestoTroska_Id = 1,
+                            Naziv = "Komercijala",
+                            Nivo = 1,
+                            Sifra = "01.01"
+                        });
                 });
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.NosilacTroska", b =>
                 {
-                    b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "mestoTroska")
-                        .WithMany()
-                        .HasForeignKey("mestoTroskaId")
+                    b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "MestoTroska")
+                        .WithMany("NosiociTroska")
+                        .HasForeignKey("MestoTroska_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("mestoTroska");
+                    b.Navigation("MestoTroska");
+                });
+
+            modelBuilder.Entity("MivexBlagajna.Data.Models.MestoTroska", b =>
+                {
+                    b.Navigation("NosiociTroska");
                 });
 #pragma warning restore 612, 618
         }

@@ -21,7 +21,7 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
             return await _context.MestaTroska
                 .Select(m => new LookupMestoTroska
                 {
-                    Id = m.Id,
+                    Id = m.MestoTroska_Id,
                     Sifra = m.Sifra,
                     Naziv = m.Naziv
 

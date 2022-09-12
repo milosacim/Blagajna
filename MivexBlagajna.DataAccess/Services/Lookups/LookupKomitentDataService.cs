@@ -17,7 +17,7 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
             return await _context.Komitenti
                 .Select(k => new LookupKomitent
                 {
-                    Id = k.Id,
+                    Id = k.Komitent_Id,
                     PunNaziv = k.PravnoLice == true ? $"{k.Sifra} - {k.Naziv}" : $"{k.Sifra} - {k.Ime} {k.Prezime}",
                     PravnoLice = k.PravnoLice,
                     FizickoLice = k.FizickoLice

@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace MivexBlagajna.Data.Models
 {
     public class Komitent
-    { 
-        public int Id { get; set; }
+    {
+        [Key]
+        public int Komitent_Id { get; set; }
         [Required]
         public int Sifra { get; set; }
         [StringLength(80)]

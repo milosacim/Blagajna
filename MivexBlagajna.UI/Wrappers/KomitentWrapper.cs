@@ -17,7 +17,7 @@ namespace MivexBlagajna.UI.Wrappers
 
         #region Properties
         // Propserties - value se setuje iz Komitent modela koji ova klasa wrapuje
-        public int Id { get { return Model.Id; } }
+        public int Id { get { return Model.Komitent_Id; } }
         public int Sifra
         {
             get { return GetValue<int>(); }
