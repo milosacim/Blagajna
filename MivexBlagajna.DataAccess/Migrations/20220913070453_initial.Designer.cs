@@ -11,7 +11,7 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20220912092641_initial")]
+    [Migration("20220913070453_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -168,79 +168,7 @@ namespace MivexBlagajna.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MestoTroska_Id"), 1L, 1);
 
-                    b.Property<string>("Naziv")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Sifra")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("MestoTroska_Id");
-
-                    b.ToTable("MestaTroska");
-
-                    b.HasData(
-                        new
-                        {
-                            MestoTroska_Id = 1,
-                            Naziv = "Veleprodaja",
-                            Sifra = "01"
-                        },
-                        new
-                        {
-                            MestoTroska_Id = 2,
-                            Naziv = "Maloprodaja",
-                            Sifra = "02"
-                        },
-                        new
-                        {
-                            MestoTroska_Id = 3,
-                            Naziv = "Usluge",
-                            Sifra = "03"
-                        },
-                        new
-                        {
-                            MestoTroska_Id = 4,
-                            Naziv = "Osnivači",
-                            Sifra = "04"
-                        },
-                        new
-                        {
-                            MestoTroska_Id = 5,
-                            Naziv = "Cer",
-                            Sifra = "05"
-                        },
-                        new
-                        {
-                            MestoTroska_Id = 6,
-                            Naziv = "Objekti",
-                            Sifra = "06"
-                        },
-                        new
-                        {
-                            MestoTroska_Id = 7,
-                            Naziv = "Restoran",
-                            Sifra = "07"
-                        },
-                        new
-                        {
-                            MestoTroska_Id = 8,
-                            Naziv = "Čačanka",
-                            Sifra = "08"
-                        });
-                });
-
-            modelBuilder.Entity("MivexBlagajna.Data.Models.NosilacTroska", b =>
-                {
-                    b.Property<int>("NosilacTroska_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NosilacTroska_id"), 1L, 1);
-
-                    b.Property<int>("MestoTroska_Id")
+                    b.Property<int>("NadredjenoMesto_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Naziv")
@@ -255,37 +183,91 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("NosilacTroska_id");
+                    b.HasKey("MestoTroska_Id");
 
-                    b.HasIndex("MestoTroska_Id");
-
-                    b.ToTable("NosiociTroska");
+                    b.ToTable("MestaTroska");
 
                     b.HasData(
                         new
                         {
-                            NosilacTroska_id = 1,
                             MestoTroska_Id = 1,
+                            NadredjenoMesto_Id = 0,
+                            Naziv = "Veleprodaja",
+                            Nivo = 1,
+                            Sifra = "01"
+                        },
+                        new
+                        {
+                            MestoTroska_Id = 2,
+                            NadredjenoMesto_Id = 0,
+                            Naziv = "Maloprodaja",
+                            Nivo = 1,
+                            Sifra = "02"
+                        },
+                        new
+                        {
+                            MestoTroska_Id = 3,
+                            NadredjenoMesto_Id = 0,
+                            Naziv = "Usluge",
+                            Nivo = 1,
+                            Sifra = "03"
+                        },
+                        new
+                        {
+                            MestoTroska_Id = 4,
+                            NadredjenoMesto_Id = 0,
+                            Naziv = "Osnivači",
+                            Nivo = 1,
+                            Sifra = "04"
+                        },
+                        new
+                        {
+                            MestoTroska_Id = 5,
+                            NadredjenoMesto_Id = 0,
+                            Naziv = "Cer",
+                            Nivo = 1,
+                            Sifra = "05"
+                        },
+                        new
+                        {
+                            MestoTroska_Id = 6,
+                            NadredjenoMesto_Id = 0,
+                            Naziv = "Objekti",
+                            Nivo = 1,
+                            Sifra = "06"
+                        },
+                        new
+                        {
+                            MestoTroska_Id = 7,
+                            NadredjenoMesto_Id = 0,
+                            Naziv = "Restoran",
+                            Nivo = 1,
+                            Sifra = "07"
+                        },
+                        new
+                        {
+                            MestoTroska_Id = 8,
+                            NadredjenoMesto_Id = 1,
                             Naziv = "Komercijala",
                             Nivo = 1,
                             Sifra = "01.01"
+                        },
+                        new
+                        {
+                            MestoTroska_Id = 9,
+                            NadredjenoMesto_Id = 8,
+                            Naziv = "Kancelarija",
+                            Nivo = 1,
+                            Sifra = "01.01.01"
+                        },
+                        new
+                        {
+                            MestoTroska_Id = 10,
+                            NadredjenoMesto_Id = 8,
+                            Naziv = "Teren",
+                            Nivo = 1,
+                            Sifra = "01.01.02"
                         });
-                });
-
-            modelBuilder.Entity("MivexBlagajna.Data.Models.NosilacTroska", b =>
-                {
-                    b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "MestoTroska")
-                        .WithMany("NosiociTroska")
-                        .HasForeignKey("MestoTroska_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MestoTroska");
-                });
-
-            modelBuilder.Entity("MivexBlagajna.Data.Models.MestoTroska", b =>
-                {
-                    b.Navigation("NosiociTroska");
                 });
 #pragma warning restore 612, 618
         }

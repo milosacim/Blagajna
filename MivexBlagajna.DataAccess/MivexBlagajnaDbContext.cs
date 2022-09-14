@@ -9,18 +9,11 @@ namespace MivexBlagajna.DataAccess
         {
 
         }
-
         public DbSet<Komitent> Komitenti { get; set; }
         public DbSet<MestoTroska> MestaTroska { get; set; }
-        public DbSet<NosilacTroska> NosiociTroska { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<NosilacTroska>()
-                .HasOne(n => n.MestoTroska)
-                .WithMany(m => m.NosiociTroska)
-                .HasForeignKey(m => m.MestoTroska_Id);
-
             modelBuilder.Seed();
 
             base.OnModelCreating(modelBuilder);
@@ -40,18 +33,18 @@ namespace MivexBlagajna.DataAccess
                 );
 
             modelBuilder.Entity<MestoTroska>().HasData(
-                new MestoTroska { MestoTroska_Id = 1, Sifra = "01", Naziv = "Veleprodaja" },
-                new MestoTroska { MestoTroska_Id = 2, Sifra = "02", Naziv = "Maloprodaja" },
-                new MestoTroska { MestoTroska_Id = 3, Sifra = "03", Naziv = "Usluge" },
-                new MestoTroska { MestoTroska_Id = 4, Sifra = "04", Naziv = "Osnivači" },
-                new MestoTroska { MestoTroska_Id = 5, Sifra = "05", Naziv = "Cer" },
-                new MestoTroska { MestoTroska_Id = 6, Sifra = "06", Naziv = "Objekti" },
-                new MestoTroska { MestoTroska_Id = 7, Sifra = "07", Naziv = "Restoran" },
-                new MestoTroska { MestoTroska_Id = 8, Sifra = "08", Naziv = "Čačanka" }
-                );
+                new MestoTroska { MestoTroska_Id = 1, Sifra = "01", Naziv = "Veleprodaja", Nivo = 1, NadredjenoMesto_Id = 0 },
+                new MestoTroska { MestoTroska_Id = 2, Sifra = "02", Naziv = "Maloprodaja", Nivo = 1, NadredjenoMesto_Id = 0 },
+                new MestoTroska { MestoTroska_Id = 3, Sifra = "03", Naziv = "Usluge", Nivo = 1, NadredjenoMesto_Id = 0 },
+                new MestoTroska { MestoTroska_Id = 4, Sifra = "04", Naziv = "Osnivači", Nivo = 1, NadredjenoMesto_Id = 0 },
+                new MestoTroska { MestoTroska_Id = 5, Sifra = "05", Naziv = "Cer", Nivo = 1, NadredjenoMesto_Id = 0 },
+                new MestoTroska { MestoTroska_Id = 6, Sifra = "06", Naziv = "Objekti", Nivo = 1, NadredjenoMesto_Id = 0 },
+                new MestoTroska { MestoTroska_Id = 7, Sifra = "07", Naziv = "Restoran", Nivo = 1, NadredjenoMesto_Id = 0 },
+                new MestoTroska { MestoTroska_Id = 8, Sifra = "01.01", Naziv = "Komercijala", Nivo = 1, NadredjenoMesto_Id = 1 },
+                new MestoTroska { MestoTroska_Id = 9, Sifra = "01.01.01", Naziv = "Kancelarija", Nivo = 1, NadredjenoMesto_Id = 8 },
+                new MestoTroska { MestoTroska_Id = 10, Sifra = "01.01.02", Naziv = "Teren", Nivo = 1, NadredjenoMesto_Id = 8 }
 
-            modelBuilder.Entity<NosilacTroska>().HasData(
-                new NosilacTroska { NosilacTroska_id = 1, Sifra = "01.01", Naziv = "Komercijala", Nivo = 1, MestoTroska_Id = 1 });
+                );
         }
     }
 }

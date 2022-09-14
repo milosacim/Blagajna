@@ -9,20 +9,20 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         
-        <syncfusion:SfDataGrid
+        <syncfusion:SfTreeGrid
                         ItemsSource="{Binding MestaTroska}"
                         SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay}"
                         AllowResizingColumns="True"
                         AutoGenerateColumns="False" >
 
-            <syncfusion:SfDataGrid.Columns>
+            <syncfusion:SfTreeGrid.Columns>
 
-                <syncfusion:GridTextColumn HeaderText="Šifra" MappingName="Sifra" Width="100"/>
-                <syncfusion:GridTextColumn HeaderText="Mesto Troška" MappingName="Naziv" Width="250"/>
+                <syncfusion:TreeGridTextColumn HeaderText="Šifra" MappingName="Sifra" Width="100"/>
+                <syncfusion:TreeGridTextColumn HeaderText="Mesto Troška" MappingName="Naziv" Width="250"/>
 
-            </syncfusion:SfDataGrid.Columns>
+            </syncfusion:SfTreeGrid.Columns>
 
-        </syncfusion:SfDataGrid>
+        </syncfusion:SfTreeGrid>
         
     </Grid>
     

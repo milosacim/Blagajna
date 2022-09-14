@@ -11,7 +11,9 @@ namespace MivexBlagajna.Data.Models
         [Required]
         [StringLength(128)]
         public string Naziv { get; set; }
-        public ICollection<NosilacTroska> NosiociTroska { get; set; }
-
+        [Required]
+        public int Nivo { get; set; }
+        [Required]
+        public int NadredjenoMesto_Id { get; set; }
     }
 }

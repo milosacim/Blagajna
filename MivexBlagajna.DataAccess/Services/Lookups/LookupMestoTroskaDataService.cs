@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MivexBlagajna.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MivexBlagajna.DataAccess.Services.Lookups
 {
@@ -23,7 +18,9 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
                 {
                     Id = m.MestoTroska_Id,
                     Sifra = m.Sifra,
-                    Naziv = m.Naziv
+                    Naziv = m.Naziv,
+                    Nivo = m.Nivo,
+                    NadredjenoMesto_Id = m.NadredjenoMesto_Id,
 
                 }).ToListAsync();
         }

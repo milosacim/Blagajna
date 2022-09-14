@@ -16,7 +16,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
         private readonly ILookupMestoTroskaDataService _lookupMestoTroskaDataService;
         private readonly IEventAggregator _eventAggregator;
         private MestaTroskaNavigationItemViewModel _selectedMestoTroska;
-
         public MestaTroskaNavigationViewModel(ILookupMestoTroskaDataService lookupMestoTroskaDataService, IEventAggregator eventAggregator)
         {
             _lookupMestoTroskaDataService = lookupMestoTroskaDataService;
@@ -26,7 +25,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             _eventAggregator.GetEvent<AfterMestoTroskaSavedEvent>().Subscribe(OnMestoTroskaSaved);
             _eventAggregator.GetEvent<OnMestoTroskaDeletedEvent>().Subscribe(OnMestoTroskaDeleted);
         }
-
         private void OnMestoTroskaSaved(AfterMestoTroskaSavedArgs obj)
         {
             var lookupitem = MestaTroska.SingleOrDefault(l => l.Id == obj.Id);
@@ -79,7 +77,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             }
             SelectedMestoTroska = MestaTroska.First();
         }
-
         public override void Dispose()
         {
             SelectedMestoTroska.Dispose();

@@ -64,7 +64,6 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
             set { }
         }
         public IMestaTroskaNavigationViewModel MestaTroskaNavigationViewModel { get; }
-
         public IMestaTroskaDetailsViewModel MestaTroskaDetailsViewModel
         {
             get { return _mestaTroskaDetailsViewModel; }

@@ -31,7 +31,5 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             get { return _naziv; }
             set { _naziv = value; OnModelPropertyChanged(); }
         }
-
-
     }
 }

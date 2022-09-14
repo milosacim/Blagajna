@@ -42,33 +42,13 @@ namespace MivexBlagajna.DataAccess.Migrations
                     MestoTroska_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Sifra = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Naziv = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                    Naziv = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Nivo = table.Column<int>(type: "int", nullable: false),
+                    NadredjenoMesto_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MestaTroska", x => x.MestoTroska_Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "NosiociTroska",
-                columns: table => new
-                {
-                    NosilacTroska_id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Sifra = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Naziv = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Nivo = table.Column<int>(type: "int", nullable: false),
-                    MestoTroska_Id = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NosiociTroska", x => x.NosilacTroska_id);
-                    table.ForeignKey(
-                        name: "FK_NosiociTroska_MestaTroska_MestoTroska_Id",
-                        column: x => x.MestoTroska_Id,
-                        principalTable: "MestaTroska",
-                        principalColumn: "MestoTroska_Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -85,37 +65,26 @@ namespace MivexBlagajna.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "MestaTroska",
-                columns: new[] { "MestoTroska_Id", "Naziv", "Sifra" },
+                columns: new[] { "MestoTroska_Id", "NadredjenoMesto_Id", "Naziv", "Nivo", "Sifra" },
                 values: new object[,]
                 {
-                    { 1, "Veleprodaja", "01" },
-                    { 2, "Maloprodaja", "02" },
-                    { 3, "Usluge", "03" },
-                    { 4, "Osnivači", "04" },
-                    { 5, "Cer", "05" },
-                    { 6, "Objekti", "06" },
-                    { 7, "Restoran", "07" },
-                    { 8, "Čačanka", "08" }
+                    { 1, 0, "Veleprodaja", 1, "01" },
+                    { 2, 0, "Maloprodaja", 1, "02" },
+                    { 3, 0, "Usluge", 1, "03" },
+                    { 4, 0, "Osnivači", 1, "04" },
+                    { 5, 0, "Cer", 1, "05" },
+                    { 6, 0, "Objekti", 1, "06" },
+                    { 7, 0, "Restoran", 1, "07" },
+                    { 8, 1, "Komercijala", 1, "01.01" },
+                    { 9, 8, "Kancelarija", 1, "01.01.01" },
+                    { 10, 8, "Teren", 1, "01.01.02" }
                 });
-
-            migrationBuilder.InsertData(
-                table: "NosiociTroska",
-                columns: new[] { "NosilacTroska_id", "MestoTroska_Id", "Naziv", "Nivo", "Sifra" },
-                values: new object[] { 1, 1, "Komercijala", 1, "01.01" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_NosiociTroska_MestoTroska_Id",
-                table: "NosiociTroska",
-                column: "MestoTroska_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Komitenti");
-
-            migrationBuilder.DropTable(
-                name: "NosiociTroska");
 
             migrationBuilder.DropTable(
                 name: "MestaTroska");

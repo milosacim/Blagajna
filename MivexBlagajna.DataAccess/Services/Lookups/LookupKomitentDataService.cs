@@ -5,7 +5,7 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
 {
     public class LookupKomitentDataService : ILookupKomitentDataService
     {
-        private MivexBlagajnaDbContext _context;
+        private readonly MivexBlagajnaDbContext _context;
 
         public LookupKomitentDataService(MivexBlagajnaDbContext context)
         {
