@@ -31,7 +31,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
 
             if (lookupitem == null)
             {
-                MestaTroska.Add(new MestaTroskaNavigationItemViewModel(obj.Id, obj.Sifra, obj.Naziv));
+                MestaTroska.Add(new MestaTroskaNavigationItemViewModel(obj.Id, obj.Sifra, obj.Naziv, obj.Nivo, obj.NadredjenoMesto_Id));
                 SelectedMestoTroska = MestaTroska.First();
             }
 
@@ -58,7 +58,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
 
                 if (_selectedMestoTroska != null)
                 {
-                    _eventAggregator.GetEvent<OnOpenMestoTroskaDetailsEvent>().Publish(_selectedMestoTroska.Id);
+                    _eventAggregator.GetEvent<OnOpenMestoTroskaDetailsEvent>().Publish(new OnOpenMestoTroskaDetailsArgs { Id = _selectedMestoTroska.Id, NadredjenoMesto_Id = _selectedMestoTroska.Nadredjeni_Id });
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             {
                 if (item != null)
                 {
-                    MestaTroska.Add(new MestaTroskaNavigationItemViewModel(item.Id, item.Sifra, item.Naziv));
+                    MestaTroska.Add(new MestaTroskaNavigationItemViewModel(item.Id, item.Sifra, item.Naziv, item.Nivo, item.NadredjenoMesto_Id));
                 }
             }
             SelectedMestoTroska = MestaTroska.First();

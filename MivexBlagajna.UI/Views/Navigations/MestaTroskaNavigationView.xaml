@@ -7,23 +7,30 @@
              xmlns:local="clr-namespace:MivexBlagajna.UI.Views.Navigations"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
     <Grid>
-        
         <syncfusion:SfTreeGrid
-                        ItemsSource="{Binding MestaTroska}"
-                        SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay}"
-                        AllowResizingColumns="True"
-                        AutoGenerateColumns="False" >
+            ChildPropertyName="Nadredjeni_Id"
+            ItemsSource="{Binding MestaTroska}"
+            SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ParentPropertyName="Id"
+            SelfRelationRootValue="0"
+            AutoExpandMode="AllNodesExpanded"
+            AutoGenerateColumns="False"
+            NavigationMode="Row"
+            ExpanderColumn="Sifra"
+            ShowRowHeader="True"
+            >
 
             <syncfusion:SfTreeGrid.Columns>
 
-                <syncfusion:TreeGridTextColumn HeaderText="Šifra" MappingName="Sifra" Width="100"/>
-                <syncfusion:TreeGridTextColumn HeaderText="Mesto Troška" MappingName="Naziv" Width="250"/>
+                <syncfusion:TreeGridTextColumn HeaderText="Šifra" MappingName="Sifra" />
+                <syncfusion:TreeGridTextColumn HeaderText="Mesto Troška" MappingName="Naziv" />
 
             </syncfusion:SfTreeGrid.Columns>
 
         </syncfusion:SfTreeGrid>
-        
     </Grid>
+    
     
 </UserControl>

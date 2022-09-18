@@ -44,6 +44,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -100,7 +101,28 @@
             <StackPanel Margin="5,0,0,0">
 
                 <Label Content="Mesto Troška" />
-                <TextBox IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}" Text="{Binding MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}" Text="{Binding MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="3"
+            Margin="10,20,0,0"
+            Orientation="Horizontal">
+
+            <StackPanel>
+
+                <Label Content="Nivo" />
+                <TextBox IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}" Text="{Binding MestoTroska.Nivo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            </StackPanel>
+
+            <StackPanel Margin="5,0,0,0">
+
+                <Label Content="Nadređeno mesto troška" />
+                <TextBox IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
 
             </StackPanel>
 

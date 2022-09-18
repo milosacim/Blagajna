@@ -84,6 +84,7 @@ namespace MivexBlagajna.UI.ViewModels
         }
         public KomitentiViewModel KomitentiViewModel { get; }
         public MestaTroskaViewModel MestaTroskaViewModel { get; }
+
         #endregion
 
         #region Commands

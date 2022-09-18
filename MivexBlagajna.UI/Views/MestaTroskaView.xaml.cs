@@ -26,19 +26,19 @@ namespace MivexBlagajna.UI.Views
         {
             InitializeComponent();
 
-            (this.dockingManager.DocContainer as DocumentContainer).Loaded += MestaTroskaView_Loaded;
+            //(this.dockingManager.DocContainer as DocumentContainer).Loaded += MestaTroskaView_Loaded;
         }
 
-        private void MestaTroskaView_Loaded(object sender, RoutedEventArgs e)
-        {
-            TabControlExt tabControlExt = VisualUtils.FindDescendant(sender as Visual, typeof(TabControlExt)) as TabControlExt;
-            if (tabControlExt != null)
-            {
-                foreach (TabItemExt tabItemExt in tabControlExt.Items)
-                {
-                    tabItemExt.Width = 200;
-                }
-            }
-        }
+        //private void MestaTroskaView_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    TabControlExt tabControlExt = VisualUtils.FindDescendant(sender as Visual, typeof(TabControlExt)) as TabControlExt;
+        //    if (tabControlExt != null)
+        //    {
+        //        foreach (TabItemExt tabItemExt in tabControlExt.Items)
+        //        {
+        //            tabItemExt.Width = 200;
+        //        }
+        //    }
+        //}
     }
 }

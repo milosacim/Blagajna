@@ -13,35 +13,25 @@
     mc:Ignorable="d">
     <Grid>
 
-        <syncfusion:DockingManager
-            x:Name="dockingManager"
-            Margin="0,20"
-            ContainerMode="TDI"
-            UseDocumentContainer="True">
 
-            <ContentControl
-                x:Name="Mesta"
-                syncfusion:DockingManager.Header="Mesta Troska"
-                syncfusion:DockingManager.State="Document">
+        <Grid>
 
-                <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
 
-                    <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition />
 
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition />
+            </Grid.RowDefinitions>
 
-                    </Grid.RowDefinitions>
-
-                    <TextBlock
+            <TextBlock
                         Grid.Row="0"
                         Grid.Column="0"
                         Margin="0,20,0,0"
@@ -50,22 +40,17 @@
                         FontWeight="SemiBold"
                         Text="Mesta Troška" />
 
-                    <details:MestaTroskaDetailView
+            <details:MestaTroskaDetailView
                         Grid.Row="2"
                         Grid.Column="0"
                         DataContext="{Binding MestaTroskaDetailsViewModel}" />
 
-                    <navigations:MestaTroskaNavigationView
+            <navigations:MestaTroskaNavigationView
                         Grid.Row="3"
                         Grid.Column="0"
                         Margin="10,20"
                         DataContext="{Binding MestaTroskaNavigationViewModel}" />
 
-                </Grid>
-
-            </ContentControl>
-
-        </syncfusion:DockingManager>
-
+        </Grid>
     </Grid>
 </UserControl>

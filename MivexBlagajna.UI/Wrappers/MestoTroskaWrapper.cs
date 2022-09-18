@@ -13,7 +13,7 @@ namespace MivexBlagajna.UI.Wrappers
         {
             Sifra = mestoTroska.Sifra;
             Naziv = mestoTroska.Naziv;
-
+            Nivo = mestoTroska.Nivo;
         }
 
         public int Id { get { return Model.MestoTroska_Id; } }
@@ -25,6 +25,12 @@ namespace MivexBlagajna.UI.Wrappers
         public string Naziv
         {
             get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public int Nivo
+        {
+            get { return GetValue<int>(); }
             set { SetValue(value); }
         }
     }
