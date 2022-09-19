@@ -137,8 +137,7 @@
                 x:Name="fizickoLice"
                 IsChecked="{Binding Komitent.FizickoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"
-                Command="{Binding EditKomitentPropertyCommand}"
-                />
+                Command="{Binding EditKomitentPropertyCommand}" />
 
         </StackPanel>
 

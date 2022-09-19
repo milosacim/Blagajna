@@ -58,7 +58,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
 
                 if (_selectedMestoTroska != null)
                 {
-                    _eventAggregator.GetEvent<OnOpenMestoTroskaDetailsEvent>().Publish(new OnOpenMestoTroskaDetailsArgs { Id = _selectedMestoTroska.Id, NadredjenoMesto_Id = _selectedMestoTroska.Nadredjeni_Id });
+                    _eventAggregator.GetEvent<OnOpenMestoTroskaDetailsEvent>().Publish(_selectedMestoTroska.Id);
                 }
             }
         }

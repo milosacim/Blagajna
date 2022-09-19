@@ -46,16 +46,8 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
 
             MestaTroskaNavigationViewModel = mestaTroskaNavigationViewModel;
 
-            _eventAggregator.GetEvent<OnOpenMestoTroskaDetailsEvent>().Subscribe(OnOpenMestoTroskaDetails);
+            _eventAggregator.GetEvent<OnOpenMestoTroskaDetailsEvent>().Subscribe(OpenMestoTroskaDetails);
         }
-
-        private async void OnOpenMestoTroskaDetails(OnOpenMestoTroskaDetailsArgs obj)
-        {
-            MestaTroskaDetailsViewModel = _mestaTroskaDetailsViewModelsCreator();
-            await MestaTroskaDetailsViewModel.LoadAsync(obj.Id);
-            
-        }
-
 
         #endregion
 
@@ -93,11 +85,11 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
             }
         }
 
-        //private async void OnOpenMestoTroskaDetails(int? mestoTroskaId)
-        //{
-        //    MestaTroskaDetailsViewModel = _mestaTroskaDetailsViewModelsCreator();
-        //    await MestaTroskaDetailsViewModel.LoadAsync(mestoTroskaId);
-        //}
+        private async void OpenMestoTroskaDetails(int obj)
+        {
+            MestaTroskaDetailsViewModel = _mestaTroskaDetailsViewModelsCreator();
+            await MestaTroskaDetailsViewModel.LoadAsync(obj);
+        }
 
         public override void Dispose()
         {

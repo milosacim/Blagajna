@@ -1,0 +1,265 @@
+﻿<UserControl x:Class="MivexBlagajna.UI.Views.UplateIsplateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:local="clr-namespace:MivexBlagajna.UI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid
+        Background="#EFF0F4">
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+
+        </Grid.RowDefinitions>
+
+        <Grid>
+
+            <Border Height="auto" Width="auto" Background="White" Margin="0 10">
+
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5" Direction="-90" Opacity="0.1" />
+                </Border.Effect>
+
+                <Grid Margin="40 10">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition />
+
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Margin="10 0 10 0">
+
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
+
+                        </Grid.RowDefinitions>
+
+                        <StackPanel>
+                            <Label Content="Datum" />
+                            <syncfusion:DateTimeEdit DropDownView="Calendar"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Margin="0 10">
+                            <Label Content="Vrsta naloga" />
+                            <syncfusion:ComboBoxAdv Height="25"/>
+                        </StackPanel>
+
+                    </Grid>
+
+                    <Grid Grid.Column="1" Margin="10 0 10 0">
+
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
+
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+
+                                <Label Content="Šifra" />
+                                <TextBox Height="25" Width="80"/>
+
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1">
+
+                                <Label Content="Naziv komitenta" Margin="20 0"/>
+                                <TextBox Height="25" Margin="20 0 0 0" Width="350"/>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                        <Grid Grid.Row="1" Margin="0 10">
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+
+                                <Label Content="Nalog" />
+                                <TextBox Height="25" Width="80"/>
+
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1">
+
+                                <Label Content="Opis" Margin="20 0"/>
+                                <TextBox Height="25" Margin="20 0 0 0" Width="350"/>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid Grid.Column="2" Margin="10 0 10 0">
+
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
+
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+
+                                <Label Content="Šifra MT" />
+                                <TextBox Height="25" Width="80"/>
+
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1">
+
+                                <Label Content="Naziv mesta troška" Margin="20 0"/>
+                                <TextBox Height="25" Margin="20 0" Width="250"/>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 35">
+
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton />
+                                <Label Content="Opravdan" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="20 0">
+                                <RadioButton />
+                                <Label Content="Neopravdan" />
+                            </StackPanel>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                    <Grid Grid.Column="3">
+
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
+
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel >
+                                <Label Content="Uplata" />
+                                <TextBox  Height="35" Width="150" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="20 0 0 0">
+                                <Label Content="Isplata" />
+                                <TextBox  Height="35" Width="150" />
+                            </StackPanel>
+
+                        </Grid>
+
+                        <Grid Grid.Row="1" Margin="50 0">
+
+                            <Grid.RowDefinitions>
+
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition />
+
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" Margin=" 0 25">
+
+                                <syncfusion:ButtonAdv Label="Izmeni" Width="100"/>
+                                <syncfusion:ButtonAdv Label="Otkaži" Width="100" Margin="20 0"/>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid Grid.Column="4" Background="Red">
+
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" >
+
+                            <syncfusion:ButtonAdv Label="Nov Nalog"/>
+                            <syncfusion:ButtonAdv Label="Obriši unos" Margin="20 0"/>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                </Grid>
+
+            </Border>
+
+        </Grid>
+
+        <Grid Grid.Row="1" >
+
+            <Border Background="LightSteelBlue" Margin="0 10">
+                
+            </Border>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

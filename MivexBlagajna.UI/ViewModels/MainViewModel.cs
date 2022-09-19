@@ -2,6 +2,7 @@
 using MivexBlagajna.UI.Controls;
 using MivexBlagajna.UI.ViewModels.Komitenti;
 using MivexBlagajna.UI.ViewModels.MestaTroska;
+using MivexBlagajna.UI.ViewModels.Uplate_Isplate;
 using Syncfusion.Windows.Tools.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -23,14 +24,16 @@ namespace MivexBlagajna.UI.ViewModels
         #region Konstruktor
 
         public MainViewModel(
-            DockingAdapter adapter,
             KomitentiViewModel komitentiViewModel,
-            MestaTroskaViewModel mestaTroskaViewModel)
+            MestaTroskaViewModel mestaTroskaViewModel,
+            UplateIsplateViewModel uplateIsplateViewModel )
         {
             // Initializations
             Workspaces = new ObservableCollection<ViewModelBase>();
             KomitentiViewModel = komitentiViewModel;
             MestaTroskaViewModel = mestaTroskaViewModel;
+            UplateIsplateViewModel = uplateIsplateViewModel;
+
             SelectViewModelCommand = new DelegateCommand(SelectViewModel);
         }
 
@@ -84,6 +87,7 @@ namespace MivexBlagajna.UI.ViewModels
         }
         public KomitentiViewModel KomitentiViewModel { get; }
         public MestaTroskaViewModel MestaTroskaViewModel { get; }
+        public UplateIsplateViewModel UplateIsplateViewModel { get; }
 
         #endregion
 

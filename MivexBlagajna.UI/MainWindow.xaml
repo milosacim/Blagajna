@@ -6,6 +6,7 @@
     xmlns:views ="clr-namespace:MivexBlagajna.UI.Views"
     xmlns:komitenti="clr-namespace:MivexBlagajna.UI.ViewModels.Komitenti"
     xmlns:mesta="clr-namespace:MivexBlagajna.UI.ViewModels.MestaTroska"
+    xmlns:uplateIsplate="clr-namespace:MivexBlagajna.UI.ViewModels.Uplate_Isplate"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:syncfusionSkin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
     Title="Blagajna - Mivex D.O.O Cacak"
@@ -22,6 +23,10 @@
 
         <DataTemplate DataType="{x:Type mesta:MestaTroskaViewModel}">
             <views:MestaTroskaView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type uplateIsplate:UplateIsplateViewModel}">
+            <views:UplateIsplateView />
         </DataTemplate>
 
     </Window.Resources>

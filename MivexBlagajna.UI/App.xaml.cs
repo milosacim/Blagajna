@@ -13,6 +13,7 @@ using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
 using MivexBlagajna.UI.ViewModels.Mesta_Troska.Details;
 using MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation;
 using MivexBlagajna.UI.ViewModels.MestaTroska;
+using MivexBlagajna.UI.ViewModels.Uplate_Isplate;
 using MivexBlagajna.UI.Views.Services;
 using Prism.Events;
 using System;
@@ -53,12 +54,13 @@ namespace MivexBlagajna.UI
             services.AddTransient<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
             services.AddTransient<Func<IKomitentiDetailViewModel>>(s => () => s.GetService<IKomitentiDetailViewModel>());
             services.AddTransient<Func<IMestaTroskaDetailsViewModel>>(s => () => s.GetService<IMestaTroskaDetailsViewModel>());
-            services.AddTransient<KomitentiViewModel>();
 
             services.AddTransient<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
             services.AddTransient<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
-            services.AddTransient<MestaTroskaViewModel>();
 
+            services.AddTransient<MestaTroskaViewModel>();
+            services.AddTransient<KomitentiViewModel>();
+            services.AddTransient<UplateIsplateViewModel>();
             services.AddTransient<MainViewModel>();
 
             services.AddSingleton<IMessageDialogService, MessageDialogService>();
