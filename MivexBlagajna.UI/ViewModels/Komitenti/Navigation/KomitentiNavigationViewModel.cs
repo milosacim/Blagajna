@@ -108,7 +108,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             }
 
             else { lookupitem.PunNaziv = obj.PunNaziv; }
-            
         }
         private bool FilterNaziv(KomitentiNavigationItemViewModel item)
         {

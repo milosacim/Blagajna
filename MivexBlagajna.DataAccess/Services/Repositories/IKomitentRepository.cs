@@ -4,6 +4,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
 {
     public interface IKomitentRepository
     {
+        Task<IEnumerable<Komitent>> GetAll();
         Task<Komitent> GetByIdAsync(int id);
         Task<int> GetLastKomitentIdAsync();
         Task SaveAsync();

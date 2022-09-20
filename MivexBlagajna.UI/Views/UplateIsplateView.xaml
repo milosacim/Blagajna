@@ -4,11 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:inputLayout="clr-namespace:Syncfusion.UI.Xaml.TextInputLayout;assembly=Syncfusion.SfTextInputLayout.WPF"
              xmlns:local="clr-namespace:MivexBlagajna.UI.Views"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid
-        Background="#EFF0F4">
+   
+    
+    <UserControl.Resources>
+
+        <ObjectDataProvider x:Key="vrsteNaloga" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:VrsteNalogaEnum"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+    </UserControl.Resources>
+    
+    <Grid>
 
         <Grid.RowDefinitions>
 
@@ -19,7 +32,7 @@
 
         <Grid>
 
-            <Border Height="auto" Width="auto" Background="White" Margin="0 10">
+            <Border Height="auto" Width="auto" Margin="0 10" Background="#F7F8F8">
 
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="5" Direction="-90" Opacity="0.1" />
@@ -29,6 +42,7 @@
 
                     <Grid.ColumnDefinitions>
 
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
@@ -55,7 +69,8 @@
 
                         <StackPanel Grid.Row="1" Margin="0 10">
                             <Label Content="Vrsta naloga" />
-                            <syncfusion:ComboBoxAdv Height="25"/>
+                            <syncfusion:SfTextBoxExt BorderThickness="0.5" Height="25" ShowDropDownButton="True" VerticalAlignment="Center" AutoCompleteMode="Suggest"
+                      AutoCompleteSource="{Binding Source={StaticResource vrsteNaloga}}" />
                         </StackPanel>
 
                     </Grid>
@@ -83,14 +98,27 @@
                             <StackPanel>
 
                                 <Label Content="Šifra" />
-                                <TextBox Height="25" Width="80"/>
+                                <syncfusion:SfTextBoxExt 
+                                    BorderThickness="0.5" 
+                                    VerticalAlignment="Center" 
+                                    Height="25" 
+                                    Width="80"
+                                    Text="{Binding SearchKomitentText, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    />
 
                             </StackPanel>
 
                             <StackPanel Grid.Column="1">
 
-                                <Label Content="Naziv komitenta" Margin="20 0"/>
-                                <TextBox Height="25" Margin="20 0 0 0" Width="350"/>
+                                <Label Content="Komitent" Margin="20 0"/>
+                                <syncfusion:SfTextBoxExt 
+                                    BorderThickness="0.5" 
+                                    VerticalAlignment="Center" 
+                                    Height="25" 
+                                    Margin="20 0 0 0" 
+                                    Width="350"
+                                    Text="{Binding FilteredKomitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    />
 
                             </StackPanel>
 
@@ -108,14 +136,15 @@
                             <StackPanel>
 
                                 <Label Content="Nalog" />
-                                <TextBox Height="25" Width="80"/>
+                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Width="80"/>
 
                             </StackPanel>
 
                             <StackPanel Grid.Column="1">
 
                                 <Label Content="Opis" Margin="20 0"/>
-                                <TextBox Height="25" Margin="20 0 0 0" Width="350"/>
+
+                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Margin="20 0 0 0" Width="350"/>
 
                             </StackPanel>
 
@@ -146,14 +175,14 @@
                             <StackPanel>
 
                                 <Label Content="Šifra MT" />
-                                <TextBox Height="25" Width="80"/>
+                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Width="80"/>
 
                             </StackPanel>
 
                             <StackPanel Grid.Column="1">
 
-                                <Label Content="Naziv mesta troška" Margin="20 0"/>
-                                <TextBox Height="25" Margin="20 0" Width="250"/>
+                                <Label Content="Mesto troška" Margin="20 0"/>
+                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Margin="20 0" Width="250"/>
 
                             </StackPanel>
 
@@ -198,12 +227,12 @@
 
                             <StackPanel >
                                 <Label Content="Uplata" />
-                                <TextBox  Height="35" Width="150" />
+                                <syncfusion:SfTextBoxExt BorderThickness="0.5" Watermark="0.00" VerticalAlignment="Center" Height="35" Width="150" />
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="20 0 0 0">
                                 <Label Content="Isplata" />
-                                <TextBox  Height="35" Width="150" />
+                                <syncfusion:SfTextBoxExt BorderThickness="0.5" Watermark="0.00" VerticalAlignment="Center" Height="35" Width="150" />
                             </StackPanel>
 
                         </Grid>
@@ -219,8 +248,8 @@
 
                             <StackPanel Orientation="Horizontal" Margin=" 0 25">
 
-                                <syncfusion:ButtonAdv Label="Izmeni" Width="100"/>
-                                <syncfusion:ButtonAdv Label="Otkaži" Width="100" Margin="20 0"/>
+                                <syncfusion:ButtonAdv Label="Izmeni" Width="100" SizeMode="Normal" SmallIcon="/Images/icons8-edit-property-48.png"/>
+                                <syncfusion:ButtonAdv Label="Otkaži" Width="100" SizeMode="Normal" SmallIcon="/Images/icons8-unavailable-50.png" Margin="20 0"/>
 
                             </StackPanel>
 
@@ -228,7 +257,7 @@
 
                     </Grid>
 
-                    <Grid Grid.Column="4" Background="Red">
+                    <Grid Grid.Column="4">
 
                         <Grid.RowDefinitions>
 
@@ -238,13 +267,29 @@
 
                         </Grid.RowDefinitions>
 
-                        <StackPanel Orientation="Horizontal" >
+                        <StackPanel Orientation="Horizontal" Margin="10 10">
 
-                            <syncfusion:ButtonAdv Label="Nov Nalog"/>
-                            <syncfusion:ButtonAdv Label="Obriši unos" Margin="20 0"/>
+                            <syncfusion:ButtonAdv SizeMode="Large" Label="Nov Nalog" LargeIcon="/Images/icons8-add-48.png"/>
+                            <syncfusion:ButtonAdv SizeMode="Large" Label="Obriši unos" Margin="20 0" LargeIcon="/Images/icons8-remove-48.png"/>
 
                         </StackPanel>
 
+                        <syncfusion:ButtonAdv HorizontalAlignment="Stretch" Width="100" Grid.Row="1" Margin="0 0 20 0" SizeMode="Large" Label="Sačuvaj" LargeIcon="/Images/icons8-save-48.png"/>
+
+                    </Grid>
+
+                    <Grid Grid.Column="5" >
+
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+
+                        </Grid.RowDefinitions>
+
+                        <syncfusion:ButtonAdv SizeMode="large" Grid.Row="0" Label="Finansijska kartica" Margin="5 5" Width="250" LargeIcon="/Images/icons8-report-file-48.png"/>
+                        <syncfusion:ButtonAdv SizeMode="Large" Grid.Row="1" Label="Komitenti" Margin="5 10" Width="250" LargeIcon="/Images/icons8-customer-48.png"/>
                     </Grid>
 
                 </Grid>
@@ -255,8 +300,29 @@
 
         <Grid Grid.Row="1" >
 
-            <Border Background="LightSteelBlue" Margin="0 10">
-                
+            <Border Margin="0 10"  Background="#F7F8F8">
+
+                <syncfusion:SfDataGrid AllowResizingColumns="True" AutoGenerateColumns="False" ColumnSizer="Star" AddNewRowPosition="Top" AddNewRowText="Click here to add new row in datagrid">
+
+                    <syncfusion:SfDataGrid.Columns>
+
+                        <syncfusion:GridTextColumn HeaderText="Nalog" Width="50"/>
+                        <syncfusion:GridTextColumn HeaderText="Vrsta" Width="100"/>
+                        <syncfusion:GridTextColumn HeaderText="Datum" Width="100"/>
+                        <syncfusion:GridTextColumn HeaderText="Konto" Width="100"/>
+                        <syncfusion:GridTextColumn HeaderText="Sifra" Width="100"/>
+                        <syncfusion:GridTextColumn HeaderText="Komitent" Width="300"/>
+                        <syncfusion:GridTextColumn HeaderText="Sifra MT" Width="100"/>
+                        <syncfusion:GridTextColumn HeaderText="Mesto Troska" Width="300" />
+                        <syncfusion:GridTextColumn HeaderText="Opis" Width="300"/>
+                        <syncfusion:GridTextColumn HeaderText="Trosak" />
+                        <syncfusion:GridTextColumn HeaderText="Uplata" />
+                        <syncfusion:GridTextColumn HeaderText="Isplata" />
+
+                    </syncfusion:SfDataGrid.Columns>
+
+                </syncfusion:SfDataGrid>
+
             </Border>
 
         </Grid>

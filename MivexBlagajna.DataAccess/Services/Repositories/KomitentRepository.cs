@@ -10,6 +10,12 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             _context = context;
         }
+
+        public async Task<IEnumerable<Komitent>> GetAll()
+        {
+            IEnumerable<Komitent> komitenti = await _context.Komitenti.ToListAsync();
+            return komitenti;
+        }
         public async Task<Komitent> GetByIdAsync(int id)
         {
             return await _context.Komitenti.SingleAsync(k => k.Komitent_Id == id);
