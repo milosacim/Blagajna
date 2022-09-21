@@ -19,7 +19,6 @@ namespace MivexBlagajna.DataAccess
         }
         public DbSet<Komitent> Komitenti { get; set; }
         public DbSet<MestoTroska> MestaTroska { get; set; }
-
         internal static MivexBlagajnaDbContext CreateContext()
         {
             return new MivexBlagajnaDbContext(new DbContextOptionsBuilder<MivexBlagajnaDbContext>().UseSqlServer(

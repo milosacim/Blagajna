@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MivexBlagajna.DataAccess;
 using MivexBlagajna.DataAccess.Services;
@@ -17,6 +18,7 @@ using MivexBlagajna.UI.ViewModels.Uplate_Isplate;
 using MivexBlagajna.UI.Views.Services;
 using Prism.Events;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -27,6 +29,7 @@ namespace MivexBlagajna.UI
     /// </summary>
     public partial class App : Application
     {
+        public IConfiguration Configuration { get; private set; }
         protected override void OnStartup(StartupEventArgs e)
         {
             IServiceProvider serviceProvider = CreateServiceProvider();
@@ -37,12 +40,20 @@ namespace MivexBlagajna.UI
             base.OnStartup(e);
         }
 
+        private string GetConnectionString(string name)
+        {
+            return new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build()
+                .GetConnectionString(name);
+        }
+
         private IServiceProvider CreateServiceProvider()
         {
             IServiceCollection services = new ServiceCollection();
 
-            services.AddDbContext<MivexBlagajnaDbContext>( options => 
-                options.UseSqlServer("Server=192.168.0.144;Database=MivexBlagajnaDbTest;User Id=retail01;Password=mivex***032;"), ServiceLifetime.Transient );
+            services.AddDbContext<MivexBlagajnaDbContext>(options => options.UseSqlServer(GetConnectionString("TestDatabase")), ServiceLifetime.Transient);
 
             services.AddTransient<IKomitentRepository, KomitentRepository>();
             services.AddTransient<IMestoTroskaRepository, MestoTroskaRepository>();
