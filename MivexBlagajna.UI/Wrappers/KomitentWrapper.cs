@@ -209,6 +209,12 @@ namespace MivexBlagajna.UI.Wrappers
                 }
             }
         }
+        public MestoTroska MestoTroska
+        {
+            get { return GetValue<MestoTroska>(); }
+            set { SetValue(value); }
+        }
+
         public bool IsEditable
         {
             get => GetValue<bool>();

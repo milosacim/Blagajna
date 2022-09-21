@@ -175,14 +175,16 @@
                             <StackPanel>
 
                                 <Label Content="Šifra MT" />
-                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Width="80"/>
+                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Width="80"
+                                                         Text="{Binding FilteredKomitent.MestoTroska.Sifra, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                             </StackPanel>
 
                             <StackPanel Grid.Column="1">
 
                                 <Label Content="Mesto troška" Margin="20 0"/>
-                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Margin="20 0" Width="250"/>
+                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Margin="20 0" Width="250"
+                                                         Text="{Binding FilteredKomitent.MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                             </StackPanel>
 

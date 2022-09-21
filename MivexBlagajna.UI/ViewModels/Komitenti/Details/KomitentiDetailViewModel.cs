@@ -68,6 +68,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
             }
         }
+
         public bool IsPravnoLiceEditable
         {
             get { return _isPravnoLiceEditable; }

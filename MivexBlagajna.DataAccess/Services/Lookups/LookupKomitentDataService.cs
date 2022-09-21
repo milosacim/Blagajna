@@ -20,10 +20,10 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
                     Id = k.Id,
                     PunNaziv = k.PravnoLice == true ? $"{k.Sifra} - {k.Naziv}" : $"{k.Sifra} - {k.Ime} {k.Prezime}",
                     PravnoLice = k.PravnoLice,
-                    FizickoLice = k.FizickoLice
+                    FizickoLice = k.FizickoLice,
+                    MestoTroska = $"{k.MestoTroska.Sifra} - {k.MestoTroska.Naziv}"
 
                 }).ToListAsync();
-
         }
     }
 }

@@ -6,5 +6,6 @@
         public string PunNaziv { get; set; }
         public bool PravnoLice { get; set; }
         public bool FizickoLice { get; set; }
+        public string MestoTroska { get; set; }
     }
 }

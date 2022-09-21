@@ -58,7 +58,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
         public override async Task LoadAsync()
         {
-            var listOfKomitenti = await _komitentRepository.GetAll();
+            var listOfKomitenti = await _komitentRepository.GetAllAsync();
             Komitenti.Clear();
             foreach (var item in listOfKomitenti)
             {

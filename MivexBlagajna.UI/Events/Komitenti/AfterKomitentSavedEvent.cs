@@ -1,4 +1,5 @@
-﻿using Prism.Events;
+﻿using MivexBlagajna.Data.Models;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,7 @@ namespace MivexBlagajna.UI.Events.Komitenti
         public string PunNaziv { get; set; }
         public bool PravnoLice { get; set; }
         public bool FizickoLice { get; set; }
+
+        public string MestoTroska { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MivexBlagajna.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +13,15 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
         private bool _pravnoLice;
         private bool _fizickoLice;
 
-        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool pravnoLice, bool fizickoLice)
+        private string _mestoTroska;
+
+        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool pravnoLice, bool fizickoLice, string mesto)
         {
             Id = id;
             _punNaziv = punNaziv;
             _pravnoLice = pravnoLice;
             _fizickoLice = fizickoLice;
+            _mestoTroska = mesto;
         }
         public int Id { get; }
         public string PunNaziv
@@ -47,5 +51,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                 OnModelPropertyChanged();
             }
         }
+
+        public string MestoTroska
+        {
+            get { return _mestoTroska; }
+            set { _mestoTroska = value; OnModelPropertyChanged(); }
+        }
+
     }
 }

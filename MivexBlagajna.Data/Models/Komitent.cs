@@ -41,7 +41,6 @@ namespace MivexBlagajna.Data.Models
         public string? Telefon { get; set; }
         public bool PravnoLice { get; set; }
         public bool FizickoLice { get; set; }
-
         public int? MestoTroska_id { get; set; }
         public virtual MestoTroska? MestoTroska { get; set; }
     }

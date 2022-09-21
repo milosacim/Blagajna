@@ -92,7 +92,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             {
                 if (item != null)
                 {
-                    Komitenti.Add(new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice));
+                    Komitenti.Add(new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice, item.MestoTroska));
                 }
             }
             SelectedKomitent = Komitenti.Last();
@@ -103,7 +103,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 
             if (lookupitem == null)
             {
-                Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv, obj.PravnoLice, obj.FizickoLice));
+                Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv, obj.PravnoLice, obj.FizickoLice, obj.MestoTroska));
                 SelectedKomitent = Komitenti.Last();
             }
 
