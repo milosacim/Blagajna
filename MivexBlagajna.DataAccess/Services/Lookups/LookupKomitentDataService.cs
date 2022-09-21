@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MivexBlagajna.Data.Models;
+using MivexBlagajna.Data.Models.Lookups;
 
 namespace MivexBlagajna.DataAccess.Services.Lookups
 {
@@ -17,7 +17,7 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
             return await _context.Komitenti
                 .Select(k => new LookupKomitent
                 {
-                    Id = k.Komitent_Id,
+                    Id = k.Id,
                     PunNaziv = k.PravnoLice == true ? $"{k.Sifra} - {k.Naziv}" : $"{k.Sifra} - {k.Ime} {k.Prezime}",
                     PravnoLice = k.PravnoLice,
                     FizickoLice = k.FizickoLice

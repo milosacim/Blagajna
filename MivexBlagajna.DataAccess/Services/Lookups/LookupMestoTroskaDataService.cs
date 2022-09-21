@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MivexBlagajna.Data.Models;
+using MivexBlagajna.Data.Models.Lookups;
 
 namespace MivexBlagajna.DataAccess.Services.Lookups
 {
@@ -16,7 +16,7 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
             return await _context.MestaTroska
                 .Select(m => new LookupMestoTroska
                 {
-                    Id = m.MestoTroska_Id,
+                    Id = m.Id,
                     Sifra = m.Sifra,
                     Naziv = m.Naziv,
                     Nivo = m.Nivo,

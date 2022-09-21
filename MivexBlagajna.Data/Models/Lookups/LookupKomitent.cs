@@ -1,4 +1,4 @@
-﻿namespace MivexBlagajna.Data.Models
+﻿namespace MivexBlagajna.Data.Models.Lookups
 {
     public class LookupKomitent
     {

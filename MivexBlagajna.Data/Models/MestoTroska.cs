@@ -4,16 +4,20 @@ namespace MivexBlagajna.Data.Models
 {
     public class MestoTroska
     {
+        public MestoTroska()
+        {
+            Komitenti = new List<Komitent>();
+        }
         [Key]
-        public int MestoTroska_Id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Sifra { get; set; }
         [Required]
-        [StringLength(128)]
         public string Naziv { get; set; }
         [Required]
         public int Nivo { get; set; }
         [Required]
         public int NadredjenoMesto_Id { get; set; }
+        public ICollection<Komitent>? Komitenti { get; set; }
     }
 }

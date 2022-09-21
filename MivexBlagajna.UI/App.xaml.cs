@@ -42,7 +42,7 @@ namespace MivexBlagajna.UI
             IServiceCollection services = new ServiceCollection();
 
             services.AddDbContext<MivexBlagajnaDbContext>( options => 
-                options.UseSqlServer("Server=192.168.0.144;Database=MivexBlagajnaDb;User Id=retail01;Password=mivex***032;"), ServiceLifetime.Transient );
+                options.UseSqlServer("Server=192.168.0.144;Database=MivexBlagajnaDbTest;User Id=retail01;Password=mivex***032;"), ServiceLifetime.Transient );
 
             services.AddTransient<IKomitentRepository, KomitentRepository>();
             services.AddTransient<IMestoTroskaRepository, MestoTroskaRepository>();

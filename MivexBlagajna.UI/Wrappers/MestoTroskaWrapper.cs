@@ -16,7 +16,7 @@ namespace MivexBlagajna.UI.Wrappers
             Nivo = mestoTroska.Nivo;
         }
 
-        public int Id { get { return Model.MestoTroska_Id; } }
+        public int Id { get { return Model.Id; } }
         public string Sifra
         {
             get { return GetValue<string>(); }

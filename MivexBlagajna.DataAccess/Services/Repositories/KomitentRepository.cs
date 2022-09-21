@@ -18,7 +18,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<Komitent> GetByIdAsync(int id)
         {
-            return await _context.Komitenti.SingleAsync(k => k.Komitent_Id == id);
+            return await _context.Komitenti.SingleAsync(k => k.Id == id);
         }
         public bool HasChanges()
         {
@@ -53,7 +53,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<int> GetLastKomitentIdAsync()
         {
-            return await _context.Komitenti.MaxAsync(k => k.Komitent_Id);
+            return await _context.Komitenti.MaxAsync(k => k.Id);
         }
         public void Remove(Komitent komitent)
         {

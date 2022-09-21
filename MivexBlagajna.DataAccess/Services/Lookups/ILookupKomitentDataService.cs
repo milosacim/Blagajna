@@ -1,4 +1,4 @@
-﻿using MivexBlagajna.Data.Models;
+﻿using MivexBlagajna.Data.Models.Lookups;
 
 namespace MivexBlagajna.DataAccess.Services.Lookups
 {

@@ -7,10 +7,9 @@ namespace MivexBlagajna.DataAccess
     {
         public MivexBlagajnaDbContext CreateDbContext(string[]? args=null)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<MivexBlagajnaDbContext>();
-            optionsBuilder.UseSqlServer("Server=192.168.0.144;Database=MivexBlagajnaDb;User Id=retail01;Password=mivex***032;");
-
-            return new MivexBlagajnaDbContext(optionsBuilder.Options);
+            var context = MivexBlagajnaDbContext.CreateContext();
+            context.Database.Migrate();
+            return context;
         }
     }
 }

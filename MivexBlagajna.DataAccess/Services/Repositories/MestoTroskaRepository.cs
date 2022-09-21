@@ -13,7 +13,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<MestoTroska> GetByIdAsync(int id)
         {
-            return await _context.MestaTroska.SingleAsync(m => m.MestoTroska_Id == id);
+            return await _context.MestaTroska.SingleAsync(m => m.Id == id);
         }
         public async Task<IEnumerable<MestoTroska>> GetAll()
         {
@@ -63,12 +63,12 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
 
         public async Task<int> GetLastMestoIdAsync()
         {
-            return await _context.MestaTroska.MaxAsync(m => m.MestoTroska_Id);
+            return await _context.MestaTroska.MaxAsync(m => m.Id);
         }
 
         public async Task<int> GetLastIdAsync()
         {
-            return await _context.MestaTroska.MaxAsync(m => m.MestoTroska_Id);
+            return await _context.MestaTroska.MaxAsync(m => m.Id);
         }
     }
 }

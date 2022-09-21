@@ -1,4 +1,4 @@
-﻿namespace MivexBlagajna.Data.Models
+﻿namespace MivexBlagajna.Data.Models.Lookups
 {
     public class LookupMestoTroska
     {
@@ -12,9 +12,5 @@
     public class NullMestoTroska : LookupMestoTroska
     {
         public new int? Id { get { return null; } }
-        //public string? Sifra { get { return null; } }
-        //public string? Naziv { get { return null; } }
-        //public int? Nivo { get { return null; } }
-        //public int? NadredjenoMesto_Id { get { return null; } }
     }
 }
