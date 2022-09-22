@@ -16,9 +16,12 @@ namespace MivexBlagajna.DataAccess
         {
             modelBuilder.ApplyConfiguration(new KomitentiConfiguration());
             modelBuilder.ApplyConfiguration(new MestoTroskaConfiguration());
+            modelBuilder.ApplyConfiguration(new KontoConfiguration());
         }
         public DbSet<Komitent> Komitenti { get; set; }
         public DbSet<MestoTroska> MestaTroska { get; set; }
+        public DbSet<Konto> Konta { get; set; }
+
         internal static MivexBlagajnaDbContext CreateContext()
         {
             return new MivexBlagajnaDbContext(new DbContextOptionsBuilder<MivexBlagajnaDbContext>().UseSqlServer(
