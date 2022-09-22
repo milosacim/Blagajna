@@ -12,8 +12,8 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20220922093702_Initial_Migration_Add_Konto_Table")]
-    partial class Initial_Migration_Add_Konto_Table
+    [Migration("20220922125343_Initial_Migration")]
+    partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -106,7 +106,7 @@ namespace MivexBlagajna.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Konta");
+                    b.ToTable("Konto", (string)null);
                 });
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.MestoTroska", b =>
@@ -134,21 +134,116 @@ namespace MivexBlagajna.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MestaTroska");
+                    b.ToTable("MestaTroska", (string)null);
+                });
+
+            modelBuilder.Entity("MivexBlagajna.Data.Models.Transakcija", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Datum")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Isplata")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(20,5)")
+                        .HasDefaultValue(0.0000m);
+
+                    b.Property<int>("Komitent_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Konto_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MestoTroska_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nalog")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Neopravndan")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Opis")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Opravdan")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("Uplata")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(20,5)")
+                        .HasDefaultValue(0.0000m);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Komitent_Id");
+
+                    b.HasIndex("Konto_Id");
+
+                    b.HasIndex("MestoTroska_Id");
+
+                    b.ToTable("Transakcije", (string)null);
                 });
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.Komitent", b =>
                 {
                     b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "MestoTroska")
                         .WithMany("Komitenti")
-                        .HasForeignKey("MestoTroska_id");
+                        .HasForeignKey("MestoTroska_id")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MestoTroska");
+                });
+
+            modelBuilder.Entity("MivexBlagajna.Data.Models.Transakcija", b =>
+                {
+                    b.HasOne("MivexBlagajna.Data.Models.Komitent", "Komitent")
+                        .WithMany("Transakcije")
+                        .HasForeignKey("Komitent_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MivexBlagajna.Data.Models.Konto", "Konta")
+                        .WithMany("Transakcije")
+                        .HasForeignKey("Konto_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "MestoTroska")
+                        .WithMany("Transakcije")
+                        .HasForeignKey("MestoTroska_Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Komitent");
+
+                    b.Navigation("Konta");
+
+                    b.Navigation("MestoTroska");
+                });
+
+            modelBuilder.Entity("MivexBlagajna.Data.Models.Komitent", b =>
+                {
+                    b.Navigation("Transakcije");
+                });
+
+            modelBuilder.Entity("MivexBlagajna.Data.Models.Konto", b =>
+                {
+                    b.Navigation("Transakcije");
                 });
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.MestoTroska", b =>
                 {
                     b.Navigation("Komitenti");
+
+                    b.Navigation("Transakcije");
                 });
 #pragma warning restore 612, 618
         }

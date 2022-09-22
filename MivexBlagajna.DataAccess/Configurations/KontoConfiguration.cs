@@ -13,6 +13,8 @@ namespace MivexBlagajna.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<Konto> builder)
         {
+            builder.ToTable("Konto");
+
             builder.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .UseIdentityColumn(1, 1);
@@ -20,6 +22,11 @@ namespace MivexBlagajna.DataAccess.Configurations
             builder.Property(e => e.Naziv)
                 .IsRequired()
                 .HasMaxLength(250);
+
+            builder.HasMany(t => t.Transakcije)
+                .WithOne(v => v.Konta)
+                .HasForeignKey(v => v.Konto_Id)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

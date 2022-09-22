@@ -5,6 +5,10 @@ namespace MivexBlagajna.Data.Models
 {
     public class Komitent
     {
+        public Komitent()
+        {
+            Transakcije = new List<Transakcija>();
+        }
         [Key]
         public int Id { get; set; }
         [Required]
@@ -43,5 +47,6 @@ namespace MivexBlagajna.Data.Models
         public bool FizickoLice { get; set; }
         public int? MestoTroska_id { get; set; }
         public virtual MestoTroska? MestoTroska { get; set; }
+        public ICollection<Transakcija> Transakcije { get; set; }
     }
 }

@@ -8,6 +8,8 @@ namespace MivexBlagajna.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<MestoTroska> builder)
         {
+            builder.ToTable("MestaTroska");
+
             builder.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .UseIdentityColumn(1, 1);
@@ -22,7 +24,12 @@ namespace MivexBlagajna.DataAccess.Configurations
             builder.HasMany(t => t.Komitenti)
                 .WithOne(v => v.MestoTroska)
                 .HasForeignKey(v => v.MestoTroska_id)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(t => t.Transakcije)
+                .WithOne(v => v.MestoTroska)
+                .HasForeignKey(v => v.MestoTroska_Id)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

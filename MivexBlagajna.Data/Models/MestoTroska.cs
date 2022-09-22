@@ -7,6 +7,7 @@ namespace MivexBlagajna.Data.Models
         public MestoTroska()
         {
             Komitenti = new List<Komitent>();
+            Transakcije = new List<Transakcija>();
         }
         [Key]
         public int Id { get; set; }
@@ -19,5 +20,6 @@ namespace MivexBlagajna.Data.Models
         [Required]
         public int NadredjenoMesto_Id { get; set; }
         public ICollection<Komitent>? Komitenti { get; set; }
+        public ICollection<Transakcija> Transakcije { get; set; }
     }
 }
