@@ -12,8 +12,8 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20220922125343_Initial_Migration")]
-    partial class Initial_Migration
+    [Migration("20220922132542_Initial_Seed_MestaTroska_Komitenti")]
+    partial class Initial_Seed_MestaTroska_Komitenti
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -166,14 +166,14 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Neopravndan")
+                    b.Property<bool?>("Neopravndan")
                         .HasColumnType("bit");
 
                     b.Property<string>("Opis")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Opravdan")
+                    b.Property<bool?>("Opravdan")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Uplata")

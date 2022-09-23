@@ -57,6 +57,8 @@ namespace MivexBlagajna.UI
 
             services.AddTransient<IKomitentRepository, KomitentRepository>();
             services.AddTransient<IMestoTroskaRepository, MestoTroskaRepository>();
+            services.AddTransient<IKontoRepository, KontoRepository>();
+            services.AddTransient<ITransakcijeRepository, TransakcijeRepository>();
 
             services.AddTransient<ILookupKomitentDataService, LookupKomitentDataService>();
             services.AddTransient<ILookupMestoTroskaDataService, LookupMestoTroskaDataService>();
@@ -68,6 +70,7 @@ namespace MivexBlagajna.UI
 
             services.AddTransient<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
             services.AddTransient<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
+            services.AddTransient<IUplateIsplateViewModel, UplateIsplateViewModel>();
 
             services.AddTransient<MestaTroskaViewModel>();
             services.AddTransient<KomitentiViewModel>();

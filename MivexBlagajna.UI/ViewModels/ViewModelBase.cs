@@ -1,14 +1,15 @@
-﻿using Syncfusion.Windows.Shared;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels
 {
-    public class ViewModelBase :  INotifyPropertyChanged, IDisposable
+    public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
-        #region Implementacija INotifyPropertyChanged interfejsa
+        #region 
+        //Implementacija INotifyPropertyChanged interfejsa
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnModelPropertyChanged([CallerMemberName] string propertyName = null)
         {

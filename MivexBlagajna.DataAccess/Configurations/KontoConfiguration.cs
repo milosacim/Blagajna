@@ -24,7 +24,7 @@ namespace MivexBlagajna.DataAccess.Configurations
                 .HasMaxLength(250);
 
             builder.HasMany(t => t.Transakcije)
-                .WithOne(v => v.Konta)
+                .WithOne(v => v.Konto)
                 .HasForeignKey(v => v.Konto_Id)
                 .OnDelete(DeleteBehavior.Cascade);
         }

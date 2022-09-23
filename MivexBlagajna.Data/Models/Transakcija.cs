@@ -25,6 +25,6 @@ namespace MivexBlagajna.Data.Models
 
         public Komitent Komitent { get; set; }
         public MestoTroska MestoTroska { get; set; }
-        public Konto Konta { get; set; }
+        public Konto Konto { get; set; }
     }
 }
