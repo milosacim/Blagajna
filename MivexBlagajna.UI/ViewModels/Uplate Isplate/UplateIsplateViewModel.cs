@@ -22,7 +22,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
         private string? _searchKomitentText;
         private ICommand _selectKontoCommand;
-
+        private VrsteNalogaEnum _selectedVrstaNaloga;
 
 
         public UplateIsplateViewModel(
@@ -44,7 +44,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             Transakcije = new ObservableCollection<Transakcija>();
             Konta = new ObservableCollection<Konto>();
 
-            SelectKontoCommand = new DelegateCommand(SelectKonto);
         }
 
         public DockState State
@@ -76,7 +75,14 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
         public ObservableCollection<Transakcija> Transakcije { get; }
 
-        public object? SelectedKonto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public VrsteNalogaEnum SelectedVrstaNaloga
+        {
+            get { return _selectedVrstaNaloga; }
+            set { _selectedVrstaNaloga = value; OnModelPropertyChanged(); }
+        }
+
+        public object? SelectedKonto { get ; set; }
 
         public override async Task LoadAsync()
         {
@@ -101,7 +107,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         {
             get
             {
-                return _selectKontoCommand ?? (_selectKontoCommand = new RelayCommand(x => { SelectKonto() }));
+                return _selectKontoCommand ??= new RelayCommand(x => { SelectKonto(SelectedVrstaNaloga); });
             }
         }
 
@@ -113,34 +119,26 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             //    var mesto = FilteredKomitent.MestoTroska;
             //    var konta = SelectedKonto;
             //}
-            return null;
+           throw null;
         }
         public object SelectKonto(VrsteNalogaEnum vrstaNaloga)
         {
             switch (vrstaNaloga)
             {
                 case VrsteNalogaEnum.DINARI:
-                    if (SelectedKonto != null)
-                    {
                         SelectedKonto = Konta.FirstOrDefault(k => k.Naziv == "Dinarski");
-                    }
-
                     return SelectedKonto;
                     break;
 
                 case VrsteNalogaEnum.CEKOVI:
-                    if (SelectedKonto != null)
-                    {
-                        SelectedKonto = Konta.FirstOrDefault(k => k.Naziv == "Cekovi");
-                    }
+
+                    SelectedKonto = Konta.FirstOrDefault(k => k.Naziv == "Cekovi");
                     return SelectedKonto;
+
                     break;
 
                 case VrsteNalogaEnum.EURO:
-                    if (SelectedKonto != null)
-                    {
-                        SelectedKonto = Konta.FirstOrDefault(k => k.Naziv == "Devizni");
-                    }
+                    SelectedKonto = Konta.FirstOrDefault(k => k.Naziv == "Devizni");
                     return SelectedKonto;
                     break;
 

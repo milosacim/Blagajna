@@ -7,18 +7,18 @@ using System.Windows.Input;
 
 namespace MivexBlagajna.UI.Commands
 {
-    public class RelayCommand<T> : ICommand
+    public class RelayCommand : ICommand
     {
-        private readonly Action<T> _execute;
-        private readonly Predicate<T> _canExecute;
+        private readonly Action<object> _execute;
+        private readonly Predicate<object> _canExecute;
 
-        public RelayCommand(Action<T> execute, Predicate<T> canExecute)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
             _execute = execute;
             _canExecute = canExecute;
         }
 
-        public RelayCommand(Action<T> execute): this(execute, null)
+        public RelayCommand(Action<object> execute): this(execute, null)
         {
             _execute = execute;
         }
@@ -27,12 +27,12 @@ namespace MivexBlagajna.UI.Commands
 
         public bool CanExecute(object? parameter)
         {
-            return _canExecute == null || _canExecute((T)parameter);
+            return _canExecute == null || _canExecute(parameter);
         }
 
         public void Execute(object? parameter)
         {
-            _execute((T)parameter);
+            _execute(parameter);
         }
     }
 }
