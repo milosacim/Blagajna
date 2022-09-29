@@ -126,7 +126,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             var lastKomitent = await _komitentRepository.GetByIdAsync(lastKomitentId);
 
             var komitent = new Komitent();
-            komitent.Sifra = lastKomitent.Sifra + 1;
+            //komitent.Sifra = lastKomitent.Sifra + 1;
             _komitentRepository.Add(komitent);
             HasChanges = true;
             return komitent;

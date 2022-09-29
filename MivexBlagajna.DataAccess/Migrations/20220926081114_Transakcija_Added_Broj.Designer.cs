@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MivexBlagajna.DataAccess;
 
@@ -11,9 +12,10 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    partial class MivexBlagajnaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220926081114_Transakcija_Added_Broj")]
+    partial class Transakcija_Added_Broj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,8 +23,6 @@ namespace MivexBlagajna.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.HasSequence<int>("Sifra");
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.Komitent", b =>
                 {
@@ -79,9 +79,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Sifra")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR Sifra");
+                        .HasColumnType("int");
 
                     b.Property<string>("Telefon")
                         .HasColumnType("nvarchar(max)");

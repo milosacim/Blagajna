@@ -14,6 +14,10 @@ namespace MivexBlagajna.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasSequence<int>("Sifra").StartsAt(1).IncrementsBy(1);
+
+            modelBuilder.Entity<Komitent>().Property(k => k.Sifra).HasDefaultValueSql("NEXT VALUE FOR Sifra");
+
             modelBuilder.ApplyConfiguration(new KomitentiConfiguration());
             modelBuilder.ApplyConfiguration(new MestoTroskaConfiguration());
             modelBuilder.ApplyConfiguration(new KontoConfiguration());

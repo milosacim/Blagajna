@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MivexBlagajna.Data.Models
 {
@@ -12,8 +7,9 @@ namespace MivexBlagajna.Data.Models
         [Key]
         public int Id { get; set; }
         public DateTime Datum { get; set; }
+        public int Broj { get; set; }
         public string Nalog { get; set; }
-        public string Opis { get; set; }
+        public string? Opis { get; set; }
         public bool? Opravdan { get; set; }
         public bool? Neopravndan { get; set; }
         public decimal Uplata { get; set; }

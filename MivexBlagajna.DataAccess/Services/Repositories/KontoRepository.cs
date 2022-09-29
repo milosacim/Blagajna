@@ -16,7 +16,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             _context = context;
         }
-
         public async Task<IEnumerable<Konto>> GetAllAsync()
         {
             IEnumerable<Konto> konta = await _context.Konta.ToListAsync();
