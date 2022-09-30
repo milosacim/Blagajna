@@ -11,7 +11,7 @@ namespace MivexBlagajna.UI.Wrappers
     {
         public MestoTroskaWrapper(MestoTroska mestoTroska) : base(mestoTroska)
         {
-            Sifra = mestoTroska.Sifra;
+            Sifra = mestoTroska.Prefix;
             Naziv = mestoTroska.Naziv;
             Nivo = mestoTroska.Nivo;
         }

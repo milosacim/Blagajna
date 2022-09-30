@@ -17,7 +17,7 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
                 .Select(m => new LookupMestoTroska
                 {
                     Id = m.Id,
-                    Sifra = m.Sifra,
+                    Sifra = m.Prefix,
                     Naziv = m.Naziv,
                     Nivo = m.Nivo,
                     NadredjenoMesto_Id = m.NadredjenoMesto_Id,

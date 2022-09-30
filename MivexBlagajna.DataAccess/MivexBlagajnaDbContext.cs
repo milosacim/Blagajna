@@ -17,6 +17,7 @@ namespace MivexBlagajna.DataAccess
             modelBuilder.HasSequence<int>("Sifra").StartsAt(1).IncrementsBy(1);
 
             modelBuilder.Entity<Komitent>().Property(k => k.Sifra).HasDefaultValueSql("NEXT VALUE FOR Sifra");
+            modelBuilder.Entity<Komitent>().HasIndex(k => k.Sifra).IsUnique(true);
 
             modelBuilder.ApplyConfiguration(new KomitentiConfiguration());
             modelBuilder.ApplyConfiguration(new MestoTroskaConfiguration());

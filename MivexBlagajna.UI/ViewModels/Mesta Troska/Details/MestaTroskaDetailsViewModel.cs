@@ -144,7 +144,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 
             var mesto = new MestoTroska();
 
-            mesto.Sifra = $"0{lastId + 1}";
+            mesto.Prefix = $"0{lastId + 1}";
             mesto.Naziv = "";
 
             _mestoTroskaRepository.Add(mesto);

@@ -11,14 +11,19 @@ namespace MivexBlagajna.Data.Models
         }
         [Key]
         public int Id { get; set; }
+
         [Required]
-        public string Sifra { get; set; }
+        public string Prefix { get; set; }
+
         [Required]
         public string Naziv { get; set; }
+
         [Required]
         public int Nivo { get; set; }
+
         [Required]
         public int NadredjenoMesto_Id { get; set; }
+
         public ICollection<Komitent>? Komitenti { get; set; }
         public ICollection<Transakcija> Transakcije { get; set; }
     }

@@ -90,6 +90,9 @@ namespace MivexBlagajna.DataAccess.Migrations
 
                     b.HasIndex("MestoTroska_id");
 
+                    b.HasIndex("Sifra")
+                        .IsUnique();
+
                     b.ToTable("Komitent", (string)null);
                 });
 
@@ -130,7 +133,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<int>("Nivo")
                         .HasColumnType("int");
 
-                    b.Property<string>("Sifra")
+                    b.Property<string>("Prefix")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

@@ -12,8 +12,8 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20220929140534_Added_Sequence_Sifra")]
-    partial class Added_Sequence_Sifra
+    [Migration("20220930071914_Initial_Migration")]
+    partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,6 +92,9 @@ namespace MivexBlagajna.DataAccess.Migrations
 
                     b.HasIndex("MestoTroska_id");
 
+                    b.HasIndex("Sifra")
+                        .IsUnique();
+
                     b.ToTable("Komitent", (string)null);
                 });
 
@@ -132,7 +135,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<int>("Nivo")
                         .HasColumnType("int");
 
-                    b.Property<string>("Sifra")
+                    b.Property<string>("Prefix")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

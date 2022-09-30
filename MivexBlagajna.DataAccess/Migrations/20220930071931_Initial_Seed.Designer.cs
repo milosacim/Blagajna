@@ -12,8 +12,8 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20220926081114_Transakcija_Added_Broj")]
-    partial class Transakcija_Added_Broj
+    [Migration("20220930071931_Initial_Seed")]
+    partial class Initial_Seed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,8 @@ namespace MivexBlagajna.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.HasSequence<int>("Sifra");
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.Komitent", b =>
                 {
@@ -79,7 +81,9 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Sifra")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR Sifra");
 
                     b.Property<string>("Telefon")
                         .HasColumnType("nvarchar(max)");
@@ -87,6 +91,9 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MestoTroska_id");
+
+                    b.HasIndex("Sifra")
+                        .IsUnique();
 
                     b.ToTable("Komitent", (string)null);
                 });
@@ -128,7 +135,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<int>("Nivo")
                         .HasColumnType("int");
 
-                    b.Property<string>("Sifra")
+                    b.Property<string>("Prefix")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

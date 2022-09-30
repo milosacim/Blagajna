@@ -9,6 +9,9 @@ namespace MivexBlagajna.DataAccess.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateSequence<int>(
+                name: "Sifra");
+
             migrationBuilder.CreateTable(
                 name: "Konto",
                 columns: table => new
@@ -28,7 +31,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Sifra = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Prefix = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Naziv = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Nivo = table.Column<int>(type: "int", nullable: false),
                     NadredjenoMesto_Id = table.Column<int>(type: "int", nullable: false)
@@ -44,7 +47,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Sifra = table.Column<int>(type: "int", nullable: false),
+                    Sifra = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR Sifra"),
                     Naziv = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Naziv2 = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Ime = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -78,8 +81,9 @@ namespace MivexBlagajna.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Datum = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Broj = table.Column<int>(type: "int", nullable: false),
                     Nalog = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Opravdan = table.Column<bool>(type: "bit", nullable: true),
                     Neopravndan = table.Column<bool>(type: "bit", nullable: true),
                     Uplata = table.Column<decimal>(type: "decimal(20,5)", nullable: false, defaultValue: 0.0000m),
@@ -116,6 +120,12 @@ namespace MivexBlagajna.DataAccess.Migrations
                 column: "MestoTroska_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Komitent_Sifra",
+                table: "Komitent",
+                column: "Sifra",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transakcije_Komitent_Id",
                 table: "Transakcije",
                 column: "Komitent_Id");
@@ -144,6 +154,9 @@ namespace MivexBlagajna.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "MestaTroska");
+
+            migrationBuilder.DropSequence(
+                name: "Sifra");
         }
     }
 }
