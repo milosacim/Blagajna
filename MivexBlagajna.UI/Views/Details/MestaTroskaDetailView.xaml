@@ -94,7 +94,7 @@
             <StackPanel>
 
                 <Label Content="Šifra" />
-                <TextBox IsEnabled="False" Text="{Binding MestoTroska.Sifra, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox IsEnabled="False" Text="{Binding MestoTroska.Prefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             </StackPanel>
 

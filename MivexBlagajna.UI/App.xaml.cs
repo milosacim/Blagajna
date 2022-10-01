@@ -53,7 +53,15 @@ namespace MivexBlagajna.UI
         {
             IServiceCollection services = new ServiceCollection();
 
-            services.AddDbContext<MivexBlagajnaDbContext>(options => options.UseSqlServer(GetConnectionString("TestDatabase")), ServiceLifetime.Transient);
+            services.AddDbContext<MivexBlagajnaDbContext>(options => {
+
+                options.UseSqlServer(GetConnectionString("TestDatabase"));
+                options.UseTriggers(triggerOptions => {
+                    triggerOptions.AddTrigger<SoftDeleteTrigger>();
+                });
+
+            }, ServiceLifetime.Singleton);
+                
 
             services.AddTransient<IKomitentRepository, KomitentRepository>();
             services.AddTransient<IMestoTroskaRepository, MestoTroskaRepository>();

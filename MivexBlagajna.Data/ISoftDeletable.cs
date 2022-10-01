@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MivexBlagajna.UI
+namespace MivexBlagajna.Data
 {
-    internal class test
+    public interface ISoftDeletable
     {
+        public bool Obrisano { get; set; }
     }
 }

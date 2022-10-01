@@ -11,13 +11,13 @@ namespace MivexBlagajna.UI.Wrappers
     {
         public MestoTroskaWrapper(MestoTroska mestoTroska) : base(mestoTroska)
         {
-            Sifra = mestoTroska.Prefix;
+            Prefix = mestoTroska.Prefix;
             Naziv = mestoTroska.Naziv;
             Nivo = mestoTroska.Nivo;
         }
 
         public int Id { get { return Model.Id; } }
-        public string Sifra
+        public string Prefix
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }

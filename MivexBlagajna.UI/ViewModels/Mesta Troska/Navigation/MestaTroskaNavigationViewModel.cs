@@ -31,11 +31,11 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
 
             if (lookupitem == null)
             {
-                MestaTroska.Add(new MestaTroskaNavigationItemViewModel(obj.Id, obj.Sifra, obj.Naziv, obj.Nivo, obj.NadredjenoMesto_Id));
+                MestaTroska.Add(new MestaTroskaNavigationItemViewModel(obj.Id, obj.Prefix, obj.Naziv, obj.Nivo, obj.NadredjenoMesto_Id));
                 SelectedMestoTroska = MestaTroska.First();
             }
 
-            else { lookupitem.Sifra = obj.Sifra; lookupitem.Naziv = obj.Naziv; }
+            else { lookupitem.Sifra = obj.Prefix; lookupitem.Naziv = obj.Naziv; }
         }
         private void OnMestoTroskaDeleted(int id)
         {

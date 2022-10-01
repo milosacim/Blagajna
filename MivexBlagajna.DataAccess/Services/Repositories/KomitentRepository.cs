@@ -5,7 +5,8 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
 {
     public class KomitentRepository : IKomitentRepository
     {
-        private MivexBlagajnaDbContext _context;
+        private readonly MivexBlagajnaDbContext _context;
+
         public KomitentRepository(MivexBlagajnaDbContext context)
         {
             _context = context;
@@ -68,17 +69,24 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
         public void Add(Komitent komitent)
         {
             _context.Komitenti.Add(komitent);
         }
+
         public async Task<int> GetLastKomitentIdAsync()
         {
             return await _context.Komitenti.MaxAsync(k => k.Id);
         }
-        public void Remove(Komitent komitent)
+
+        public async Task DeleteAsync(Komitent komitent)
         {
-            _context.Komitenti.Remove(komitent);
+            if (komitent != null)
+            {
+                _context.Komitenti.Remove(komitent);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

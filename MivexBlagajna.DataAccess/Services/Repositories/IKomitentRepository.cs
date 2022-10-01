@@ -11,6 +11,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         void CancelChanges();
         bool HasChanges();
         void Add(Komitent komitent);
-        void Remove(Komitent model);
+        Task DeleteAsync(Komitent model);
     }
 }

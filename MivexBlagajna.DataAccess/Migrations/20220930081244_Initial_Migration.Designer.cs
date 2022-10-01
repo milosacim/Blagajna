@@ -12,8 +12,8 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20220930071931_Initial_Seed")]
-    partial class Initial_Seed
+    [Migration("20220930081244_Initial_Migration")]
+    partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,6 +66,9 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<string>("Naziv2")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("Obrisano")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Pib")
                         .HasColumnType("nvarchar(max)");

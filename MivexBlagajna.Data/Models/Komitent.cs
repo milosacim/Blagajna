@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MivexBlagajna.Data.Models
 {
-    public class Komitent
+    public class Komitent : ISoftDeletable
     {
         public Komitent()
         {
@@ -41,6 +41,7 @@ namespace MivexBlagajna.Data.Models
 
         [RequiredIf(nameof(PravnoLice), "Obavezno polje!", true)]
         public string? KontaktOsoba { get; set; }
+        public bool Obrisano { get; set; }
 
         public string? Telefon { get; set; }
         public bool PravnoLice { get; set; }

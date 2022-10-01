@@ -14,7 +14,7 @@ namespace MivexBlagajna.UI.Events.Mesta_Troska
     public class AfterMestoTroskaSavedArgs
     {
         public int Id { get; set; }
-        public string Sifra { get; set; }
+        public string Prefix { get; set; }
         public string Naziv { get; set; }
         public int Nivo { get; set; }
         public int NadredjenoMesto_Id { get; set; }

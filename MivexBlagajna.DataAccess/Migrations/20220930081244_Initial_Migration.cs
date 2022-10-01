@@ -59,6 +59,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     Mesto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Adresa = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     KontaktOsoba = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Obrisano = table.Column<bool>(type: "bit", nullable: false),
                     Telefon = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PravnoLice = table.Column<bool>(type: "bit", nullable: false),
                     FizickoLice = table.Column<bool>(type: "bit", nullable: false),

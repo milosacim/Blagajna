@@ -163,7 +163,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 new AfterMestoTroskaSavedArgs
                 {
                     Id = MestoTroska.Id,
-                    Sifra = MestoTroska.Sifra,
+                    Prefix = MestoTroska.Prefix,
                     Naziv = MestoTroska.Naziv
                 }
             );
