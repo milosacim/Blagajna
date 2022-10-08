@@ -1,6 +1,7 @@
 ﻿using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.UI.Events;
 using MivexBlagajna.UI.Events.Mesta_Troska;
+using MivexBlagajna.UI.ViewModels.Mesta_Troska.Details;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -11,32 +12,20 @@ using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
 {
+
     public class MestaTroskaNavigationViewModel : ViewModelBase, IMestaTroskaNavigationViewModel
     {
         private readonly ILookupMestoTroskaDataService _lookupMestoTroskaDataService;
-        private readonly IEventAggregator _eventAggregator;
-        private MestaTroskaNavigationItemViewModel _selectedMestoTroska;
-        public MestaTroskaNavigationViewModel(ILookupMestoTroskaDataService lookupMestoTroskaDataService, IEventAggregator eventAggregator)
+        private MestaTroskaNavigationItemViewModel? _selectedMestoTroska;
+        public MestaTroskaNavigationViewModel(ILookupMestoTroskaDataService lookupMestoTroskaDataService
+            )
         {
             _lookupMestoTroskaDataService = lookupMestoTroskaDataService;
-            _eventAggregator = eventAggregator;
             MestaTroska = new ObservableCollection<MestaTroskaNavigationItemViewModel>();
-
-            _eventAggregator.GetEvent<AfterMestoTroskaSavedEvent>().Subscribe(OnMestoTroskaSaved);
-            _eventAggregator.GetEvent<OnMestoTroskaDeletedEvent>().Subscribe(OnMestoTroskaDeleted);
         }
-        private void OnMestoTroskaSaved(AfterMestoTroskaSavedArgs obj)
-        {
-            var lookupitem = MestaTroska.SingleOrDefault(l => l.Id == obj.Id);
 
-            if (lookupitem == null)
-            {
-                MestaTroska.Add(new MestaTroskaNavigationItemViewModel(obj.Id, obj.Prefix, obj.Naziv, obj.Nivo, obj.NadredjenoMesto_Id));
-                SelectedMestoTroska = MestaTroska.First();
-            }
-
-            else { lookupitem.Sifra = obj.Prefix; lookupitem.Naziv = obj.Naziv; }
-        }
+        public delegate Task OnOpenMestoTroskaDetails(object sender, MestoTroskaArgs e);
+        public event OnOpenMestoTroskaDetails? OpenDetails;
         private void OnMestoTroskaDeleted(int id)
         {
             var mesto = MestaTroska.SingleOrDefault(m => m.Id == id);
@@ -58,7 +47,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
 
                 if (_selectedMestoTroska != null)
                 {
-                    _eventAggregator.GetEvent<OnOpenMestoTroskaDetailsEvent>().Publish(_selectedMestoTroska.Id);
+                    OpenDetails?.Invoke(this, new MestoTroskaArgs(_selectedMestoTroska.Id));
                 }
             }
         }
@@ -81,6 +70,17 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
         {
             SelectedMestoTroska.Dispose();
             base.Dispose();
+        }
+    }
+
+    // Args for opening Mesto troska details
+    public class MestoTroskaArgs
+    {
+        public readonly int id;
+
+        public MestoTroskaArgs(int id)
+        {
+            this.id = id;
         }
     }
 }

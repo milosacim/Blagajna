@@ -12,7 +12,7 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20220930081303_Initial_Seed")]
+    [Migration("20221006111250_Initial_Seed")]
     partial class Initial_Seed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

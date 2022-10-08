@@ -17,6 +17,7 @@ namespace MivexBlagajna.UI.Wrappers
         }
 
         public int Id { get { return Model.Id; } }
+        public int Nadiredjeni_Id { get { return Model.NadredjenoMesto_Id; } }
         public string Prefix
         {
             get { return GetValue<string>(); }
@@ -33,5 +34,7 @@ namespace MivexBlagajna.UI.Wrappers
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
+
+
     }
 }

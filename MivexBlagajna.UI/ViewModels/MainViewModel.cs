@@ -1,19 +1,17 @@
 ﻿using MivexBlagajna.UI.Commands;
-using MivexBlagajna.UI.Controls;
+using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti;
 using MivexBlagajna.UI.ViewModels.MestaTroska;
 using MivexBlagajna.UI.ViewModels.Uplate_Isplate;
-using Syncfusion.Windows.Tools.Controls;
+using Syncfusion.Windows.Shared;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase, IMainViewModel
     {
         #region Fields
         private ObservableCollection<ViewModelBase>? _workspaces;
@@ -26,7 +24,7 @@ namespace MivexBlagajna.UI.ViewModels
         public MainViewModel(
             KomitentiViewModel komitentiViewModel,
             MestaTroskaViewModel mestaTroskaViewModel,
-            UplateIsplateViewModel uplateIsplateViewModel )
+            UplateIsplateViewModel uplateIsplateViewModel)
         {
             // Initializations
             Workspaces = new ObservableCollection<ViewModelBase>();
@@ -34,7 +32,7 @@ namespace MivexBlagajna.UI.ViewModels
             MestaTroskaViewModel = mestaTroskaViewModel;
             UplateIsplateViewModel = uplateIsplateViewModel;
 
-            SelectViewModelCommand = new DelegateCommand(SelectViewModel);
+            SelectViewModelCommand = new SelectViewModelCommand<ViewModelBase>(this);
         }
 
         #endregion
@@ -60,10 +58,17 @@ namespace MivexBlagajna.UI.ViewModels
                 OnModelPropertyChanged();
             }
         }
-        public async void SelectViewModel(object parameter)
+
+        public KomitentiViewModel KomitentiViewModel { get; }
+        public MestaTroskaViewModel MestaTroskaViewModel { get; }
+        public UplateIsplateViewModel UplateIsplateViewModel { get; }
+
+        #endregion
+
+        #region Methods
+        public async Task SelectViewModel(object parameter)
         {
             SelectedViewModel = parameter as ViewModelBase;
-
             if (SelectedViewModel != null)
             {
                 await SelectedViewModel.LoadAsync();
@@ -85,14 +90,10 @@ namespace MivexBlagajna.UI.ViewModels
                 }
             }
         }
-        public KomitentiViewModel KomitentiViewModel { get; }
-        public MestaTroskaViewModel MestaTroskaViewModel { get; }
-        public UplateIsplateViewModel UplateIsplateViewModel { get; }
-
         #endregion
 
         #region Commands
-        public DelegateCommand SelectViewModelCommand { get; }
+        public AsyncCommandGeneric<ViewModelBase> SelectViewModelCommand { get; }
 
         #endregion
     }

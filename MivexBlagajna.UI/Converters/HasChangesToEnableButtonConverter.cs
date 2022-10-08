@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace MivexBlagajna.UI.Converters
@@ -16,6 +12,7 @@ namespace MivexBlagajna.UI.Converters
             {
                 throw new InvalidOperationException("The target must be a boolean");
             }
+
             return !(bool)value;
         }
 

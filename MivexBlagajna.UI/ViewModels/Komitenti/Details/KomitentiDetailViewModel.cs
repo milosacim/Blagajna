@@ -2,6 +2,8 @@
 using MivexBlagajna.DataAccess.Services;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
+using MivexBlagajna.UI.Commands.Interfaces;
+using MivexBlagajna.UI.Commands.Komitenti;
 using MivexBlagajna.UI.Events.Komitenti;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.Views.Services;
@@ -17,9 +19,9 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
     public class KomitentiDetailViewModel : ViewModelBase, IKomitentiDetailViewModel
     {
         #region Fields
-        private IKomitentRepository _komitentRepository;
-        private IEventAggregator _eventAggregator;
-        private IMessageDialogService _messageDialogService;
+        private readonly IKomitentRepository _komitentRepository;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IMessageDialogService _messageDialogService;
         private KomitentWrapper _komitent;
         private bool _hasChanges;
         private bool _isPravnoLiceEditable;
@@ -37,24 +39,24 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
             _isPravnoLiceEditable = false;
             _isFizickoLiceEditable = false;
+            
+            DeleteCommand = new DeleteCommand(this);
+            SaveCommand = new SaveKomitentCommand(this);
+            CancelCommand = new CancelCommand(this);
 
-            SaveCommand = new Prism.Commands.DelegateCommand(OnSaveExecute, OnSaveCanEnecute);
-            CancelCommand = new Prism.Commands.DelegateCommand(OnCancelExecute, OnCancelCanExecute);
-            CreateNewKomitentCommand = new Prism.Commands.DelegateCommand(OnCreateNewKomitentExecute);
-
-            DeleteKomitentCommand = new DeleteCommand(DeleteKomitentAsync);
-
-            EditKomitentPropertyCommand = new Prism.Commands.DelegateCommand(EditKomitentProperty);
+            CreateNewKomitentCommand = new DelegateCommand(OnCreateNewKomitentExecute);
+            EditKomitentPropertyCommand = new DelegateCommand(EditKomitentProperty);
         }
-
 
         #endregion
 
         #region Properties
+
+        public IAsyncCommand TestCommand { get; set; }
         public KomitentWrapper Komitent
         {
             get { return _komitent; }
-            private set { _komitent = value; OnModelPropertyChanged(); }
+            set { _komitent = value; OnModelPropertyChanged(); }
         }
         public bool HasChanges
         {
@@ -65,8 +67,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 {
                     _hasChanges = value;
                     OnModelPropertyChanged();
-                    ((Prism.Commands.DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-                    ((Prism.Commands.DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
                 }
 
             }
@@ -84,12 +84,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         }
 
         // Commands
-        public ICommand SaveCommand { get; }
-        public ICommand CancelCommand { get; }
+        public IAsyncCommand SaveCommand { get; }
+        public IAsyncCommand CancelCommand { get; }
         public ICommand CreateNewKomitentCommand { get; }
         public ICommand EditKomitentPropertyCommand { get; }
-        public ICommand CancelNewKomitentCommand { get; }
-        public ICommand DeleteKomitentCommand { get; }
+        public IAsyncCommand DeleteCommand { get; }
 
         #endregion
 
@@ -100,7 +99,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         {
             var komitent = komitentId.HasValue
                 ? await _komitentRepository.GetByIdAsync(komitentId.Value)
-                : await CreateNewKomitent();
+                : CreateNewKomitent();
 
             Komitent = new KomitentWrapper(komitent);
 
@@ -110,24 +109,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                   {
                       HasChanges = _komitentRepository.HasChanges();
                   }
-
-                  if (e.PropertyName == nameof(Komitent.HasErrors))
-                  {
-                      ((Prism.Commands.DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-                      ((Prism.Commands.DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
-                  }
               };
-
-            ((Prism.Commands.DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            ((Prism.Commands.DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
         }
 
         // Creating
-        private async Task<Komitent> CreateNewKomitent()
+        private Komitent CreateNewKomitent()
         {
-            var lastKomitentId = await _komitentRepository.GetLastKomitentIdAsync();
-            var lastKomitent = await _komitentRepository.GetByIdAsync(lastKomitentId);
-
             var komitent = new Komitent();
             _komitentRepository.Add(komitent);
             HasChanges = true;
@@ -141,7 +128,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         // Editing
         private void EditKomitentProperty()
         {
-            //HasChanges = true;
             IsPravnoLiceEditable = true;
             IsFizickoLiceEditable = true;
             if (Komitent.Id == 0)
@@ -199,7 +185,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         }
 
         // Saving
-        private async void OnSaveExecute()
+        public async Task SaveKomitentAsync()
         {
             await _komitentRepository.SaveAsync();
             HasChanges = _komitentRepository.HasChanges();
@@ -216,13 +202,9 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 });
             }
         }
-        private bool OnSaveCanEnecute()
-        {
-            return Komitent != null && !Komitent.HasErrors && HasChanges;
-        }
 
         // Deleting
-        private async Task DeleteKomitentAsync()
+        public async Task DeleteKomitentAsync()
         {
             var result = _messageDialogService.ShowOKCancelDialog("Da li ste sigurni da zelite da obrisete komitenta?", "Question");
             if (result == MessageDialogResult.Potvrdi)
@@ -237,11 +219,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         }
 
         // Canceling
-        private bool OnCancelCanExecute()
-        {
-            return Komitent != null && HasChanges;
-        }
-        private async void OnCancelExecute()
+        public async Task CancelChange()
         {
             var komitentId = await _komitentRepository.GetLastKomitentIdAsync();
             if (HasChanges)

@@ -40,7 +40,6 @@ namespace MivexBlagajna.DataAccess.Migrations
 
                 context.SaveChanges();
             }
-
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
