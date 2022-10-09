@@ -5,9 +5,6 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
-using Prism.Events;
-using MivexBlagajna.UI.Events;
-using MivexBlagajna.UI.ViewModels;
 
 namespace MivexBlagajna.UI.Controls
 {
@@ -46,15 +43,13 @@ namespace MivexBlagajna.UI.Controls
 
         private static void OnActiveDocumentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            DockingAdapter? adapter = sender as DockingAdapter;
-            if (adapter != null)
+            if (sender is DockingAdapter adapter)
             {
                 foreach (FrameworkElement element in adapter.PART_DockingManager.Children)
                 {
                     if (element is ContentControl)
                     {
-                        ContentControl? control = element as ContentControl;
-                        if (control != null && control.Content == args.NewValue)
+                        if (element is ContentControl control && control.Content == args.NewValue)
                         {
                             adapter.PART_DockingManager.ActiveWindow = control;
                             break;
@@ -80,13 +75,14 @@ namespace MivexBlagajna.UI.Controls
                     return dataTemplate;
                 }
             }
-            foreach (var interfaceType in type.GetInterfaces())
+
+            foreach (var _ in from interfaceType in type.GetInterfaces()
+                              where dataTemplate != null
+                              select new { })
             {
-                if (dataTemplate != null)
-                {
-                    return dataTemplate;
-                }
+                return dataTemplate;
             }
+
             return null;
         }
 
@@ -94,8 +90,7 @@ namespace MivexBlagajna.UI.Controls
         {
             if (e.NewValue is ContentControl)
             {
-                var content = e.NewValue as ContentControl;
-                if (content != null)
+                if (e.NewValue is ContentControl content)
                 {
                     if (((IDockElement)content.Content).State == DockState.Document)
                     {
@@ -122,10 +117,10 @@ namespace MivexBlagajna.UI.Controls
                     int count = 0;
                     foreach (var item in (IList)e.NewValue)
                     {
-                        if (item is IDockElement)
+                        if (item is IDockElement element)
                         {
-                            ContentControl control = new ContentControl() { Content = item };
-                            DockingManager.SetHeader(control, ((IDockElement)item).Header);
+                            ContentControl control = new() { Content = item };
+                            DockingManager.SetHeader(control, element.Header);
                             if (((IDockElement)control.Content).State == DockState.Document)
                             {
                                 DockingManager.SetState(control, Syncfusion.Windows.Tools.Controls.DockState.Document);
@@ -167,11 +162,11 @@ namespace MivexBlagajna.UI.Controls
             {
                 foreach (var item in e.NewItems)
                 {
-                    if (item is IDockElement)
+                    if (item is IDockElement element)
                     {
-                        ContentControl control = new ContentControl() { Content = item };
-                        DockingManager.SetHeader(control, ((IDockElement)item).Header);
-                        if (((IDockElement)item).State == DockState.Document)
+                        ContentControl control = new() { Content = item };
+                        DockingManager.SetHeader(control, element.Header);
+                        if (element.State == DockState.Document)
                         {
                             DockingManager.SetState(control, Syncfusion.Windows.Tools.Controls.DockState.Document);
                         }

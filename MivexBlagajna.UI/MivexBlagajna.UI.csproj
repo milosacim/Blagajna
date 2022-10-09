@@ -33,8 +33,6 @@
 
 <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
 
-<PackageReference Include="Prism.Core" Version="8.1.97" />
-
 <PackageReference Include="Syncfusion.DataGridExcelExport.Wpf" Version="20.2.0.36" />
 
 <PackageReference Include="Syncfusion.SfGrid.WPF" Version="20.2.0.36" />

@@ -1,45 +1,58 @@
-﻿using MivexBlagajna.UI.Events;
+﻿using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
+using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
 using MivexBlagajna.UI.Views.Services;
-using Prism.Events;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
-    public class KomitentiViewModel : ViewModelBase, IDockElement
+    public class KomitentiViewModel : ViewModelBase, IDockElement, IKomitentiViewModel
     {
         #region Fields
 
-        private IEventAggregator _eventAggregator;
-        private IMessageDialogService _messageDialogService;
+        private readonly IMessageDialogService _messageDialogService;
         private IKomitentiDetailViewModel _komitentiDetailViewModel;
-        private Func<IKomitentiDetailViewModel> _komitentiDetailViewModelCreator;
-
-        private string _header;
-        private DockState _state;
+        private readonly Func<IKomitentiDetailViewModel> _komitentiDetailViewModelCreator;
+        private readonly string _header;
+        private readonly DockState _state;
 
         #endregion
 
         #region Constructor
         public KomitentiViewModel(
-            IEventAggregator eventAggregator,
             Func<IKomitentiDetailViewModel> komitentiDetailViewModelCreator,
             IKomitentiNavigationViewModel komitentiNavigationViewModel,
             IMessageDialogService messageDialogService,
             string header = "Komitenti",
             DockState state = DockState.Document)
         {
-            _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _komitentiDetailViewModelCreator = komitentiDetailViewModelCreator;
-            _eventAggregator.GetEvent<OpenKomitentDetailViewEvent>().Subscribe(OnOpenKomitentDetailView);
             _header = header;
             _state = state;
 
             KomitentiNavigationViewModel = komitentiNavigationViewModel;
+            KomitentiNavigationViewModel.OnkomitentSelected += OnOpenDetails;
         }
+
+        private async void OnOpenDetails(object? sender, SelectedKomitentArgs e)
+        {
+            if (KomitentiDetailViewModel != null && KomitentiDetailViewModel.HasChanges)
+            {
+                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
+                if (result == MessageDialogResult.Otkazi)
+                {
+                    return;
+                }
+            }
+
+            KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
+            await KomitentiDetailViewModel.LoadAsync(e.id);
+        }
+
+
         #endregion
 
         #region Properties
@@ -53,13 +66,46 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             get { return _state; }
             set { }
         }
-        public ICommand CreateNewKomitentCommand { get; }
+        public AsyncCommand CreateNewKomitentCommand { get; }
         public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
         public IKomitentiDetailViewModel KomitentiDetailViewModel
         {
             get { return _komitentiDetailViewModel; }
-            set { _komitentiDetailViewModel = value; OnModelPropertyChanged(); }
+            set
+            {
+                _komitentiDetailViewModel = value;
+                OnModelPropertyChanged();
+                _komitentiDetailViewModel.OnKomitentDeleted += OnKomitentDeleted;
+                _komitentiDetailViewModel.OnKomitentSaved += OnKomitentSaved;
+            }
         }
+
+        private void OnKomitentSaved(object? sender, KomitentSavedArgs e)
+        {
+            var lookupitem = KomitentiNavigationViewModel.Komitenti.SingleOrDefault(l => l.Id == e.id);
+
+            if (lookupitem == null)
+            {
+                KomitentiNavigationViewModel.Komitenti.Add(new KomitentiNavigationItemViewModel(e.id, e.naziv, e.pravno, e.fizicko, e.mesto));
+                KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.Last();
+            }
+
+            else { lookupitem.PunNaziv = e.naziv; }
+        }
+
+        private void OnKomitentDeleted(object? sender, KomitentDeletedArgs e)
+        {
+            var komitent = KomitentiNavigationViewModel.Komitenti.SingleOrDefault(k => k.Id == e.id);
+
+            if (komitent != null)
+            {
+                KomitentiNavigationViewModel.Komitenti.Remove(komitent);
+                KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.Last();
+            }
+        }
+
+
+
         #endregion
 
         #region Methods
@@ -69,20 +115,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             {
                 await KomitentiNavigationViewModel.LoadAsync();
             }
-        }
-        private async void OnOpenKomitentDetailView(int? komitentId)
-        {
-            if (KomitentiDetailViewModel != null && KomitentiDetailViewModel.HasChanges)
-            {
-                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
-                if (result == MessageDialogResult.Otkazi)
-                {
-                    return;
-                }
-            }
-
-            KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
-            await KomitentiDetailViewModel.LoadAsync(komitentId);
         }
         public override void Dispose()
         {

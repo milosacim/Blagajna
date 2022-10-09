@@ -1,8 +1,5 @@
 ﻿using MivexBlagajna.DataAccess.Services.Lookups;
-using MivexBlagajna.UI.Events;
-using MivexBlagajna.UI.Events.Komitenti;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
-using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,41 +8,30 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
-{
-    public class KomitentiNavigationViewModel : ViewModelBase, IKomitentiNavigationViewModel
+{  
+    public class KomitentiNavigationViewModel : ViewModelBase, IKomitentiNavigationViewModel                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
     {
         #region Fields
-        private ILookupKomitentDataService _lookupKomitentDataService;
-        private readonly IEventAggregator _eventAggregator;
+        private readonly ILookupKomitentDataService _lookupKomitentDataService;
         private string _nazivFilter;
         private bool _pravnoLiceFilter;
         private bool _fizickoLiceFilter;
-        private KomitentiNavigationItemViewModel _selectedKomitent;
+
+        private KomitentiNavigationItemViewModel? _selectedKomitent;
+
+        public event EventHandler<SelectedKomitentArgs> OnkomitentSelected;
+
         #endregion
 
         #region Constructor
-        public KomitentiNavigationViewModel(ILookupKomitentDataService lookupKomitentDataService
-            , IEventAggregator eventAggregator)
+        public KomitentiNavigationViewModel(ILookupKomitentDataService lookupKomitentDataService)
         {
             _lookupKomitentDataService = lookupKomitentDataService;
-            _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<AfterKomitentSavedEvent>().Subscribe(AfterKomitentSaved);
-            _eventAggregator.GetEvent<OnKomitentDeletedEvent>().Subscribe(AfterKomitentDeleted);
             Komitenti = new ObservableCollection<KomitentiNavigationItemViewModel>();
             FilteredList = CollectionViewSource.GetDefaultView(Komitenti);
             FilteredList.Filter += new Predicate<object>(o => FilterNaziv(o as KomitentiNavigationItemViewModel) && FilterPravnoLice(o as KomitentiNavigationItemViewModel) && FilterFizickoLice(o as KomitentiNavigationItemViewModel));
         }
 
-        private void AfterKomitentDeleted(int id)
-        {
-            var komitent = Komitenti.SingleOrDefault(k => k.Id == id);
-
-            if (komitent != null)
-            {
-                Komitenti.Remove(komitent);
-                SelectedKomitent = Komitenti.Last();
-            }
-        }
         #endregion
 
         #region Properties
@@ -57,11 +43,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             {
                 _selectedKomitent = value;
                 OnModelPropertyChanged();
-
-                if (_selectedKomitent != null)
-                {
-                    _eventAggregator.GetEvent<OpenKomitentDetailViewEvent>().Publish(_selectedKomitent.Id);
-                }
+                OnkomitentSelected?.Invoke(this, new SelectedKomitentArgs(_selectedKomitent.Id));
             }
         }
         public ICollectionView FilteredList { get; private set; }
@@ -97,18 +79,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             }
             SelectedKomitent = Komitenti.Last();
         }
-        private void AfterKomitentSaved(AfterKomitentSavedEventArgs obj)
-        {
-            var lookupitem = Komitenti.SingleOrDefault(l => l.Id == obj.Id);
-
-            if (lookupitem == null)
-            {
-                Komitenti.Add(new KomitentiNavigationItemViewModel(obj.Id, obj.PunNaziv, obj.PravnoLice, obj.FizickoLice, obj.MestoTroska));
-                SelectedKomitent = Komitenti.Last();
-            }
-
-            else { lookupitem.PunNaziv = obj.PunNaziv; }
-        }
         private bool FilterNaziv(KomitentiNavigationItemViewModel item)
         {
             return NazivFilter == null
@@ -136,7 +106,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                 return FizickoLiceFilter == false || item.FizickoLice == true;
             }
         }
-
         public override void Dispose()
         {
             SelectedKomitent.Dispose();

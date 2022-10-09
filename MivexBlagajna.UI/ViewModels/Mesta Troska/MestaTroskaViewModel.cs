@@ -1,17 +1,9 @@
-﻿using MivexBlagajna.Data.Models;
-using MivexBlagajna.DataAccess.Services.Repositories;
-using MivexBlagajna.UI.Events;
-using MivexBlagajna.UI.ViewModels.Mesta_Troska.Details;
+﻿using MivexBlagajna.UI.ViewModels.Mesta_Troska.Details;
 using MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation;
 using MivexBlagajna.UI.Views.Services;
-using MivexBlagajna.UI.Wrappers;
-using Prism.Commands;
-using Prism.Events;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.MestaTroska
 {
@@ -21,8 +13,8 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
 
         private readonly Func<IMestaTroskaDetailsViewModel> _mestaTroskaDetailsViewModelsCreator;
         private readonly IMessageDialogService _messageDialogService;
-        private string _header;
-        private DockState _state;
+        private readonly string _header;
+        private readonly DockState _state;
         private IMestaTroskaDetailsViewModel _mestaTroskaDetailsViewModel;
 
         #endregion
@@ -43,6 +35,12 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
 
             MestaTroskaNavigationViewModel = mestaTroskaNavigationViewModel;
             MestaTroskaNavigationViewModel.OpenDetails += OpenMestoTroskaDetails;
+        }
+
+        private async void OpenMestoTroskaDetails(object? sender, MestoTroskaArgs e)
+        {
+            MestaTroskaDetailsViewModel = _mestaTroskaDetailsViewModelsCreator();
+            await MestaTroskaDetailsViewModel.LoadAsync(e.id);
         }
         #endregion
 
@@ -69,15 +67,7 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
             }
         }
 
-        private async Task OnMestoDeleted()
-        {
-            if (MestaTroskaNavigationViewModel != null)
-            {
-                await MestaTroskaNavigationViewModel.LoadAsync();
-            }
-        }
-
-        private void OnMestoTroskaSaved(object sender, SavedMestoTroskaArgs e)
+        private void OnMestoTroskaSaved(object? sender, SavedMestoTroskaArgs e)
         {
             var lookupitem = MestaTroskaNavigationViewModel.MestaTroska.SingleOrDefault(l => l.Id == e.id);
 
@@ -85,9 +75,18 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
             {
                 MestaTroskaNavigationViewModel.MestaTroska.Add(new MestaTroskaNavigationItemViewModel(e.id, e.prefix, e.naziv, e.nivo, e.nadId));
                 MestaTroskaNavigationViewModel.SelectedMestoTroska = MestaTroskaNavigationViewModel.MestaTroska.First();
-            } else
+            }
+            else
             {
                 lookupitem.Sifra = e.prefix; lookupitem.Naziv = e.naziv;
+            }
+        }
+
+        private async void OnMestoDeleted(object? sender, EventArgs e)
+        {
+            if (MestaTroskaNavigationViewModel != null)
+            {
+                await MestaTroskaNavigationViewModel.LoadAsync();
             }
         }
 
@@ -102,11 +101,7 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
                 await MestaTroskaNavigationViewModel.LoadAsync();
             }
         }
-        private async Task OpenMestoTroskaDetails(object sender, MestoTroskaArgs e)
-        {
-            MestaTroskaDetailsViewModel = _mestaTroskaDetailsViewModelsCreator();
-            await MestaTroskaDetailsViewModel.LoadAsync(e.id);
-        }
+
         public override void Dispose()
         {
             if (MestaTroskaDetailsViewModel != null && MestaTroskaNavigationViewModel != null)
@@ -116,6 +111,7 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
                     var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
                     if (result == MessageDialogResult.Potvrdi)
                     {
+                        GC.SuppressFinalize(this);
                         MestaTroskaDetailsViewModel.Dispose();
                         MestaTroskaNavigationViewModel.Dispose();
                     }

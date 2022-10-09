@@ -1,15 +1,10 @@
 ﻿using MivexBlagajna.Data.Models;
-using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Mesta_Troska;
-using MivexBlagajna.UI.Events.Mesta_Troska;
 using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
-using Prism.Commands;
-using Prism.Events;
 using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -35,14 +30,15 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 
         {
             _mestoTroskaRepository = mestoTroskaRepository;
-            //_eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _isEditable = false;
 
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
-            EnableEditingCommand = new DelegateCommand(OnEditExecute);
-            CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
-            CreateCommand = new DelegateCommand(OnCreateExecute);
+
+            EnableEditingCommand = new RelayCommand(OnEditExecute);
+
+            SaveCommand = new SaveMestoTroskaCommand(this);
+            CreateCommand = new CreateNewMestoCommand(this);
+            CancelCommand = new CancelCommand(this);
             DeleteCommand = new DeleteCommand(this);
 
         }
@@ -64,7 +60,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         public bool HasChanges
         {
             get { return _hasChanges; }
-            set { _hasChanges = value; OnModelPropertyChanged(); ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged(); ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged(); }
+            set { _hasChanges = value; OnModelPropertyChanged(); }
         }
         public bool IsEditable
         {
@@ -73,17 +69,17 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             {
                 _isEditable = value;
                 OnModelPropertyChanged();
-                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-                ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
             }
         }
 
         // Commands
         public ICommand SaveCommand { get; }
-        public ICommand EnableEditingCommand { get; }
-        public ICommand CancelCommand { get; }
-        public ICommand CreateCommand { get; }
+        public AsyncCommand CancelCommand { get; }
+        public AsyncCommand CreateCommand { get; }
         public AsyncCommand DeleteCommand { get; }
+
+        public ICommand EnableEditingCommand { get; }
+
 
         #endregion
 
@@ -92,11 +88,17 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         // Load method implementation
         public async Task LoadAsync(int? mestoTroskaId)
         {
-            var mestoTroska = mestoTroskaId.HasValue
-                ? await _mestoTroskaRepository.GetByIdAsync(mestoTroskaId.Value)
-                : await CreateNewMestoTroska();
 
-            MestoTroska = new MestoTroskaWrapper(mestoTroska);
+            if (mestoTroskaId == null)
+            {
+                await CreateNewMestoTroska();
+            }
+            else
+            {
+                var mesto = await _mestoTroskaRepository.GetByIdAsync(mestoTroskaId.Value);
+                MestoTroska = new MestoTroskaWrapper(mesto);
+            }
+
 
             MestoTroska.PropertyChanged += (s, e) =>
             {
@@ -104,18 +106,9 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 {
                     HasChanges = _mestoTroskaRepository.HasChanges();
                 }
-
-                if (e.PropertyName == nameof(MestoTroska.HasErrors))
-                {
-                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-                    ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
-                }
             };
-
-            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
-
         }
+
         public async Task LoadNadredjenoMestoTroskaAsync(int id)
         {
             var mesto = id != 0
@@ -130,45 +123,39 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 {
                     HasChanges = _mestoTroskaRepository.HasChanges();
                 }
-
-                if (e.PropertyName == nameof(MestoTroska.HasErrors))
-                {
-                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-                    ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
-                }
             };
-            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
+
         }
 
         // Creating implementation
-        private async Task<MestoTroska> CreateNewMestoTroska()
+        private async Task<MestoTroskaWrapper> CreateNewMestoTroska()
         {
             var lastId = await _mestoTroskaRepository.GetLastIdAsync();
 
-            var mesto = new MestoTroska();
-
-            mesto.Prefix = $"0{lastId + 1}";
-            mesto.Naziv = "";
+            var mesto = new MestoTroska
+            {
+                Prefix = $"0{lastId + 1}",
+                Naziv = ""
+            };
 
             _mestoTroskaRepository.Add(mesto);
+            MestoTroska = new MestoTroskaWrapper(mesto);
+
             HasChanges = true;
-            return mesto;
+
+            return MestoTroska;
         }
 
         // Command methods
 
         // Saving
-        private async void OnSaveExecute()
+
+        public async Task SaveMestoAsync()
         {
             await _mestoTroskaRepository.SaveAsync();
             HasChanges = _mestoTroskaRepository.HasChanges();
-            OnMestoSaved?.Invoke(this, new SavedMestoTroskaArgs(MestoTroska.Id, MestoTroska.Prefix, MestoTroska.Naziv, MestoTroska.Nivo, MestoTroska.Nadiredjeni_Id));
             IsEditable = false;
-        }
-        private bool OnSaveCanExecute()
-        {
-            return MestoTroska != null && HasChanges && !MestoTroska.HasErrors;
+            OnMestoSaved?.Invoke(this, new SavedMestoTroskaArgs(MestoTroska.Id, MestoTroska.Prefix, MestoTroska.Naziv, MestoTroska.Nivo, MestoTroska.Nadiredjeni_Id));
         }
 
         // Deleting
@@ -179,7 +166,8 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             {
                 _mestoTroskaRepository.Remove(MestoTroska.Model);
                 await _mestoTroskaRepository.SaveAsync();
-                OnMestoDeleted?.Invoke();
+
+                OnMestoDeleted.Invoke(this, EventArgs.Empty);
             }
             else
             {
@@ -188,11 +176,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         }
 
         //Canceling
-        private bool OnCancelCanExecute()
-        {
-            return IsEditable;
-        }
-        private async void OnCancelExecute()
+        public async Task CancelChange()
         {
             var mestoId = await _mestoTroskaRepository.GetLastIdAsync();
             if (HasChanges)
@@ -218,7 +202,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         }
 
         //Editing
-        private void OnEditExecute()
+        private void OnEditExecute(object? obj)
         {
             if (IsEditable == false)
             {
@@ -228,13 +212,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             {
                 IsEditable = false;
             }
-        }
-
-        // Creating
-        private async void OnCreateExecute()
-        {
-            IsEditable = true;
-            await LoadAsync(null);
         }
 
         //Dispose method
@@ -251,41 +228,12 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 
         #endregion
 
+
         #region Events and delegates
 
-        public delegate void SaveMestoTroskaHandler(object sender, SavedMestoTroskaArgs e);
-        public delegate Task DeleteMestoTroskaHandler();
-
-        public event SaveMestoTroskaHandler OnMestoSaved;
-        public event DeleteMestoTroskaHandler OnMestoDeleted;
+        public event EventHandler<SavedMestoTroskaArgs> OnMestoSaved;
+        public event EventHandler OnMestoDeleted;
 
         #endregion
-    }
-
-    public class DeletedMestoTroskaArgs
-    {
-        public readonly int id;
-        public DeletedMestoTroskaArgs(int id)
-        {
-            this.id = id;
-        }
-    }
-
-    public class SavedMestoTroskaArgs
-    {
-        public readonly int id;
-        public readonly string prefix;
-        public readonly string naziv;
-        public readonly int nivo;
-        public readonly int nadId;
-
-        public SavedMestoTroskaArgs(int id, string prefix, string naziv, int nivo, int nadId)
-        {
-            this.id = id;
-            this.prefix = prefix;
-            this.naziv = naziv;
-            this.nivo = nivo;
-            this.nadId = nadId;
-        }
     }
 }

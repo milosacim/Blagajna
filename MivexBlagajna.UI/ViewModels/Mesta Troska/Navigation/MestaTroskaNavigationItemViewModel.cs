@@ -48,5 +48,10 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             get { return _nadredjeniId; }
             set { _nadredjeniId = value; OnModelPropertyChanged(); }
         }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }

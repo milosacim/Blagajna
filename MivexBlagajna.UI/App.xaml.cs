@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MivexBlagajna.DataAccess;
-using MivexBlagajna.DataAccess.Services;
 using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Controls;
@@ -16,7 +15,6 @@ using MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation;
 using MivexBlagajna.UI.ViewModels.MestaTroska;
 using MivexBlagajna.UI.ViewModels.Uplate_Isplate;
 using MivexBlagajna.UI.Views.Services;
-using Prism.Events;
 using System;
 using System.IO;
 using System.Windows;
@@ -71,22 +69,23 @@ namespace MivexBlagajna.UI
             services.AddTransient<ILookupKomitentDataService, LookupKomitentDataService>();
             services.AddTransient<ILookupMestoTroskaDataService, LookupMestoTroskaDataService>();
 
-            services.AddTransient<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
-            services.AddTransient<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
+            services.AddSingleton<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
+
+            services.AddSingleton<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
+
             services.AddTransient<Func<IKomitentiDetailViewModel>>(s => () => s.GetService<IKomitentiDetailViewModel>());
             services.AddTransient<Func<IMestaTroskaDetailsViewModel>>(s => () => s.GetService<IMestaTroskaDetailsViewModel>());
 
-            services.AddTransient<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
-            services.AddTransient<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
-            services.AddTransient<IUplateIsplateViewModel, UplateIsplateViewModel>();
+            services.AddSingleton<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
+            services.AddSingleton<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
+            services.AddSingleton<IUplateIsplateViewModel, UplateIsplateViewModel>();
 
-            services.AddTransient<MestaTroskaViewModel>();
-            services.AddTransient<KomitentiViewModel>();
-            services.AddTransient<UplateIsplateViewModel>();
-            services.AddTransient<MainViewModel>();
+            services.AddSingleton<MestaTroskaViewModel>();
+            services.AddSingleton<KomitentiViewModel>();
+            services.AddSingleton<UplateIsplateViewModel>();
+            services.AddSingleton<MainViewModel>();
 
             services.AddSingleton<IMessageDialogService, MessageDialogService>();
-            services.AddSingleton<IEventAggregator, EventAggregator>();
             services.AddSingleton<DockingAdapter>();
             services.AddSingleton<MainWindow>();
 

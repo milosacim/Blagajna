@@ -11,7 +11,7 @@ namespace MivexBlagajna.UI.ViewModels
         //Implementacija INotifyPropertyChanged interfejsa
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnModelPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnModelPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
