@@ -1,0 +1,106 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ViewModels\MestaTroska\**" />
+    <EmbeddedResource Remove="ViewModels\MestaTroska\**" />
+    <None Remove="ViewModels\MestaTroska\**" />
+    <Page Remove="ViewModels\MestaTroska\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="App.ico" />
+    <None Remove="Images\icons8-add-48.png" />
+    <None Remove="Images\icons8-cash-register-64.png" />
+    <None Remove="Images\icons8-cost-60.png" />
+    <None Remove="Images\icons8-customer-48.png" />
+    <None Remove="Images\icons8-edit-property-48.png" />
+    <None Remove="Images\icons8-remove-48.png" />
+    <None Remove="Images\icons8-report-file-48.png" />
+    <None Remove="Images\icons8-save-48.png" />
+    <None Remove="Images\icons8-unavailable-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+
+<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+
+<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+
+<PackageReference Include="Syncfusion.DataGridExcelExport.Wpf" Version="20.2.0.36" />
+
+<PackageReference Include="Syncfusion.SfGrid.WPF" Version="20.2.0.36" />
+
+<PackageReference Include="Syncfusion.SfInput.WPF" Version="20.2.0.38" />
+
+<PackageReference Include="Syncfusion.SfTextInputLayout.WPF" Version="20.2.0.38" />
+
+<PackageReference Include="Syncfusion.Shared.WPF" Version="20.2.0.49" />
+
+<PackageReference Include="Syncfusion.Themes.FluentDark.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.FluentLight.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.MaterialDarkBlue.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.MaterialLight.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.MaterialLightBlue.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.Office2019Colorful.WPF" Version="20.2.0.48" />
+
+<PackageReference Include="Syncfusion.Themes.Office2019DarkGray.WPF" Version="20.2.0.48" />
+<PackageReference Include="Syncfusion.Tools.WPF" Version="20.2.0.49" />
+<PackageReference Include="Syncfusion.Data.WPF" Version="20.2.0.36" />
+<PackageReference Include="Syncfusion.SfChart.WPF" Version="20.2.0.48" />
+<PackageReference Include="Syncfusion.SfDiagram.WPF" Version="20.2.0.48" />
+<PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.2.0.48" />
+<PackageReference Include="Syncfusion.XlsIO.Wpf" Version="20.2.0.36" />
+</ItemGroup>
+  
+  <ItemGroup>
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\MivexBlagajna.DataAccess\MivexBlagajna.DataAccess.csproj" />
+    <ProjectReference Include="..\MivexBlagajna.Data\MivexBlagajna.Data.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Resource Include="App.ico" />
+    <Resource Include="Images\icons8-add-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-cash-register-64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-cost-60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-customer-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-edit-property-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-remove-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-report-file-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-save-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-unavailable-50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+</Project>

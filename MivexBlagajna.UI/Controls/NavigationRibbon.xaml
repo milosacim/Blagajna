@@ -1,0 +1,70 @@
+﻿<UserControl
+    x:Class="MivexBlagajna.UI.Controls.NavigationRibbon"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <syncfusion:Ribbon x:Name="_ribbon" VerticalAlignment="Top">
+
+        <syncfusion:RibbonTab Caption="Sifarnik" IsChecked="True">
+
+            <syncfusion:RibbonBar
+                Name="sifarnik"
+                Width="300"
+                Height="auto"
+                Header="Sifarnik">
+                
+                <syncfusion:RibbonButton
+                    Margin="20,5,10,0"
+                    FontSize="12"
+                    Label="Komitenti"
+                    SizeForm="Large" 
+                    Command="{Binding SelectViewModelCommand}" 
+                    CommandParameter="{Binding KomitentiViewModel}"
+                    LargeIcon="/Images/icons8-customer-48.png"/>
+
+                <syncfusion:RibbonButton
+                    Margin="10,5,10,0"
+                    FontSize="12"
+                    Label="Mesta troska"
+                    SizeForm="Large" 
+                    Command="{Binding SelectViewModelCommand}" 
+                    CommandParameter="{Binding MestaTroskaViewModel}"
+                    LargeIcon="/Images/icons8-cost-60.png"/>
+
+            </syncfusion:RibbonBar>
+
+        </syncfusion:RibbonTab>
+
+        <syncfusion:RibbonTab Caption="Pregledi" IsChecked="False">
+
+            <syncfusion:RibbonBar
+                Name="pregledi"
+                Width="150"
+                Header="Pregledi">
+                <syncfusion:RibbonButton
+                    Margin="20,5,10,0"
+                    FontSize="12"
+                    Label="Uplata / Isplata"
+                    SizeForm="Large" 
+                    Command="{Binding SelectViewModelCommand}" 
+                    CommandParameter="{Binding UplateIsplateViewModel}"
+                    LargeIcon="/Images/icons8-cash-register-64.png"/>
+                <syncfusion:RibbonButton
+                    Margin="10,5,10,0"
+                    FontSize="12"
+                    Label="Finansijska kartica"
+                    SizeForm="Large" 
+                    LargeIcon="/Images/icons8-report-file-48.png"/>
+            </syncfusion:RibbonBar>
+
+        </syncfusion:RibbonTab>
+
+    </syncfusion:Ribbon>
+
+</UserControl>

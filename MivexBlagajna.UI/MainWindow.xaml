@@ -1,0 +1,51 @@
+<syncfusion:RibbonWindow
+    x:Class="MivexBlagajna.UI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MivexBlagajna.UI.Controls"
+    xmlns:views ="clr-namespace:MivexBlagajna.UI.Views"
+    xmlns:komitenti="clr-namespace:MivexBlagajna.UI.ViewModels.Komitenti"
+    xmlns:mesta="clr-namespace:MivexBlagajna.UI.ViewModels.MestaTroska"
+    xmlns:uplateIsplate="clr-namespace:MivexBlagajna.UI.ViewModels.Uplate_Isplate"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:syncfusionSkin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    Title="Blagajna - Mivex D.O.O Cacak"
+    Width="525"
+    Height="350"
+    syncfusionSkin:SfSkinManager.Theme="{syncfusionSkin:SkinManagerExtension ThemeName=FluentLight}"
+    Icon="App.ico">
+
+    <Window.Resources>
+
+        <DataTemplate DataType="{x:Type komitenti:KomitentiViewModel}">
+            <views:KomitentiView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type mesta:MestaTroskaViewModel}">
+            <views:MestaTroskaView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type uplateIsplate:UplateIsplateViewModel}">
+            <views:UplateIsplateView />
+        </DataTemplate>
+
+    </Window.Resources>
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <controls:NavigationRibbon />
+
+        <controls:DockingAdapter 
+            x:Name="dockingadapter"
+            Grid.Row="1" 
+            ItemsSource="{Binding Workspaces}"
+            ActiveDocument="{Binding ActiveViewModel, Mode=TwoWay}"/>
+
+    </Grid>
+
+</syncfusion:RibbonWindow>

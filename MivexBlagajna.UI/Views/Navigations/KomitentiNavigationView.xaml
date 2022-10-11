@@ -1,0 +1,42 @@
+﻿<UserControl
+    x:Class="MivexBlagajna.UI.Views.Navigations.KomitentiNavigationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MivexBlagajna.UI.Views.Navigations"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Border>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+
+                <TextBox
+                    x:Name="Pretraga"
+                    Width="100"
+                    Text="{Binding Path=NazivFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <Label Margin="10,0,0,0" Content="Pravna lica" />
+                <CheckBox IsChecked="{Binding PravnoLiceFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <Label Content="Fizicka lica" />
+                <CheckBox IsChecked="{Binding FizickoLiceFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+            </StackPanel>
+
+            <ListView
+                x:Name="ListOfKomitenti"
+                Grid.Row="1"
+                Margin="0,10"
+                DisplayMemberPath="PunNaziv"
+                ItemsSource="{Binding FilteredList}"
+                SelectedItem="{Binding SelectedKomitent, Mode=TwoWay}" />
+        </Grid>
+    </Border>
+</UserControl>
