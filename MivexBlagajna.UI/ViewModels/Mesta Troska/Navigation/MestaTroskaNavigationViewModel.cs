@@ -27,8 +27,9 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             get { return _selectedMestoTroska; }
             set
             {
+                var oldValue = _selectedMestoTroska;
                 _selectedMestoTroska = value;
-                OnModelPropertyChanged();
+                OnModelPropertyChanged(oldValue, value);
                 OpenDetails?.Invoke(this, new MestoTroskaArgs(_selectedMestoTroska.Id));
             }
         }

@@ -50,25 +50,38 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         public MestoTroskaWrapper NadredjenoMestoTroska
         {
             get { return _nadredjenoMestoTroska; }
-            set { _nadredjenoMestoTroska = value; OnModelPropertyChanged(); }
+            set { 
+                var oldValue = _nadredjenoMestoTroska;
+                _nadredjenoMestoTroska = value; 
+                OnModelPropertyChanged(oldValue, value); 
+            }
         }
         public MestoTroskaWrapper MestoTroska
         {
             get { return _mestoTroska; }
-            set { _mestoTroska = value; OnModelPropertyChanged(); }
+            set {
+                var oldValue = _mestoTroska;
+                _mestoTroska = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
         }
         public bool HasChanges
         {
             get { return _hasChanges; }
-            set { _hasChanges = value; OnModelPropertyChanged(); }
+            set {
+                var oldValue = _hasChanges;
+                _hasChanges = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
         }
         public bool IsEditable
         {
             get { return _isEditable; }
             set
             {
+                var oldValue = _isEditable;
                 _isEditable = value;
-                OnModelPropertyChanged();
+                OnModelPropertyChanged(oldValue, value);
             }
         }
 

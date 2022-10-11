@@ -43,8 +43,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             CreateNewKomitentCommand = new CreateNewKomitentCommand(this);
 
             EditKomitentPropertyCommand = new RelayCommand(EditKomitentProperty);
-
-
         }
 
         #endregion
@@ -55,7 +53,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         public KomitentWrapper Komitent
         {
             get { return _komitent; }
-            set { _komitent = value; OnModelPropertyChanged(); }
+            set
+            {
+                var oldValue = _komitent;
+                _komitent = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
         }
         public bool HasChanges
         {
@@ -64,8 +67,9 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             {
                 if (_hasChanges != value)
                 {
+                    var oldValue = _hasChanges;
                     _hasChanges = value;
-                    OnModelPropertyChanged();
+                    OnModelPropertyChanged(oldValue, value);
                 }
 
             }
@@ -73,12 +77,21 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         public bool IsPravnoLiceEditable
         {
             get { return _isPravnoLiceEditable; }
-            set { _isPravnoLiceEditable = value; OnModelPropertyChanged(); }
+            set
+            {
+                var oldValue = _isPravnoLiceEditable;
+                _isPravnoLiceEditable = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
         }
         public bool IsFizickoLiceEditable
         {
             get { return _isFizickoLiceEditable; }
-            set { _isFizickoLiceEditable = value; OnModelPropertyChanged(); }
+            set { 
+                var oldValue = _isFizickoLiceEditable;
+                _isFizickoLiceEditable = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
         }
 
         // Commands
@@ -130,7 +143,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         // Editing
         private void EditKomitentProperty(object? obj)
         {
-
+            HasChanges = true;
             IsPravnoLiceEditable = true;
             IsFizickoLiceEditable = true;
             if (Komitent.Id == 0)
@@ -192,6 +205,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         {
             await _komitentRepository.SaveAsync();
             HasChanges = _komitentRepository.HasChanges();
+
             if (!Komitent.HasErrors)
             {
                 OnKomitentSaved?.Invoke(this, new KomitentSavedArgs(
@@ -220,15 +234,14 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         // Canceling
         public async Task CancelChange()
         {
-            var komitentId = await _komitentRepository.GetLastKomitentIdAsync();
             if (HasChanges)
             {
                 var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
                 if (result == MessageDialogResult.Potvrdi)
                 {
                     _komitentRepository.CancelChanges();
-                    await LoadAsync(komitentId);
                     HasChanges = _komitentRepository.HasChanges();
+
                     IsPravnoLiceEditable = false;
                     IsFizickoLiceEditable = false;
                 }

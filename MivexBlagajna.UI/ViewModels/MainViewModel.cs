@@ -47,15 +47,20 @@ namespace MivexBlagajna.UI.ViewModels
         public ViewModelBase? ActiveViewModel
         {
             get { return _activeDocument; }
-            set { _activeDocument = value; OnModelPropertyChanged(); }
+            set {
+                var oldValue = _activeDocument;
+                _activeDocument = value; 
+                OnModelPropertyChanged(oldValue, value); 
+            }
         }
         public ViewModelBase? SelectedViewModel
         {
             get { return _selectedViewModel; }
             set
             {
+                var oldValue = _selectedViewModel;
                 _selectedViewModel = value;
-                OnModelPropertyChanged();
+                OnModelPropertyChanged(oldValue, value);
             }
         }
 

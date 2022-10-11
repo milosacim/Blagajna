@@ -3,8 +3,10 @@ using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
 using MivexBlagajna.UI.Views.Services;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
@@ -34,7 +36,22 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             _state = state;
 
             KomitentiNavigationViewModel = komitentiNavigationViewModel;
+
             KomitentiNavigationViewModel.OnkomitentSelected += OnOpenDetails;
+            KomitentiNavigationViewModel.OnkomitentSelected += UpdateisSelected;
+        }
+
+        private void UpdateisSelected(object? sender, SelectedKomitentArgs e)
+        {
+            if (e.oldId != null)
+            {
+                var oldItem = KomitentiNavigationViewModel.Komitenti.Where(k => k.Id == e.oldId && k.IsSelected == true).FirstOrDefault();
+                oldItem.IsSelected = false;
+                KomitentiNavigationViewModel.SelectedKomitent.IsSelected = true;
+            } else
+            {
+                KomitentiNavigationViewModel.SelectedKomitent.IsSelected = true;
+            }
         }
 
         private async void OnOpenDetails(object? sender, SelectedKomitentArgs e)
@@ -49,7 +66,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
 
             KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
-            await KomitentiDetailViewModel.LoadAsync(e.id);
+            await KomitentiDetailViewModel.LoadAsync(e.newid);
         }
 
 
@@ -73,11 +90,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             get { return _komitentiDetailViewModel; }
             set
             {
+                var oldValue = _komitentiDetailViewModel;
                 _komitentiDetailViewModel = value;
+                OnModelPropertyChanged(oldValue, value);
                 _komitentiDetailViewModel.OnKomitentDeleted += OnKomitentDeleted;
                 _komitentiDetailViewModel.OnKomitentSaved += OnKomitentSaved;
-                OnModelPropertyChanged();
-
             }
         }
 
@@ -129,6 +146,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                         KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
                         KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
                         KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
+
                         KomitentiDetailViewModel.Dispose();
                         KomitentiNavigationViewModel.Dispose();
                     }

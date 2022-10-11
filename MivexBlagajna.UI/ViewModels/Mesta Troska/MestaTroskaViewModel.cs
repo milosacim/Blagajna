@@ -59,9 +59,10 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
         public IMestaTroskaDetailsViewModel MestaTroskaDetailsViewModel
         {
             get { return _mestaTroskaDetailsViewModel; }
-            set { 
-                _mestaTroskaDetailsViewModel = value; 
-                OnModelPropertyChanged();
+            set {
+                var oldValue = _mestaTroskaDetailsViewModel;
+                _mestaTroskaDetailsViewModel = value;
+                OnModelPropertyChanged(oldValue, value);
                 _mestaTroskaDetailsViewModel.OnMestoSaved += OnMestoTroskaSaved;
                 _mestaTroskaDetailsViewModel.OnMestoDeleted += OnMestoDeleted;
             }

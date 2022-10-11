@@ -5,11 +5,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
-{  
-    public class KomitentiNavigationViewModel : ViewModelBase, IKomitentiNavigationViewModel                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+{
+    public class KomitentiNavigationViewModel : ViewModelBase, IKomitentiNavigationViewModel
     {
         #region Fields
         private readonly ILookupKomitentDataService _lookupKomitentDataService;
@@ -41,27 +42,52 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             get { return _selectedKomitent; }
             set
             {
+                var oldValue = _selectedKomitent;
                 _selectedKomitent = value;
-                OnkomitentSelected?.Invoke(this, new SelectedKomitentArgs(_selectedKomitent.Id));
-                OnModelPropertyChanged();
+                OnModelPropertyChanged(oldValue, value);
+                if (value != null)
+                {
+                    OnkomitentSelected?.Invoke(this, new SelectedKomitentArgs(_selectedKomitent.Id, _selectedKomitent.IsSelected, oldValue == null ? null : oldValue.Id));
+                }
             }
         }
+
         public ICollectionView FilteredList { get; private set; }
+
         public string NazivFilter
         {
             get { return _nazivFilter; }
-            set { _nazivFilter = value; OnModelPropertyChanged(); FilteredList.Refresh(); }
+            set
+            {
+                var oldValue = _nazivFilter;
+                _nazivFilter = value;
+                OnModelPropertyChanged(oldValue, value);
+                FilteredList.Refresh();
+            }
         }
         public bool PravnoLiceFilter
         {
             get { return _pravnoLiceFilter; }
-            set { _pravnoLiceFilter = value; OnModelPropertyChanged(); FilteredList.Refresh(); }
+            set
+            {
+                var oldValue = _pravnoLiceFilter;
+                _pravnoLiceFilter = value;
+                OnModelPropertyChanged(oldValue, value);
+                FilteredList.Refresh();
+            }
         }
         public bool FizickoLiceFilter
         {
             get { return _fizickoLiceFilter; }
-            set { _fizickoLiceFilter = value; OnModelPropertyChanged(); FilteredList.Refresh(); }
+            set
+            {
+                var oldValue = _fizickoLiceFilter;
+                _fizickoLiceFilter = value;
+                OnModelPropertyChanged(oldValue, value); 
+                FilteredList.Refresh();
+            }
         }
+
         #endregion
 
         #region Methods
@@ -73,11 +99,16 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             {
                 if (item != null)
                 {
-                    Komitenti.Add(new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice, item.MestoTroska));
+                    Komitenti.Add(
+                        new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice, item.MestoTroska));
+
                 }
             }
             SelectedKomitent = Komitenti.FirstOrDefault();
         }
+
+        
+
         private bool FilterNaziv(KomitentiNavigationItemViewModel item)
         {
             return NazivFilter == null
@@ -107,7 +138,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
         }
         public override void Dispose()
         {
-            SelectedKomitent.Dispose();
             base.Dispose();
         }
 

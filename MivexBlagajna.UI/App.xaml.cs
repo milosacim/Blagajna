@@ -58,7 +58,7 @@ namespace MivexBlagajna.UI
                     triggerOptions.AddTrigger<SoftDeleteTrigger>();
                 });
 
-            }, ServiceLifetime.Singleton);
+            }, ServiceLifetime.Transient);
                 
 
             services.AddTransient<IKomitentRepository, KomitentRepository>();
@@ -80,10 +80,10 @@ namespace MivexBlagajna.UI
             services.AddTransient<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
             services.AddTransient<IUplateIsplateViewModel, UplateIsplateViewModel>();
 
-            services.AddTransient<MestaTroskaViewModel>();
-            services.AddTransient<KomitentiViewModel>();
-            services.AddTransient<UplateIsplateViewModel>();
-            services.AddTransient<MainViewModel>();
+            services.AddSingleton<MestaTroskaViewModel>();
+            services.AddSingleton<KomitentiViewModel>();
+            services.AddSingleton<UplateIsplateViewModel>();
+            services.AddSingleton<MainViewModel>();
 
             services.AddSingleton<IMessageDialogService, MessageDialogService>();
             services.AddSingleton<DockingAdapter>();

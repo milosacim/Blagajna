@@ -28,25 +28,44 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
         public string Sifra
         {
             get { return _sifra; }
-            set { _sifra = value; OnModelPropertyChanged(); }
+            set
+            {
+                var oldValue = _sifra;
+                _sifra = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
         }
 
         public string Naziv
         {
             get { return _naziv; }
-            set { _naziv = value; OnModelPropertyChanged(); }
+            set
+            {
+                var oldValue = _naziv;
+                _naziv = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
         }
 
         public int Nivo
         {
             get { return _nivo; }
-            set { _nivo = value; OnModelPropertyChanged(); }
+            set
+            {
+                var oldValue = _nivo;
+                _nivo = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
         }
 
         public int Nadredjeni_Id
         {
             get { return _nadredjeniId; }
-            set { _nadredjeniId = value; OnModelPropertyChanged(); }
+            set { 
+                var oldValue = _nadredjeniId;
+                _nadredjeniId = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
         }
 
         public override void Dispose()

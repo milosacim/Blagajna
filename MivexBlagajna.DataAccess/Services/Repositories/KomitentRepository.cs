@@ -14,7 +14,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
 
         public async Task<IEnumerable<Komitent>> GetAllAsync()
         {
-            return await _context.Komitenti
+            return await _context.Komitenti.Where(k => k.Obrisano == false)
                 .Select(k => new Komitent
                 {
                     Id = k.Id,
@@ -77,7 +77,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
 
         public async Task<int> GetLastKomitentIdAsync()
         {
-            return await _context.Komitenti.MaxAsync(k => k.Id);
+            return await _context.Komitenti.Where(k => k.Obrisano == false).MaxAsync(k => k.Id);
         }
 
         public async Task DeleteAsync(Komitent komitent)

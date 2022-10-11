@@ -63,12 +63,22 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         public string SearchKomitentText
         {
             get { return _searchKomitentText; }
-            set { _searchKomitentText = value; OnModelPropertyChanged(); OnModelPropertyChanged(nameof(FilteredKomitent)); }
+            set
+            {
+                var oldValue = _searchKomitentText;
+                _searchKomitentText = value;
+                OnModelPropertyChanged(oldValue, value, nameof(FilteredKomitent));
+            }
         }
         public VrsteNalogaEnum SelectedVrstaNaloga
         {
             get { return _selectedVrstaNaloga; }
-            set { _selectedVrstaNaloga = value; OnModelPropertyChanged(); }
+            set
+            {
+                var oldValue = _selectedVrstaNaloga;
+                _selectedVrstaNaloga = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
         }
         public KomitentWrapper? FilteredKomitent
         {
