@@ -69,21 +69,21 @@ namespace MivexBlagajna.UI
             services.AddTransient<ILookupKomitentDataService, LookupKomitentDataService>();
             services.AddTransient<ILookupMestoTroskaDataService, LookupMestoTroskaDataService>();
 
-            services.AddSingleton<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
+            services.AddTransient<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
 
-            services.AddSingleton<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
+            services.AddTransient<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
 
             services.AddTransient<Func<IKomitentiDetailViewModel>>(s => () => s.GetService<IKomitentiDetailViewModel>());
             services.AddTransient<Func<IMestaTroskaDetailsViewModel>>(s => () => s.GetService<IMestaTroskaDetailsViewModel>());
 
-            services.AddSingleton<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
-            services.AddSingleton<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
-            services.AddSingleton<IUplateIsplateViewModel, UplateIsplateViewModel>();
+            services.AddTransient<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
+            services.AddTransient<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
+            services.AddTransient<IUplateIsplateViewModel, UplateIsplateViewModel>();
 
-            services.AddSingleton<MestaTroskaViewModel>();
-            services.AddSingleton<KomitentiViewModel>();
-            services.AddSingleton<UplateIsplateViewModel>();
-            services.AddSingleton<MainViewModel>();
+            services.AddTransient<MestaTroskaViewModel>();
+            services.AddTransient<KomitentiViewModel>();
+            services.AddTransient<UplateIsplateViewModel>();
+            services.AddTransient<MainViewModel>();
 
             services.AddSingleton<IMessageDialogService, MessageDialogService>();
             services.AddSingleton<DockingAdapter>();

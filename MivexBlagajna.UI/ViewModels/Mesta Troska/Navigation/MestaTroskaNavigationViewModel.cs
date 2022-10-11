@@ -34,7 +34,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
         }
         public async override Task LoadAsync()
         {
-            //MestaTroska.Clear();
+            MestaTroska.Clear();
             var lookup = await _lookupMestoTroskaDataService.GetLookupMestoTroskaAsync();
             foreach (var item in lookup)
             {

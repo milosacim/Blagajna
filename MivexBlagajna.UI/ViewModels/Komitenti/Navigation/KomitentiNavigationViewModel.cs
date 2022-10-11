@@ -42,8 +42,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             set
             {
                 _selectedKomitent = value;
-                OnModelPropertyChanged();
                 OnkomitentSelected?.Invoke(this, new SelectedKomitentArgs(_selectedKomitent.Id));
+                OnModelPropertyChanged();
             }
         }
         public ICollectionView FilteredList { get; private set; }
@@ -67,9 +67,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
         #region Methods
         public async override Task LoadAsync()
         {
-            var lookup = await _lookupKomitentDataService.GetLookupKomitentAsync();
             Komitenti.Clear();
-
+            var lookup = await _lookupKomitentDataService.GetLookupKomitentAsync();
             foreach (var item in lookup)
             {
                 if (item != null)
@@ -77,7 +76,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                     Komitenti.Add(new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice, item.MestoTroska));
                 }
             }
-            SelectedKomitent = Komitenti.Last();
+            SelectedKomitent = Komitenti.FirstOrDefault();
         }
         private bool FilterNaziv(KomitentiNavigationItemViewModel item)
         {

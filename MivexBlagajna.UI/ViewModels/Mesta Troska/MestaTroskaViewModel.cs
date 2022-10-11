@@ -111,12 +111,24 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
                     var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
                     if (result == MessageDialogResult.Potvrdi)
                     {
-                        GC.SuppressFinalize(this);
+                        MestaTroskaNavigationViewModel.OpenDetails -= OpenMestoTroskaDetails;
+
+                        MestaTroskaDetailsViewModel.OnMestoSaved -= OnMestoTroskaSaved;
+                        MestaTroskaDetailsViewModel.OnMestoDeleted -= OnMestoDeleted;
+
                         MestaTroskaDetailsViewModel.Dispose();
                         MestaTroskaNavigationViewModel.Dispose();
                     }
                 }
             }
+            MestaTroskaNavigationViewModel.OpenDetails -= OpenMestoTroskaDetails;
+
+            MestaTroskaDetailsViewModel.OnMestoSaved -= OnMestoTroskaSaved;
+            MestaTroskaDetailsViewModel.OnMestoDeleted -= OnMestoDeleted;
+
+            MestaTroskaDetailsViewModel.Dispose();
+            MestaTroskaNavigationViewModel.Dispose();
+
             base.Dispose();
         }
 

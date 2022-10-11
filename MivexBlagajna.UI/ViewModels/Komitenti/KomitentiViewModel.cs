@@ -74,9 +74,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             set
             {
                 _komitentiDetailViewModel = value;
-                OnModelPropertyChanged();
                 _komitentiDetailViewModel.OnKomitentDeleted += OnKomitentDeleted;
                 _komitentiDetailViewModel.OnKomitentSaved += OnKomitentSaved;
+                OnModelPropertyChanged();
+
             }
         }
 
@@ -125,11 +126,22 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                     var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
                     if (result == MessageDialogResult.Potvrdi)
                     {
+                        KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
+                        KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
+                        KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
                         KomitentiDetailViewModel.Dispose();
                         KomitentiNavigationViewModel.Dispose();
                     }
                 }
             }
+
+            KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
+            KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
+            KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
+
+            KomitentiDetailViewModel.Dispose();
+            KomitentiNavigationViewModel.Dispose();
+
             base.Dispose();
         }
         #endregion
