@@ -2,7 +2,7 @@
 
 namespace MivexBlagajna.Data.Models
 {
-    public class MestoTroska
+    public class MestoTroska : ISoftDeletable
     {
         public MestoTroska()
         {
@@ -23,6 +23,8 @@ namespace MivexBlagajna.Data.Models
 
         [Required]
         public int NadredjenoMesto_Id { get; set; }
+
+        public bool Obrisano { get; set; }
 
         public ICollection<Komitent>? Komitenti { get; set; }
         public ICollection<Transakcija> Transakcije { get; set; }

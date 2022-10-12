@@ -7,6 +7,8 @@
         public string Naziv { get; set; }
         public int Nivo { get; set; }
         public int NadredjenoMesto_Id { get; set; }
+
+        public bool Obrisano { get; set; }
     }
 
     public class NullMestoTroska : LookupMestoTroska

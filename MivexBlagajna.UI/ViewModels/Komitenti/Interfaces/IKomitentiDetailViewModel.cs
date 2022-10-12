@@ -25,7 +25,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Interfaces
         public readonly string naziv;
         public readonly bool pravno;
         public readonly bool fizicko;
-        public readonly string mesto;
+        public readonly string? mesto;
 
         public KomitentSavedArgs(int id, string naziv, bool pravno, bool fizicko, string? mesto)
         {

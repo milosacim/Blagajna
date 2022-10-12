@@ -7,12 +7,10 @@ namespace MivexBlagajna.DataAccess
     public class SoftDeleteTrigger : IBeforeSaveTrigger<ISoftDeletable>
     {
         private readonly MivexBlagajnaDbContext _context;
-
         public SoftDeleteTrigger(MivexBlagajnaDbContext context)
         {
             _context = context;
         }
-
         public async Task BeforeSave(ITriggerContext<ISoftDeletable> context, CancellationToken cancellationToken)
         {
             if (context.ChangeType == ChangeType.Deleted)

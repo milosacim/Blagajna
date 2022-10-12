@@ -7,7 +7,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         void Add(MestoTroska mestoTroska);
         Task<IEnumerable<MestoTroska>> GetAll();
         Task<MestoTroska> GetByIdAsync(int id);
-        void Remove(MestoTroska mestoTroska);
+        Task RemoveAsync(MestoTroska mestoTroska);
         void CancelChanges();
         Task SaveAsync();
         bool HasChanges();

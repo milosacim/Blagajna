@@ -127,8 +127,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                     }
                 };
         }
-
-        // Creating
         public KomitentWrapper CreateNewKomitent()
         {
             var komitent = new Komitent();
@@ -139,9 +137,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
             return Komitent;
         }
-
-        // Editing
-        private void EditKomitentProperty(object? obj)
+        private void EditKomitentProperty(object? obj = null)
         {
             HasChanges = true;
             IsPravnoLiceEditable = true;
@@ -199,8 +195,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 IsPravnoLiceEditable = false;
             }
         }
-
-        // Saving
         public async Task SaveKomitentAsync()
         {
             await _komitentRepository.SaveAsync();
@@ -215,14 +209,13 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                     , Komitent.FizickoLice, null));
             }
         }
-
-        // Deleting
         public async Task DeleteKomitentAsync()
         {
             var result = _messageDialogService.ShowOKCancelDialog("Da li ste sigurni da zelite da obrisete komitenta?", "Question");
             if (result == MessageDialogResult.Potvrdi)
             {
                 await _komitentRepository.DeleteAsync(Komitent.Model);
+
                 OnKomitentDeleted.Invoke(this, new KomitentDeletedArgs(Komitent.Id));
             }
             else
@@ -230,8 +223,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 return;
             }
         }
-
-        // Canceling
         public async Task CancelChange()
         {
             if (HasChanges)
@@ -251,9 +242,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 }
             }
         }
-
-        //Disposing
-
         public override void Dispose()
         {
             if (HasChanges)

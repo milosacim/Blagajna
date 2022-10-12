@@ -17,15 +17,13 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<IEnumerable<MestoTroska>> GetAll()
         {
-            IEnumerable<MestoTroska> mesta = await _context.MestaTroska.ToListAsync();
+            IEnumerable<MestoTroska> mesta = await _context.MestaTroska.Where(m => m.Obrisano == false).ToListAsync();
             return mesta;
         }
-
         public bool HasChanges()
         {
             return _context.ChangeTracker.HasChanges();
         }
-
         public void CancelChanges()
         {
             var changedEntries = _context.ChangeTracker.Entries()
@@ -45,27 +43,26 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                 }
             }
         }
-
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
         }
-
         public void Add(MestoTroska mestoTroska)
         {
             _context.MestaTroska.Add(mestoTroska);
         }
-
-        public void Remove(MestoTroska mestoTroska)
+        public async Task RemoveAsync(MestoTroska mestoTroska)
         {
-            _context.MestaTroska.Remove(mestoTroska);
+            if (mestoTroska != null)
+            {
+                _context.MestaTroska.Remove(mestoTroska);
+                await _context.SaveChangesAsync();
+            }
         }
-
         public async Task<int> GetLastMestoIdAsync()
         {
             return await _context.MestaTroska.MaxAsync(m => m.Id);
         }
-
         public async Task<int> GetLastIdAsync()
         {
             return await _context.MestaTroska.MaxAsync(m => m.Id);

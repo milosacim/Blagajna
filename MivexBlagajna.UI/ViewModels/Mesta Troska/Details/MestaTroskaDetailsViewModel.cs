@@ -177,9 +177,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             var result = _messageDialogService.ShowOKCancelDialog("Da li ste sigurni da zelite da obrisete mesto troška?", "Question");
             if (result == MessageDialogResult.Potvrdi)
             {
-                _mestoTroskaRepository.Remove(MestoTroska.Model);
-                await _mestoTroskaRepository.SaveAsync();
-
+                await _mestoTroskaRepository.RemoveAsync(MestoTroska.Model);
                 OnMestoDeleted.Invoke(this, EventArgs.Empty);
             }
             else

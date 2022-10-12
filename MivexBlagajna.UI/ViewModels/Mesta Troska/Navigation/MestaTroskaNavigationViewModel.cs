@@ -30,7 +30,11 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
                 var oldValue = _selectedMestoTroska;
                 _selectedMestoTroska = value;
                 OnModelPropertyChanged(oldValue, value);
-                OpenDetails?.Invoke(this, new MestoTroskaArgs(_selectedMestoTroska.Id));
+                
+                if (value != null)
+                {
+                    OpenDetails?.Invoke(this, new MestoTroskaArgs(_selectedMestoTroska.Id));
+                }
             }
         }
         public async override Task LoadAsync()
@@ -44,7 +48,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
                     MestaTroska.Add(new MestaTroskaNavigationItemViewModel(item.Id, item.Sifra, item.Naziv, item.Nivo, item.NadredjenoMesto_Id));
                 }
             }
-            SelectedMestoTroska = MestaTroska.First();
+            SelectedMestoTroska = MestaTroska.FirstOrDefault();
         }
         public override void Dispose()
         {

@@ -6,12 +6,10 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
     public class KomitentRepository : IKomitentRepository
     {
         private readonly MivexBlagajnaDbContext _context;
-
         public KomitentRepository(MivexBlagajnaDbContext context)
         {
             _context = context;
         }
-
         public async Task<IEnumerable<Komitent>> GetAllAsync()
         {
             return await _context.Komitenti.Where(k => k.Obrisano == false)
@@ -42,6 +40,22 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             return await _context.Komitenti.SingleAsync(k => k.Id == id);
         }
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+        public async Task<int> GetLastKomitentIdAsync()
+        {
+            return await _context.Komitenti.Where(k => k.Obrisano == false).MaxAsync(k => k.Id);
+        }
+        public async Task DeleteAsync(Komitent komitent)
+        {
+            if (komitent != null)
+            {
+                _context.Komitenti.Remove(komitent);
+                await _context.SaveChangesAsync();
+            }
+        }
         public bool HasChanges()
         {
             return _context.ChangeTracker.HasChanges();
@@ -65,28 +79,10 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                 }
             }
         }
-        public async Task SaveAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
         public void Add(Komitent komitent)
         {
             _context.Komitenti.Add(komitent);
         }
-
-        public async Task<int> GetLastKomitentIdAsync()
-        {
-            return await _context.Komitenti.Where(k => k.Obrisano == false).MaxAsync(k => k.Id);
-        }
-
-        public async Task DeleteAsync(Komitent komitent)
-        {
-            if (komitent != null)
-            {
-                _context.Komitenti.Remove(komitent);
-                await _context.SaveChangesAsync();
-            }
-        }
+        
     }
 }
