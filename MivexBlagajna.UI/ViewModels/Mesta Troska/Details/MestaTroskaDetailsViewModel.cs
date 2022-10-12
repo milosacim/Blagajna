@@ -90,7 +90,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         public AsyncCommand CancelCommand { get; }
         public AsyncCommand CreateCommand { get; }
         public AsyncCommand DeleteCommand { get; }
-
         public ICommand EnableEditingCommand { get; }
 
 
@@ -155,7 +154,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             MestoTroska = new MestoTroskaWrapper(mesto);
 
             HasChanges = true;
-
             return MestoTroska;
         }
 
