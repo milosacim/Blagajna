@@ -7,7 +7,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Interfaces
     public interface IKomitentiDetailViewModel
     {
         bool HasChanges { get; }
-        KomitentWrapper Komitent { get; set; }
+        KomitentWrapper? Komitent { get; set; }
         KomitentWrapper CreateNewKomitent();
         Task LoadAsync(int? komitentId);
         Task SaveKomitentAsync();

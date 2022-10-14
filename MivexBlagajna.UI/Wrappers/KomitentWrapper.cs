@@ -27,7 +27,7 @@ namespace MivexBlagajna.UI.Wrappers
                 SetValue(value);
             }
         }
-        public string Naziv
+        public string? Naziv
         {
             get
             {
@@ -51,7 +51,7 @@ namespace MivexBlagajna.UI.Wrappers
                 SetValue(value);
             }
         }
-        public string Ime
+        public string? Ime
         {
             get
             {
@@ -63,7 +63,7 @@ namespace MivexBlagajna.UI.Wrappers
                 SetValue(value);
             }
         }
-        public string Prezime
+        public string? Prezime
         {
             get
             {
@@ -75,7 +75,7 @@ namespace MivexBlagajna.UI.Wrappers
                 SetValue(value);
             }
         }
-        public string Jmbg
+        public string? Jmbg
         {
             get
             {
@@ -99,7 +99,7 @@ namespace MivexBlagajna.UI.Wrappers
                 SetValue(value);
             }
         }
-        public string Pib
+        public string? Pib
         {
             get
             {
@@ -111,7 +111,7 @@ namespace MivexBlagajna.UI.Wrappers
                 SetValue(value);
             }
         }
-        public string MaticniBroj
+        public string? MaticniBroj
         {
             get
             {
