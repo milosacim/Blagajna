@@ -148,6 +148,7 @@
 
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
 
             </Grid.ColumnDefinitions>
@@ -289,6 +290,21 @@
                 </StackPanel>
 
             </StackPanel>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="1" Margin="0 40 0 0">
+                    <Label Margin="0,5,0,0" Content="Pripadnost (mesto troska): " />
+
+                    <syncfusion:ComboBoxAdv 
+                        
+                        ItemsSource="{Binding MestaTroska}" SelectedItem="{Binding Komitent.MestoTroska}" DisplayMemberPath="Naziv" IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </StackPanel>
+            </Grid>
 
         </Grid>
 

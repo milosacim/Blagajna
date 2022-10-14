@@ -1,5 +1,4 @@
 ﻿using MivexBlagajna.UI.Commands;
-using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti
@@ -8,7 +7,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
     {
         string? Header { get; set; }
         DockState State { get; set; }
-        AsyncCommand CreateNewKomitentCommand { get; }
+        AsyncCommand? CreateNewKomitentCommand { get; }
         void Dispose();
         Task LoadAsync();
     }

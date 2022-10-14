@@ -62,7 +62,7 @@
         }
 
 
-        public string? MestoTroska
+        public string MestoTroska
         {
             get { return _mestoTroska; }
             set { 

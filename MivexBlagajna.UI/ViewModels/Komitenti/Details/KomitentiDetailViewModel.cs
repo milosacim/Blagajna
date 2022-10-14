@@ -7,6 +7,8 @@ using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -17,6 +19,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
     {
         #region Fields
         private readonly IKomitentRepository _komitentRepository;
+        private readonly IMestoTroskaRepository _mestoTroskaRepository;
         private readonly IMessageDialogService _messageDialogService;
 
         private KomitentWrapper? _komitent;
@@ -32,10 +35,13 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         #endregion
 
         #region Konstruktor
-        public KomitentiDetailViewModel(IKomitentRepository komitentRepository
+        public KomitentiDetailViewModel(
+            IKomitentRepository komitentRepository
+            , IMestoTroskaRepository mestoTroskaRepository
             , IMessageDialogService messageDialogService)
         {
             _komitentRepository = komitentRepository;
+            _mestoTroskaRepository = mestoTroskaRepository;
             _messageDialogService = messageDialogService;
 
             _isPravnoLiceEditable = false;
@@ -47,6 +53,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             CreateNewKomitentCommand = new CreateNewKomitentCommand(this);
 
             EditKomitentPropertyCommand = new RelayCommand(EditKomitentProperty);
+
+            MestaTroska = new ObservableCollection<MestoTroska>();
         }
 
         #endregion
@@ -62,7 +70,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 OnModelPropertyChanged(oldValue, value);
             }
         }
-
         public KomitentWrapper? BackupKomitent
         {
             get { return _backupkomitent; }
@@ -73,6 +80,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 OnModelPropertyChanged(oldValue, value);
             }
         }
+        public ObservableCollection<MestoTroska> MestaTroska { get; set; }
 
         public bool HasChanges
         {
@@ -101,7 +109,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         public bool IsFizickoLiceEditable
         {
             get { return _isFizickoLiceEditable; }
-            set { 
+            set
+            {
                 var oldValue = _isFizickoLiceEditable;
                 _isFizickoLiceEditable = value;
                 OnModelPropertyChanged(oldValue, value);
@@ -138,6 +147,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
         public async Task LoadAsync(int? komitentId)
         {
+            await LoadMestaTroskaAsync();
 
             if (komitentId == null)
             {
@@ -146,6 +156,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             else
             {
                 var komitent = await _komitentRepository.GetByIdAsync(komitentId.Value);
+
                 Komitent = new KomitentWrapper(komitent);
             }
 
@@ -176,7 +187,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                         Komitent.PravnoLice == true ? $"{Komitent.Sifra} - {Komitent.Naziv}" : $"{Komitent.Sifra} - {Komitent.Ime} {Komitent.Prezime}"
                         , Komitent.PravnoLice
                         , Komitent.FizickoLice, null));
-                } 
+                }
             }
 
             EndEdit();
@@ -271,7 +282,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                         IsFizickoLiceEditable = true;
                         IsPravnoLiceEditable = false;
                     }
-                } 
+                }
             }
 
 
@@ -297,6 +308,16 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             }
 
             base.Dispose();
+        }
+
+        public async Task LoadMestaTroskaAsync()
+        {
+            MestaTroska.Clear();
+            var mestaTroska = await _komitentRepository.GetAllMestaTroska();
+            foreach (var mesto in mestaTroska)
+            {
+                MestaTroska.Add(mesto);
+            }
         }
 
 

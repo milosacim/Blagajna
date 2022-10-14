@@ -13,7 +13,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         #region Fields
 
         private readonly IMessageDialogService _messageDialogService;
-        private IKomitentiDetailViewModel _komitentiDetailViewModel;
+        private IKomitentiDetailViewModel? _komitentiDetailViewModel;
         private readonly Func<IKomitentiDetailViewModel> _komitentiDetailViewModelCreator;
         private readonly string _header;
         private readonly DockState _state;
@@ -52,7 +52,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             get { return _state; }
             set { }
         }
-        public AsyncCommand CreateNewKomitentCommand { get; }
+        public AsyncCommand? CreateNewKomitentCommand { get; }
         public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
         public IKomitentiDetailViewModel KomitentiDetailViewModel
         {
@@ -110,15 +110,26 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
         private void UpdateisSelected(object? sender, SelectedKomitentArgs e)
         {
-            if (e.oldId != null)
+            var model = sender as KomitentiNavigationViewModel;
+
+            if (model != null)
             {
-                var oldItem = KomitentiNavigationViewModel.Komitenti.Where(k => k.Id == e.oldId && k.IsSelected == true).FirstOrDefault();
-                oldItem.IsSelected = false;
-                KomitentiNavigationViewModel.SelectedKomitent.IsSelected = true;
-            }
-            else
-            {
-                KomitentiNavigationViewModel.SelectedKomitent.IsSelected = true;
+                if (model.SelectedKomitent != null)
+                {
+                    if (e.oldId != null)
+                    {
+                        var oldItem = model.Komitenti.Where(k => k.Id == e.oldId && k.IsSelected == true).FirstOrDefault();
+                        if (oldItem != null)
+                        {
+                            oldItem.IsSelected = false;
+                            model.SelectedKomitent.IsSelected = true;
+                        }
+                    }
+                    else
+                    {
+                        model.SelectedKomitent.IsSelected = true;
+                    }
+                }
             }
         }
         private async void OnOpenDetails(object? sender, SelectedKomitentArgs e)

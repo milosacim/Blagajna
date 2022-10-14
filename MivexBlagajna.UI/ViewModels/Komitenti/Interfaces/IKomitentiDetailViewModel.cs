@@ -10,6 +10,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Interfaces
         KomitentWrapper? Komitent { get; set; }
         KomitentWrapper CreateNewKomitent();
         Task LoadAsync(int? komitentId);
+        Task LoadMestaTroskaAsync();
         Task SaveKomitentAsync();
         Task DeleteKomitentAsync();
         Task CancelChange();
@@ -25,9 +26,9 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Interfaces
         public readonly string naziv;
         public readonly bool pravno;
         public readonly bool fizicko;
-        public readonly string? mesto;
+        public readonly string mesto;
 
-        public KomitentSavedArgs(int id, string naziv, bool pravno, bool fizicko, string? mesto)
+        public KomitentSavedArgs(int id, string naziv, bool pravno, bool fizicko, string mesto)
         {
             this.id = id;
             this.naziv = naziv;

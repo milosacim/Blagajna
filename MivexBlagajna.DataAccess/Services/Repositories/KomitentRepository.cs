@@ -36,6 +36,12 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
 
                 }).ToListAsync();
         }
+
+        public async Task<IEnumerable<MestoTroska>> GetAllMestaTroska()
+        {
+            IEnumerable<MestoTroska> mesta = await _context.MestaTroska.Where(m => m.Obrisano == false).ToListAsync();
+            return mesta;
+        }
         public async Task<Komitent> GetByIdAsync(int id)
         {
             return await _context.Komitenti.SingleAsync(k => k.Id == id);
@@ -83,6 +89,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             _context.Komitenti.Add(komitent);
         }
-        
+
     }
 }

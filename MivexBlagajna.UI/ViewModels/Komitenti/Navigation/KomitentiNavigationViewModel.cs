@@ -14,12 +14,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
     {
         #region Fields
         private readonly ILookupKomitentDataService _lookupKomitentDataService;
-        private string _nazivFilter;
+        private string? _nazivFilter;
         private bool _pravnoLiceFilter;
         private bool _fizickoLiceFilter;
         private KomitentiNavigationItemViewModel? _selectedKomitent;
 
-        public event EventHandler<SelectedKomitentArgs> OnkomitentSelected;
+        public event EventHandler<SelectedKomitentArgs>? OnkomitentSelected;
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 
         #region Properties
         public ObservableCollection<KomitentiNavigationItemViewModel> Komitenti { get; }
-        public KomitentiNavigationItemViewModel SelectedKomitent
+        public KomitentiNavigationItemViewModel? SelectedKomitent
         {
             get { return _selectedKomitent; }
             set
@@ -44,7 +44,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                 var oldValue = _selectedKomitent;
                 _selectedKomitent = value;
                 OnModelPropertyChanged(oldValue, value);
-                if (value != null)
+
+                if (_selectedKomitent != null)
                 {
                     OnkomitentSelected?.Invoke(this, new SelectedKomitentArgs(_selectedKomitent.Id, _selectedKomitent.IsSelected, oldValue == null ? null : oldValue.Id));
                 }
@@ -53,7 +54,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 
         public ICollectionView FilteredList { get; private set; }
 
-        public string NazivFilter
+        public string? NazivFilter
         {
             get { return _nazivFilter; }
             set
@@ -106,31 +107,43 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             SelectedKomitent = Komitenti.FirstOrDefault();
         }
 
-        private bool FilterNaziv(KomitentiNavigationItemViewModel item)
+        private bool FilterNaziv(KomitentiNavigationItemViewModel? item)
         {
-            return NazivFilter == null
-                || item.PunNaziv.IndexOf(NazivFilter, StringComparison.OrdinalIgnoreCase) != -1;
+            return item != null ? NazivFilter == null || item.PunNaziv.IndexOf(NazivFilter, StringComparison.OrdinalIgnoreCase) != -1 : false;
         }
-        private bool FilterPravnoLice(KomitentiNavigationItemViewModel item)
+        private bool FilterPravnoLice(KomitentiNavigationItemViewModel? item)
         {
-            if (PravnoLiceFilter == FizickoLiceFilter)
+            if (item != null)
             {
-                return true;
+                if (PravnoLiceFilter == FizickoLiceFilter)
+                {
+                    return true;
+                }
+                else
+                {
+                    return PravnoLiceFilter == false || item.PravnoLice == true;
+                }
+            } else
+            {
+                return false;
+            }
+        }
+        private bool FilterFizickoLice(KomitentiNavigationItemViewModel? item)
+        {
+            if (item != null)
+            {
+                if (PravnoLiceFilter == FizickoLiceFilter)
+                {
+                    return true;
+                }
+                else
+                {
+                    return FizickoLiceFilter == false || item.FizickoLice == true;
+                } 
             }
             else
             {
-                return PravnoLiceFilter == false || item.PravnoLice == true;
-            }
-        }
-        private bool FilterFizickoLice(KomitentiNavigationItemViewModel item)
-        {
-            if (PravnoLiceFilter == FizickoLiceFilter)
-            {
-                return true;
-            }
-            else
-            {
-                return FizickoLiceFilter == false || item.FizickoLice == true;
+                return false;
             }
         }
         public override void Dispose()

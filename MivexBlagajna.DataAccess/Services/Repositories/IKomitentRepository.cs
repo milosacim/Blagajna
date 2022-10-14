@@ -12,5 +12,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         bool HasChanges();
         void Add(Komitent komitent);
         Task DeleteAsync(Komitent model);
+        Task<IEnumerable<MestoTroska>> GetAllMestaTroska();
     }
 }

@@ -9,7 +9,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Interfaces
     {
 
         event EventHandler<SelectedKomitentArgs> OnkomitentSelected;
-        KomitentiNavigationItemViewModel SelectedKomitent { get; set; }
+        KomitentiNavigationItemViewModel? SelectedKomitent { get; set; }
         ObservableCollection<KomitentiNavigationItemViewModel> Komitenti { get; }
         Task LoadAsync();
         void Dispose();
