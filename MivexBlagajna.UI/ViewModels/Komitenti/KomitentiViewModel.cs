@@ -3,10 +3,8 @@ using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
 using MivexBlagajna.UI.Views.Services;
 using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
@@ -41,35 +39,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             KomitentiNavigationViewModel.OnkomitentSelected += UpdateisSelected;
         }
 
-        private void UpdateisSelected(object? sender, SelectedKomitentArgs e)
-        {
-            if (e.oldId != null)
-            {
-                var oldItem = KomitentiNavigationViewModel.Komitenti.Where(k => k.Id == e.oldId && k.IsSelected == true).FirstOrDefault();
-                oldItem.IsSelected = false;
-                KomitentiNavigationViewModel.SelectedKomitent.IsSelected = true;
-            } else
-            {
-                KomitentiNavigationViewModel.SelectedKomitent.IsSelected = true;
-            }
-        }
-
-        private async void OnOpenDetails(object? sender, SelectedKomitentArgs e)
-        {
-            if (KomitentiDetailViewModel != null && KomitentiDetailViewModel.HasChanges)
-            {
-                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
-                if (result == MessageDialogResult.Otkazi)
-                {
-                    return;
-                }
-            }
-
-            KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
-            await KomitentiDetailViewModel.LoadAsync(e.newid);
-        }
-
-
         #endregion
 
         #region Properties
@@ -98,31 +67,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
         }
 
-        private void OnKomitentSaved(object? sender, KomitentSavedArgs e)
-        {
-            var lookupitem = KomitentiNavigationViewModel.Komitenti.SingleOrDefault(l => l.Id == e.id);
-
-            if (lookupitem == null)
-            {
-                KomitentiNavigationViewModel.Komitenti.Add(new KomitentiNavigationItemViewModel(e.id, e.naziv, e.pravno, e.fizicko, e.mesto));
-                KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.Last();
-            }
-
-            else { lookupitem.PunNaziv = e.naziv; }
-        }
-
-        private void OnKomitentDeleted(object? sender, KomitentDeletedArgs e)
-        {
-            var komitent = KomitentiNavigationViewModel.Komitenti.SingleOrDefault(k => k.Id == e.id);
-
-            if (komitent != null)
-            {
-                KomitentiNavigationViewModel.Komitenti.Remove(komitent);
-                KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.Last();
-            }
-        }
-
-
+        
 
         #endregion
 
@@ -143,24 +88,74 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                     var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
                     if (result == MessageDialogResult.Potvrdi)
                     {
-                        KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
+                        
                         KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
+                        KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
                         KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
 
                         KomitentiDetailViewModel.Dispose();
                         KomitentiNavigationViewModel.Dispose();
                     }
                 }
+
+                KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
+                KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
+                KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
+
+                KomitentiDetailViewModel.Dispose();
+                KomitentiNavigationViewModel.Dispose();
+            }
+            base.Dispose();
+        }
+
+        private void UpdateisSelected(object? sender, SelectedKomitentArgs e)
+        {
+            if (e.oldId != null)
+            {
+                var oldItem = KomitentiNavigationViewModel.Komitenti.Where(k => k.Id == e.oldId && k.IsSelected == true).FirstOrDefault();
+                oldItem.IsSelected = false;
+                KomitentiNavigationViewModel.SelectedKomitent.IsSelected = true;
+            }
+            else
+            {
+                KomitentiNavigationViewModel.SelectedKomitent.IsSelected = true;
+            }
+        }
+        private async void OnOpenDetails(object? sender, SelectedKomitentArgs e)
+        {
+
+            if (KomitentiDetailViewModel != null && KomitentiDetailViewModel.HasChanges)
+            {
+                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
+                if (result == MessageDialogResult.Otkazi)
+                {
+                    return;
+                }
+            }
+            KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
+            await KomitentiDetailViewModel.LoadAsync(e.newid);
+        }
+        private void OnKomitentSaved(object? sender, KomitentSavedArgs e)
+        {
+            var lookupitem = KomitentiNavigationViewModel.Komitenti.SingleOrDefault(l => l.Id == e.id);
+
+            if (lookupitem == null)
+            {
+                KomitentiNavigationViewModel.Komitenti.Add(new KomitentiNavigationItemViewModel(e.id, e.naziv, e.pravno, e.fizicko, e.mesto));
+                KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.Last();
             }
 
-            KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
-            KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
-            KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
+            else { lookupitem.PunNaziv = e.naziv; }
+        }
+        private void OnKomitentDeleted(object? sender, KomitentDeletedArgs e)
+        {
+            var komitent = KomitentiNavigationViewModel.Komitenti.SingleOrDefault(k => k.Id == e.id);
 
-            KomitentiDetailViewModel.Dispose();
-            KomitentiNavigationViewModel.Dispose();
-
-            base.Dispose();
+            if (komitent != null)
+            {
+                KomitentiNavigationViewModel.Komitenti.Remove(komitent);
+                KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.Last();
+            }
         }
         #endregion
     }

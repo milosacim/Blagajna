@@ -17,7 +17,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
         private string _nazivFilter;
         private bool _pravnoLiceFilter;
         private bool _fizickoLiceFilter;
-
         private KomitentiNavigationItemViewModel? _selectedKomitent;
 
         public event EventHandler<SelectedKomitentArgs> OnkomitentSelected;
@@ -106,8 +105,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             }
             SelectedKomitent = Komitenti.FirstOrDefault();
         }
-
-        
 
         private bool FilterNaziv(KomitentiNavigationItemViewModel item)
         {

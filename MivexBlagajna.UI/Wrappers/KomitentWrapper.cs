@@ -1,6 +1,7 @@
 ﻿using MivexBlagajna.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace MivexBlagajna.UI.Wrappers
 {
@@ -10,7 +11,7 @@ namespace MivexBlagajna.UI.Wrappers
         #region Konstruktor
         public KomitentWrapper(Komitent komitent) : base(komitent)
         {
-            
+
         }
 
         #endregion
@@ -183,7 +184,8 @@ namespace MivexBlagajna.UI.Wrappers
                 {
                     FizickoLice = false;
                     SetValue(value);
-                } else
+                }
+                else
                 {
                     SetValue(value);
                 }
@@ -223,6 +225,7 @@ namespace MivexBlagajna.UI.Wrappers
                 SetValue(value);
             }
         }
+
         #endregion
     }
 }
