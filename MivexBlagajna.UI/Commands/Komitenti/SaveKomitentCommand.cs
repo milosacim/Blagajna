@@ -1,4 +1,5 @@
 ﻿using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.Commands
@@ -15,7 +16,7 @@ namespace MivexBlagajna.UI.Commands
 
         public override bool CanExecute()
         {
-            return komitentiDetailViewModel.Komitent != null && !komitentiDetailViewModel.Komitent.HasErrors && komitentiDetailViewModel.HasChanges;
+            return RunningTasks.Count() == 0 && komitentiDetailViewModel.Komitent != null && !komitentiDetailViewModel.Komitent.HasErrors && komitentiDetailViewModel.HasChanges;
         }
 
         public override async Task ExecuteAsync()

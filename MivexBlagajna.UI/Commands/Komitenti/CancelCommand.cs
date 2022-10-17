@@ -16,7 +16,7 @@ namespace MivexBlagajna.UI.Commands.Komitenti
         {
             if (KomitentiDetailViewModel.Komitent != null)
             {
-                return RunningTasks.Count() != 0 || (KomitentiDetailViewModel.HasChanges || KomitentiDetailViewModel.Komitent.IsEditable );
+                return ( RunningTasks.Count() == 0 && KomitentiDetailViewModel.HasChanges ) || ( KomitentiDetailViewModel.Komitent.HasErrors || KomitentiDetailViewModel.Komitent.IsEditable || KomitentiDetailViewModel.Komitent == null );
             }
             else
             {

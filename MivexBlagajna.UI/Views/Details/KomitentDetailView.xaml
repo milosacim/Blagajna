@@ -12,7 +12,7 @@
 
     <UserControl.Resources>
 
-        <converters:HasChangesToEnableButtonConverter x:Key="EnableEditConverter" />
+        <!--<converters:HasChangesToEnableButtonConverter x:Key="EnableEditConverter" />-->
 
         <Style TargetType="TextBox">
 
@@ -72,7 +72,6 @@
                     Width="55"
                     Margin="15,0,0,0"
                     Command="{Binding CreateNewKomitentCommand}"
-                    IsEnabled="{Binding HasChanges, Converter={StaticResource EnableEditConverter}}"
                     Label="Dodaj"
                     LargeIcon="/Images/icons8-add-48.png"
                     SizeMode="Large" />
@@ -82,7 +81,6 @@
                     Width="55"
                     Margin="10,0"
                     Command="{Binding EditKomitentPropertyCommand}"
-                    IsEnabled="{Binding HasChanges, Converter={StaticResource EnableEditConverter}}"
                     Label="Izmeni"
                     LargeIcon="/Images/icons8-edit-property-48.png"
                     SizeMode="Large" />
@@ -90,7 +88,6 @@
                 <syncfusion:ButtonAdv
                     Width="55"
                     Command="{Binding DeleteCommand}"
-                    IsEnabled="{Binding HasChanges, Converter={StaticResource EnableEditConverter}}"
                     Label="Obrisi"
                     LargeIcon="/Images/icons8-remove-48.png"
                     SizeMode="Large" />
@@ -128,14 +125,14 @@
                 x:Name="pravnoLice"
                 Command="{Binding EditKomitentPropertyCommand}"
                 IsChecked="{Binding Komitent.PravnoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}" />
+                IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}" />
 
             <Label Content="Fizicko lice: " />
             <CheckBox
                 x:Name="fizickoLice"
                 Command="{Binding EditKomitentPropertyCommand}"
                 IsChecked="{Binding Komitent.FizickoLice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}" />
+                IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}" />
 
         </StackPanel>
 
@@ -292,18 +289,14 @@
             </StackPanel>
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="1" Margin="0 40 0 0">
+                <StackPanel Grid.Row="1" Margin="0,40,0,0">
                     <Label Margin="0,5,0,0" Content="Pripadnost (mesto troska): " />
 
-                    <!--<TextBox Text="{Binding Komitent.MestoTroska.Naziv}" IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>-->
-
-                    <syncfusion:ComboBoxAdv 
-                        
-                        ItemsSource="{Binding MestaTroska}" SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
+                    <syncfusion:ComboBoxAdv ItemsSource="{Binding MestaTroska}" SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
 
                 </StackPanel>
             </Grid>

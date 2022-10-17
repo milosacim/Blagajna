@@ -63,10 +63,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 var oldValue = _komitent;
                 _komitent = value;
                 OnModelPropertyChanged(oldValue, value);
-                Komitent.PropertyChanged += (s, e) =>
-                {
-                    HasChanges = _komitentRepository.HasChanges();
-                };
+
             }
         }
         public KomitentWrapper? BackupKomitent
@@ -87,10 +84,15 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         {
             get { return _selectedMestoTroska; }
             set { 
-                _selectedMestoTroska = value; 
-                var oldValue = _selectedMestoTroska;
-                OnModelPropertyChanged(oldValue, value);
-                Komitent.MestoTroska = value;
+
+                if (value != null)
+                {
+                    _selectedMestoTroska = value;
+                    var oldValue = _selectedMestoTroska;
+                    OnModelPropertyChanged(oldValue, value);
+
+                    Komitent.MestoTroska = value;
+                }
             }
         }
 
@@ -151,19 +153,16 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 var komitent = await _komitentRepository.GetByIdAsync(komitentId.Value);
 
                 Komitent = new KomitentWrapper(komitent, false, false, false);
+
                 SelectedMestoTroska = Komitent.MestoTroska;
+
+                Komitent.PropertyChanged += (s, e) =>
+                {
+                    HasChanges = _komitentRepository.HasChanges();
+                };
+
             }
 
-            //if (Komitent != null)
-            //{
-            //    Komitent.PropertyChanged += (s, e) =>
-            //    {
-            //        if (HasChanges)
-            //        {
-            //            HasChanges = _komitentRepository.HasChanges();
-            //        }
-            //    };
-            //}
         }
         public async Task SaveKomitentAsync()
         {
@@ -181,6 +180,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
             await _komitentRepository.SaveAsync();
             HasChanges = _komitentRepository.HasChanges();
+            Komitent?.EndEdit();
         }
         public async Task DeleteKomitentAsync()
         {
@@ -197,6 +197,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                     return;
                 }
             }
+
+            if (Komitent.IsEditable == true)
+            {
+                Komitent?.EndEdit();
+            }
         }
         public async Task CancelChange()
         {
@@ -211,6 +216,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 return;
             }
             await LoadAsync(Komitent?.Id);
+            Komitent?.EndEdit();
         }
         public override void Dispose()
         {

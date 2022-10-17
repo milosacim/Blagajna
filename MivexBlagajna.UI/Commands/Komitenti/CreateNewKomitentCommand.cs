@@ -17,7 +17,7 @@ namespace MivexBlagajna.UI.Commands.Komitenti
         }
         public override bool CanExecute()
         {
-            return komitentiDetailViewModel.Komitent != null;
+            return RunningTasks.Count() == 0 && komitentiDetailViewModel.Komitent != null;
         }
 
         public override async Task ExecuteAsync()

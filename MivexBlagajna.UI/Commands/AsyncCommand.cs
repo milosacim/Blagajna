@@ -44,7 +44,10 @@ namespace MivexBlagajna.UI.Commands
 
             try
             {
-                await runningTask;
+                if (runningTask != null)
+                {
+                    await runningTask;
+                }
             }
             finally
             {
