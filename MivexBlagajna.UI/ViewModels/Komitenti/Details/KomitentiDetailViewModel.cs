@@ -15,19 +15,18 @@ using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 {
-    public class KomitentiDetailViewModel : ViewModelBase, IKomitentiDetailViewModel, IEditableObject
+    public class KomitentiDetailViewModel : ViewModelBase, IKomitentiDetailViewModel
     {
         #region Fields
         private readonly IKomitentRepository _komitentRepository;
-        private readonly IMestoTroskaRepository _mestoTroskaRepository;
         private readonly IMessageDialogService _messageDialogService;
 
         private KomitentWrapper? _komitent;
         private KomitentWrapper? _backupkomitent;
+        private MestoTroska _selectedMestoTroska;
+
 
         private bool _hasChanges;
-        private bool _isPravnoLiceEditable;
-        private bool _isFizickoLiceEditable;
 
         public event EventHandler<KomitentDeletedArgs>? OnKomitentDeleted;
         public event EventHandler<KomitentSavedArgs>? OnKomitentSaved;
@@ -37,21 +36,17 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         #region Konstruktor
         public KomitentiDetailViewModel(
             IKomitentRepository komitentRepository
-            , IMestoTroskaRepository mestoTroskaRepository
             , IMessageDialogService messageDialogService)
         {
             _komitentRepository = komitentRepository;
-            _mestoTroskaRepository = mestoTroskaRepository;
             _messageDialogService = messageDialogService;
-
-            _isPravnoLiceEditable = false;
-            _isFizickoLiceEditable = false;
 
             DeleteCommand = new DeleteCommand(this);
             SaveCommand = new SaveKomitentCommand(this);
-            CancelCommand = new CancelCommand(this);
-            CreateNewKomitentCommand = new CreateNewKomitentCommand(this);
 
+            CancelCommand = new CancelCommand(this);
+
+            CreateNewKomitentCommand = new CreateNewKomitentCommand(this);
             EditKomitentPropertyCommand = new RelayCommand(EditKomitentProperty);
 
             MestaTroska = new ObservableCollection<MestoTroska>();
@@ -68,6 +63,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 var oldValue = _komitent;
                 _komitent = value;
                 OnModelPropertyChanged(oldValue, value);
+                Komitent.PropertyChanged += (s, e) =>
+                {
+                    HasChanges = _komitentRepository.HasChanges();
+                };
             }
         }
         public KomitentWrapper? BackupKomitent
@@ -80,7 +79,21 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 OnModelPropertyChanged(oldValue, value);
             }
         }
-        public ObservableCollection<MestoTroska> MestaTroska { get; set; }
+
+        public ObservableCollection<MestoTroska> MestaTroska { get; }
+
+
+        public MestoTroska SelectedMestoTroska
+        {
+            get { return _selectedMestoTroska; }
+            set { 
+                _selectedMestoTroska = value; 
+                var oldValue = _selectedMestoTroska;
+                OnModelPropertyChanged(oldValue, value);
+                Komitent.MestoTroska = value;
+            }
+        }
+
 
         public bool HasChanges
         {
@@ -96,26 +109,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
             }
         }
-        public bool IsPravnoLiceEditable
-        {
-            get { return _isPravnoLiceEditable; }
-            set
-            {
-                var oldValue = _isPravnoLiceEditable;
-                _isPravnoLiceEditable = value;
-                OnModelPropertyChanged(oldValue, value);
-            }
-        }
-        public bool IsFizickoLiceEditable
-        {
-            get { return _isFizickoLiceEditable; }
-            set
-            {
-                var oldValue = _isFizickoLiceEditable;
-                _isFizickoLiceEditable = value;
-                OnModelPropertyChanged(oldValue, value);
-            }
-        }
 
         public IAsyncCommand SaveCommand { get; }
         public IAsyncCommand CancelCommand { get; }
@@ -129,19 +122,19 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
         private void EditKomitentProperty(object? obj = null)
         {
-            BeginEdit();
+            var model = (KomitentiDetailViewModel)this.MemberwiseClone();
+            BackupKomitent = model.Komitent;
+            Komitent?.BeginEdit();
         }
 
         public KomitentWrapper CreateNewKomitent()
         {
-            BeginEdit();
 
             var komitent = new Komitent();
 
             _komitentRepository.Add(komitent);
 
-            HasChanges = true;
-            Komitent = new KomitentWrapper(komitent);
+            Komitent = new KomitentWrapper(komitent, true, true, true);
             return Komitent;
         }
 
@@ -157,27 +150,23 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             {
                 var komitent = await _komitentRepository.GetByIdAsync(komitentId.Value);
 
-                Komitent = new KomitentWrapper(komitent);
+                Komitent = new KomitentWrapper(komitent, false, false, false);
+                SelectedMestoTroska = Komitent.MestoTroska;
             }
 
-            if (Komitent != null)
-            {
-                Komitent.PropertyChanged += (s, e) =>
-                {
-                    if (!HasChanges)
-                    {
-                        HasChanges = _komitentRepository.HasChanges();
-                    }
-                };
-            }
+            //if (Komitent != null)
+            //{
+            //    Komitent.PropertyChanged += (s, e) =>
+            //    {
+            //        if (HasChanges)
+            //        {
+            //            HasChanges = _komitentRepository.HasChanges();
+            //        }
+            //    };
+            //}
         }
         public async Task SaveKomitentAsync()
         {
-            await _komitentRepository.SaveAsync();
-            HasChanges = _komitentRepository.HasChanges();
-            IsPravnoLiceEditable = false;
-            IsFizickoLiceEditable = false;
-
             if (Komitent != null)
             {
                 if (!Komitent.HasErrors)
@@ -190,7 +179,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 }
             }
 
-            EndEdit();
+            await _komitentRepository.SaveAsync();
+            HasChanges = _komitentRepository.HasChanges();
         }
         public async Task DeleteKomitentAsync()
         {
@@ -210,94 +200,17 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         }
         public async Task CancelChange()
         {
-            if (HasChanges)
+            var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
+            if (result == MessageDialogResult.Potvrdi)
             {
-                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
-                if (result == MessageDialogResult.Potvrdi)
-                {
-                    CancelEdit();
-
-                    _komitentRepository.CancelChanges();
-                    HasChanges = _komitentRepository.HasChanges();
-
-                    await LoadAsync(Komitent?.Id);
-                }
-                else
-                {
-                    return;
-                }
-
-                EndEdit();
+                _komitentRepository.CancelChanges();
+                HasChanges = _komitentRepository.HasChanges();
             }
-        }
-
-        public void BeginEdit()
-        {
-            var model = (KomitentiDetailViewModel)this.MemberwiseClone();
-            BackupKomitent = model.Komitent;
-
-            HasChanges = true;
-
-            if (Komitent != null)
+            else
             {
-                if (Komitent.Id == 0)
-                {
-                    if (Komitent.PravnoLice == true)
-                    {
-                        Komitent.Naziv = "";
-                        Komitent.Pib = "";
-                        Komitent.MaticniBroj = "";
-
-                        Komitent.Ime = null;
-                        Komitent.Prezime = null;
-                        Komitent.Jmbg = null;
-
-                        IsPravnoLiceEditable = true;
-                        IsFizickoLiceEditable = false;
-                    }
-                    else if (Komitent.FizickoLice == true)
-                    {
-                        Komitent.Naziv = null;
-                        Komitent.Pib = null;
-                        Komitent.MaticniBroj = null;
-
-                        Komitent.Ime = "";
-                        Komitent.Prezime = "";
-                        Komitent.Jmbg = "";
-
-                        IsFizickoLiceEditable = true;
-                        IsPravnoLiceEditable = false;
-                    }
-                }
-                else
-                {
-                    if (Komitent.PravnoLice == true)
-                    {
-                        IsPravnoLiceEditable = true;
-                        IsFizickoLiceEditable = false;
-                    }
-                    else if (Komitent.FizickoLice == true)
-                    {
-
-                        IsFizickoLiceEditable = true;
-                        IsPravnoLiceEditable = false;
-                    }
-                }
+                return;
             }
-
-
-        }
-        public void CancelEdit()
-        {
-            Komitent = BackupKomitent;
-            IsPravnoLiceEditable = false;
-            IsFizickoLiceEditable = false;
-        }
-        public void EndEdit()
-        {
-            BackupKomitent = null;
-            IsPravnoLiceEditable = false;
-            IsFizickoLiceEditable = false;
+            await LoadAsync(Komitent?.Id);
         }
         public override void Dispose()
         {
@@ -309,7 +222,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
             base.Dispose();
         }
-
         public async Task LoadMestaTroskaAsync()
         {
             MestaTroska.Clear();

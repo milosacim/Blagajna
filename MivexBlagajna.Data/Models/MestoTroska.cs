@@ -28,5 +28,10 @@ namespace MivexBlagajna.Data.Models
 
         public ICollection<Komitent>? Komitenti { get; set; }
         public ICollection<Transakcija> Transakcije { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("{0} - {1}", Prefix, Naziv);
+        }
     }
 }

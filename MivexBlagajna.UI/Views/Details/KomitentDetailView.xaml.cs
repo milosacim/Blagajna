@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using MivexBlagajna.Data.Models;
+using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 

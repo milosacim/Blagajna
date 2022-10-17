@@ -169,7 +169,7 @@
                     x:Name="naziv"
                     Width="300"
                     Height="20"
-                    IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
+                    IsEnabled="{Binding Komitent.IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                     Text="{Binding Komitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label Margin="0,5,0,0" Content="Naziv 2: " />
@@ -177,7 +177,7 @@
                     x:Name="naziv2"
                     Width="300"
                     Height="20"
-                    IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
+                    IsEnabled="{Binding Komitent.IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                     Text="{Binding Komitent.Naziv2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label Margin="0,5,0,0" Content="Ime: " />
@@ -185,7 +185,7 @@
                     x:Name="ime"
                     Width="300"
                     Height="20"
-                    IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
+                    IsEnabled="{Binding Komitent.IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                     Text="{Binding Komitent.Ime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label Margin="0,5,0,0" Content="Prezime: " />
@@ -193,7 +193,7 @@
                     x:Name="prezime"
                     Width="300"
                     Height="20"
-                    IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
+                    IsEnabled="{Binding Komitent.IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                     Text="{Binding Komitent.Prezime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label Margin="0,5,0,0" Content="JMBG: " />
@@ -201,7 +201,7 @@
                     x:Name="jmbg"
                     Width="300"
                     Height="20"
-                    IsEnabled="{Binding IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
+                    IsEnabled="{Binding Komitent.IsFizickoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                     Text="{Binding Komitent.Jmbg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
@@ -219,7 +219,7 @@
                             Width="100"
                             Height="20"
                             HorizontalAlignment="Left"
-                            IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"
                             Text="{Binding Komitent.PostanskiBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
@@ -230,7 +230,7 @@
                             Width="100"
                             Height="20"
                             HorizontalAlignment="Left"
-                            IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding Komitent.IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                             Text="{Binding Komitent.Pib, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
@@ -241,7 +241,7 @@
                             Width="100"
                             Height="20"
                             HorizontalAlignment="Left"
-                            IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding Komitent.IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                             Text="{Binding Komitent.MaticniBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
@@ -254,7 +254,7 @@
                             x:Name="mesto"
                             Width="320"
                             Height="20"
-                            IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"
                             Text="{Binding Komitent.Mesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
@@ -264,7 +264,7 @@
                             x:Name="adresa"
                             Width="320"
                             Height="20"
-                            IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"
                             Text="{Binding Komitent.Adresa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
@@ -274,7 +274,7 @@
                             x:Name="kontaktOsoba"
                             Width="320"
                             Height="20"
-                            IsEnabled="{Binding IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding Komitent.IsPravnoLiceEditable, UpdateSourceTrigger=PropertyChanged}"
                             Text="{Binding Komitent.KontaktOsoba, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
@@ -284,7 +284,7 @@
                             x:Name="telefon"
                             Width="320"
                             Height="20"
-                            IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"
                             Text="{Binding Komitent.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                 </StackPanel>
@@ -299,9 +299,11 @@
                 <StackPanel Grid.Row="1" Margin="0 40 0 0">
                     <Label Margin="0,5,0,0" Content="Pripadnost (mesto troska): " />
 
+                    <!--<TextBox Text="{Binding Komitent.MestoTroska.Naziv}" IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>-->
+
                     <syncfusion:ComboBoxAdv 
                         
-                        ItemsSource="{Binding MestaTroska}" SelectedItem="{Binding Komitent.MestoTroska}" DisplayMemberPath="Naziv" IsEnabled="{Binding HasChanges, UpdateSourceTrigger=PropertyChanged}"/>
+                        ItemsSource="{Binding MestaTroska}" SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
 
                 </StackPanel>
             </Grid>

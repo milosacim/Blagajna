@@ -1,9 +1,4 @@
 ﻿using MivexBlagajna.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.Wrappers
 {
@@ -14,6 +9,8 @@ namespace MivexBlagajna.UI.Wrappers
             Prefix = mestoTroska.Prefix;
             Naziv = mestoTroska.Naziv;
             Nivo = mestoTroska.Nivo;
+
+            IsEditable = false;
         }
 
         public int Id { get { return Model.Id; } }
@@ -35,6 +32,21 @@ namespace MivexBlagajna.UI.Wrappers
             set { SetValue(value); }
         }
 
+        public bool IsEditable { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
+        public override void BeginEdit()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void CancelEdit()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void EndEdit()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

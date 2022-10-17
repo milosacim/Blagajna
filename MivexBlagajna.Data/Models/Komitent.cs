@@ -16,7 +16,6 @@ namespace MivexBlagajna.Data.Models
 
         [RequiredIf(nameof(PravnoLice),"Obavezno polje!", true)]
         public string? Naziv { get; set; }
-
         public string? Naziv2 { get; set; }
 
         [RequiredIf(nameof(FizickoLice), "Obavezno polje!", true)]

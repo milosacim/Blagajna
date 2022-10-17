@@ -107,7 +107,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             Komitenti.Clear();
             foreach (var item in listOfKomitenti)
             {
-                var komitent = new KomitentWrapper(item);
+                var komitent = new KomitentWrapper(item, false, false, false);
                 Komitenti.Add(komitent);
             }
 

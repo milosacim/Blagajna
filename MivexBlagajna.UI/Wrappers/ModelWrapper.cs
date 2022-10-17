@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace MivexBlagajna.UI.Wrappers
 {
-    public class ModelWrapper<T> : NotifyDataErrorInfoBase
+    public abstract class ModelWrapper<T> : NotifyDataErrorInfoBase, IEditableObject
     {
         public T Model { get; }
+
         public ModelWrapper(T model)
         {
             Model = model;
@@ -39,5 +41,9 @@ namespace MivexBlagajna.UI.Wrappers
                 AddError(propertyName, result.ErrorMessage);
             }
         }
+
+        public abstract void BeginEdit();
+        public abstract void CancelEdit();
+        public abstract void EndEdit();
     }
 }

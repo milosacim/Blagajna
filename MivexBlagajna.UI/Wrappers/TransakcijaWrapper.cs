@@ -1,9 +1,5 @@
 ﻿using MivexBlagajna.Data.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.Wrappers
 {
@@ -14,6 +10,8 @@ namespace MivexBlagajna.UI.Wrappers
             Opis = transakcija.Opis;
             Uplata = transakcija.Uplata;
             Isplata = transakcija.Isplata;
+
+            IsEditable = false;
         }
 
         public int Id { get { return Model.Id; } }
@@ -69,6 +67,23 @@ namespace MivexBlagajna.UI.Wrappers
         {
             get { return GetValue<decimal>(); }
             set { SetValue(value); }
+        }
+
+        public bool IsEditable { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public override void BeginEdit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CancelEdit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void EndEdit()
+        {
+            throw new NotImplementedException();
         }
     }
 }

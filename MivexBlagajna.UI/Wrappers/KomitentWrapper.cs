@@ -8,10 +8,17 @@ namespace MivexBlagajna.UI.Wrappers
 
     public class KomitentWrapper : ModelWrapper<Komitent>
     {
-        #region Konstruktor
-        public KomitentWrapper(Komitent komitent) : base(komitent)
-        {
 
+        private bool _isEditable;
+        private bool _isPravnoLiceEditable;
+        private bool _isFizickoLiceEditable;
+
+        #region Konstruktor
+        public KomitentWrapper(Komitent komitent, bool isEditable, bool isPravnoLiceEditable, bool isFizickoLiceEditable) : base(komitent)
+        {
+            _isEditable = isEditable;
+            _isPravnoLiceEditable = isPravnoLiceEditable;
+            _isFizickoLiceEditable = isFizickoLiceEditable;
         }
 
         #endregion
@@ -219,11 +226,63 @@ namespace MivexBlagajna.UI.Wrappers
 
         public bool IsEditable
         {
-            get => GetValue<bool>();
-            set
+            get { return _isEditable; }
+            set { _isEditable = value; OnModelPropertyChanged(); }
+        }
+
+
+        public bool IsPravnoLiceEditable
+        {
+            get { return _isPravnoLiceEditable; }
+            set { _isPravnoLiceEditable = value; OnModelPropertyChanged(); }
+        }
+
+
+        public bool IsFizickoLiceEditable
+        {
+            get { return _isFizickoLiceEditable; }
+            set { _isFizickoLiceEditable = value; OnModelPropertyChanged(); }
+        }
+
+        public override void BeginEdit()
+        {
+
+            if (PravnoLice == FizickoLice)
             {
-                SetValue(value);
+                IsEditable = false;
+                IsPravnoLiceEditable = false;
+                IsFizickoLiceEditable = false;
             }
+
+            else
+            {
+                if (PravnoLice == true)
+                {
+                    IsEditable = true;
+                    IsPravnoLiceEditable = true;
+                    IsFizickoLiceEditable = false;
+                }
+                else
+                {
+                    IsEditable = true;
+                    IsFizickoLiceEditable = true;
+                    IsPravnoLiceEditable = false;
+                }
+            }
+        }
+
+        public override void CancelEdit()
+        {
+            IsEditable = false;
+            IsFizickoLiceEditable = false;
+            IsPravnoLiceEditable = false;
+        }
+
+        public override void EndEdit()
+        {
+            IsEditable = false;
+            IsFizickoLiceEditable = false;
+            IsPravnoLiceEditable = false;
         }
 
         #endregion

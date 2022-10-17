@@ -1,24 +1,40 @@
 ﻿using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.Commands.Komitenti
 {
     public class CancelCommand : AsyncCommand
     {
-        private readonly IKomitentiDetailViewModel komitentiDetailViewModel;
+        private IKomitentiDetailViewModel _komitentiDetailViewModel;
 
         public CancelCommand(IKomitentiDetailViewModel komitentiDetailViewModel)
         {
-            this.komitentiDetailViewModel = komitentiDetailViewModel;
+            _komitentiDetailViewModel = komitentiDetailViewModel;
         }
         public override bool CanExecute()
         {
-            return komitentiDetailViewModel.HasChanges;
+            if (KomitentiDetailViewModel.Komitent != null)
+            {
+                return RunningTasks.Count() != 0 || (KomitentiDetailViewModel.HasChanges || KomitentiDetailViewModel.Komitent.IsEditable );
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override async Task ExecuteAsync()
         {
-            await komitentiDetailViewModel.CancelChange();
+            await KomitentiDetailViewModel.CancelChange();
         }
+
+
+        public IKomitentiDetailViewModel KomitentiDetailViewModel
+        {
+            get { return _komitentiDetailViewModel; }
+            set { _komitentiDetailViewModel = value; }
+        }
+
     }
 }
