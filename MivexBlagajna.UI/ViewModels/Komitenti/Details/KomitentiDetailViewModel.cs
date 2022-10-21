@@ -25,7 +25,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         private KomitentWrapper? _backupkomitent;
         private MestoTroska _selectedMestoTroska;
 
-
         private bool _hasChanges;
 
         public event EventHandler<KomitentDeletedArgs>? OnKomitentDeleted;
@@ -41,13 +40,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             _komitentRepository = komitentRepository;
             _messageDialogService = messageDialogService;
 
-            DeleteCommand = new DeleteCommand(this);
-            SaveCommand = new SaveKomitentCommand(this);
-
-            CancelCommand = new CancelCommand(this);
-
-            CreateNewKomitentCommand = new CreateNewKomitentCommand(this);
             EditKomitentPropertyCommand = new RelayCommand(EditKomitentProperty);
+
+            SaveCommand = new SaveKomitentCommand(this);
+            CreateNewKomitentCommand = new CreateNewKomitentCommand(this);
+            DeleteCommand = new DeleteCommand(this);
+            CancelCommand = new CancelCommand(this);
 
             MestaTroska = new ObservableCollection<MestoTroska>();
         }
@@ -55,6 +53,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         #endregion
 
         #region Properties
+        public ObservableCollection<MestoTroska> MestaTroska { get; }
         public KomitentWrapper? Komitent
         {
             get { return _komitent; }
@@ -63,7 +62,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 var oldValue = _komitent;
                 _komitent = value;
                 OnModelPropertyChanged(oldValue, value);
-
             }
         }
         public KomitentWrapper? BackupKomitent
@@ -76,10 +74,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 OnModelPropertyChanged(oldValue, value);
             }
         }
-
-        public ObservableCollection<MestoTroska> MestaTroska { get; }
-
-
         public MestoTroska SelectedMestoTroska
         {
             get { return _selectedMestoTroska; }
@@ -87,15 +81,17 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
                 if (value != null)
                 {
-                    _selectedMestoTroska = value;
                     var oldValue = _selectedMestoTroska;
+                    _selectedMestoTroska = value;
                     OnModelPropertyChanged(oldValue, value);
 
-                    Komitent.MestoTroska = value;
+                    if (oldValue != null && oldValue.Id != value.Id)
+                    {
+                        Komitent.MestoTroska = value;
+                    }
                 }
             }
         }
-
 
         public bool HasChanges
         {
@@ -128,22 +124,25 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             BackupKomitent = model.Komitent;
             Komitent?.BeginEdit();
         }
-
         public KomitentWrapper CreateNewKomitent()
         {
+            var model = (KomitentiDetailViewModel)this.MemberwiseClone();
+            BackupKomitent = model.Komitent;
 
             var komitent = new Komitent();
-
             _komitentRepository.Add(komitent);
 
             Komitent = new KomitentWrapper(komitent, true, true, true);
             return Komitent;
         }
-
         public async Task LoadAsync(int? komitentId)
         {
             await LoadMestaTroskaAsync();
+            await InitializeKomitent(komitentId);
+        }
 
+        private async Task InitializeKomitent(int? komitentId)
+        {
             if (komitentId == null)
             {
                 CreateNewKomitent();
@@ -160,9 +159,17 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 {
                     HasChanges = _komitentRepository.HasChanges();
                 };
-
             }
+        }
 
+        public async Task LoadMestaTroskaAsync()
+        {
+            MestaTroska.Clear();
+            var mestaTroska = await _komitentRepository.GetAllMestaTroska();
+            foreach (var mesto in mestaTroska)
+            {
+                MestaTroska.Add(mesto);
+            }
         }
         public async Task SaveKomitentAsync()
         {
@@ -211,12 +218,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 _komitentRepository.CancelChanges();
                 HasChanges = _komitentRepository.HasChanges();
             }
-            else
+            
+            if (Komitent != null)
             {
-                return;
+                Komitent?.EndEdit();
+                await LoadAsync(BackupKomitent?.Id);
             }
-            await LoadAsync(Komitent?.Id);
-            Komitent?.EndEdit();
         }
         public override void Dispose()
         {
@@ -228,16 +235,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
             base.Dispose();
         }
-        public async Task LoadMestaTroskaAsync()
-        {
-            MestaTroska.Clear();
-            var mestaTroska = await _komitentRepository.GetAllMestaTroska();
-            foreach (var mesto in mestaTroska)
-            {
-                MestaTroska.Add(mesto);
-            }
-        }
-
 
         #endregion
     }

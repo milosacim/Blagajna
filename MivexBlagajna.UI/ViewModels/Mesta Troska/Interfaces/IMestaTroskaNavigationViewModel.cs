@@ -8,7 +8,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
     {
         Task LoadAsync();
 
-        event EventHandler<MestoTroskaArgs> OpenDetails;
+        event EventHandler<MestoTroskaArgs> OnMestoSelected;
         ObservableCollection<MestaTroskaNavigationItemViewModel> MestaTroska { get; }
         MestaTroskaNavigationItemViewModel SelectedMestoTroska { get; set; }
         void Dispose();
@@ -16,11 +16,17 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
     }
     public class MestoTroskaArgs
     {
-        public readonly int id;
+        public int _newid;
+        public int _newNadId;
+        public bool _isSelected;
+        public int? _oldId;
 
-        public MestoTroskaArgs(int id)
+        public MestoTroskaArgs(int newid, int newNadId, bool isSelected, int? oldId = null)
         {
-            this.id = id;
+            _newid = newid;
+            _newNadId = newNadId;
+            _isSelected = isSelected;
+            _oldId = oldId;
         }
     }
 }

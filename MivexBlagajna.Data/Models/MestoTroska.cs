@@ -20,12 +20,8 @@ namespace MivexBlagajna.Data.Models
 
         [Required]
         public int Nivo { get; set; }
-
-        [Required]
         public int NadredjenoMesto_Id { get; set; }
-
         public bool Obrisano { get; set; }
-
         public ICollection<Komitent>? Komitenti { get; set; }
         public ICollection<Transakcija> Transakcije { get; set; }
 

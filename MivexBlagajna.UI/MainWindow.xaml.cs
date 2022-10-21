@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Syncfusion.Themes.MaterialLight.WPF;
+using System.Windows.Media;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using MivexBlagajna.UI.ViewModels;
 using Syncfusion.Windows.Tools.Controls;
+using Syncfusion.SfSkinManager;
 
 namespace MivexBlagajna.UI
 {
@@ -12,6 +14,11 @@ namespace MivexBlagajna.UI
         private MainViewModel _viewModel;
         public MainWindow(MainViewModel viewModel)
         {
+            MaterialLightThemeSettings materialLightThemeSettings = new MaterialLightThemeSettings();
+
+            SfSkinManager.RegisterThemeSettings("MaterialLightBlue", materialLightThemeSettings);
+            SfSkinManager.SetTheme(this, new Theme("MaterialLightBlue"));
+
             InitializeComponent();
             _viewModel = viewModel;
             DataContext = _viewModel;
@@ -51,6 +58,5 @@ namespace MivexBlagajna.UI
         {
 
         }
-
     }
 }

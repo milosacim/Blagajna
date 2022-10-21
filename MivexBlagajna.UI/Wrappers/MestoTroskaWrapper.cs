@@ -4,49 +4,61 @@ namespace MivexBlagajna.UI.Wrappers
 {
     public class MestoTroskaWrapper : ModelWrapper<MestoTroska>
     {
-        public MestoTroskaWrapper(MestoTroska mestoTroska) : base(mestoTroska)
+        private bool _isEditable;
+
+        public MestoTroskaWrapper(MestoTroska mestoTroska, bool isEditable) : base(mestoTroska)
         {
             Prefix = mestoTroska.Prefix;
             Naziv = mestoTroska.Naziv;
             Nivo = mestoTroska.Nivo;
+            NadredjenoMesto_Id = mestoTroska.NadredjenoMesto_Id;
 
-            IsEditable = false;
+            _isEditable = isEditable;
         }
 
         public int Id { get { return Model.Id; } }
-        public int Nadiredjeni_Id { get { return Model.NadredjenoMesto_Id; } }
+
+        public int NadredjenoMesto_Id
+        {
+            get { return GetValue<int>(); }
+            set { SetValue(value); OnModelPropertyChanged(); }
+        }
+
         public string Prefix
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
         public string Naziv
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public int Nivo
         {
             get { return GetValue<int>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
-        public bool IsEditable { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public bool IsEditable
+        {
+            get { return _isEditable; }
+            set { _isEditable = value; OnModelPropertyChanged(); }
+        }
 
         public override void BeginEdit()
         {
-            throw new System.NotImplementedException();
+            IsEditable = true;
         }
 
         public override void CancelEdit()
         {
-            throw new System.NotImplementedException();
+            IsEditable = false;
         }
-
         public override void EndEdit()
         {
-            throw new System.NotImplementedException();
+            IsEditable = false;
         }
     }
 }

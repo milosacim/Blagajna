@@ -13,7 +13,7 @@
 
     <UserControl.Resources>
 
-        <converters:IsEditableToEnableButtonConverter x:Key="EnableBthConverter" />
+        <!--<converters:IsEditableToEnableButtonConverter x:Key="EnableBthConverter" />-->
 
         <Style TargetType="TextBox">
             <Setter Property="Validation.ErrorTemplate">
@@ -52,14 +52,12 @@
 
             <syncfusion:ButtonAdv
                 Command="{Binding CreateCommand}"
-                IsEnabled="{Binding IsEditable, Converter={StaticResource EnableBthConverter}}"
                 Label="Dodaj"
                 SizeMode="Normal"
                 SmallIcon="/Images/icons8-add-48.png" />
             <syncfusion:ButtonAdv
                 Margin="5,0,0,0"
-                Command="{Binding EnableEditingCommand}"
-                IsEnabled="{Binding IsEditable, Converter={StaticResource EnableBthConverter}}"
+                Command="{Binding EditMestoTroskaPropertyCommand}"
                 Label="Izmeni"
                 SizeMode="Normal"
                 SmallIcon="/Images/icons8-edit-property-48.png" />
@@ -67,7 +65,6 @@
             <syncfusion:ButtonAdv
                 Margin="5,0,0,0"
                 Command="{Binding DeleteCommand}"
-                IsEnabled="{Binding IsEditable, Converter={StaticResource EnableBthConverter}}"
                 Label="Obriši"
                 SizeMode="Normal"
                 SmallIcon="/Images/icons8-remove-48.png" />
@@ -101,7 +98,7 @@
             <StackPanel Margin="5,0,0,0">
 
                 <Label Content="Mesto Troška" />
-                <TextBox IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}" Text="{Binding MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox IsEnabled="{Binding MestoTroska.IsEditable, UpdateSourceTrigger=PropertyChanged}" Text="{Binding MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             </StackPanel>
 
@@ -115,14 +112,21 @@
             <StackPanel>
 
                 <Label Content="Nivo" />
-                <TextBox IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}" Text="{Binding MestoTroska.Nivo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox IsEnabled="{Binding MestoTroska.IsEditable, UpdateSourceTrigger=PropertyChanged}" Text="{Binding MestoTroska.Nivo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             </StackPanel>
 
             <StackPanel Margin="5,0,0,0">
 
                 <Label Content="Nadređeno mesto troška" />
-                <TextBox IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <syncfusion:ComboBoxAdv 
+                    ItemsSource="{Binding MestaTroska}" 
+                    SelectedItem="{Binding NadredjenoMestoTroska, Mode=TwoWay}"
+                    IsEnabled="{Binding MestoTroska.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!--<TextBox IsEnabled="{Binding MestoTroska.IsEditable, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding NadredjenoMestoTroska.Naziv, UpdateSourceTrigger=PropertyChanged}"/>-->
 
             </StackPanel>
 

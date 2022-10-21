@@ -1,10 +1,7 @@
 ﻿using MivexBlagajna.UI.Commands;
-using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti;
 using MivexBlagajna.UI.ViewModels.MestaTroska;
 using MivexBlagajna.UI.ViewModels.Uplate_Isplate;
-using Syncfusion.Windows.Shared;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;

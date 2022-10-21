@@ -59,7 +59,6 @@ namespace MivexBlagajna.UI
                 });
 
             }, ServiceLifetime.Singleton);
-                
 
             services.AddTransient<IKomitentRepository, KomitentRepository>();
             services.AddTransient<IMestoTroskaRepository, MestoTroskaRepository>();
@@ -69,16 +68,16 @@ namespace MivexBlagajna.UI
             services.AddTransient<ILookupKomitentDataService, LookupKomitentDataService>();
             services.AddTransient<ILookupMestoTroskaDataService, LookupMestoTroskaDataService>();
 
-            services.AddTransient<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
+            services.AddSingleton<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
+            services.AddSingleton<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
 
-            services.AddTransient<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
+            services.AddSingleton<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
+            services.AddSingleton<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
+
+            services.AddSingleton<IUplateIsplateViewModel, UplateIsplateViewModel>();
 
             services.AddTransient<Func<IKomitentiDetailViewModel>>(s => () => s.GetService<IKomitentiDetailViewModel>());
             services.AddTransient<Func<IMestaTroskaDetailsViewModel>>(s => () => s.GetService<IMestaTroskaDetailsViewModel>());
-
-            services.AddTransient<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
-            services.AddTransient<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
-            services.AddTransient<IUplateIsplateViewModel, UplateIsplateViewModel>();
 
             services.AddSingleton<MestaTroskaViewModel>();
             services.AddSingleton<KomitentiViewModel>();

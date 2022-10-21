@@ -52,7 +52,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             get { return _state; }
             set { }
         }
-        public AsyncCommand? CreateNewKomitentCommand { get; }
         public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
         public IKomitentiDetailViewModel KomitentiDetailViewModel
         {
@@ -67,8 +66,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
         }
 
-        
-
         #endregion
 
         #region Methods
@@ -79,35 +76,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 await KomitentiNavigationViewModel.LoadAsync();
             }
         }
-        public override void Dispose()
-        {
-            if (KomitentiDetailViewModel != null && KomitentiNavigationViewModel != null)
-            {
-                if (KomitentiDetailViewModel.HasChanges)
-                {
-                    var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
-                    if (result == MessageDialogResult.Potvrdi)
-                    {
-                        
-                        KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
-                        KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
-                        KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
-
-                        KomitentiDetailViewModel.Dispose();
-                        KomitentiNavigationViewModel.Dispose();
-                    }
-                }
-
-                KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
-                KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
-                KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
-
-                KomitentiDetailViewModel.Dispose();
-                KomitentiNavigationViewModel.Dispose();
-            }
-            base.Dispose();
-        }
-
         private void UpdateisSelected(object? sender, SelectedKomitentArgs e)
         {
             var model = sender as KomitentiNavigationViewModel;
@@ -137,12 +105,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             if (KomitentiDetailViewModel != null && KomitentiDetailViewModel.HasChanges)
             {
-                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
-                if (result == MessageDialogResult.Otkazi)
-                {
-                    return;
-                }
+                KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
+
+                await KomitentiDetailViewModel.CancelChange();
+                await KomitentiDetailViewModel.LoadAsync(e.newid);
             }
+
             KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
             await KomitentiDetailViewModel.LoadAsync(e.newid);
         }
@@ -167,6 +135,35 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 KomitentiNavigationViewModel.Komitenti.Remove(komitent);
                 KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.Last();
             }
+        }
+
+        public override void Dispose()
+        {
+            if (KomitentiDetailViewModel != null && KomitentiNavigationViewModel != null)
+            {
+                if (KomitentiDetailViewModel.HasChanges)
+                {
+                    var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
+                    if (result == MessageDialogResult.Potvrdi)
+                    {
+
+                        KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
+                        KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
+                        KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
+
+                        KomitentiDetailViewModel.Dispose();
+                        KomitentiNavigationViewModel.Dispose();
+                    }
+                }
+
+                KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
+                KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
+                KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
+
+                KomitentiDetailViewModel.Dispose();
+                KomitentiNavigationViewModel.Dispose();
+            }
+            base.Dispose();
         }
         #endregion
     }

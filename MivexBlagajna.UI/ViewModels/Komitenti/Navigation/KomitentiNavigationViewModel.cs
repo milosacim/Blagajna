@@ -146,6 +146,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                 return false;
             }
         }
+
         public override void Dispose()
         {
             base.Dispose();

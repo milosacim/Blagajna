@@ -8,11 +8,10 @@
     xmlns:mesta="clr-namespace:MivexBlagajna.UI.ViewModels.MestaTroska"
     xmlns:uplateIsplate="clr-namespace:MivexBlagajna.UI.ViewModels.Uplate_Isplate"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-    xmlns:syncfusionSkin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
     Title="Blagajna - Mivex D.O.O Cacak"
+    TitleTextAlignment="Left"
     Width="525"
     Height="350"
-    syncfusionSkin:SfSkinManager.Theme="{syncfusionSkin:SkinManagerExtension ThemeName=FluentLight}"
     Icon="App.ico">
 
     <Window.Resources>

@@ -18,7 +18,7 @@ namespace MivexBlagajna.UI.Commands.Mesta_Troska
 
         public override async Task ExecuteAsync()
         {
-            await mestaTroskaDetailsViewModel.LoadAsync(null);
+            await mestaTroskaDetailsViewModel.LoadAsync(null, null);
         }
     }
 }

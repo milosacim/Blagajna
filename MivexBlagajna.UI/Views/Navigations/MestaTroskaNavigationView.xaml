@@ -12,7 +12,7 @@
         <syncfusion:SfTreeGrid
             ChildPropertyName="Nadredjeni_Id"
             ItemsSource="{Binding MestaTroska}"
-            SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ParentPropertyName="Id"
             SelfRelationRootValue="0"
             AutoExpandMode="AllNodesExpanded"
@@ -28,6 +28,7 @@
                 <syncfusion:TreeGridTextColumn HeaderText="Mesto Troška" MappingName="Naziv" />
 
             </syncfusion:SfTreeGrid.Columns>
+            
 
         </syncfusion:SfTreeGrid>
     </Grid>

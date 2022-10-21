@@ -15,6 +15,7 @@
             _pravnoLice = pravnoLice;
             _fizickoLice = fizickoLice;
             _mestoTroska = mesto;
+
             _isSelected = false;
         }
 
@@ -60,7 +61,6 @@
                 OnObjectPropertyChanged(oldValue, value);
             }
         }
-
 
         public string MestoTroska
         {

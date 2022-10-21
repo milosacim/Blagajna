@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
+﻿namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
 {
-    public class MestaTroskaNavigationItemViewModel : ViewModelBase
+    public class MestaTroskaNavigationItemViewModel : ObservableObject
     {
         private string _naziv;
         private string _sifra;
         private int _nivo;
         private int _nadredjeniId;
+        private bool _isSelected;
 
         public MestaTroskaNavigationItemViewModel(int id, string sifra, string naziv, int nivo, int nadredjeni)
         {
@@ -21,6 +16,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             Nivo = nivo;
             Nadredjeni_Id = nadredjeni;
 
+            _isSelected = false;
         }
 
         public int Id { get; }
@@ -32,7 +28,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             {
                 var oldValue = _sifra;
                 _sifra = value;
-                OnModelPropertyChanged(oldValue, value);
+                OnObjectPropertyChanged(oldValue, value);
             }
         }
 
@@ -43,7 +39,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             {
                 var oldValue = _naziv;
                 _naziv = value;
-                OnModelPropertyChanged(oldValue, value);
+                OnObjectPropertyChanged(oldValue, value);
             }
         }
 
@@ -54,7 +50,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             {
                 var oldValue = _nivo;
                 _nivo = value;
-                OnModelPropertyChanged(oldValue, value);
+                OnObjectPropertyChanged(oldValue, value);
             }
         }
 
@@ -64,13 +60,19 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             set { 
                 var oldValue = _nadredjeniId;
                 _nadredjeniId = value;
-                OnModelPropertyChanged(oldValue, value);
+                OnObjectPropertyChanged(oldValue, value);
             }
         }
 
-        public override void Dispose()
+        public bool IsSelected
         {
-            base.Dispose();
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                var oldValue = _isSelected;
+                OnObjectPropertyChanged(oldValue, value);
+            }
         }
     }
 }

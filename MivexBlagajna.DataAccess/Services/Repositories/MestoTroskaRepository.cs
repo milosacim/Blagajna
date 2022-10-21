@@ -17,9 +17,17 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<IEnumerable<MestoTroska>> GetAll()
         {
-            IEnumerable<MestoTroska> mesta = await _context.MestaTroska.Where(m => m.Obrisano == false).ToListAsync();
-            return mesta;
-        }
+            return await _context.MestaTroska.Where(m => m.Obrisano == false)
+                .Select(m => new MestoTroska()
+                {
+                    Id = m.Id,
+                    NadredjenoMesto_Id = m.NadredjenoMesto_Id,
+                    Prefix = m.Prefix,
+                    Naziv = m.Naziv,
+                    Nivo = m.Nivo,
+                    Obrisano = m.Obrisano
+                }).ToListAsync();
+            }
         public bool HasChanges()
         {
             return _context.ChangeTracker.HasChanges();

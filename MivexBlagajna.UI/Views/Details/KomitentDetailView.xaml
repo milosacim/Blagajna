@@ -296,7 +296,9 @@
                 <StackPanel Grid.Row="1" Margin="0,40,0,0">
                     <Label Margin="0,5,0,0" Content="Pripadnost (mesto troska): " />
 
-                    <syncfusion:ComboBoxAdv ItemsSource="{Binding MestaTroska}" SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
+                    <syncfusion:ComboBoxAdv 
+                        ItemsSource="{Binding MestaTroska}" 
+                        SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
 
                 </StackPanel>
             </Grid>
