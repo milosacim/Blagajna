@@ -12,19 +12,19 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20220930081244_Initial_Migration")]
-    partial class Initial_Migration
+    [Migration("20221023220524_Initial_migration")]
+    partial class Initial_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.7")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.HasSequence<int>("Sifra");
+            modelBuilder.HasSequence<int>("Sifre");
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.Komitent", b =>
                 {
@@ -56,7 +56,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<string>("Mesto")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MestoTroska_id")
+                    b.Property<int?>("MestoTroska_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Naziv")
@@ -86,14 +86,14 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<int>("Sifra")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR Sifra");
+                        .HasDefaultValueSql("NEXT VALUE FOR Sifre");
 
                     b.Property<string>("Telefon")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MestoTroska_id");
+                    b.HasIndex("MestoTroska_Id");
 
                     b.HasIndex("Sifra")
                         .IsUnique();
@@ -127,7 +127,7 @@ namespace MivexBlagajna.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("NadredjenoMesto_Id")
+                    b.Property<int?>("NadredjenoMesto_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Naziv")
@@ -138,11 +138,16 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.Property<int>("Nivo")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Obrisano")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Prefix")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NadredjenoMesto_Id");
 
                     b.ToTable("MestaTroska", (string)null);
                 });
@@ -208,10 +213,20 @@ namespace MivexBlagajna.DataAccess.Migrations
                 {
                     b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "MestoTroska")
                         .WithMany("Komitenti")
-                        .HasForeignKey("MestoTroska_id")
+                        .HasForeignKey("MestoTroska_Id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MestoTroska");
+                });
+
+            modelBuilder.Entity("MivexBlagajna.Data.Models.MestoTroska", b =>
+                {
+                    b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "RoditeljMestoTroska")
+                        .WithMany("DecaMestoTroska")
+                        .HasForeignKey("NadredjenoMesto_Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("RoditeljMestoTroska");
                 });
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.Transakcija", b =>
@@ -219,13 +234,13 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.HasOne("MivexBlagajna.Data.Models.Komitent", "Komitent")
                         .WithMany("Transakcije")
                         .HasForeignKey("Komitent_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MivexBlagajna.Data.Models.Konto", "Konto")
                         .WithMany("Transakcije")
                         .HasForeignKey("Konto_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "MestoTroska")
@@ -253,6 +268,8 @@ namespace MivexBlagajna.DataAccess.Migrations
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.MestoTroska", b =>
                 {
+                    b.Navigation("DecaMestoTroska");
+
                     b.Navigation("Komitenti");
 
                     b.Navigation("Transakcije");

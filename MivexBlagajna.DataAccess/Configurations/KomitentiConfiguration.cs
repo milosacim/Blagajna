@@ -29,7 +29,7 @@ namespace MivexBlagajna.DataAccess.Configurations
             builder.HasMany(e => e.Transakcije)
                 .WithOne(t => t.Komitent)
                 .HasForeignKey(t => t.Komitent_Id)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

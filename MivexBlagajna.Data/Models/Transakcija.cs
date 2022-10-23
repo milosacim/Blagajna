@@ -19,8 +19,8 @@ namespace MivexBlagajna.Data.Models
         public int MestoTroska_Id { get; set; }
         public int Konto_Id { get; set; }
 
-        public Komitent Komitent { get; set; }
-        public MestoTroska MestoTroska { get; set; }
-        public Konto Konto { get; set; }
+        public virtual Komitent Komitent { get; set; }
+        public virtual MestoTroska MestoTroska { get; set; }
+        public virtual Konto Konto { get; set; }
     }
 }

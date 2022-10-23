@@ -16,17 +16,17 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
     }
     public class MestoTroskaArgs
     {
-        public int _newid;
-        public int _newNadId;
-        public bool _isSelected;
-        public int? _oldId;
+        public int newid;
+        public int? newNadId;
+        public bool isSelected;
+        public int? oldId;
 
-        public MestoTroskaArgs(int newid, int newNadId, bool isSelected, int? oldId = null)
+        public MestoTroskaArgs(int newid, int? newNadId, bool isSelected, int? oldId = null)
         {
-            _newid = newid;
-            _newNadId = newNadId;
-            _isSelected = isSelected;
-            _oldId = oldId;
+            this.newid = newid;
+            this.newNadId = newNadId;
+            this.isSelected = isSelected;
+            this.oldId = oldId;
         }
     }
 }

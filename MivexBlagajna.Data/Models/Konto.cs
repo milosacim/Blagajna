@@ -11,6 +11,6 @@ namespace MivexBlagajna.Data.Models
         [Key]
         public int Id { get; set; }
         public string Naziv { get; set; }
-        public ICollection<Transakcija> Transakcije { get; set; }
+        public virtual ICollection<Transakcija> Transakcije { get; set; }
     }
 }

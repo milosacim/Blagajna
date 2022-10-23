@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace MivexBlagajna.Data.Models
 {
@@ -6,6 +7,7 @@ namespace MivexBlagajna.Data.Models
     {
         public MestoTroska()
         {
+            DecaMestoTroska = new List<MestoTroska>();
             Komitenti = new List<Komitent>();
             Transakcije = new List<Transakcija>();
         }
@@ -20,10 +22,12 @@ namespace MivexBlagajna.Data.Models
 
         [Required]
         public int Nivo { get; set; }
-        public int NadredjenoMesto_Id { get; set; }
+        public int? NadredjenoMesto_Id { get; set; }
+        public virtual MestoTroska RoditeljMestoTroska { get; set; }
+        public virtual ICollection<MestoTroska> DecaMestoTroska { get; set; }
+        public virtual ICollection<Komitent> Komitenti { get; set; }
+        public virtual ICollection<Transakcija> Transakcije { get; set; }
         public bool Obrisano { get; set; }
-        public ICollection<Komitent>? Komitenti { get; set; }
-        public ICollection<Transakcija> Transakcije { get; set; }
 
         public override string ToString()
         {

@@ -24,6 +24,9 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         private MestoTroska _nadredjenoMestoTroska;
         private bool _hasChanges;
 
+        public event EventHandler<SavedMestoTroskaArgs> OnMestoSaved;
+        public event EventHandler<MestoTroskaDeletedArgs> OnMestoDeleted;
+
         public MestaTroskaDetailsViewModel(
             IMestoTroskaRepository mestoTroskaRepository
             , IMessageDialogService messageDialogService)
@@ -102,8 +105,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             }
         }
 
-        public event EventHandler<SavedMestoTroskaArgs> OnMestoSaved;
-        public event EventHandler<MestoTroskaDeletedArgs> OnMestoDeleted;
+        
 
         public async Task CancelChange()
         {
@@ -125,7 +127,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         {
             if (MestoTroska != null)
             {
-                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene. Da li želite da otkažete?", "Question");
+                var result = _messageDialogService.ShowOKCancelDialog("Da li ste sigurni da zelite da obrisete mesto troška?", "Question");
 
                 if (result == MessageDialogResult.Potvrdi)
                 {
@@ -171,13 +173,16 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                         , MestoTroska.Prefix
                         , MestoTroska.Naziv
                         , MestoTroska.Nivo
-                        , MestoTroska.NadredjenoMesto_Id));
+                        , MestoTroska.NadredjenoMesto_Id
+                        )
+                    );
                 }
             }
 
+            MestoTroska?.EndEdit();
             await _mestoTroskaRepository.SaveAsync();
             HasChanges = _mestoTroskaRepository.HasChanges();
-            MestoTroska?.EndEdit();
+            
         }
 
         private void EditMestoTroskaProperty(object? obj)
@@ -210,14 +215,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 
                 MestoTroska = new MestoTroskaWrapper(mestoTroska, false);
 
-                if (nadMestoTroskaId == 0 )
-                {
-                    NadredjenoMestoTroska = MestoTroska.Model;
-                }
-                else
-                {
-                    NadredjenoMestoTroska = await _mestoTroskaRepository.GetByIdAsync(nadMestoTroskaId.Value);
-                }
+                NadredjenoMestoTroska = MestaTroska.Single(m => m.Id == nadMestoTroskaId);
 
                 MestoTroska.PropertyChanged += (s, e) =>
                 {

@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MivexBlagajna.DataAccess.Migrations
 {
-    public partial class Initial_Migration : Migration
+    public partial class Initial_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateSequence<int>(
-                name: "Sifra");
+                name: "Sifre");
 
             migrationBuilder.CreateTable(
                 name: "Konto",
@@ -34,11 +34,18 @@ namespace MivexBlagajna.DataAccess.Migrations
                     Prefix = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Naziv = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Nivo = table.Column<int>(type: "int", nullable: false),
-                    NadredjenoMesto_Id = table.Column<int>(type: "int", nullable: false)
+                    NadredjenoMesto_Id = table.Column<int>(type: "int", nullable: true),
+                    Obrisano = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MestaTroska", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MestaTroska_MestaTroska_NadredjenoMesto_Id",
+                        column: x => x.NadredjenoMesto_Id,
+                        principalTable: "MestaTroska",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,7 +54,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Sifra = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR Sifra"),
+                    Sifra = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR Sifre"),
                     Naziv = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Naziv2 = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Ime = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -63,14 +70,14 @@ namespace MivexBlagajna.DataAccess.Migrations
                     Telefon = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PravnoLice = table.Column<bool>(type: "bit", nullable: false),
                     FizickoLice = table.Column<bool>(type: "bit", nullable: false),
-                    MestoTroska_id = table.Column<int>(type: "int", nullable: true)
+                    MestoTroska_Id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Komitent", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Komitent_MestaTroska_MestoTroska_id",
-                        column: x => x.MestoTroska_id,
+                        name: "FK_Komitent_MestaTroska_MestoTroska_Id",
+                        column: x => x.MestoTroska_Id,
                         principalTable: "MestaTroska",
                         principalColumn: "Id");
                 });
@@ -100,14 +107,12 @@ namespace MivexBlagajna.DataAccess.Migrations
                         name: "FK_Transakcije_Komitent_Komitent_Id",
                         column: x => x.Komitent_Id,
                         principalTable: "Komitent",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Transakcije_Konto_Konto_Id",
                         column: x => x.Konto_Id,
                         principalTable: "Konto",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Transakcije_MestaTroska_MestoTroska_Id",
                         column: x => x.MestoTroska_Id,
@@ -116,15 +121,20 @@ namespace MivexBlagajna.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Komitent_MestoTroska_id",
+                name: "IX_Komitent_MestoTroska_Id",
                 table: "Komitent",
-                column: "MestoTroska_id");
+                column: "MestoTroska_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Komitent_Sifra",
                 table: "Komitent",
                 column: "Sifra",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MestaTroska_NadredjenoMesto_Id",
+                table: "MestaTroska",
+                column: "NadredjenoMesto_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transakcije_Komitent_Id",
@@ -157,7 +167,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                 name: "MestaTroska");
 
             migrationBuilder.DropSequence(
-                name: "Sifra");
+                name: "Sifre");
         }
     }
 }

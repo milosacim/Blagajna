@@ -23,7 +23,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
         private KomitentWrapper? _komitent;
         private KomitentWrapper? _backupkomitent;
-        private MestoTroska _selectedMestoTroska;
 
         private bool _hasChanges;
 
@@ -72,24 +71,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 var oldValue = _backupkomitent;
                 _backupkomitent = value;
                 OnModelPropertyChanged(oldValue, value);
-            }
-        }
-        public MestoTroska SelectedMestoTroska
-        {
-            get { return _selectedMestoTroska; }
-            set { 
-
-                if (value != null)
-                {
-                    var oldValue = _selectedMestoTroska;
-                    _selectedMestoTroska = value;
-                    OnModelPropertyChanged(oldValue, value);
-
-                    if (oldValue != null && oldValue.Id != value.Id)
-                    {
-                        Komitent.MestoTroska = value;
-                    }
-                }
             }
         }
 
@@ -152,8 +133,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 var komitent = await _komitentRepository.GetByIdAsync(komitentId.Value);
 
                 Komitent = new KomitentWrapper(komitent, false, false, false);
-
-                SelectedMestoTroska = Komitent.MestoTroska;
 
                 Komitent.PropertyChanged += (s, e) =>
                 {

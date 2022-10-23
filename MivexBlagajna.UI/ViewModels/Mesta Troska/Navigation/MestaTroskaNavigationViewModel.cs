@@ -18,6 +18,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             )
         {
             _lookupMestoTroskaDataService = lookupMestoTroskaDataService;
+
             MestaTroska = new ObservableCollection<MestaTroskaNavigationItemViewModel>();
         }
 

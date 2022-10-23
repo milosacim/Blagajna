@@ -18,7 +18,7 @@ namespace MivexBlagajna.UI.Wrappers
 
         public int Id { get { return Model.Id; } }
 
-        public int NadredjenoMesto_Id
+        public int? NadredjenoMesto_Id
         {
             get { return GetValue<int>(); }
             set { SetValue(value); OnModelPropertyChanged(); }

@@ -5,10 +5,10 @@
         private string _naziv;
         private string _sifra;
         private int _nivo;
-        private int _nadredjeniId;
+        private int? _nadredjeniId;
         private bool _isSelected;
 
-        public MestaTroskaNavigationItemViewModel(int id, string sifra, string naziv, int nivo, int nadredjeni)
+        public MestaTroskaNavigationItemViewModel(int id, string sifra, string naziv, int nivo, int? nadredjeni)
         {
             Id = id;
             Sifra = sifra;
@@ -54,7 +54,7 @@
             }
         }
 
-        public int Nadredjeni_Id
+        public int? Nadredjeni_Id
         {
             get { return _nadredjeniId; }
             set { 

@@ -122,11 +122,11 @@
 
                 <syncfusion:ComboBoxAdv 
                     ItemsSource="{Binding MestaTroska}" 
-                    SelectedItem="{Binding NadredjenoMestoTroska, Mode=TwoWay}"
+                    SelectedItem="{Binding NadredjenoMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     IsEnabled="{Binding MestoTroska.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <!--<TextBox IsEnabled="{Binding MestoTroska.IsEditable, UpdateSourceTrigger=PropertyChanged}"
-                         Text="{Binding NadredjenoMestoTroska.Naziv, UpdateSourceTrigger=PropertyChanged}"/>-->
+                         Text="{Binding NadredjenoMestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
 
             </StackPanel>
 

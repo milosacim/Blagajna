@@ -119,7 +119,7 @@
                                     Height="25" 
                                     Width="80"
                                     Text="{Binding SearchKomitentText, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                    IsEnabled="False"
+                                    IsEnabled="True"
                                     />
 
                             </StackPanel>

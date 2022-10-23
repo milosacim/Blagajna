@@ -14,9 +14,9 @@ namespace MivexBlagajna.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasSequence<int>("Sifra").StartsAt(1).IncrementsBy(1);
+            modelBuilder.HasSequence<int>("Sifre").StartsAt(1).IncrementsBy(1);
 
-            modelBuilder.Entity<Komitent>().Property(k => k.Sifra).HasDefaultValueSql("NEXT VALUE FOR Sifra");
+            modelBuilder.Entity<Komitent>().Property(k => k.Sifra).HasDefaultValueSql("NEXT VALUE FOR Sifre");
             modelBuilder.Entity<Komitent>().HasIndex(k => k.Sifra).IsUnique(true);
 
             modelBuilder.ApplyConfiguration(new KomitentiConfiguration());
@@ -24,6 +24,7 @@ namespace MivexBlagajna.DataAccess
             modelBuilder.ApplyConfiguration(new KontoConfiguration());
             modelBuilder.ApplyConfiguration(new TransakcijaConfiguration());
         }
+
         public DbSet<Komitent> Komitenti { get; set; }
         public DbSet<MestoTroska> MestaTroska { get; set; }
         public DbSet<Konto> Konta { get; set; }

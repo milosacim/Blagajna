@@ -31,7 +31,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                     Telefon = k.Telefon,
                     PravnoLice = k.PravnoLice,
                     FizickoLice = k.FizickoLice,
-                    MestoTroska_id = k.MestoTroska_id,
+                    MestoTroska_Id = k.MestoTroska_Id,
                     MestoTroska = k.MestoTroska
 
                 }).ToListAsync();

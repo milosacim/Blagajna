@@ -218,10 +218,16 @@ namespace MivexBlagajna.UI.Wrappers
                 }
             }
         }
-        public MestoTroska MestoTroska
+        public int? MestoTroska_Id
         {
-            get { return GetValue<MestoTroska>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            get { return GetValue<int?>(); }
+            set { SetValue(value); }
+        }
+
+        public MestoTroska? MestoTroska
+        {
+            get { return GetValue<MestoTroska?>(); }
+            set { SetValue(value); }
         }
 
         public bool IsEditable
@@ -239,7 +245,6 @@ namespace MivexBlagajna.UI.Wrappers
             get { return _isFizickoLiceEditable; }
             set { _isFizickoLiceEditable = value; OnModelPropertyChanged(); }
         }
-
         public override void BeginEdit()
         {
 

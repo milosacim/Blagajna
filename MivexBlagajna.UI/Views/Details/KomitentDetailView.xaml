@@ -298,7 +298,7 @@
 
                     <syncfusion:ComboBoxAdv 
                         ItemsSource="{Binding MestaTroska}" 
-                        SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
+                        SelectedItem="{Binding Komitent.MestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
 
                 </StackPanel>
             </Grid>
