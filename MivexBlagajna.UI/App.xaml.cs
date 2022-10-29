@@ -68,7 +68,7 @@ namespace MivexBlagajna.UI
             services.AddTransient<ILookupKomitentDataService, LookupKomitentDataService>();
             services.AddTransient<ILookupMestoTroskaDataService, LookupMestoTroskaDataService>();
 
-            services.AddTransient<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
+            services.AddSingleton<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
             services.AddSingleton<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
 
             services.AddSingleton<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();

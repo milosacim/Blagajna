@@ -5,16 +5,14 @@
         private string _punNaziv;
         private bool _pravnoLice;
         private bool _fizickoLice;
-        private string _mestoTroska;
         private bool _isSelected;
 
-        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool pravnoLice, bool fizickoLice, string mesto)
+        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool pravnoLice, bool fizickoLice)
         {
             Id = id;
             _punNaziv = punNaziv;
             _pravnoLice = pravnoLice;
             _fizickoLice = fizickoLice;
-            _mestoTroska = mesto;
 
             _isSelected = false;
         }
@@ -61,16 +59,5 @@
                 OnObjectPropertyChanged(oldValue, value);
             }
         }
-
-        public string MestoTroska
-        {
-            get { return _mestoTroska; }
-            set { 
-                _mestoTroska = value;
-                var oldValue = _mestoTroska;
-                OnObjectPropertyChanged(oldValue, value); 
-            }
-        }
-
     }
 }

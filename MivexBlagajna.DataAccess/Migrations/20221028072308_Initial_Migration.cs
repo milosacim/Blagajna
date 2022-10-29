@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MivexBlagajna.DataAccess.Migrations
 {
-    public partial class Initial_migration : Migration
+    public partial class Initial_Migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -79,7 +79,8 @@ namespace MivexBlagajna.DataAccess.Migrations
                         name: "FK_Komitent_MestaTroska_MestoTroska_Id",
                         column: x => x.MestoTroska_Id,
                         principalTable: "MestaTroska",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,7 +108,8 @@ namespace MivexBlagajna.DataAccess.Migrations
                         name: "FK_Transakcije_Komitent_Komitent_Id",
                         column: x => x.Komitent_Id,
                         principalTable: "Komitent",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Transakcije_Konto_Konto_Id",
                         column: x => x.Konto_Id,

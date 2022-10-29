@@ -14,14 +14,13 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
 
         public async Task<IEnumerable<LookupKomitent>> GetLookupKomitentAsync()
         {
-            return await _context.Komitenti.Where(k => k.Obrisano == false)
+            return await _context.Komitenti.Where(k => k.Obrisano == false).Include(k => k.MestoTroska)
                 .Select(k => new LookupKomitent
                 {
                     Id = k.Id,
                     PunNaziv = k.PravnoLice == true ? $"{k.Sifra} - {k.Naziv}" : $"{k.Sifra} - {k.Ime} {k.Prezime}",
                     PravnoLice = k.PravnoLice,
-                    FizickoLice = k.FizickoLice,
-                    MestoTroska = $"{k.MestoTroska.Prefix} - {k.MestoTroska.Naziv}"
+                    FizickoLice = k.FizickoLice
 
                 }).ToListAsync();
         }

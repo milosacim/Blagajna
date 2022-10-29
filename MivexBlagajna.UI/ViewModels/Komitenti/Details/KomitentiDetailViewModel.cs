@@ -7,9 +7,7 @@ using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -61,6 +59,14 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 var oldValue = _komitent;
                 _komitent = value;
                 OnModelPropertyChanged(oldValue, value);
+
+                Komitent.PropertyChanged += (s, e) =>
+                {
+                    if (!HasChanges)
+                    {
+                        HasChanges = _komitentRepository.HasChanges();
+                    }
+                };
             }
         }
         public KomitentWrapper? BackupKomitent
@@ -128,16 +134,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             {
                 CreateNewKomitent();
             }
+
             else
             {
                 var komitent = await _komitentRepository.GetByIdAsync(komitentId.Value);
 
                 Komitent = new KomitentWrapper(komitent, false, false, false);
-
-                Komitent.PropertyChanged += (s, e) =>
-                {
-                    HasChanges = _komitentRepository.HasChanges();
-                };
             }
         }
 
@@ -160,7 +162,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                         Komitent.Id,
                         Komitent.PravnoLice == true ? $"{Komitent.Sifra} - {Komitent.Naziv}" : $"{Komitent.Sifra} - {Komitent.Ime} {Komitent.Prezime}"
                         , Komitent.PravnoLice
-                        , Komitent.FizickoLice, null));
+                        , Komitent.FizickoLice));
                 }
             }
 
@@ -184,7 +186,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 }
             }
 
-            if (Komitent.IsEditable == true)
+            if (Komitent?.IsEditable == true)
             {
                 Komitent?.EndEdit();
             }

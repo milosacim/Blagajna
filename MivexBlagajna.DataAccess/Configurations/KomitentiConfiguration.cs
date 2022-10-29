@@ -26,10 +26,15 @@ namespace MivexBlagajna.DataAccess.Configurations
             builder.Property(e => e.PostanskiBroj)
                 .HasMaxLength(5);
 
+            builder.HasOne(k => k.MestoTroska)
+                .WithMany(m => m.Komitenti)
+                .HasForeignKey(k => k.MestoTroska_Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasMany(e => e.Transakcije)
                 .WithOne(t => t.Komitent)
                 .HasForeignKey(t => t.Komitent_Id)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using MivexBlagajna.UI.ViewModels.Mesta_Troska.Details;
 using MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation;
-using MivexBlagajna.UI.Views.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

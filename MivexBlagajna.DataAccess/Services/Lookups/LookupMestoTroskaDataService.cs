@@ -13,7 +13,7 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
 
         public async Task<IEnumerable<LookupMestoTroska>> GetLookupMestoTroskaAsync()
         {
-            return await _context.MestaTroska.Where(m => m.Obrisano == false)
+            return await _context.MestaTroska.Where(m => m.Obrisano == false).Include(m => m.Komitenti)
                 .Select(m => new LookupMestoTroska
                 {
                     Id = m.Id,

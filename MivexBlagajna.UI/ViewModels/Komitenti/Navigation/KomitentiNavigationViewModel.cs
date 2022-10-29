@@ -45,7 +45,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                 _selectedKomitent = value;
                 OnModelPropertyChanged(oldValue, value);
 
-                if (_selectedKomitent != null)
+                if (value != null)
                 {
                     OnkomitentSelected?.Invoke(this, new SelectedKomitentArgs(_selectedKomitent.Id, _selectedKomitent.IsSelected, oldValue == null ? null : oldValue.Id));
                 }
@@ -100,7 +100,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                 if (item != null)
                 {
                     Komitenti.Add(
-                        new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice, item.MestoTroska));
+                        new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice));
 
                 }
             }

@@ -1,18 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MivexBlagajna.Data.Models
 {
     public class MestoTroska : ISoftDeletable
     {
-        public MestoTroska()
-        {
-            DecaMestoTroska = new List<MestoTroska>();
-            Komitenti = new List<Komitent>();
-            Transakcije = new List<Transakcija>();
-        }
         [Key]
-        public int Id { get; set; }
+        public int Id { get; set;}
 
         [Required]
         public string Prefix { get; set; }

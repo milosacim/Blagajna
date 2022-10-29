@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace MivexBlagajna.UI.Wrappers
@@ -13,15 +14,19 @@ namespace MivexBlagajna.UI.Wrappers
         {
             Model = model;
         }
-        protected virtual TValue GetValue<TValue>([CallerMemberName] string? propertyName = null)
+        protected virtual TValue GetValue<TValue>([CallerMemberName] string propertyName = null)
         {
             return (TValue)typeof(T).GetProperty(propertyName).GetValue(Model);
         }
-        protected virtual void SetValue<TValue>(TValue value, [CallerMemberName] string? propertyName = null)
+
+        protected virtual void SetValue<TValue>(TValue value, [CallerMemberName] string propertyName = null)
         {
-            typeof(T).GetProperty(propertyName).SetValue(Model, value);
-            OnModelPropertyChanged(propertyName);
-            ValidatePropertyInternal(propertyName, value);
+            if (value != null)
+            {
+                typeof(T).GetProperty(propertyName).SetValue(Model, value);
+                OnModelPropertyChanged(propertyName);
+                ValidatePropertyInternal(propertyName, value);
+            }
         }
         private void ValidatePropertyInternal(string propertyName, object currentValue)
         {

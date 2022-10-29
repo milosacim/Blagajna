@@ -17,7 +17,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<IEnumerable<MestoTroska>> GetAll()
         {
-            return await _context.MestaTroska.Where(m => m.Obrisano == false)
+            return await _context.MestaTroska.Where(m => m.Obrisano == false).Include(m => m.Komitenti)
                 .Select(m => new MestoTroska()
                 {
                     Id = m.Id,
@@ -25,7 +25,8 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                     Prefix = m.Prefix,
                     Naziv = m.Naziv,
                     Nivo = m.Nivo,
-                    Obrisano = m.Obrisano
+                    Obrisano = m.Obrisano,
+                    Komitenti = m.Komitenti
                 }).ToListAsync();
             }
         public bool HasChanges()

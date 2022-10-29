@@ -12,8 +12,8 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20221023220524_Initial_migration")]
-    partial class Initial_migration
+    [Migration("20221028072308_Initial_Migration")]
+    partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -214,7 +214,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "MestoTroska")
                         .WithMany("Komitenti")
                         .HasForeignKey("MestoTroska_Id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("MestoTroska");
                 });
@@ -234,7 +234,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.HasOne("MivexBlagajna.Data.Models.Komitent", "Komitent")
                         .WithMany("Transakcije")
                         .HasForeignKey("Komitent_Id")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MivexBlagajna.Data.Models.Konto", "Konto")

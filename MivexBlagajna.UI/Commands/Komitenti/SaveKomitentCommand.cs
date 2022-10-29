@@ -6,22 +6,22 @@ namespace MivexBlagajna.UI.Commands
 {
     public class SaveKomitentCommand : AsyncCommand
     {
-        private readonly IKomitentiDetailViewModel komitentiDetailViewModel;
+        private readonly IKomitentiDetailViewModel _komitentiDetailViewModel;
 
         public SaveKomitentCommand(
             IKomitentiDetailViewModel komitentiDetailViewModel)
         {
-            this.komitentiDetailViewModel = komitentiDetailViewModel;
+            _komitentiDetailViewModel = komitentiDetailViewModel;
         }
 
         public override bool CanExecute()
         {
-            return RunningTasks.Count() == 0 && komitentiDetailViewModel.Komitent != null && !komitentiDetailViewModel.Komitent.HasErrors && komitentiDetailViewModel.HasChanges;
+            return RunningTasks.Count() == 0 && _komitentiDetailViewModel.Komitent != null && !_komitentiDetailViewModel.Komitent.HasErrors && _komitentiDetailViewModel.HasChanges;
         }
 
         public override async Task ExecuteAsync()
         {
-            await komitentiDetailViewModel.SaveKomitentAsync();
+            await _komitentiDetailViewModel.SaveKomitentAsync();
         }
     }
 }

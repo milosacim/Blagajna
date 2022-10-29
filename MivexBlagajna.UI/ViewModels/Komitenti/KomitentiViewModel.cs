@@ -106,25 +106,25 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             if (KomitentiDetailViewModel != null && KomitentiDetailViewModel.HasChanges)
             {
                 KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
-
-                await KomitentiDetailViewModel.CancelChange();
                 await KomitentiDetailViewModel.LoadAsync(e.newid);
             }
 
             KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
             await KomitentiDetailViewModel.LoadAsync(e.newid);
         }
-        private void OnKomitentSaved(object? sender, KomitentSavedArgs e)
+        private async void OnKomitentSaved(object? sender, KomitentSavedArgs e)
         {
             var lookupitem = KomitentiNavigationViewModel.Komitenti.SingleOrDefault(l => l.Id == e.id);
 
             if (lookupitem == null)
             {
-                KomitentiNavigationViewModel.Komitenti.Add(new KomitentiNavigationItemViewModel(e.id, e.naziv, e.pravno, e.fizicko, e.mesto));
+                KomitentiNavigationViewModel.Komitenti.Add(new KomitentiNavigationItemViewModel(e.id, e.naziv, e.pravno, e.fizicko));
                 KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.Last();
             }
 
             else { lookupitem.PunNaziv = e.naziv; }
+
+            await KomitentiNavigationViewModel.LoadAsync();
         }
         private void OnKomitentDeleted(object? sender, KomitentDeletedArgs e)
         {

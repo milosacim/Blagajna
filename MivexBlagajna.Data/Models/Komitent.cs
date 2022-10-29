@@ -39,7 +39,7 @@ namespace MivexBlagajna.Data.Models
         public bool PravnoLice { get; set; }
         public bool FizickoLice { get; set; }
         public int? MestoTroska_Id { get; set; }
-        public virtual MestoTroska? MestoTroska { get; set; }
+        public virtual MestoTroska MestoTroska { get; set; }
         public virtual ICollection<Transakcija> Transakcije { get; set; }
     }
 }

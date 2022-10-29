@@ -12,7 +12,9 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<IEnumerable<Komitent>> GetAllAsync()
         {
-            return await _context.Komitenti.Where(k => k.Obrisano == false)
+            var listOfKomitenti = await _context.Komitenti.Where(k => k.Obrisano == false).Include(k => k.MestoTroska).ToListAsync();
+
+            return listOfKomitenti
                 .Select(k => new Komitent
                 {
                     Id = k.Id,
@@ -34,25 +36,32 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                     MestoTroska_Id = k.MestoTroska_Id,
                     MestoTroska = k.MestoTroska
 
-                }).ToListAsync();
+                });
         }
 
         public async Task<IEnumerable<MestoTroska>> GetAllMestaTroska()
         {
-            IEnumerable<MestoTroska> mesta = await _context.MestaTroska.Where(m => m.Obrisano == false).ToListAsync();
-            return mesta;
+            var listOfMesta = await _context.MestaTroska.AsNoTracking().Where(m => m.Obrisano == false).Include(m => m.Komitenti).ToListAsync();
+
+            return listOfMesta
+                .Select(m => new MestoTroska()
+                {
+                    Id = m.Id,
+                    NadredjenoMesto_Id = m.NadredjenoMesto_Id,
+                    Prefix = m.Prefix,
+                    Naziv = m.Naziv,
+                    Nivo = m.Nivo,
+                    Obrisano = m.Obrisano,
+                    Komitenti = m.Komitenti
+                });
         }
         public async Task<Komitent> GetByIdAsync(int id)
         {
-            return await _context.Komitenti.SingleAsync(k => k.Id == id);
+            return await _context.Komitenti.Include(k => k.MestoTroska).SingleAsync(k => k.Id == id);
         }
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
-        }
-        public async Task<int> GetLastKomitentIdAsync()
-        {
-            return await _context.Komitenti.Where(k => k.Obrisano == false).MaxAsync(k => k.Id);
         }
         public async Task DeleteAsync(Komitent komitent)
         {

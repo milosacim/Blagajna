@@ -6,7 +6,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
     {
         Task<IEnumerable<Komitent>> GetAllAsync();
         Task<Komitent> GetByIdAsync(int id);
-        Task<int> GetLastKomitentIdAsync();
         Task SaveAsync();
         void CancelChanges();
         bool HasChanges();

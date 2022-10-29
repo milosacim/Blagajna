@@ -212,7 +212,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "MestoTroska")
                         .WithMany("Komitenti")
                         .HasForeignKey("MestoTroska_Id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("MestoTroska");
                 });
@@ -232,7 +232,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.HasOne("MivexBlagajna.Data.Models.Komitent", "Komitent")
                         .WithMany("Transakcije")
                         .HasForeignKey("Komitent_Id")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MivexBlagajna.Data.Models.Konto", "Konto")

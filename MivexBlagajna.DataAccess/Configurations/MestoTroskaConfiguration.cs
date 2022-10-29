@@ -21,11 +21,6 @@ namespace MivexBlagajna.DataAccess.Configurations
             builder.Property(e => e.Nivo)
                 .IsRequired();
 
-            builder.HasMany(m => m.Komitenti)
-                .WithOne(k => k.MestoTroska)
-                .HasForeignKey(k => k.MestoTroska_Id)
-                .OnDelete(DeleteBehavior.NoAction);
-
             builder.HasMany(m => m.DecaMestoTroska)
                 .WithOne(m => m.RoditeljMestoTroska)
                 .HasForeignKey(m => m.NadredjenoMesto_Id)
