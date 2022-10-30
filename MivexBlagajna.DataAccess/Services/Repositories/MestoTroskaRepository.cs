@@ -5,7 +5,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
 {
     public class MestoTroskaRepository : IMestoTroskaRepository
     {
-        private MivexBlagajnaDbContext _context;
+        private readonly MivexBlagajnaDbContext _context;
 
         public MestoTroskaRepository(MivexBlagajnaDbContext context)
         {
@@ -17,7 +17,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<IEnumerable<MestoTroska>> GetAll()
         {
-            return await _context.MestaTroska.Where(m => m.Obrisano == false).Include(m => m.Komitenti)
+            return await _context.MestaTroska.Where(m => m.Obrisano == false).Include(m => m.DecaMestoTroska)
                 .Select(m => new MestoTroska()
                 {
                     Id = m.Id,
@@ -26,7 +26,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                     Naziv = m.Naziv,
                     Nivo = m.Nivo,
                     Obrisano = m.Obrisano,
-                    Komitenti = m.Komitenti
+                    DecaMestoTroska = m.DecaMestoTroska
                 }).ToListAsync();
             }
         public bool HasChanges()

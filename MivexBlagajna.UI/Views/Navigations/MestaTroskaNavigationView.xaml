@@ -12,16 +12,16 @@
 
     <Grid>
         <syncfusion:SfTreeGrid
-            ItemsSource="{Binding MestaTroska}"
-            SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             AutoExpandMode="AllNodesExpanded"
             AutoGenerateColumns="False"
             ChildPropertyName="Nadredjeni_Id"
             ExpanderColumn="Sifra"
+            ItemsSource="{Binding MestaTroska}"
             NavigationMode="Row"
+            NotificationSubscriptionMode="PropertyChange"
             ParentPropertyName="Id"
-            ShowRowHeader="True"
-            NotificationSubscriptionMode="PropertyChange">
+            SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ShowRowHeader="True">
 
             <syncfusion:SfTreeGrid.Columns>
 

@@ -1,5 +1,4 @@
 ﻿using Syncfusion.Themes.MaterialLight.WPF;
-using System.Windows.Media;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;

@@ -8,19 +8,25 @@ namespace MivexBlagajna.UI.Wrappers
 
         public MestoTroskaWrapper(MestoTroska mestoTroska, bool isEditable) : base(mestoTroska)
         {
-            Prefix = mestoTroska.Prefix;
-            Naziv = mestoTroska.Naziv;
-            Nivo = mestoTroska.Nivo;
-            NadredjenoMesto_Id = mestoTroska.NadredjenoMesto_Id;
-
             _isEditable = isEditable;
+            NadredjenoMesto_Id = mestoTroska.NadredjenoMesto_Id;
         }
 
         public int Id { get { return Model.Id; } }
 
         public int? NadredjenoMesto_Id
         {
-            get { return GetValue<int>(); }
+            get { return GetValue<int?>(); }
+            set
+            {
+                SetValue(value);
+                OnModelPropertyChanged();
+            }
+        }
+
+        public MestoTroska RoditeljMestoTroska
+        {
+            get { return GetValue<MestoTroska>(); }
             set { SetValue(value); OnModelPropertyChanged(); }
         }
 

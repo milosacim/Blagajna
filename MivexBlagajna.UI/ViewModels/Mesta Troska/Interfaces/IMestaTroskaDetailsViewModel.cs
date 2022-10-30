@@ -8,7 +8,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
     public interface IMestaTroskaDetailsViewModel
     {
         MestoTroskaWrapper MestoTroska { get; set; }
-        Task LoadAsync(int? mestoTroskaId, int? nadMestoTroskaId);
+        Task LoadAsync(int? mestoTroskaId);
         Task LoadAllMestaTroska();
         Task SaveMestoAsync();
         Task CancelChange();

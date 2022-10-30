@@ -9,7 +9,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 {
@@ -23,6 +22,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         private MestoTroskaWrapper _backupMestoTroska;
         private MestoTroska _nadredjenoMestoTroska;
         private bool _hasChanges;
+        private NivoMestaTroskaEnum _selectedNivo;
 
         public event EventHandler<SavedMestoTroskaArgs> OnMestoSaved;
         public event EventHandler<MestoTroskaDeletedArgs> OnMestoDeleted;
@@ -54,6 +54,15 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 var oldValue = _mestoTroska;
                 _mestoTroska = value;
                 OnModelPropertyChanged(oldValue, value);
+
+                MestoTroska.PropertyChanged += (s, e) =>
+                {
+                    if (!HasChanges)
+                    {
+                        HasChanges = _mestoTroskaRepository.HasChanges();
+
+                    }
+                };
             }
         }
         public MestoTroskaWrapper? BackupMestoTroska
@@ -77,13 +86,19 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 {
                     var oldValue = _nadredjenoMestoTroska;
                     _nadredjenoMestoTroska = value;
-                    OnModelPropertyChanged(oldValue, value); 
-
-                    if (oldValue != null && oldValue.Id != value.Id)
-                    {
-                        MestoTroska.NadredjenoMesto_Id = value.Id;
-                    }
+                    OnModelPropertyChanged(oldValue, value);
                 }
+            }
+        }
+
+        public NivoMestaTroskaEnum SelectedNivo
+        {
+            get { return _selectedNivo; }
+            set
+            {
+                var oldValue = _selectedNivo;
+                _selectedNivo = value;
+                OnModelPropertyChanged(oldValue, value);
             }
         }
 
@@ -105,7 +120,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             }
         }
 
-        
+
 
         public async Task CancelChange()
         {
@@ -120,7 +135,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             if (MestoTroska != null)
             {
                 MestoTroska?.EndEdit();
-                await LoadAsync(BackupMestoTroska?.Id, BackupMestoTroska?.NadredjenoMesto_Id);
+                await LoadAsync(BackupMestoTroska?.Id);
             }
         }
         public async Task DeleteAsync()
@@ -155,12 +170,10 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 MestaTroska.Add(mesto);
             }
         }
-        public async Task LoadAsync(int? mestoTroskaId, int? nadMestoTroskaId)
+        public async Task LoadAsync(int? mestoTroskaId)
         {
             await LoadAllMestaTroska();
-
-            await InitializeMestoTroska(mestoTroskaId, nadMestoTroskaId);
-
+            await InitializeMestoTroska(mestoTroskaId);
         }
         public async Task SaveMestoAsync()
         {
@@ -179,10 +192,9 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 }
             }
 
-            MestoTroska?.EndEdit();
             await _mestoTroskaRepository.SaveAsync();
             HasChanges = _mestoTroskaRepository.HasChanges();
-            
+            MestoTroska?.EndEdit();
         }
 
         private void EditMestoTroskaProperty(object? obj)
@@ -200,10 +212,13 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             _mestoTroskaRepository.Add(mesto);
 
             MestoTroska = new MestoTroskaWrapper(mesto, true);
+
+            MestoTroska.Naziv = "";
+
             return MestoTroska;
         }
 
-        private async Task InitializeMestoTroska(int? mestoTroskaId, int? nadMestoTroskaId)
+        private async Task InitializeMestoTroska(int? mestoTroskaId)
         {
             if (mestoTroskaId == null)
             {
@@ -214,16 +229,27 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 var mestoTroska = await _mestoTroskaRepository.GetByIdAsync(mestoTroskaId.Value);
 
                 MestoTroska = new MestoTroskaWrapper(mestoTroska, false);
-
-                NadredjenoMestoTroska = MestaTroska.Single(m => m.Id == nadMestoTroskaId);
-
-                MestoTroska.PropertyChanged += (s, e) =>
-                {
-                    HasChanges = _mestoTroskaRepository.HasChanges();
-                };
             }
         }
 
+        public void CreatePrefix(NivoMestaTroskaEnum nivo)
+        {
+            switch (nivo)
+            {
+                case NivoMestaTroskaEnum.Prvi:
+                    MestoTroska.Nivo = 0;
+                    MestoTroska.Prefix = "0" + NadredjenoMestoTroska.Id.ToString();
+                    break;
+                case NivoMestaTroskaEnum.Drugi:
+                    break;
+                case NivoMestaTroskaEnum.Treći:
+                    break;
+                case NivoMestaTroskaEnum.Četvrti:
+                    break;
+                case NivoMestaTroskaEnum.Peti:
+                    break;
+            }
+        }
 
     }
 

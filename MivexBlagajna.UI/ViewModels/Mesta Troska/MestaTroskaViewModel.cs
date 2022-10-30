@@ -8,18 +8,13 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
 {
     public class MestaTroskaViewModel : ViewModelBase, IDockElement
     {
-        private readonly Func<IMestaTroskaDetailsViewModel> _mestaTroskaDetailsViewModelCreator;
-
         private readonly string? _header;
         private readonly DockState _state;
-
-        private IMestaTroskaDetailsViewModel _mestaTroskaDetailsViewModel;
-
 
         public MestaTroskaViewModel(
 
             IMestaTroskaNavigationViewModel mestaTroskaNavigationViewModel
-            , Func<IMestaTroskaDetailsViewModel> mestaTroskaDetailsViewModelCreator
+            , IMestaTroskaDetailsViewModel mestaTroskaDetailsViewModel
             , string header = "Mesta troska"
             , DockState state = DockState.Document
 
@@ -28,26 +23,25 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
             _header = header;
             _state = state;
 
-            _mestaTroskaDetailsViewModelCreator = mestaTroskaDetailsViewModelCreator;
 
             MestaTroskaNavigationViewModel = mestaTroskaNavigationViewModel;
+            MestaTroskaDetailsViewModel = mestaTroskaDetailsViewModel;
 
             MestaTroskaNavigationViewModel.OnMestoSelected += UpdateSelectedMestoTroska;
             MestaTroskaNavigationViewModel.OnMestoSelected += OpenMestoTroskaDetails;
+
+            MestaTroskaDetailsViewModel.OnMestoDeleted += OnMestoDeleted;
+            MestaTroskaDetailsViewModel.OnMestoSaved += OnMestoTroskaSaved;
         }
 
         private async void OpenMestoTroskaDetails(object? sender, MestoTroskaArgs e)
         {
             if (MestaTroskaDetailsViewModel != null && MestaTroskaDetailsViewModel.HasChanges)
             {
-                MestaTroskaDetailsViewModel = _mestaTroskaDetailsViewModelCreator();
-
-                await MestaTroskaDetailsViewModel.CancelChange();
-                await MestaTroskaDetailsViewModel.LoadAsync(e.newid, e.newNadId);
+                await MestaTroskaDetailsViewModel.LoadAsync(e.newid);
             }
 
-            MestaTroskaDetailsViewModel = _mestaTroskaDetailsViewModelCreator();
-            await MestaTroskaDetailsViewModel.LoadAsync(e.newid, e.newNadId);
+            await MestaTroskaDetailsViewModel.LoadAsync(e.newid);
         }
 
         private void UpdateSelectedMestoTroska(object? sender, MestoTroskaArgs e)
@@ -89,20 +83,7 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
         }
 
         public IMestaTroskaNavigationViewModel MestaTroskaNavigationViewModel { get; }
-
-        public IMestaTroskaDetailsViewModel MestaTroskaDetailsViewModel
-        {
-            get { return _mestaTroskaDetailsViewModel; }
-            set
-            {
-                var oldValue = _mestaTroskaDetailsViewModel;
-                _mestaTroskaDetailsViewModel = value;
-                OnModelPropertyChanged(oldValue, value);
-
-                _mestaTroskaDetailsViewModel.OnMestoDeleted += OnMestoDeleted;
-                _mestaTroskaDetailsViewModel.OnMestoSaved += OnMestoTroskaSaved;
-            }
-        }
+        public IMestaTroskaDetailsViewModel MestaTroskaDetailsViewModel { get; }
 
         private void OnMestoTroskaSaved(object? sender, SavedMestoTroskaArgs e)
         {
@@ -135,6 +116,12 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
 
         public override void Dispose()
         {
+            MestaTroskaNavigationViewModel.OnMestoSelected -= UpdateSelectedMestoTroska;
+            MestaTroskaNavigationViewModel.OnMestoSelected -= OpenMestoTroskaDetails;
+
+            MestaTroskaDetailsViewModel.OnMestoDeleted -= OnMestoDeleted;
+            MestaTroskaDetailsViewModel.OnMestoSaved -= OnMestoTroskaSaved;
+
             base.Dispose();
         }
     }

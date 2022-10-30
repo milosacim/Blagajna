@@ -24,10 +24,8 @@ namespace MivexBlagajna.UI.ViewModels
             public virtual object? NewValue { get; private set; }
         }
 
-        #region LoadAsync definicija
         public virtual Task LoadAsync() => Task.CompletedTask;
 
-        #endregion
         public virtual void Dispose()
         {
 

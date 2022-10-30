@@ -121,6 +121,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             _komitentRepository.Add(komitent);
 
             Komitent = new KomitentWrapper(komitent, true, true, true);
+
             return Komitent;
         }
         public async Task LoadAsync(int? komitentId)
