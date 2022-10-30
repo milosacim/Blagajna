@@ -1,4 +1,5 @@
 ﻿using MivexBlagajna.UI.Commands;
+using MivexBlagajna.UI.ViewModels.Komitenti.Details;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
 using MivexBlagajna.UI.Views.Services;
@@ -13,8 +14,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         #region Fields
 
         private readonly IMessageDialogService _messageDialogService;
-        private IKomitentiDetailViewModel? _komitentiDetailViewModel;
-        private readonly Func<IKomitentiDetailViewModel> _komitentiDetailViewModelCreator;
+        //private IKomitentiDetailViewModel? _komitentiDetailViewModel;
+        //private readonly Func<IKomitentiDetailViewModel> _komitentiDetailViewModelCreator;
         private readonly string _header;
         private readonly DockState _state;
 
@@ -22,21 +23,25 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
         #region Constructor
         public KomitentiViewModel(
-            Func<IKomitentiDetailViewModel> komitentiDetailViewModelCreator,
+
             IKomitentiNavigationViewModel komitentiNavigationViewModel,
+            IKomitentiDetailViewModel komitentiDetailViewModel,
             IMessageDialogService messageDialogService,
             string header = "Komitenti",
             DockState state = DockState.Document)
         {
             _messageDialogService = messageDialogService;
-            _komitentiDetailViewModelCreator = komitentiDetailViewModelCreator;
             _header = header;
             _state = state;
 
             KomitentiNavigationViewModel = komitentiNavigationViewModel;
+            KomitentiDetailViewModel = komitentiDetailViewModel;
 
             KomitentiNavigationViewModel.OnkomitentSelected += OnOpenDetails;
             KomitentiNavigationViewModel.OnkomitentSelected += UpdateisSelected;
+
+            KomitentiDetailViewModel.OnKomitentDeleted += OnKomitentDeleted;
+            KomitentiDetailViewModel.OnKomitentSaved += OnKomitentSaved;
         }
 
         #endregion
@@ -53,18 +58,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             set { }
         }
         public IKomitentiNavigationViewModel KomitentiNavigationViewModel { get; }
-        public IKomitentiDetailViewModel KomitentiDetailViewModel
-        {
-            get { return _komitentiDetailViewModel; }
-            set
-            {
-                var oldValue = _komitentiDetailViewModel;
-                _komitentiDetailViewModel = value;
-                OnModelPropertyChanged(oldValue, value);
-                _komitentiDetailViewModel.OnKomitentDeleted += OnKomitentDeleted;
-                _komitentiDetailViewModel.OnKomitentSaved += OnKomitentSaved;
-            }
-        }
+        public IKomitentiDetailViewModel KomitentiDetailViewModel { get; }
 
         #endregion
 
@@ -105,11 +99,9 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             if (KomitentiDetailViewModel != null && KomitentiDetailViewModel.HasChanges)
             {
-                KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
                 await KomitentiDetailViewModel.LoadAsync(e.newid);
             }
 
-            KomitentiDetailViewModel = _komitentiDetailViewModelCreator();
             await KomitentiDetailViewModel.LoadAsync(e.newid);
         }
         private async void OnKomitentSaved(object? sender, KomitentSavedArgs e)
@@ -123,8 +115,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
 
             else { lookupitem.PunNaziv = e.naziv; }
-
-            await KomitentiNavigationViewModel.LoadAsync();
         }
         private void OnKomitentDeleted(object? sender, KomitentDeletedArgs e)
         {

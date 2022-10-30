@@ -65,6 +65,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                     if (!HasChanges)
                     {
                         HasChanges = _komitentRepository.HasChanges();
+
                     }
                 };
             }
