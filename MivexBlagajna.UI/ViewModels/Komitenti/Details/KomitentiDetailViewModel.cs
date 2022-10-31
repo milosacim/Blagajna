@@ -140,7 +140,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             else
             {
                 var komitent = await _komitentRepository.GetByIdAsync(komitentId.Value);
-
                 Komitent = new KomitentWrapper(komitent, false, false, false);
             }
         }
@@ -156,6 +155,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         }
         public async Task SaveKomitentAsync()
         {
+            await _komitentRepository.SaveAsync();
+
             if (Komitent != null)
             {
                 if (!Komitent.HasErrors)
@@ -168,7 +169,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 }
             }
 
-            await _komitentRepository.SaveAsync();
             HasChanges = _komitentRepository.HasChanges();
             Komitent?.EndEdit();
         }

@@ -179,6 +179,8 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 
         public async Task SaveMestoAsync()
         {
+            await _mestoTroskaRepository.SaveAsync();
+
             if (MestoTroska != null)
             {
                 if (!MestoTroska.HasErrors)
@@ -194,7 +196,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 }
             }
 
-            await _mestoTroskaRepository.SaveAsync();
             HasChanges = _mestoTroskaRepository.HasChanges();
             MestoTroska?.EndEdit();
         }

@@ -17,30 +17,30 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
             //{
             //    return await context.Komitenti.Include(k => k.MestoTroska).Where(k => k.Obrisano == false).ToListAsync();
             //}
-            return await _context.Komitenti.Include(k => k.MestoTroska).Where(k => k.Obrisano == false).ToListAsync();
-            _context.Database.CloseConnection();
-                //.Select(k => new Komitent
-                // {
-                //     Id = k.Id,
-                //     Sifra = k.Sifra,
-                //     Naziv = k.Naziv,
-                //     Naziv2 = k.Naziv2,
-                //     Ime = k.Ime,
-                //     Prezime = k.Prezime,
-                //     Jmbg = k.Jmbg,
-                //     PostanskiBroj = k.PostanskiBroj,
-                //     Pib = k.Pib
-                //    MaticniBroj = k.MaticniBroj,
-                //     Mesto = k.Mesto,
-                //     Adresa = k.Adresa,
-                //     KontaktOsoba = k.KontaktOsoba,
-                //     Telefon = k.Telefon,
-                //     PravnoLice = k.PravnoLice,
-                //     FizickoLice = k.FizickoLice,
-                //     MestoTroska_Id = k.MestoTroska_Id,
-                //     MestoTroska = k.MestoTroska
 
-                // }).ToListAsync();
+            return await _context.Komitenti.Where(k => k.Obrisano == false).Include(k => k.MestoTroska)
+            .Select(k => new Komitent
+            {
+                Id = k.Id,
+                Sifra = k.Sifra,
+                Naziv = k.Naziv,
+                Naziv2 = k.Naziv2,
+                Ime = k.Ime,
+                Prezime = k.Prezime,
+                Jmbg = k.Jmbg,
+                PostanskiBroj = k.PostanskiBroj,
+                Pib = k.Pib,
+                MaticniBroj = k.MaticniBroj,
+                Mesto = k.Mesto,
+                Adresa = k.Adresa,
+                KontaktOsoba = k.KontaktOsoba,
+                Telefon = k.Telefon,
+                PravnoLice = k.PravnoLice,
+                FizickoLice = k.FizickoLice,
+                MestoTroska_Id = k.MestoTroska_Id,
+                MestoTroska = k.MestoTroska
+
+            }).ToListAsync();
         }
 
         public async Task<IEnumerable<MestoTroska>> GetAllMestaTroska()
@@ -49,21 +49,20 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
             //{
             //    return await context.MestaTroska.Include(m => m.Komitenti).Where(m => m.Obrisano == false).ToListAsync();
             //}
-            var testconn = _context.Database.GetDbConnection();
 
-            return _context.MestaTroska.Include(m => m.Komitenti).Where(m => m.Obrisano == false).ToList();
+            //Task.Delay(1000000);
 
-            _context.Database.CloseConnection();
-            //.Select(m => new MestoTroska()
-            //{
-            //    Id = m.Id,
-            //    NadredjenoMesto_Id = m.NadredjenoMesto_Id,
-            //    Prefix = m.Prefix,
-            //    Naziv = m.Naziv,
-            //    Nivo = m.Nivo,
-            //    Obrisano = m.Obrisano,
-            //    Komitenti = m.Komitenti
-            //}).ToListAsync();
+            return await _context.MestaTroska.Where(m => m.Obrisano == false).Include(m => m.Komitenti)
+            .Select(m => new MestoTroska()
+             {
+                 Id = m.Id,
+                 NadredjenoMesto_Id = m.NadredjenoMesto_Id,
+                 Prefix = m.Prefix,
+                 Naziv = m.Naziv,
+                 Nivo = m.Nivo,
+                 Obrisano = m.Obrisano,
+                 Komitenti = m.Komitenti
+             }).ToListAsync();
         }
         public async Task<Komitent> GetByIdAsync(int id)
         {

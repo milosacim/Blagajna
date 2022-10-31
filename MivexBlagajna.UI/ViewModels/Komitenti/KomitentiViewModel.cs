@@ -104,7 +104,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             await KomitentiDetailViewModel.LoadAsync(e.newid);
         }
-        private async void OnKomitentSaved(object? sender, KomitentSavedArgs e)
+        private void OnKomitentSaved(object? sender, KomitentSavedArgs e)
         {
             var lookupitem = KomitentiNavigationViewModel.Komitenti.SingleOrDefault(l => l.Id == e.id);
 

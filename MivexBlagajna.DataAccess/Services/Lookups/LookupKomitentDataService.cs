@@ -14,7 +14,7 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
 
         public async Task<IEnumerable<LookupKomitent>> GetLookupKomitentAsync()
         {
-            return await _context.Komitenti.Where(k => k.Obrisano == false).Include(k => k.MestoTroska)
+            return await _context.Komitenti.Include(k => k.MestoTroska).Where(k => k.Obrisano == false)
                 .Select(k => new LookupKomitent
                 {
                     Id = k.Id,
