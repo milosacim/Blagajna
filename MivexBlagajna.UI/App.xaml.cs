@@ -60,6 +60,8 @@ namespace MivexBlagajna.UI
 
             }, ServiceLifetime.Singleton);
 
+            services.AddTransient<MivexBlagajnaDbContextFactory>();
+
             services.AddTransient<IKomitentRepository, KomitentRepository>();
             services.AddTransient<IMestoTroskaRepository, MestoTroskaRepository>();
             services.AddTransient<IKontoRepository, KontoRepository>();
@@ -75,9 +77,6 @@ namespace MivexBlagajna.UI
             services.AddSingleton<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
 
             services.AddSingleton<IUplateIsplateViewModel, UplateIsplateViewModel>();
-
-            services.AddTransient<Func<IKomitentiDetailViewModel>>(s => () => s.GetService<IKomitentiDetailViewModel>());
-            services.AddTransient<Func<IMestaTroskaDetailsViewModel>>(s => () => s.GetService<IMestaTroskaDetailsViewModel>());
 
             services.AddSingleton<MestaTroskaViewModel>();
             services.AddSingleton<KomitentiViewModel>();

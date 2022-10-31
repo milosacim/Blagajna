@@ -11,6 +11,5 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         void CancelChanges();
         Task SaveAsync();
         bool HasChanges();
-        Task<int> GetLastIdAsync();
     }
 }

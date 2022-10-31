@@ -80,7 +80,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 {
                     if (e.oldId != null)
                     {
-                        var oldItem = model.Komitenti.Where(k => k.Id == e.oldId && k.IsSelected == true).FirstOrDefault();
+                        var oldItem = model.Komitenti.Where(k => k.Id == e.oldId && k.IsSelected == true).ToList().FirstOrDefault();
                         if (oldItem != null)
                         {
                             oldItem.IsSelected = false;
@@ -111,7 +111,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             if (lookupitem == null)
             {
                 KomitentiNavigationViewModel.Komitenti.Add(new KomitentiNavigationItemViewModel(e.id, e.naziv, e.pravno, e.fizicko));
-                KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.Last();
+                KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.First();
             }
 
             else { lookupitem.PunNaziv = e.naziv; }

@@ -98,7 +98,6 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
             {
                 lookupitem.Sifra = e.prefix; lookupitem.Naziv = e.naziv; lookupitem.Nadredjeni_Id = e.nadId;
             }
-
         }
 
         private void OnMestoDeleted(object? sender, MestoTroskaDeletedArgs e)

@@ -6,7 +6,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
     public class MestoTroskaRepository : IMestoTroskaRepository
     {
         private readonly MivexBlagajnaDbContext _context;
-
         public MestoTroskaRepository(MivexBlagajnaDbContext context)
         {
             _context = context;
@@ -27,6 +26,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                     Nivo = m.Nivo,
                     Obrisano = m.Obrisano,
                     DecaMestoTroska = m.DecaMestoTroska
+
                 }).ToListAsync();
             }
         public bool HasChanges()
@@ -67,14 +67,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                 _context.MestaTroska.Remove(mestoTroska);
                 await _context.SaveChangesAsync();
             }
-        }
-        public async Task<int> GetLastMestoIdAsync()
-        {
-            return await _context.MestaTroska.MaxAsync(m => m.Id);
-        }
-        public async Task<int> GetLastIdAsync()
-        {
-            return await _context.MestaTroska.MaxAsync(m => m.Id);
         }
     }
 }

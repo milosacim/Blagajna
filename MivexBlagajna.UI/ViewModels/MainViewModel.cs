@@ -75,6 +75,7 @@ namespace MivexBlagajna.UI.ViewModels
             {
                 await SelectedViewModel.LoadAsync();
             }
+
             if (SelectedViewModel != null && ActiveViewModel == SelectedViewModel)
             {
                 return;

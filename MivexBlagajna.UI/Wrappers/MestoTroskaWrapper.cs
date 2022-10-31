@@ -6,6 +6,10 @@ namespace MivexBlagajna.UI.Wrappers
     {
         private bool _isEditable;
 
+        public MestoTroskaWrapper(MestoTroska mesto) : base(mesto)
+        {
+        }
+
         public MestoTroskaWrapper(MestoTroska mestoTroska, bool isEditable) : base(mestoTroska)
         {
             _isEditable = isEditable;
