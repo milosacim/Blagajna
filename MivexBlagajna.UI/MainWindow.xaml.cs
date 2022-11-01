@@ -1,10 +1,10 @@
-﻿using Syncfusion.Themes.MaterialLight.WPF;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using MivexBlagajna.UI.ViewModels;
-using Syncfusion.Windows.Tools.Controls;
 using Syncfusion.SfSkinManager;
+using Syncfusion.Themes.MaterialLight.WPF;
+using Syncfusion.Windows.Tools.Controls;
 
 namespace MivexBlagajna.UI
 {

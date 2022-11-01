@@ -58,9 +58,7 @@ namespace MivexBlagajna.UI
                     triggerOptions.AddTrigger<SoftDeleteTrigger>();
                 });
 
-            }, ServiceLifetime.Singleton);
-
-            services.AddTransient<MivexBlagajnaDbContextFactory>();
+            }, ServiceLifetime.Transient);
 
             services.AddTransient<IKomitentRepository, KomitentRepository>();
             services.AddTransient<IMestoTroskaRepository, MestoTroskaRepository>();

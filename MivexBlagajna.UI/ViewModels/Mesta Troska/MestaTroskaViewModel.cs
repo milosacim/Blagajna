@@ -1,6 +1,5 @@
 ﻿using MivexBlagajna.UI.ViewModels.Mesta_Troska.Details;
 using MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -92,7 +91,7 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
             if (lookupitem == null)
             {
                 MestaTroskaNavigationViewModel.MestaTroska.Add(new MestaTroskaNavigationItemViewModel(e.id, e.prefix, e.naziv, e.nivo, e.nadId));
-                MestaTroskaNavigationViewModel.SelectedMestoTroska = MestaTroskaNavigationViewModel.MestaTroska.Last();
+                MestaTroskaNavigationViewModel.SelectedMestoTroska = MestaTroskaNavigationViewModel.MestaTroska.Fir();
             }
             else
             {
@@ -102,7 +101,13 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
 
         private void OnMestoDeleted(object? sender, MestoTroskaDeletedArgs e)
         {
-            throw new NotImplementedException();
+            var mesto = MestaTroskaNavigationViewModel.MestaTroska.SingleOrDefault(m => m.Id == e.id);
+
+            if (mesto != null)
+            {
+                MestaTroskaNavigationViewModel.MestaTroska.Remove(mesto);
+                MestaTroskaNavigationViewModel.SelectedMestoTroska = MestaTroskaNavigationViewModel.MestaTroska.Last();
+            }
         }
 
         public override async Task LoadAsync()

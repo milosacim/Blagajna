@@ -32,7 +32,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
                 _selectedMestoTroska = value;
                 OnModelPropertyChanged(oldValue, value);
                 
-                if (value != null)
+                if (value != null && oldValue.Id != value.Id)
                 {
                     OnMestoSelected?.Invoke(this, new MestoTroskaArgs(_selectedMestoTroska.Id, _selectedMestoTroska.Nadredjeni_Id, _selectedMestoTroska.IsSelected, oldValue == null ? null : oldValue.Id));
                 }

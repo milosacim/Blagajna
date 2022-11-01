@@ -18,6 +18,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         event EventHandler<MestoTroskaDeletedArgs> OnMestoDeleted;
         bool HasChanges { get; }
         void Dispose();
+        void CreatePrefix(object? parameter);
     }
 
     public class SavedMestoTroskaArgs

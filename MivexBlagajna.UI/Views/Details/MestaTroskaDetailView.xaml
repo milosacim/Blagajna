@@ -106,11 +106,18 @@
 
                 <syncfusion:ComboBoxAdv
                     Width="185"
-                    IsEnabled="{Binding MestoTroska.IsEditable, UpdateSourceTrigger=PropertyChanged}"
                     ItemsSource="{Binding MestaTroska}"
-                    SelectedItem="{Binding NadredjenoMestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValue="{Binding MestoTroska.NadredjenoMesto_Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Id"/>
+                    SelectedValue="{Binding MestoTroska.NadredjenoMesto_Id, Mode=TwoWay}"
+                    SelectedValuePath="Id"
+                    IsEnabled="{Binding MestoTroska.IsEditable, UpdateSourceTrigger=PropertyChanged}">
+
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="SelectionChanged">
+                            <b:InvokeCommandAction Command="{Binding CreatePrefixCommand}" CommandParameter="{Binding MestoTroska.NadredjenoMesto_Id}"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+
+                </syncfusion:ComboBoxAdv>
 
             </StackPanel>
 

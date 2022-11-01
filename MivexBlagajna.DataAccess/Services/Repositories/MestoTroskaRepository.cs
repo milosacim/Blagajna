@@ -12,11 +12,13 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<MestoTroska> GetByIdAsync(int id)
         {
-            return await _context.MestaTroska.SingleAsync(m => m.Id == id);
+            return await _context.MestaTroska.Include(m => m.RoditeljMestoTroska).SingleAsync(m => m.Id == id);
         }
         public async Task<IEnumerable<MestoTroska>> GetAll()
         {
-            return await _context.MestaTroska.Where(m => m.Obrisano == false).Include(m => m.DecaMestoTroska)
+            return await _context.MestaTroska.Where(m => m.Obrisano == false)
+                .Include(m => m.DecaMestoTroska)
+                .Include(m => m.RoditeljMestoTroska )
                 .Select(m => new MestoTroska()
                 {
                     Id = m.Id,
@@ -25,7 +27,8 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                     Naziv = m.Naziv,
                     Nivo = m.Nivo,
                     Obrisano = m.Obrisano,
-                    DecaMestoTroska = m.DecaMestoTroska
+                    DecaMestoTroska = m.DecaMestoTroska,
+                    RoditeljMestoTroska = m.RoditeljMestoTroska
 
                 }).ToListAsync();
             }

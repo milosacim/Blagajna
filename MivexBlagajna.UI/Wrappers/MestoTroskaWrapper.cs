@@ -14,6 +14,7 @@ namespace MivexBlagajna.UI.Wrappers
         {
             _isEditable = isEditable;
             NadredjenoMesto_Id = mestoTroska.NadredjenoMesto_Id;
+            RoditeljMestoTroska = mestoTroska.RoditeljMestoTroska;
         }
 
         public int Id { get { return Model.Id; } }
@@ -23,7 +24,16 @@ namespace MivexBlagajna.UI.Wrappers
             get { return GetValue<int?>(); }
             set
             {
-                SetValue(value);
+                if (value == Id)
+                {
+                    value = null;
+                    SetValue(value);
+                }
+                else
+                {
+                    SetValue(value);
+                }
+
                 OnModelPropertyChanged();
             }
         }
