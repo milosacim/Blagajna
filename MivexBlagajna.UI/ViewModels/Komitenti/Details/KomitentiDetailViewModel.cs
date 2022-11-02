@@ -3,6 +3,7 @@ using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.Commands.Komitenti;
+using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
@@ -126,8 +127,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         }
         public async Task LoadAsync(int? komitentId)
         {
-            await InitializeKomitent(komitentId);
             await LoadMestaTroskaAsync();
+            await InitializeKomitent(komitentId);
         }
 
         private async Task InitializeKomitent(int? komitentId)

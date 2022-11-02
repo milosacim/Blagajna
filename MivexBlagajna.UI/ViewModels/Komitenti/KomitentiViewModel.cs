@@ -1,9 +1,7 @@
-﻿using MivexBlagajna.UI.Commands;
-using MivexBlagajna.UI.ViewModels.Komitenti.Details;
+﻿using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
 using MivexBlagajna.UI.Views.Services;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 

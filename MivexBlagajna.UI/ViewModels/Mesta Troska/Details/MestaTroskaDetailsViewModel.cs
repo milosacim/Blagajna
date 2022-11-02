@@ -3,13 +3,13 @@ using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.Commands.Mesta_Troska;
+using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 {
@@ -78,7 +78,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 {
                     int mesto_Id = (int)obj;
                     MestoTroska mesto = MestaTroska.Single(m => m.Id == mesto_Id);
-                    MestoTroska.Prefix = mesto.Prefix + "0" + (mesto.RoditeljMestoTroska.DecaMestoTroska.Count() + 1).ToString() + ".";
+                    MestoTroska.Prefix = mesto.Prefix + "0" + (mesto.DecaMestoTroska.Count() + 1).ToString() + ".";
                 }
             }
         }

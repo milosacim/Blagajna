@@ -30,8 +30,11 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
                 var oldValue = _selectedMestoTroska;
                 _selectedMestoTroska = value;
                 OnModelPropertyChanged(oldValue, value);
-                
-                OnMestoSelected?.Invoke(this, new MestoTroskaArgs(_selectedMestoTroska.Id, _selectedMestoTroska.Nadredjeni_Id, _selectedMestoTroska.IsSelected, oldValue == null ? null : oldValue.Id));
+
+                if (oldValue != value)
+                {
+                    OnMestoSelected?.Invoke(this, new MestoTroskaArgs(_selectedMestoTroska.Id, _selectedMestoTroska.Nadredjeni_Id, _selectedMestoTroska.IsSelected, oldValue == null ? null : oldValue.Id));
+                }
             }
         }
         public async override Task LoadAsync()

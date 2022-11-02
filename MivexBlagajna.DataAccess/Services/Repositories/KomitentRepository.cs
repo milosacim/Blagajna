@@ -13,11 +13,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<IEnumerable<Komitent>> GetAllAsync()
         {
-            //using (var context = contextFactory.CreateDbContext())
-            //{
-            //    return await context.Komitenti.Include(k => k.MestoTroska).Where(k => k.Obrisano == false).ToListAsync();
-            //}
-
             return await _context.Komitenti.Where(k => k.Obrisano == false).Include(k => k.MestoTroska)
             .Select(k => new Komitent
             {
@@ -45,76 +40,61 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
 
         public async Task<IEnumerable<MestoTroska>> GetAllMestaTroska()
         {
-            //using (var context = contextFactory.CreateDbContext())
-            //{
-            //    return await context.MestaTroska.Include(m => m.Komitenti).Where(m => m.Obrisano == false).ToListAsync();
-            //}
-
-            //Task.Delay(1000000);
-
             return await _context.MestaTroska.Where(m => m.Obrisano == false).Include(m => m.Komitenti)
             .Select(m => new MestoTroska()
-             {
-                 Id = m.Id,
-                 NadredjenoMesto_Id = m.NadredjenoMesto_Id,
-                 Prefix = m.Prefix,
-                 Naziv = m.Naziv,
-                 Nivo = m.Nivo,
-                 Obrisano = m.Obrisano,
-                 Komitenti = m.Komitenti
-             }).ToListAsync();
+            {
+                Id = m.Id,
+                NadredjenoMesto_Id = m.NadredjenoMesto_Id,
+                Prefix = m.Prefix,
+                Naziv = m.Naziv,
+                Nivo = m.Nivo,
+                Obrisano = m.Obrisano,
+                Komitenti = m.Komitenti
+
+            }).ToListAsync();
         }
         public async Task<Komitent> GetByIdAsync(int id)
         {
-            //using (var context = contextFactory.CreateDbContext())
             return await _context.Komitenti.Include(k => k.MestoTroska).SingleAsync(k => k.Id == id);
         }
         public async Task SaveAsync()
         {
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteAsync(Komitent komitent)
         {
             if (komitent != null)
             {
-                //using (var context = contextFactory.CreateDbContext())
-                //{
-                    _context.Komitenti.Remove(komitent);
-                    await _context.SaveChangesAsync();
-                //}
+                _context.Komitenti.Remove(komitent);
+                await _context.SaveChangesAsync();
             }
         }
         public bool HasChanges()
         {
-            //using (var context = contextFactory.CreateDbContext())
-                return _context.ChangeTracker.HasChanges();
+            return _context.ChangeTracker.HasChanges();
         }
         public void CancelChanges()
         {
-            //using (var context = contextFactory.CreateDbContext())
-            //{
-                var changedEntries = _context.ChangeTracker.Entries()
-                .Where(k => k.State != EntityState.Unchanged).ToList();
+            var changedEntries = _context.ChangeTracker.Entries()
+            .Where(k => k.State != EntityState.Unchanged).ToList();
 
-                foreach (var entry in changedEntries)
+            foreach (var entry in changedEntries)
+            {
+                switch (entry.State)
                 {
-                    switch (entry.State)
-                    {
-                        case EntityState.Added:
-                            entry.State = EntityState.Detached;
-                            break;
-                        case EntityState.Modified:
-                            entry.CurrentValues.SetValues(entry.OriginalValues);
-                            entry.State = EntityState.Unchanged;
-                            break;
-                    }
+                    case EntityState.Added:
+                        entry.State = EntityState.Detached;
+                        break;
+                    case EntityState.Modified:
+                        entry.CurrentValues.SetValues(entry.OriginalValues);
+                        entry.State = EntityState.Unchanged;
+                        break;
                 }
-            //}
+            }
         }
         public void Add(Komitent komitent)
         {
-            //using (var context = contextFactory.CreateDbContext())
-                _context.Komitenti.Add(komitent);
+            _context.Komitenti.Add(komitent);
         }
 
     }

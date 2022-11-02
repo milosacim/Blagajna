@@ -287,7 +287,9 @@
                 </StackPanel>
 
             </StackPanel>
+            
             <Grid Grid.Column="2">
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition />
@@ -297,14 +299,14 @@
                     <Label Margin="0,5,0,0" Content="Pripadnost (mesto troska): " />
 
                     <syncfusion:ComboBoxAdv 
-                        ItemsSource="{Binding MestaTroska}" 
-                        SelectedValue="{Binding Komitent.MestoTroska_Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        SelectedValuePath="Id"
-                        IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"/>
+                        IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"
+                        ItemsSource="{Binding MestaTroska}"
+                        SelectedValue="{Binding Komitent.MestoTroska_Id, Mode=TwoWay}"
+                        SelectedValuePath="Id"/>
 
                 </StackPanel>
+                
             </Grid>
-
         </Grid>
 
     </Grid>
