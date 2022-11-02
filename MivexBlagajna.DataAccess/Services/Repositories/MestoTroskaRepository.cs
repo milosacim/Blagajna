@@ -12,7 +12,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<MestoTroska> GetByIdAsync(int id)
         {
-            return await _context.MestaTroska.Include(m => m.RoditeljMestoTroska).SingleAsync(m => m.Id == id);
+            return await _context.MestaTroska.Include(m => m.RoditeljMestoTroska).Include(m => m.DecaMestoTroska).SingleAsync(m => m.Id == id);
         }
         public async Task<IEnumerable<MestoTroska>> GetAll()
         {

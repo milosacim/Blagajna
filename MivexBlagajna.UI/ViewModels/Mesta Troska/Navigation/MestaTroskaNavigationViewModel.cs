@@ -14,8 +14,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
 
         public event EventHandler<MestoTroskaArgs> OnMestoSelected;
 
-        public MestaTroskaNavigationViewModel(ILookupMestoTroskaDataService lookupMestoTroskaDataService
-            )
+        public MestaTroskaNavigationViewModel(ILookupMestoTroskaDataService lookupMestoTroskaDataService)
         {
             _lookupMestoTroskaDataService = lookupMestoTroskaDataService;
 
@@ -32,10 +31,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
                 _selectedMestoTroska = value;
                 OnModelPropertyChanged(oldValue, value);
                 
-                if (value != null && oldValue.Id != value.Id)
-                {
-                    OnMestoSelected?.Invoke(this, new MestoTroskaArgs(_selectedMestoTroska.Id, _selectedMestoTroska.Nadredjeni_Id, _selectedMestoTroska.IsSelected, oldValue == null ? null : oldValue.Id));
-                }
+                OnMestoSelected?.Invoke(this, new MestoTroskaArgs(_selectedMestoTroska.Id, _selectedMestoTroska.Nadredjeni_Id, _selectedMestoTroska.IsSelected, oldValue == null ? null : oldValue.Id));
             }
         }
         public async override Task LoadAsync()

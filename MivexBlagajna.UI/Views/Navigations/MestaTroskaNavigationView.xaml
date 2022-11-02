@@ -11,7 +11,9 @@
 
     <Grid>
         <syncfusion:SfTreeGrid
-            
+            AutoExpandMode="AllNodesExpanded"
+            ExpanderColumn="Sifra"
+            NavigationMode="Row"
             ParentPropertyName="Id"
             ItemsSource="{Binding MestaTroska}"
             ChildPropertyName="Nadredjeni_Id"

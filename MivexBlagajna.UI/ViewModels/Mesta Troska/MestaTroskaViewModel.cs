@@ -91,7 +91,7 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
             if (lookupitem == null)
             {
                 MestaTroskaNavigationViewModel.MestaTroska.Add(new MestaTroskaNavigationItemViewModel(e.id, e.prefix, e.naziv, e.nivo, e.nadId));
-                MestaTroskaNavigationViewModel.SelectedMestoTroska = MestaTroskaNavigationViewModel.MestaTroska.Fir();
+                MestaTroskaNavigationViewModel.SelectedMestoTroska = MestaTroskaNavigationViewModel.MestaTroska.First();
             }
             else
             {

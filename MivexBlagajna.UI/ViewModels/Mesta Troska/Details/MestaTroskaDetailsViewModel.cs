@@ -160,8 +160,9 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         }
         public async Task LoadAsync(int? mestoTroskaId)
         {
-            await InitializeMestoTroska(mestoTroskaId);
             await LoadAllMestaTroska();
+            await InitializeMestoTroska(mestoTroskaId);
+            
         }
 
         public async Task SaveMestoAsync()

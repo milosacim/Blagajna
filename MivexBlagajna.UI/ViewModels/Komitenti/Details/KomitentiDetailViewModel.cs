@@ -126,8 +126,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         }
         public async Task LoadAsync(int? komitentId)
         {
-            await LoadMestaTroskaAsync();
             await InitializeKomitent(komitentId);
+            await LoadMestaTroskaAsync();
         }
 
         private async Task InitializeKomitent(int? komitentId)
