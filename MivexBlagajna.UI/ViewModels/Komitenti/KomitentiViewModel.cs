@@ -12,8 +12,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         #region Fields
 
         private readonly IMessageDialogService _messageDialogService;
-        //private IKomitentiDetailViewModel? _komitentiDetailViewModel;
-        //private readonly Func<IKomitentiDetailViewModel> _komitentiDetailViewModelCreator;
         private readonly string _header;
         private readonly DockState _state;
 

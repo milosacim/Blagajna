@@ -1,4 +1,5 @@
-﻿using MivexBlagajna.Data.Models;
+﻿using Castle.Core.Internal;
+using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Interfaces;
@@ -70,11 +71,20 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             get;
         }
 
-        public void CreatePrefix(object? obj)
+        public void SetPrefix(object? obj)
         {
-            if (MestoTroska.Id == 0 && HasChanges)
+            CreatePrefix(obj);
+        }
+
+        private void CreatePrefix(object? obj)
+        {
+            if (obj == null)
             {
-                if (obj != null)
+                MestoTroska.Prefix = "0" + (MestaTroska.Select(m => m.NadredjenoMesto_Id == null)).Count().ToString() + ".";
+            }
+            else
+            {
+                if (HasChanges)
                 {
                     int mesto_Id = (int)obj;
 
@@ -84,17 +94,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                     {
                         MestoTroska.Prefix = mesto.Prefix + "0" + (mesto.DecaMestoTroska.Count() + 1).ToString() + ".";
                     }
-                }
-            }
-            else if (HasChanges)
-            {
-                int mesto_Id = (int)obj;
-
-                MestoTroska mesto = MestaTroska.Single(m => m.Id == mesto_Id);
-
-                if (mesto.DecaMestoTroska != null)
-                {
-                    MestoTroska.Prefix = mesto.Prefix + "0" + (mesto.DecaMestoTroska.Count() + 1).ToString() + ".";
                 }
             }
         }
@@ -165,13 +164,14 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         }
         public async Task LoadAllMestaTroska()
         {
-            MestaTroska.Clear();
-
-            var mestaTroska = await _mestoTroskaRepository.GetAll();
-
-            foreach (var mesto in mestaTroska)
+            if (MestaTroska.IsNullOrEmpty())
             {
-                MestaTroska.Add(mesto);
+                var mestaTroska = await _mestoTroskaRepository.GetAll();
+
+                foreach (var mesto in mestaTroska)
+                {
+                    MestaTroska.Add(mesto);
+                }
             }
         }
         public async Task LoadAsync(int? mestoTroskaId)

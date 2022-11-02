@@ -1,4 +1,5 @@
-﻿using MivexBlagajna.Data.Models;
+﻿using Castle.Core.Internal;
+using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Interfaces;
@@ -147,11 +148,13 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
         public async Task LoadMestaTroskaAsync()
         {
-            MestaTroska.Clear();
-            var mestaTroska = await _komitentRepository.GetAllMestaTroska();
-            foreach (var mesto in mestaTroska)
+            if (MestaTroska.IsNullOrEmpty())
             {
-                MestaTroska.Add(mesto);
+                var mestaTroska = await _komitentRepository.GetAllMestaTroska();
+                foreach (var mesto in mestaTroska)
+                {
+                    MestaTroska.Add(mesto);
+                }
             }
         }
         public async Task SaveKomitentAsync()

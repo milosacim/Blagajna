@@ -193,7 +193,7 @@
 
                                 <Label Content="Šifra MT" />
                                 <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Width="80"
-                                                         Text="{Binding FilteredKomitent.MestoTroska.Sifra, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                         Text="{Binding FilteredKomitent.MestoTroska.Prefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                          IsEnabled="False"/>
 
                             </StackPanel>

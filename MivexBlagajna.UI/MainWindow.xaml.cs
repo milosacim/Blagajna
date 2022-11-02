@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using MivexBlagajna.UI.ViewModels;
 using Syncfusion.SfSkinManager;
+using Syncfusion.Themes.FluentLight.WPF;
 using Syncfusion.Themes.MaterialLight.WPF;
 using Syncfusion.Windows.Tools.Controls;
 
@@ -13,10 +14,13 @@ namespace MivexBlagajna.UI
         private MainViewModel _viewModel;
         public MainWindow(MainViewModel viewModel)
         {
-            MaterialLightThemeSettings materialLightThemeSettings = new MaterialLightThemeSettings();
+            //MaterialLightThemeSettings materialLightThemeSettings = new MaterialLightThemeSettings();
+            FluentLightThemeSettings fluentLightThemeSettings = new FluentLightThemeSettings();
 
-            SfSkinManager.RegisterThemeSettings("MaterialLightBlue", materialLightThemeSettings);
-            SfSkinManager.SetTheme(this, new Theme("MaterialLightBlue"));
+            //SfSkinManager.RegisterThemeSettings("MaterialLightBlue", materialLightThemeSettings);
+            SfSkinManager.RegisterThemeSettings("FluentLight", fluentLightThemeSettings);
+            //SfSkinManager.SetTheme(this, new Theme("MaterialLightBlue"));
+            SfSkinManager.SetTheme(this, new Theme("FluentLight"));
 
             InitializeComponent();
             _viewModel = viewModel;

@@ -22,7 +22,7 @@ namespace MivexBlagajna.UI.Commands
 
         public void Execute(object? parameter)
         {
-            mestaTroskaDetailsViewModel.CreatePrefix(parameter);
+            mestaTroskaDetailsViewModel.SetPrefix(parameter);
         }
     }
 }
