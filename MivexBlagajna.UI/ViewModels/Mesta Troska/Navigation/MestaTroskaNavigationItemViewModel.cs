@@ -4,16 +4,14 @@
     {
         private string _naziv;
         private string _sifra;
-        private int _nivo;
         private int? _nadredjeniId;
         private bool _isSelected;
 
-        public MestaTroskaNavigationItemViewModel(int id, string sifra, string naziv, int nivo, int? nadredjeni)
+        public MestaTroskaNavigationItemViewModel(int id, string sifra, string naziv, int? nadredjeni)
         {
             Id = id;
             Sifra = sifra;
             Naziv = naziv;
-            Nivo = nivo;
             Nadredjeni_Id = nadredjeni;
 
             _isSelected = false;
@@ -39,17 +37,6 @@
             {
                 var oldValue = _naziv;
                 _naziv = value;
-                OnObjectPropertyChanged(oldValue, value);
-            }
-        }
-
-        public int Nivo
-        {
-            get { return _nivo; }
-            set
-            {
-                var oldValue = _nivo;
-                _nivo = value;
                 OnObjectPropertyChanged(oldValue, value);
             }
         }

@@ -12,9 +12,6 @@ namespace MivexBlagajna.Data.Models
 
         [Required]
         public string Naziv { get; set; }
-
-        [Required]
-        public int Nivo { get; set; }
         public int? NadredjenoMesto_Id { get; set; }
         public virtual MestoTroska RoditeljMestoTroska { get; set; }
         public virtual ICollection<MestoTroska> DecaMestoTroska { get; set; }

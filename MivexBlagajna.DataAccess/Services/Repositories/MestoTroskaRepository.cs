@@ -25,7 +25,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                     NadredjenoMesto_Id = m.NadredjenoMesto_Id,
                     Prefix = m.Prefix,
                     Naziv = m.Naziv,
-                    Nivo = m.Nivo,
                     Obrisano = m.Obrisano,
                     DecaMestoTroska = m.DecaMestoTroska,
                     RoditeljMestoTroska = m.RoditeljMestoTroska

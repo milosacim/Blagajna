@@ -55,12 +55,6 @@ namespace MivexBlagajna.UI.Wrappers
             set { SetValue(value); OnModelPropertyChanged(); }
         }
 
-        public int Nivo
-        {
-            get { return GetValue<int>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
-        }
-
         public bool IsEditable
         {
             get { return _isEditable; }

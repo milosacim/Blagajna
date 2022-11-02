@@ -101,7 +101,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
         public IAsyncCommand CancelCommand { get; }
         public IAsyncCommand CreateNewKomitentCommand { get; }
         public IAsyncCommand DeleteCommand { get; }
-        public ICommand EditKomitentPropertyCommand { get; }
+        public RelayCommand EditKomitentPropertyCommand { get; }
 
         #endregion
 

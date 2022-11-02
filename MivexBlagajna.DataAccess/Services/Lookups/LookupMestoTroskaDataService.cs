@@ -19,7 +19,6 @@ namespace MivexBlagajna.DataAccess.Services.Lookups
                     Id = m.Id,
                     Sifra = m.Prefix,
                     Naziv = m.Naziv,
-                    Nivo = m.Nivo,
                     NadredjenoMesto_Id = m.NadredjenoMesto_Id,
 
                 }).ToListAsync();

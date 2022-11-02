@@ -44,7 +44,7 @@ namespace MivexBlagajna.UI.Commands
 
             try
             {
-                if (runningTask != null && runningTask.IsCompleted)
+                if (runningTask != null)
                 {
                     await runningTask;
                 }

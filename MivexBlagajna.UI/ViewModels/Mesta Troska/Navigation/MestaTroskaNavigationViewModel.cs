@@ -47,7 +47,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             {
                 if (item != null)
                 {
-                    MestaTroska.Add(new MestaTroskaNavigationItemViewModel(item.Id, item.Sifra, item.Naziv, item.Nivo, item.NadredjenoMesto_Id));
+                    MestaTroska.Add(new MestaTroskaNavigationItemViewModel(item.Id, item.Sifra, item.Naziv, item.NadredjenoMesto_Id));
                 }
             }
             SelectedMestoTroska = MestaTroska.FirstOrDefault();

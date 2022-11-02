@@ -33,7 +33,6 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Prefix = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Naziv = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Nivo = table.Column<int>(type: "int", nullable: false),
                     NadredjenoMesto_Id = table.Column<int>(type: "int", nullable: true),
                     Obrisano = table.Column<bool>(type: "bit", nullable: false)
                 },

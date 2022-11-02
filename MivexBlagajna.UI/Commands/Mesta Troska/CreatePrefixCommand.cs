@@ -17,7 +17,7 @@ namespace MivexBlagajna.UI.Commands
         }
         public bool CanExecute(object? parameter)
         {
-            return mestaTroskaDetailsViewModel.HasChanges;
+            return false;
         }
 
         public void Execute(object? parameter)
