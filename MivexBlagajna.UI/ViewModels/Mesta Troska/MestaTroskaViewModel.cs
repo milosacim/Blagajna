@@ -106,8 +106,8 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
 
             if (mesto != null)
             {
+                MestaTroskaNavigationViewModel.SelectedMestoTroska = MestaTroskaNavigationViewModel.MestaTroska.FirstOrDefault();
                 MestaTroskaNavigationViewModel.MestaTroska.Remove(mesto);
-                MestaTroskaNavigationViewModel.SelectedMestoTroska = MestaTroskaNavigationViewModel.MestaTroska.Last();
             }
         }
 

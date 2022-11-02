@@ -120,8 +120,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             if (komitent != null)
             {
-                KomitentiNavigationViewModel.Komitenti.Remove(komitent);
                 KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.Last();
+                KomitentiNavigationViewModel.Komitenti.Remove(komitent);
             }
         }
 
