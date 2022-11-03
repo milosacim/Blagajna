@@ -3,8 +3,10 @@ using System.Windows;
 using System.Windows.Controls;
 using MivexBlagajna.UI.ViewModels;
 using Syncfusion.SfSkinManager;
+using Syncfusion.Themes.FluentDark.WPF;
 using Syncfusion.Themes.FluentLight.WPF;
 using Syncfusion.Themes.MaterialLight.WPF;
+using Syncfusion.Themes.Office2019Colorful.WPF;
 using Syncfusion.Windows.Tools.Controls;
 
 namespace MivexBlagajna.UI
@@ -15,12 +17,19 @@ namespace MivexBlagajna.UI
         public MainWindow(MainViewModel viewModel)
         {
             //MaterialLightThemeSettings materialLightThemeSettings = new MaterialLightThemeSettings();
-            FluentLightThemeSettings fluentLightThemeSettings = new FluentLightThemeSettings();
+            Office2019ColorfulThemeSettings office2019ColorfulThemeSettings = new Office2019ColorfulThemeSettings();
+            //FluentLightThemeSettings fluentLightThemeSettings = new FluentLightThemeSettings();
+            //FluentDarkThemeSettings fluentDarkThemeSettings = new FluentDarkThemeSettings();
 
             //SfSkinManager.RegisterThemeSettings("MaterialLightBlue", materialLightThemeSettings);
-            SfSkinManager.RegisterThemeSettings("FluentLight", fluentLightThemeSettings);
+            SfSkinManager.RegisterThemeSettings("Office2019Colorful", office2019ColorfulThemeSettings);
+            //SfSkinManager.RegisterThemeSettings("FluentLight", fluentLightThemeSettings);
+            //SfSkinManager.RegisterThemeSettings("FluentDark", fluentDarkThemeSettings);
+
+            //SfSkinManager.SetTheme(this, new Theme("FluentDark"));
             //SfSkinManager.SetTheme(this, new Theme("MaterialLightBlue"));
-            SfSkinManager.SetTheme(this, new Theme("FluentLight"));
+            SfSkinManager.SetTheme(this, new Theme("Office2019Colorful"));
+            //SfSkinManager.SetTheme(this, new Theme("FluentLight"));
 
             InitializeComponent();
             _viewModel = viewModel;

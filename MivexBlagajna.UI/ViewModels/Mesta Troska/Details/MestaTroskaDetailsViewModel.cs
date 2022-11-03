@@ -76,7 +76,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             CreatePrefix(obj);
         }
 
-        private void CreatePrefix(object? obj)
+        public void CreatePrefix(object? obj)
         {
             if (obj == null)
             {

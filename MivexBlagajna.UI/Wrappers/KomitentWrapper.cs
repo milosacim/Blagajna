@@ -1,8 +1,4 @@
 ﻿using MivexBlagajna.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-
 namespace MivexBlagajna.UI.Wrappers
 {
 
@@ -285,5 +281,10 @@ namespace MivexBlagajna.UI.Wrappers
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format($"{0}", Naziv);
+        }
     }
 }

@@ -16,13 +16,14 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         private readonly DockState _dockState;
         private readonly string _header;
         private readonly IKomitentRepository _komitentRepository;
-        private readonly IMestoTroskaRepository _mestoTroskaRepository;
         private readonly IKontoRepository _kontoRepository;
         private readonly ITransakcijeRepository _transakcijeRepository;
 
         private string? _searchKomitentText;
         private ICommand _selectKontoCommand;
-        private VrsteNalogaEnum _selectedVrstaNaloga;
+        private VrsteKontaEnum _selectedVrstaKonta;
+        private TransakcijaWrapper _transakcija;
+        private KomitentWrapper? _filteredKomitent;
 
         #endregion
 
@@ -37,15 +38,23 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             _dockState = DockState.Document;
             _header = "Uplate / Isplate";
             _komitentRepository = komitentRepository;
-            _mestoTroskaRepository = mestoTroskaRepository;
             _kontoRepository = kontoRepository;
             _transakcijeRepository = transakcijeRepository;
 
             Komitenti = new ObservableCollection<KomitentWrapper>();
-            MestaTroska = new ObservableCollection<MestoTroskaWrapper>();
             Transakcije = new ObservableCollection<TransakcijaWrapper>();
             Konta = new ObservableCollection<Konto>();
 
+            CreateTransakcijaCommand = new RelayCommand(CreateNewTransakcija);
+
+        }
+
+        private void CreateNewTransakcija(object? obj = null)
+        {
+            var transakcija = new Transakcija();
+            transakcija.Datum = DateTime.Now;
+            _transakcijeRepository.Add(transakcija);
+            Transakcija = new TransakcijaWrapper(transakcija, true);
         }
         #endregion
 
@@ -70,16 +79,18 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 OnModelPropertyChanged(oldValue, value, nameof(FilteredKomitent));
             }
         }
-        public VrsteNalogaEnum SelectedVrstaNaloga
+        public VrsteKontaEnum SelectedVrstaKonta
         {
-            get { return _selectedVrstaNaloga; }
+            get { return _selectedVrstaKonta; }
             set
             {
-                var oldValue = _selectedVrstaNaloga;
-                _selectedVrstaNaloga = value;
+                var oldValue = _selectedVrstaKonta;
+                _selectedVrstaKonta = value;
+                Transakcija.Konto = SelectedKonto;
                 OnModelPropertyChanged(oldValue, value);
             }
         }
+
         public KomitentWrapper? FilteredKomitent
         {
             get { return SearchKomitentText != null ? Komitenti.FirstOrDefault(x => x.Sifra.ToString().Equals(SearchKomitentText, StringComparison.OrdinalIgnoreCase)) : null; }
@@ -89,54 +100,60 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         {
             get
             {
-                return _selectKontoCommand ??= new RelayCommand(x => { SelectKonto(SelectedVrstaNaloga); });
+                return _selectKontoCommand ??= new RelayCommand(x => { SelectKonto(SelectedVrstaKonta); });
             }
         }
 
         public ObservableCollection<KomitentWrapper> Komitenti { get; }
-        public ObservableCollection<MestoTroskaWrapper> MestaTroska { get; }
         public ObservableCollection<Konto> Konta { get; }
-        public TransakcijaWrapper Transakcija { get; set; }
+        public TransakcijaWrapper Transakcija
+        {
+            get { return _transakcija; }
+            set
+            {
+                var oldValue = _transakcija;
+                _transakcija = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
+        }
+
         public ObservableCollection<TransakcijaWrapper> Transakcije { get; }
         #endregion
 
         #region Methods
         public override async Task LoadAsync()
         {
-            var listOfKomitenti = await _komitentRepository.GetAllAsync();
             Komitenti.Clear();
+            var listOfKomitenti = await _komitentRepository.GetAllAsync();
             foreach (var item in listOfKomitenti)
             {
                 var komitent = new KomitentWrapper(item, false, false, false);
                 Komitenti.Add(komitent);
             }
 
-            var konta = await _kontoRepository.GetAllAsync();
-
-            foreach (var konto in konta)
+            Konta.Clear();
+            var kontaList = await _kontoRepository.GetAllAsync();
+            foreach (var konto in kontaList)
             {
                 Konta.Add(konto);
             }
         }
-        public async Task<Transakcija> CreateNewTransakcija()
-        {
-            var transakcija = new Transakcija();
-            return transakcija;
-        }
 
-        public Konto SelectKonto(VrsteNalogaEnum vrstaNaloga)
+        public RelayCommand CreateTransakcijaCommand { get; }
+
+        public Konto SelectKonto(VrsteKontaEnum vrstaNaloga)
         {
             switch (vrstaNaloga)
             {
-                case VrsteNalogaEnum.DINARI:
+                case VrsteKontaEnum.DINARI:
                     SelectedKonto = Konta.FirstOrDefault(k => k.Naziv == "Dinarski");
                     return SelectedKonto;
 
-                case VrsteNalogaEnum.CEKOVI:
+                case VrsteKontaEnum.CEKOVI:
                     SelectedKonto = Konta.FirstOrDefault(k => k.Naziv == "Cekovi");
                     return SelectedKonto;
 
-                case VrsteNalogaEnum.EURO:
+                case VrsteKontaEnum.EURO:
                     SelectedKonto = Konta.FirstOrDefault(k => k.Naziv == "Devizni");
                     return SelectedKonto;
 

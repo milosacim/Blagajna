@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-             xmlns:inputLayout="clr-namespace:Syncfusion.UI.Xaml.TextInputLayout;assembly=Syncfusion.SfTextInputLayout.WPF"
              xmlns:local="clr-namespace:MivexBlagajna.UI"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
@@ -16,7 +15,7 @@
 
         <ObjectDataProvider x:Key="vrsteNaloga" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="local:VrsteNalogaEnum"/>
+                <x:Type TypeName="local:VrsteKontaEnum"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
@@ -65,18 +64,18 @@
 
                         <StackPanel>
                             <Label Content="Datum" />
-                            <syncfusion:DateTimeEdit DropDownView="Calendar" IsEnabled="False"/>
+                            <syncfusion:DateTimeEdit DropDownView="Calendar" IsEnabled="True" DateTime="{Binding Transakcija.Datum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Row="1" Margin="0 10">
-                            <Label Content="Vrsta naloga" />
+                            <Label Content="Konto" />
 
                             <syncfusion:ComboBoxAdv 
                                 BorderThickness="0.5" 
                                 Height="25" 
                                 VerticalAlignment="Center"
                                 ItemsSource="{Binding Source={StaticResource vrsteNaloga}}"
-                                SelectedItem="{Binding SelectedVrstaNaloga, Mode=TwoWay}"
+                                SelectedItem="{Binding SelectedKonto, Mode=TwoWay}"
                                 IsEnabled="True">
 
                                 <b:Interaction.Triggers>
@@ -119,8 +118,7 @@
                                     Height="25" 
                                     Width="80"
                                     Text="{Binding SearchKomitentText, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                    IsEnabled="True"
-                                    />
+                                    IsEnabled="True"/>
 
                             </StackPanel>
 
@@ -133,9 +131,8 @@
                                     Height="25" 
                                     Margin="20 0 0 0" 
                                     Width="350"
-                                    Text="{Binding FilteredKomitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    IsEnabled="False"
-                                    />
+                                    Text="{Binding Path=Transakcija.Komitent}"
+                                    IsEnabled="True"/>
 
                             </StackPanel>
 
@@ -153,7 +150,7 @@
                             <StackPanel Margin="0,0,0,0">
 
                                 <Label Content="Nalog" />
-                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Width="80" IsEnabled="False"/>
+                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Width="80" IsEnabled="True"/>
 
                             </StackPanel>
 
@@ -161,7 +158,7 @@
 
                                 <Label Content="Opis" Margin="20 0"/>
 
-                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Margin="20 0 0 0" Width="350" IsEnabled="False"/>
+                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Margin="20 0 0 0" Width="350" IsEnabled="True" Text="{Binding Transakcija.Opis, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
 
                             </StackPanel>
 
@@ -192,18 +189,25 @@
                             <StackPanel>
 
                                 <Label Content="Šifra MT" />
-                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Width="80"
-                                                         Text="{Binding FilteredKomitent.MestoTroska.Prefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         IsEnabled="False"/>
+                                <syncfusion:SfTextBoxExt 
+                                    BorderThickness="0.5" 
+                                    VerticalAlignment="Center" 
+                                    Height="25" Width="80"
+                                    Text="{Binding FilteredKomitent.MestoTroska.Prefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="True"/>
 
                             </StackPanel>
 
                             <StackPanel Grid.Column="1">
 
                                 <Label Content="Mesto troška" Margin="20 0"/>
-                                <syncfusion:SfTextBoxExt BorderThickness="0.5" VerticalAlignment="Center" Height="25" Margin="20 0" Width="250"
-                                                         Text="{Binding FilteredKomitent.MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         IsEnabled="False"/>
+                                <syncfusion:SfTextBoxExt 
+                                    BorderThickness="0.5" 
+                                    VerticalAlignment="Center" 
+                                    Height="25" Margin="20 0" 
+                                    Width="250"
+                                    Text="{Binding FilteredKomitent.MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="True"/>
 
                             </StackPanel>
 
@@ -214,13 +218,13 @@
                             <StackPanel Orientation="Horizontal">
                                 <RadioButton />
                                 <Label Content="Opravdan"
-                                       IsEnabled="False"/>
+                                       IsEnabled="True"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="20 0">
                                 <RadioButton />
                                 <Label Content="Neopravdan"
-                                       IsEnabled="False"/>
+                                       IsEnabled="True"/>
                             </StackPanel>
 
                         </StackPanel>
@@ -250,14 +254,25 @@
 
                             <StackPanel >
                                 <Label Content="Uplata" />
-                                <syncfusion:SfTextBoxExt BorderThickness="0.5" Watermark="0.00" VerticalAlignment="Center" Height="35" Width="150" 
-                                                         IsEnabled="False"/>
+                                <syncfusion:SfTextBoxExt 
+                                    BorderThickness="0.5" 
+                                    Watermark="0.00" 
+                                    VerticalAlignment="Center" 
+                                    Height="35" 
+                                    Width="150" 
+                                    IsEnabled="True"/>
+                                
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="20 0 0 0">
                                 <Label Content="Isplata" />
-                                <syncfusion:SfTextBoxExt BorderThickness="0.5" Watermark="0.00" VerticalAlignment="Center" Height="35" Width="150" 
-                                                         IsEnabled="False"/>
+                                <syncfusion:SfTextBoxExt 
+                                    BorderThickness="0.5" 
+                                    Watermark="0.00" 
+                                    VerticalAlignment="Center" 
+                                    Height="35" 
+                                    Width="150" 
+                                    IsEnabled="True"/>
                             </StackPanel>
 
                         </Grid>
@@ -294,7 +309,7 @@
 
                         <StackPanel Orientation="Horizontal" Margin="10 10">
 
-                            <syncfusion:ButtonAdv SizeMode="Large" Label="Nov Nalog" LargeIcon="/Images/icons8-add-48.png"/>
+                            <syncfusion:ButtonAdv SizeMode="Large" Label="Nov Nalog" LargeIcon="/Images/icons8-add-48.png" Command="{Binding CreateTransakcijaCommand}"/>
                             <syncfusion:ButtonAdv SizeMode="Large" Label="Obriši unos" Margin="20 0" LargeIcon="/Images/icons8-remove-48.png"/>
 
                         </StackPanel>

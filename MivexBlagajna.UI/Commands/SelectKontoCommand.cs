@@ -21,11 +21,11 @@ namespace MivexBlagajna.UI.Commands
 
         public void Execute(object? parameter)
         {
-            if (parameter is VrsteNalogaEnum)
+            if (parameter is VrsteKontaEnum)
             {
-                VrsteNalogaEnum vrstaNaloga = (VrsteNalogaEnum)parameter;
+                VrsteKontaEnum vrstaKonta = (VrsteKontaEnum)parameter;
 
-                _uplateIsplateViewModel.SelectedKonto = _uplateIsplateViewModel.SelectKonto(vrstaNaloga);
+                _uplateIsplateViewModel.SelectedKonto = _uplateIsplateViewModel.SelectKonto(vrstaKonta);
             }
         }
     }

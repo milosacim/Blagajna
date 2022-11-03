@@ -5,56 +5,67 @@ namespace MivexBlagajna.UI.Wrappers
 {
     public class TransakcijaWrapper : ModelWrapper<Transakcija>
     {
-        public TransakcijaWrapper(Transakcija transakcija) : base(transakcija)
-        {
-            Opis = transakcija.Opis;
-            Uplata = transakcija.Uplata;
-            Isplata = transakcija.Isplata;
+        private bool _isEditable;
 
-            IsEditable = false;
+        public TransakcijaWrapper(Transakcija transakcija, bool isEditable) : base(transakcija)
+        {
+            _isEditable = isEditable;
         }
 
         public int Id { get { return Model.Id; } }
 
         public int Komitent_Id
         {
-            get { return Model.Komitent_Id; }
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
+
+        public Komitent Komitent
+        {
+            get { return GetValue<Komitent>(); }
+            set { SetValue(value); }
         }
 
         public int MestoTroska_Id
         {
-            get { return Model.MestoTroska_Id; }
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
+
+        public MestoTroska MestoTroska
+        {
+            get { return GetValue<MestoTroska>(); }
+            set { SetValue(value); }
         }
 
         public int Konto_Id
         {
-            get { return Model.Konto_Id; }
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
+
+        public Konto Konto
+        {
+            get { return GetValue<Konto>(); }
+            set { SetValue(value); }
         }
 
         public DateTime Datum
         {
-            get { return Model.Datum; }
+            get { return GetValue<DateTime>(); }
+            set { SetValue(value); }
         }
 
         public string Nalog
         {
-            get { return Model.Nalog; }
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
 
         public string Opis
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }
-        }
-
-        public bool? Opravdan
-        {
-            get { return Model.Opravdan; }
-        }
-
-        public bool? Neopravdan
-        {
-            get { return Model.Opravdan; }
         }
 
         public decimal Uplata
@@ -69,7 +80,17 @@ namespace MivexBlagajna.UI.Wrappers
             set { SetValue(value); }
         }
 
-        public bool IsEditable { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string VrstaNaloga
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public bool IsEditable
+        {
+            get { return _isEditable; }
+            set { _isEditable = value; OnModelPropertyChanged(); }
+        }
 
         public override void BeginEdit()
         {

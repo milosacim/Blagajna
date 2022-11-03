@@ -11,7 +11,6 @@ using MivexBlagajna.UI.Wrappers;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 {
@@ -225,6 +224,4 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
         #endregion
     }
-
-
 }

@@ -6,8 +6,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
     public interface IUplateIsplateViewModel
     {
         Konto? SelectedKonto { get; set; }
-        Task<Transakcija> CreateNewTransakcija();
         Task LoadAsync();
-        Konto SelectKonto(VrsteNalogaEnum vrstaNaloga);
+        Konto SelectKonto(VrsteKontaEnum vrstaNaloga);
     }
 }

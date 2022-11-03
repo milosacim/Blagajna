@@ -1,4 +1,5 @@
-﻿using MivexBlagajna.DataAccess.Services.Lookups;
+﻿using Castle.Core.Internal;
+using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using System;
@@ -6,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
@@ -84,7 +84,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             {
                 var oldValue = _fizickoLiceFilter;
                 _fizickoLiceFilter = value;
-                OnModelPropertyChanged(oldValue, value); 
+                OnModelPropertyChanged(oldValue, value);
                 FilteredList.Refresh();
             }
         }
@@ -94,15 +94,17 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
         #region Methods
         public async override Task LoadAsync()
         {
-            Komitenti.Clear();
-            var lookup = await _lookupKomitentDataService.GetLookupKomitentAsync();
-            foreach (var item in lookup)
+            if (Komitenti.IsNullOrEmpty())
             {
-                if (item != null)
+                var lookup = await _lookupKomitentDataService.GetLookupKomitentAsync();
+                foreach (var item in lookup)
                 {
-                    Komitenti.Add(
-                        new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice));
+                    if (item != null)
+                    {
+                        Komitenti.Add(
+                            new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice));
 
+                    }
                 }
             }
             SelectedKomitent = Komitenti.FirstOrDefault();
@@ -124,7 +126,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                 {
                     return PravnoLiceFilter == false || item.PravnoLice == true;
                 }
-            } else
+            }
+            else
             {
                 return false;
             }
@@ -140,7 +143,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                 else
                 {
                     return FizickoLiceFilter == false || item.FizickoLice == true;
-                } 
+                }
             }
             else
             {
