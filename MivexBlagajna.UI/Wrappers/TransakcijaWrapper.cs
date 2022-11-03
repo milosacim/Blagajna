@@ -56,6 +56,12 @@ namespace MivexBlagajna.UI.Wrappers
             set { SetValue(value); }
         }
 
+        public string VrstaNaloga
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
         public string Nalog
         {
             get { return GetValue<string>(); }
@@ -80,11 +86,6 @@ namespace MivexBlagajna.UI.Wrappers
             set { SetValue(value); }
         }
 
-        public string VrstaNaloga
-        {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
-        }
 
         public bool IsEditable
         {

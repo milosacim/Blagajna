@@ -39,7 +39,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             DeleteCommand = new DeleteCommand(this);
 
             EditMestoTroskaPropertyCommand = new RelayCommand(EditMestoTroskaProperty);
-            CreatePrefixCommand = new RelayCommand(CreatePrefix);
+            CreatePrefixCommand = new RelayCommand(SetPrefix);
 
             MestaTroska = new ObservableCollection<MestoTroska>();
         }
