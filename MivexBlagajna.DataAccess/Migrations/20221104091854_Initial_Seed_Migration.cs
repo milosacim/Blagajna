@@ -5,7 +5,7 @@ using MivexBlagajna.Data.Models;
 
 namespace MivexBlagajna.DataAccess.Migrations
 {
-    public partial class Initial_Seed : Migration
+    public partial class Initial_Seed_Migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,6 +37,14 @@ namespace MivexBlagajna.DataAccess.Migrations
                         new Konto() {Naziv = "Cekovi"}
                     });
 
+                context.VrsteNalogas.AddRange(
+                   new List<VrsteNaloga>()
+                   {
+                        new VrsteNaloga() {VrstaNaloga = "Dnevnica"},
+                        new VrsteNaloga() {VrstaNaloga = "Pazar"},
+                        new VrsteNaloga() {VrstaNaloga = "Cekovi"},
+                        new VrsteNaloga() {VrstaNaloga = "Plata"}
+                   });
 
                 context.SaveChanges();
             }

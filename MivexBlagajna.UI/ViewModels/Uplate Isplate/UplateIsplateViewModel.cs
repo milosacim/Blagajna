@@ -1,8 +1,12 @@
-﻿using MivexBlagajna.Data.Models;
+﻿using Castle.Core.Internal;
+using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
+using MivexBlagajna.UI.Commands.Interfaces;
+using MivexBlagajna.UI.Commands.Transakcije;
 using MivexBlagajna.UI.Wrappers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +25,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
         private string? _searchKomitentText;
         private TransakcijaWrapper _transakcija;
+        private List<VrsteNaloga> _vrsteNaloga;
+        private bool _hasChanges;
 
         #endregion
 
@@ -37,45 +43,27 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             _kontoRepository = kontoRepository;
             _transakcijeRepository = transakcijeRepository;
 
-            Komitenti = new ObservableCollection<KomitentWrapper>();
+            Komitenti = new ObservableCollection<Komitent>();
             Transakcije = new ObservableCollection<TransakcijaWrapper>();
             Konta = new ObservableCollection<Konto>();
+            VrsteNaloga = new List<VrsteNaloga>();
 
             CreateTransakcijaCommand = new RelayCommand(CreateNewTransakcija);
-            SelectKontoCommand = new RelayCommand(SelectKonto);
-            SelectVrstaCommand = new RelayCommand(SelectVrsta);
+            CreateBrojNalogaCommand = new RelayCommand(CreateBrojNaloga);
 
+            SaveCommand = new SaveTransakcijaCommand(this);
         }
 
-        public void SelectKonto(object? obj)
+        public bool HasChanges
         {
-            if (obj is VrsteKontaEnum && Transakcija.Id == 0)
+            get { return _hasChanges; }
+            set
             {
-                switch (obj)
-                {
-                    case VrsteKontaEnum.DINARI:
-                        Transakcija.Konto = Konta.FirstOrDefault(k => k.Naziv == "Dinarski");
-                        break;
-
-                    case VrsteKontaEnum.CEKOVI:
-                        Transakcija.Konto = Konta.FirstOrDefault(k => k.Naziv == "Cekovi");
-                        break;
-
-                    case VrsteKontaEnum.EURO:
-                        Transakcija.Konto = Konta.FirstOrDefault(k => k.Naziv == "Devizni");
-                        break;
-                }
+                var oldValue = _hasChanges;
+                _hasChanges = value;
+                OnModelPropertyChanged(oldValue, value);
             }
         }
-
-        private void CreateNewTransakcija(object? obj = null)
-        {
-            var transakcija = new Transakcija();
-            transakcija.Datum = DateTime.Now;
-            _transakcijeRepository.Add(transakcija);
-            Transakcija = new TransakcijaWrapper(transakcija, true);
-        }
-
         public DockState State
         {
             get { return _dockState; }
@@ -93,25 +81,32 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             {
                 var oldValue = _searchKomitentText;
                 _searchKomitentText = value;
-
                 OnModelPropertyChanged(oldValue, value, nameof(FilteredKomitent));
-                Transakcija.Komitent = FilteredKomitent.Model;
-                Transakcija.MestoTroska = Transakcija.Komitent.MestoTroska;
+                if (_searchKomitentText != "")
+                {
+                    Transakcija.Komitent = FilteredKomitent;
+                    Transakcija.MestoTroska = Transakcija.Komitent.MestoTroska;
+                }
             }
         }
-
-        public KomitentWrapper? FilteredKomitent
-        {
-            get { return SearchKomitentText != null ? Komitenti.FirstOrDefault(x => x.Sifra.ToString().Equals(SearchKomitentText, StringComparison.OrdinalIgnoreCase)) : null; }
-        }
-
-        public ICommand SelectKontoCommand { get; }
         public ICommand CreateTransakcijaCommand { get; }
-        public ICommand SelectVrstaCommand { get; }
+        public ICommand CreateBrojNalogaCommand { get; }
+        public IAsyncCommand SaveCommand { get; }
 
-
-        public ObservableCollection<KomitentWrapper> Komitenti { get; }
+        public ObservableCollection<Komitent> Komitenti { get; }
+        public ObservableCollection<TransakcijaWrapper> Transakcije { get; }
         public ObservableCollection<Konto> Konta { get; }
+
+        public List<VrsteNaloga> VrsteNaloga
+        {
+            get { return _vrsteNaloga; }
+            set
+            {
+                var oldValue = _vrsteNaloga;
+                _vrsteNaloga = value;
+                OnModelPropertyChanged(oldValue, value);
+            }
+        }
         public TransakcijaWrapper Transakcija
         {
             get { return _transakcija; }
@@ -120,55 +115,102 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 var oldValue = _transakcija;
                 _transakcija = value;
                 OnModelPropertyChanged(oldValue, value);
+
+                Transakcija.PropertyChanged += (s, e) =>
+                {
+                    if (!HasChanges)
+                    {
+                        HasChanges = _transakcijeRepository.HasChanges();
+                    }
+                };
             }
         }
-        public ObservableCollection<TransakcijaWrapper> Transakcije { get; }
+        public Komitent? FilteredKomitent
+        {
+            get { return SearchKomitentText != null ? Komitenti.FirstOrDefault(x => x.Sifra.ToString().Equals(SearchKomitentText, StringComparison.OrdinalIgnoreCase)) : null; }
+        }
+
         #endregion
 
         #region Methods
         public override async Task LoadAsync()
         {
-            Komitenti.Clear();
-            var listOfKomitenti = await _komitentRepository.GetAllAsync();
-            foreach (var item in listOfKomitenti)
+            if (Komitenti.IsNullOrEmpty())
             {
-                var komitent = new KomitentWrapper(item, false, false, false);
-                Komitenti.Add(komitent);
+                var listOfKomitenti = await _komitentRepository.GetAllAsync();
+                foreach (var item in listOfKomitenti)
+                {
+                    Komitenti.Add(item);
+                }
             }
 
-            Konta.Clear();
-            var kontaList = await _kontoRepository.GetAllAsync();
-            foreach (var konto in kontaList)
+            if (Konta.IsNullOrEmpty())
             {
-                Konta.Add(konto);
+                var kontaList = await _kontoRepository.GetAllAsync();
+                foreach (var konto in kontaList)
+                {
+                    Konta.Add(konto);
+                }
+            }
+
+            if (VrsteNaloga.IsNullOrEmpty())
+            {
+                var listaNaloga = _transakcijeRepository.GetAllVrsteNaloga();
+                foreach (var vrsta in listaNaloga)
+                {
+                    VrsteNaloga.Add(vrsta);
+                }
             }
         }
-
-
-        public void SelectVrsta(object? obj)
+        public async Task SaveTransakcijaAsync()
         {
-            if (obj is VrsteNalogaEnum && Transakcija.Id == 0)
+            await _transakcijeRepository.SaveAsync();
+        }
+        public void CreateBrojNaloga(object? obj)
+        {
+            if (HasChanges)
             {
-                switch (obj)
+                int vrsta_Id = (int)obj;
+
+                VrsteNaloga vrsta = VrsteNaloga.Single(v => v.Id == vrsta_Id);
+
+                switch (vrsta.VrstaNaloga)
                 {
-                    case VrsteNalogaEnum.DNEVNICA:
-                        Transakcija.VrstaNaloga = "Dinarski";
-                        Transakcija.Nalog = String.Format($"D-{0}", (Transakcije.Where(t => t.VrstaNaloga == Transakcija.VrstaNaloga).ToList().Count() + 1).ToString());
-                        break;
-                    case VrsteNalogaEnum.TROSAK:
-                        Transakcija.VrstaNaloga = "Trosak";
-                        Transakcija.Nalog = String.Format($"D-{0}", (Transakcije.Where(t => t.VrstaNaloga == Transakcija.VrstaNaloga).ToList().Count() + 1).ToString());
-                        break;
-                    case VrsteNalogaEnum.PLATA:
-                        Transakcija.VrstaNaloga = "Plata";
-                        Transakcija.Nalog = String.Format($"D-{0}", (Transakcije.Where(t => t.VrstaNaloga == Transakcija.VrstaNaloga).ToList().Count() + 1).ToString());
-                        break;
-                    case VrsteNalogaEnum.PAZAR:
-                        Transakcija.VrstaNaloga = "Pazar";
-                        Transakcija.Nalog = String.Format($"D-{0}", (Transakcije.Where(t => t.VrstaNaloga == Transakcija.VrstaNaloga).ToList().Count() + 1).ToString());
-                        break;
-                } 
+                    case "Dnevnice":
+                        {
+                            Transakcija.Nalog = String.Format("DN - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            break;
+                        }
+
+                    case "Plata":
+                        {
+                            Transakcija.Nalog = String.Format("PL - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            break;
+                        }
+
+                    case "Trošak":
+                        {
+                            Transakcija.Nalog = String.Format("TR - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            break;
+                        }
+
+                    case "Pazar":
+                        {
+                            Transakcija.Nalog = String.Format("PA - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            break;
+                        }
+                }
             }
+        }
+        private void CreateNewTransakcija(object? obj)
+        {
+            var transakcija = new Transakcija();
+            _transakcijeRepository.Add(transakcija);
+
+
+            transakcija.Datum = DateTime.Now;
+            Transakcija = new TransakcijaWrapper(transakcija, true);
+            SearchKomitentText = "";
         }
 
         #endregion

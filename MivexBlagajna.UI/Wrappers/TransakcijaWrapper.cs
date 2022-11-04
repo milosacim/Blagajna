@@ -56,9 +56,15 @@ namespace MivexBlagajna.UI.Wrappers
             set { SetValue(value); }
         }
 
-        public string VrstaNaloga
+        public int VrsteNaloga_Id
         {
-            get { return GetValue<string>(); }
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
+
+        public VrsteNaloga VrstaNaloga
+        {
+            get { return GetValue<VrsteNaloga>(); }
             set { SetValue(value); }
         }
 

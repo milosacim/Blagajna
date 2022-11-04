@@ -2,38 +2,13 @@
     x:Class="MivexBlagajna.UI.Views.UplateIsplateView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:MivexBlagajna.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-
-
-    <UserControl.Resources>
-
-        <ObjectDataProvider
-            x:Key="vrsteKonta"
-            MethodName="GetValues"
-            ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="local:VrsteKontaEnum" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-        <ObjectDataProvider
-            x:Key="vrsteNaloga"
-            MethodName="GetValues"
-            ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="local:VrsteNalogaEnum" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-    </UserControl.Resources>
 
     <Grid>
 
@@ -86,7 +61,7 @@
                         <StackPanel>
                             <Label Content="Datum" />
                             <syncfusion:DateTimeEdit
-                                DateTime="{Binding Transakcija.Datum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                DateTime="{Binding Transakcija.Datum, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                 DropDownView="Calendar"
                                 IsEnabled="True" />
                         </StackPanel>
@@ -99,18 +74,12 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="0.5"
                                 IsEnabled="True"
-                                ItemsSource="{Binding Source={StaticResource vrsteKonta}}"
-                                SelectedItem="{Binding Transakcija.Konto, Mode=TwoWay}">
-
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="SelectionChanged">
-                                        <b:InvokeCommandAction Command="{Binding SelectKontoCommand}" />
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
+                                ItemsSource="{Binding Konta}"
+                                SelectedValue="{Binding Transakcija.Konto_Id, Mode=TwoWay}"
+                                SelectedValuePath="Id">
 
                             </syncfusion:ComboBoxAdv>
                         </StackPanel>
-
                     </Grid>
 
                     <Grid Grid.Column="1" Margin="10,0,10,0">
@@ -179,7 +148,8 @@
                                     Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True" />
+                                    IsEnabled="True"
+                                    Text="{Binding Transakcija.Nalog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                             </StackPanel>
 
@@ -258,14 +228,22 @@
 
                             <StackPanel Orientation="Vertical">
                                 <Label Content="Vrsta naloga" IsEnabled="True" />
+                                
                                 <syncfusion:ComboBoxAdv
                                     Width="200"
                                     Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
                                     IsEnabled="True"
-                                    ItemsSource="{Binding Source={StaticResource vrsteNaloga}}"
-                                    SelectedItem="{Binding Transakcija.VrstaNaloga, Mode=TwoWay}" />
+                                    ItemsSource="{Binding VrsteNaloga}"
+                                    SelectedValue="{Binding Transakcija.VrsteNaloga_Id, Mode=TwoWay}"
+                                    SelectedValuePath="Id"/>
+
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="SelectionChanged">
+                                        <b:InvokeCommandAction Command="{Binding CreateBrojNalogaCommand}" CommandParameter="{Binding Transakcija.VrsteNaloga_Id}"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
 
                             </StackPanel>
 
@@ -302,7 +280,8 @@
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
                                     IsEnabled="True"
-                                    Watermark="0.00" />
+                                    Watermark="0.00"
+                                    Text="{Binding Transakcija.Uplata, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
 
                             </StackPanel>
 
@@ -314,7 +293,8 @@
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
                                     IsEnabled="True"
-                                    Watermark="0.00" />
+                                    Watermark="0.00" 
+                                    Text="{Binding Transakcija.Isplata, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
                             </StackPanel>
 
                         </Grid>
@@ -380,7 +360,8 @@
                             HorizontalAlignment="Stretch"
                             Label="Sačuvaj"
                             LargeIcon="/Images/icons8-save-48.png"
-                            SizeMode="Large" />
+                            SizeMode="Large" 
+                            Command="{Binding SaveCommand}"/>
 
                     </Grid>
 

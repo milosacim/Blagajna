@@ -23,9 +23,9 @@ namespace MivexBlagajna.DataAccess.Configurations
                 .HasForeignKey(m => m.NadredjenoMesto_Id)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(t => t.Transakcije)
-                .WithOne(v => v.MestoTroska)
-                .HasForeignKey(v => v.MestoTroska_Id)
+            builder.HasMany(m => m.Transakcije)
+                .WithOne(t => t.MestoTroska)
+                .HasForeignKey(t => t.MestoTroska_Id)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

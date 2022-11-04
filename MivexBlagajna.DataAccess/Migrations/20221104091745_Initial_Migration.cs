@@ -48,6 +48,19 @@ namespace MivexBlagajna.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VrsteNaloga",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VrstaNaloga = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VrsteNaloga", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Komitent",
                 columns: table => new
                 {
@@ -92,10 +105,9 @@ namespace MivexBlagajna.DataAccess.Migrations
                     Broj = table.Column<int>(type: "int", nullable: false),
                     Nalog = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Opis = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Opravdan = table.Column<bool>(type: "bit", nullable: true),
-                    Neopravndan = table.Column<bool>(type: "bit", nullable: true),
                     Uplata = table.Column<decimal>(type: "decimal(20,5)", nullable: false, defaultValue: 0.0000m),
                     Isplata = table.Column<decimal>(type: "decimal(20,5)", nullable: false, defaultValue: 0.0000m),
+                    VrsteNaloga_Id = table.Column<int>(type: "int", nullable: false),
                     Komitent_Id = table.Column<int>(type: "int", nullable: false),
                     MestoTroska_Id = table.Column<int>(type: "int", nullable: false),
                     Konto_Id = table.Column<int>(type: "int", nullable: false)
@@ -119,6 +131,12 @@ namespace MivexBlagajna.DataAccess.Migrations
                         column: x => x.MestoTroska_Id,
                         principalTable: "MestaTroska",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Transakcije_VrsteNaloga_VrsteNaloga_Id",
+                        column: x => x.VrsteNaloga_Id,
+                        principalTable: "VrsteNaloga",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -151,6 +169,11 @@ namespace MivexBlagajna.DataAccess.Migrations
                 name: "IX_Transakcije_MestoTroska_Id",
                 table: "Transakcije",
                 column: "MestoTroska_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transakcije_VrsteNaloga_Id",
+                table: "Transakcije",
+                column: "VrsteNaloga_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -163,6 +186,9 @@ namespace MivexBlagajna.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Konto");
+
+            migrationBuilder.DropTable(
+                name: "VrsteNaloga");
 
             migrationBuilder.DropTable(
                 name: "MestaTroska");

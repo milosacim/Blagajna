@@ -19,7 +19,6 @@ namespace MivexBlagajna.UI.Commands
             _canExecute = canExecute;
         }
 
-
         public event EventHandler? CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
 
         public bool CanExecute(object? parameter)

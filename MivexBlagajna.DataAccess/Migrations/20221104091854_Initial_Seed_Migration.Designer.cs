@@ -12,8 +12,8 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    [Migration("20221102084813_Initial_Migration")]
-    partial class Initial_Migration
+    [Migration("20221104091854_Initial_Seed_Migration")]
+    partial class Initial_Seed_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -181,19 +181,16 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Neopravndan")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Opis")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Opravdan")
-                        .HasColumnType("bit");
 
                     b.Property<decimal>("Uplata")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("decimal(20,5)")
                         .HasDefaultValue(0.0000m);
+
+                    b.Property<int>("VrsteNaloga_Id")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -203,7 +200,26 @@ namespace MivexBlagajna.DataAccess.Migrations
 
                     b.HasIndex("MestoTroska_Id");
 
+                    b.HasIndex("VrsteNaloga_Id");
+
                     b.ToTable("Transakcije", (string)null);
+                });
+
+            modelBuilder.Entity("MivexBlagajna.Data.Models.VrsteNaloga", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("VrstaNaloga")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VrsteNaloga", (string)null);
                 });
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.Komitent", b =>
@@ -246,11 +262,19 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("MivexBlagajna.Data.Models.VrsteNaloga", "VrsteNaloga")
+                        .WithMany("Transakcije")
+                        .HasForeignKey("VrsteNaloga_Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Komitent");
 
                     b.Navigation("Konto");
 
                     b.Navigation("MestoTroska");
+
+                    b.Navigation("VrsteNaloga");
                 });
 
             modelBuilder.Entity("MivexBlagajna.Data.Models.Komitent", b =>
@@ -269,6 +293,11 @@ namespace MivexBlagajna.DataAccess.Migrations
 
                     b.Navigation("Komitenti");
 
+                    b.Navigation("Transakcije");
+                });
+
+            modelBuilder.Entity("MivexBlagajna.Data.Models.VrsteNaloga", b =>
+                {
                     b.Navigation("Transakcije");
                 });
 #pragma warning restore 612, 618

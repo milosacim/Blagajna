@@ -23,12 +23,14 @@ namespace MivexBlagajna.DataAccess
             modelBuilder.ApplyConfiguration(new MestoTroskaConfiguration());
             modelBuilder.ApplyConfiguration(new KontoConfiguration());
             modelBuilder.ApplyConfiguration(new TransakcijaConfiguration());
+            modelBuilder.ApplyConfiguration(new VrsteNalogaConfiguration());
         }
 
         public DbSet<Komitent> Komitenti { get; set; }
         public DbSet<MestoTroska> MestaTroska { get; set; }
         public DbSet<Konto> Konta { get; set; }
         public DbSet<Transakcija> Transakcije { get; set; }
+        public DbSet<VrsteNaloga> VrsteNalogas { get; set; }
 
         internal static MivexBlagajnaDbContext CreateContext()
         {

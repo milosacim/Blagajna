@@ -11,6 +11,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 {
@@ -35,10 +36,12 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 
             SaveCommand = new SaveMestoTroskaCommand(this);
             CreateCommand = new CreateNewMestoCommand(this);
+
             CancelCommand = new CancelCommand(this);
             DeleteCommand = new DeleteCommand(this);
 
             EditMestoTroskaPropertyCommand = new RelayCommand(EditMestoTroskaProperty);
+
             CreatePrefixCommand = new RelayCommand(SetPrefix);
 
             MestaTroska = new ObservableCollection<MestoTroska>();
@@ -66,17 +69,13 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             }
         }
 
-        public RelayCommand CreatePrefixCommand
-        {
-            get;
-        }
 
         public void SetPrefix(object? obj)
         {
             CreatePrefix(obj);
         }
 
-        public void CreatePrefix(object? obj)
+        private void CreatePrefix(object? obj)
         {
             if (obj == null)
             {
@@ -110,8 +109,8 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         public IAsyncCommand CreateCommand { get; }
         public IAsyncCommand CancelCommand { get; }
         public IAsyncCommand DeleteCommand { get; }
-
-        public RelayCommand EditMestoTroskaPropertyCommand { get; }
+        public ICommand CreatePrefixCommand { get; }
+        public ICommand EditMestoTroskaPropertyCommand { get; }
 
         public bool HasChanges
         {
