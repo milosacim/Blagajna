@@ -17,79 +17,79 @@ namespace MivexBlagajna.UI.Wrappers
         public int Komitent_Id
         {
             get { return GetValue<int>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public Komitent Komitent
         {
             get { return GetValue<Komitent>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public int MestoTroska_Id
         {
             get { return GetValue<int>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public MestoTroska MestoTroska
         {
             get { return GetValue<MestoTroska>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public int Konto_Id
         {
             get { return GetValue<int>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public Konto Konto
         {
             get { return GetValue<Konto>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public DateTime Datum
         {
             get { return GetValue<DateTime>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public int VrsteNaloga_Id
         {
             get { return GetValue<int>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public VrsteNaloga VrstaNaloga
         {
             get { return GetValue<VrsteNaloga>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public string Nalog
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public string Opis
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public decimal Uplata
         {
             get { return GetValue<decimal>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public decimal Isplata
         {
             get { return GetValue<decimal>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public bool IsEditable
@@ -100,17 +100,17 @@ namespace MivexBlagajna.UI.Wrappers
 
         public override void BeginEdit()
         {
-            throw new NotImplementedException();
+            _isEditable = true;
         }
 
         public override void CancelEdit()
         {
-            throw new NotImplementedException();
+            _isEditable = false;
         }
 
         public override void EndEdit()
         {
-            throw new NotImplementedException();
+            _isEditable = false;
         }
     }
 }

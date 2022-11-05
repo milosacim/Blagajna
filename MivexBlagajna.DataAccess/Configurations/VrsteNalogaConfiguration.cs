@@ -15,7 +15,7 @@ namespace MivexBlagajna.DataAccess.Configurations
                 .UseIdentityColumn(1, 1);
 
             builder.HasMany(v => v.Transakcije)
-                .WithOne(t => t.VrsteNaloga)
+                .WithOne(t => t.VrstaNaloga)
                 .HasForeignKey(t => t.VrsteNaloga_Id)
                 .OnDelete(DeleteBehavior.Restrict);
         }

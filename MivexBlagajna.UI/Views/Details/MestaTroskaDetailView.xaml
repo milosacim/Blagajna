@@ -105,15 +105,16 @@
                 <Label Content="Nadređeno mesto troška" />
 
                 <syncfusion:ComboBoxAdv
+                    x:Name="Mesta"
                     Width="185"
-                    IsEnabled="{Binding MestoTroska.IsEditable, UpdateSourceTrigger=PropertyChanged}"
+                    IsEnabled="{Binding MestoTroska.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     ItemsSource="{Binding MestaTroska}"
                     SelectedValue="{Binding MestoTroska.NadredjenoMesto_Id, Mode=TwoWay}"
                     SelectedValuePath="Id">
 
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="SelectionChanged">
-                            <b:InvokeCommandAction Command="{Binding CreatePrefixCommand}" CommandParameter="{Binding MestoTroska.NadredjenoMesto_Id}"/>
+                            <b:InvokeCommandAction Command="{Binding CreatePrefixCommand}" CommandParameter="{Binding ElementName=Mesta, Path=SelectedItem}" />
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
 

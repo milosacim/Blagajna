@@ -77,23 +77,11 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 
         private void CreatePrefix(object? obj)
         {
-            if (obj == null)
+            if (obj != null && MestoTroska.IsEditable == true)
             {
-                MestoTroska.Prefix = "0" + (MestaTroska.Select(m => m.NadredjenoMesto_Id == null)).Count().ToString() + ".";
-            }
-            else
-            {
-                if (HasChanges)
-                {
-                    int mesto_Id = (int)obj;
+                var mesto = obj as MestoTroska;
 
-                    MestoTroska mesto = MestaTroska.Single(m => m.Id == mesto_Id);
-
-                    if (mesto.DecaMestoTroska != null)
-                    {
-                        MestoTroska.Prefix = mesto.Prefix + "0" + (mesto.DecaMestoTroska.Count() + 1).ToString() + ".";
-                    }
-                }
+                MestoTroska.Prefix = mesto?.Prefix + "0" + (mesto?.DecaMestoTroska.Count() + 1).ToString() + ".";
             }
         }
 

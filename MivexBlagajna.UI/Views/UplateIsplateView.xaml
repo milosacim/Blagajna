@@ -63,7 +63,7 @@
                             <syncfusion:DateTimeEdit
                                 DateTime="{Binding Transakcija.Datum, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                 DropDownView="Calendar"
-                                IsEnabled="True" />
+                                IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}" />
                         </StackPanel>
 
                         <StackPanel Grid.Row="1" Margin="0,10">
@@ -73,12 +73,10 @@
                                 Height="25"
                                 VerticalAlignment="Center"
                                 BorderThickness="0.5"
-                                IsEnabled="True"
                                 ItemsSource="{Binding Konta}"
                                 SelectedValue="{Binding Transakcija.Konto_Id, Mode=TwoWay}"
-                                SelectedValuePath="Id">
-
-                            </syncfusion:ComboBoxAdv>
+                                SelectedValuePath="Id" 
+                                IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"/>
                         </StackPanel>
                     </Grid>
 
@@ -110,8 +108,8 @@
                                     Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
-                                    Text="{Binding SearchKomitentText, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                    Text="{Binding SearchKomitentText, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"/>
 
                             </StackPanel>
 
@@ -124,8 +122,8 @@
                                     Margin="20,0,0,0"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
-                                    Text="{Binding FilteredKomitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    Text="{Binding FilteredKomitent.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    IsEnabled="False"/>
 
                             </StackPanel>
 
@@ -148,8 +146,8 @@
                                     Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
-                                    Text="{Binding Transakcija.Nalog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Text="{Binding Transakcija.Nalog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    IsEnabled="False"/>
 
                             </StackPanel>
 
@@ -163,8 +161,8 @@
                                     Margin="20,0,0,0"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
-                                    Text="{Binding Transakcija.Opis, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                    Text="{Binding Transakcija.Opis, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"/>
 
                             </StackPanel>
 
@@ -200,8 +198,8 @@
                                     Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
-                                    Text="{Binding FilteredKomitent.MestoTroska.Prefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    Text="{Binding FilteredKomitent.MestoTroska.Prefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    IsEnabled="False"/>
 
                             </StackPanel>
 
@@ -214,8 +212,8 @@
                                     Margin="20,0"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
-                                    Text="{Binding FilteredKomitent.MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    Text="{Binding FilteredKomitent.MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    IsEnabled="False"/>
 
                             </StackPanel>
 
@@ -228,22 +226,27 @@
 
                             <StackPanel Orientation="Vertical">
                                 <Label Content="Vrsta naloga" IsEnabled="True" />
-                                
+
                                 <syncfusion:ComboBoxAdv
+                                    x:Name="Vrste"
                                     Width="200"
                                     Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
                                     ItemsSource="{Binding VrsteNaloga}"
                                     SelectedValue="{Binding Transakcija.VrsteNaloga_Id, Mode=TwoWay}"
-                                    SelectedValuePath="Id"/>
+                                    SelectedValuePath="Id"
+                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}">
 
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="SelectionChanged">
-                                        <b:InvokeCommandAction Command="{Binding CreateBrojNalogaCommand}" CommandParameter="{Binding Transakcija.VrsteNaloga_Id}"/>
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="SelectionChanged">
+                                            <b:InvokeCommandAction Command="{Binding CreateBrojNalogaCommand}" CommandParameter="{Binding ElementName=Vrste, Path=SelectedItem}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+
+                                </syncfusion:ComboBoxAdv>
+
+
 
                             </StackPanel>
 
@@ -279,9 +282,9 @@
                                     Height="35"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
-                                    Watermark="0.00"
-                                    Text="{Binding Transakcija.Uplata, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                                    Text="{Binding Transakcija.Uplata, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    Watermark="0.00" 
+                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"/>
 
                             </StackPanel>
 
@@ -292,9 +295,9 @@
                                     Height="35"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
+                                    Text="{Binding Transakcija.Isplata, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                     Watermark="0.00" 
-                                    Text="{Binding Transakcija.Isplata, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"/>
                             </StackPanel>
 
                         </Grid>
@@ -358,10 +361,10 @@
                             Width="100"
                             Margin="0,0,20,0"
                             HorizontalAlignment="Stretch"
+                            Command="{Binding SaveCommand}"
                             Label="Sačuvaj"
                             LargeIcon="/Images/icons8-save-48.png"
-                            SizeMode="Large" 
-                            Command="{Binding SaveCommand}"/>
+                            SizeMode="Large" />
 
                     </Grid>
 
@@ -402,6 +405,7 @@
             <Border Margin="0,10" Background="#F7F8F8">
 
                 <syncfusion:SfDataGrid
+                    ItemsSource="{Binding Transakcije}"
                     AddNewRowPosition="Top"
                     AddNewRowText="Click here to add new row in datagrid"
                     AllowResizingColumns="True"
@@ -416,8 +420,8 @@
                             MappingName="Nalog" />
                         <syncfusion:GridTextColumn
                             Width="100"
-                            HeaderText="Vrsta"
-                            MappingName="VrstaNloga" />
+                            HeaderText="Vrsta Naloga"
+                            MappingName="VrstaNaloga" />
                         <syncfusion:GridTextColumn
                             Width="100"
                             HeaderText="Datum"
@@ -429,15 +433,15 @@
                         <syncfusion:GridTextColumn
                             Width="100"
                             HeaderText="Sifra"
-                            MappingName="Sifra" />
+                            MappingName="Komitent.Sifra" />
                         <syncfusion:GridTextColumn
                             Width="300"
                             HeaderText="Komitent"
-                            MappingName="Komitent" />
+                            MappingName="Komitent.Naziv" />
                         <syncfusion:GridTextColumn
                             Width="100"
                             HeaderText="Sifra MT"
-                            MappingName="Prefix" />
+                            MappingName="MestoTroska.Prefix" />
                         <syncfusion:GridTextColumn
                             Width="300"
                             HeaderText="Mesto Troska"

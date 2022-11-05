@@ -23,8 +23,7 @@ namespace MivexBlagajna.UI.Wrappers
             if (value != null)
             {
                 typeof(T).GetProperty(propertyName).SetValue(Model, value);
-                OnModelPropertyChanged(propertyName);
-                ValidatePropertyInternal(propertyName, value);
+                ValidatePropertyInternal(propertyName, value); 
             }
         }
         private void ValidatePropertyInternal(string propertyName, object currentValue)

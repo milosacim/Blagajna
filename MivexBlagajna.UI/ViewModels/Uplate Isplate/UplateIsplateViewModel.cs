@@ -161,6 +161,15 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                     VrsteNaloga.Add(vrsta);
                 }
             }
+
+            if (Transakcije.IsNullOrEmpty())
+            {
+                var transakcije = await _transakcijeRepository.GetAllAsync();
+                foreach (var t in transakcije)
+                {
+                    Transakcije.Add(new TransakcijaWrapper(t, false));
+                }
+            }
         }
         public async Task SaveTransakcijaAsync()
         {
@@ -170,13 +179,11 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         {
             if (HasChanges)
             {
-                int vrsta_Id = (int)obj;
-
-                VrsteNaloga vrsta = VrsteNaloga.Single(v => v.Id == vrsta_Id);
+                var vrsta = obj as VrsteNaloga;
 
                 switch (vrsta.VrstaNaloga)
                 {
-                    case "Dnevnice":
+                    case "Dnevnica":
                         {
                             Transakcija.Nalog = String.Format("DN - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
                             break;
@@ -188,7 +195,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                             break;
                         }
 
-                    case "Trošak":
+                    case "Trosak":
                         {
                             Transakcija.Nalog = String.Format("TR - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
                             break;

@@ -20,6 +20,6 @@ namespace MivexBlagajna.Data.Models
         public virtual Komitent Komitent { get; set; }
         public virtual MestoTroska MestoTroska { get; set; }
         public virtual Konto Konto { get; set; }
-        public virtual VrsteNaloga VrsteNaloga { get; set; }
+        public virtual VrsteNaloga VrstaNaloga { get; set; }
     }
 }
