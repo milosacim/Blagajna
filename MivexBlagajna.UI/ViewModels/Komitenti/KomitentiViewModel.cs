@@ -2,8 +2,10 @@
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
 using MivexBlagajna.UI.Views.Services;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
@@ -92,13 +94,19 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
         }
         private async void OnOpenDetails(object? sender, SelectedKomitentArgs e)
         {
-
-            if (KomitentiDetailViewModel != null && KomitentiDetailViewModel.HasChanges)
+            try
             {
+                if (KomitentiDetailViewModel != null && KomitentiDetailViewModel.HasChanges)
+                {
+                    await KomitentiDetailViewModel.LoadAsync(e.newid);
+                } 
+
                 await KomitentiDetailViewModel.LoadAsync(e.newid);
             }
-
-            await KomitentiDetailViewModel.LoadAsync(e.newid);
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         private void OnKomitentSaved(object? sender, KomitentSavedArgs e)
         {

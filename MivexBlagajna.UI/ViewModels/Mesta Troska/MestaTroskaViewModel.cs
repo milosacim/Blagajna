@@ -1,8 +1,10 @@
 ﻿using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.ViewModels.Mesta_Troska.Details;
 using MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MivexBlagajna.UI.ViewModels.MestaTroska
 {
@@ -36,12 +38,19 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
 
         private async void OpenMestoTroskaDetails(object? sender, MestoTroskaArgs e)
         {
-            if (MestaTroskaDetailsViewModel != null && MestaTroskaDetailsViewModel.HasChanges)
+            try
             {
+                if (MestaTroskaDetailsViewModel != null && MestaTroskaDetailsViewModel.HasChanges)
+                {
+                    await MestaTroskaDetailsViewModel.LoadAsync(e.newid);
+                }
+
                 await MestaTroskaDetailsViewModel.LoadAsync(e.newid);
             }
-
-            await MestaTroskaDetailsViewModel.LoadAsync(e.newid);
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void UpdateSelectedMestoTroska(object? sender, MestoTroskaArgs e)

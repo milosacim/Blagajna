@@ -33,32 +33,30 @@ namespace MivexBlagajna.UI.Wrappers
                 {
                     SetValue(value);
                 }
-
-                OnModelPropertyChanged();
             }
         }
 
         public MestoTroska RoditeljMestoTroska
         {
             get { return GetValue<MestoTroska>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); }
         }
 
         public string Prefix
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); }
         }
         public string Naziv
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); }
         }
 
         public bool IsEditable
         {
             get { return _isEditable; }
-            set { _isEditable = value; OnModelPropertyChanged(); }
+            set { _isEditable = value; }
         }
 
         public override void BeginEdit()

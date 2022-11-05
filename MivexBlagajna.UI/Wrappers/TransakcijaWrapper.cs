@@ -92,7 +92,6 @@ namespace MivexBlagajna.UI.Wrappers
             set { SetValue(value); }
         }
 
-
         public bool IsEditable
         {
             get { return _isEditable; }

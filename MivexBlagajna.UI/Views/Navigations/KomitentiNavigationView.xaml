@@ -21,11 +21,11 @@
                 <TextBox
                     x:Name="Pretraga"
                     Width="100"
-                    Text="{Binding Path=NazivFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    Text="{Binding Path=NazivFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <Label Margin="10,0,0,0" Content="Pravna lica" />
-                <CheckBox IsChecked="{Binding PravnoLiceFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <CheckBox IsChecked="{Binding PravnoLiceFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <Label Content="Fizicka lica" />
-                <CheckBox IsChecked="{Binding FizickoLiceFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <CheckBox IsChecked="{Binding FizickoLiceFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
             </StackPanel>
 
