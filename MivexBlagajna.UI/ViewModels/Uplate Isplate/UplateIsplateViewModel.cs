@@ -4,6 +4,7 @@ using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.Commands.Transakcije;
+using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.Wrappers;
 using Syncfusion.Windows.Controls.Input;
 using System;
@@ -32,6 +33,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         private List<VrsteNaloga> _vrsteNaloga;
         private bool _hasChanges;
         private string? _komitentFilter;
+
+        public event EventHandler<SelectedTransakcijaArgs>? OnTransakcijaSelected;
 
         #endregion
 
@@ -63,6 +66,16 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             SelectMestoTroskaCommand = new RelayCommand(SelectMestoTroska);
 
             SaveCommand = new SaveTransakcijaCommand(this);
+
+            this.OnTransakcijaSelected += LoadTransakcija;
+
+        }
+
+        private void LoadTransakcija(object? sender, SelectedTransakcijaArgs e)
+        {
+            //Transakcija = Transakcije.Single(t => t.Id == e.id);
+
+            //KomitentFilter = Transakcija.Komitent.Sifra.ToString();
         }
 
         private void SelectMestoTroska(object? obj)
@@ -97,6 +110,9 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 FilteredKomitenti.Refresh();
             }
         }
+
+        
+
 
         public bool HasChanges
         {
@@ -147,6 +163,12 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 var oldValue = _transakcija;
                 _transakcija = value;
                 OnModelPropertyChanged(oldValue, value);
+                KomitentFilter = _transakcija.Komitent.Sifra.ToString();
+
+                //if (value != null)
+                //{
+                //    OnTransakcijaSelected?.Invoke(this, new SelectedTransakcijaArgs(_transakcija.Id));
+                //}
 
                 Transakcija.PropertyChanged += (s, e) =>
                 {
@@ -209,6 +231,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 }
             }
         }
+
+
         public async Task SaveTransakcijaAsync()
         {
             await _transakcijeRepository.SaveAsync();

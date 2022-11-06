@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using MivexBlagajna.Data.Attributes;
+﻿using MivexBlagajna.Data.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace MivexBlagajna.Data.Models

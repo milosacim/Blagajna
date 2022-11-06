@@ -14,7 +14,10 @@ namespace MivexBlagajna.UI.Views
 
         private void SfTextBoxExt_TextChanged(object sender, TextChangedEventArgs e)
         {
-            KomitentNaziv.IsDropDownOpen = true;
+            if (KomitentNaziv.IsEnabled != false)
+            {
+                KomitentNaziv.IsDropDownOpen = true;
+            }
         }
     }
 }

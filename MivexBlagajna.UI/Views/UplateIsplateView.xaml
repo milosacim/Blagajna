@@ -123,13 +123,14 @@
                                     x:Name="KomitentNaziv"
                                     Width="350"
                                     Height="25"
-                                    Margin="20 0 0 0"
+                                    Margin="20,0,0,0"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    ItemsSource="{Binding FilteredKomitenti}"
                                     DisplayMemberPath="Naziv"
+                                    ItemsSource="{Binding FilteredKomitenti}"
                                     SelectedValue="{Binding Transakcija.Komitent_Id, Mode=TwoWay}"
-                                    SelectedValuePath="Id">
+                                    SelectedValuePath="Id"
+                                    IsEnabled="False">
 
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="SelectionChanged">
@@ -424,7 +425,8 @@
                     AllowResizingColumns="True"
                     AutoGenerateColumns="False"
                     ColumnSizer="Star"
-                    ItemsSource="{Binding Transakcije}">
+                    ItemsSource="{Binding Transakcije}"
+                    SelectedItem="{Binding Transakcija, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
                     <syncfusion:SfDataGrid.Columns>
 
@@ -466,6 +468,8 @@
                             MappingName="Opis" />
                         <syncfusion:GridTextColumn HeaderText="Uplata" MappingName="Uplata" />
                         <syncfusion:GridTextColumn HeaderText="Isplata" MappingName="Isplata" />
+
+                        <syncfusion:GridCheckBoxSelectorColumn HeaderText="Izabrano" MappingName="IsEditable" />
 
                     </syncfusion:SfDataGrid.Columns>
 
