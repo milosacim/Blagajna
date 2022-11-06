@@ -205,7 +205,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             _mestoTroskaRepository.Add(mesto);
 
             MestoTroska = new MestoTroskaWrapper(mesto, true);
-
             MestoTroska.Naziv = "";
 
             return MestoTroska;

@@ -5,11 +5,15 @@ using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.Commands.Transakcije;
 using MivexBlagajna.UI.Wrappers;
+using Syncfusion.Windows.Controls.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
@@ -20,19 +24,21 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         private readonly DockState _dockState;
         private readonly string _header;
         private readonly IKomitentRepository _komitentRepository;
+        private readonly IMestoTroskaRepository _mestoTroskaRepository;
         private readonly IKontoRepository _kontoRepository;
         private readonly ITransakcijeRepository _transakcijeRepository;
 
-        private string? _searchKomitentText;
         private TransakcijaWrapper _transakcija;
         private List<VrsteNaloga> _vrsteNaloga;
         private bool _hasChanges;
+        private string? _komitentFilter;
 
         #endregion
 
         #region Constructor
         public UplateIsplateViewModel(
             IKomitentRepository komitentRepository,
+            IMestoTroskaRepository mestoTroskaRepository,
             IKontoRepository kontoRepository,
             ITransakcijeRepository transakcijeRepository
             )
@@ -40,18 +46,56 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             _dockState = DockState.Document;
             _header = "Uplate / Isplate";
             _komitentRepository = komitentRepository;
+            _mestoTroskaRepository = mestoTroskaRepository;
             _kontoRepository = kontoRepository;
             _transakcijeRepository = transakcijeRepository;
 
+            MestaTroska = new ObservableCollection<MestoTroska>();
             Komitenti = new ObservableCollection<Komitent>();
+            FilteredKomitenti = CollectionViewSource.GetDefaultView(Komitenti);
+            FilteredKomitenti.Filter += new Predicate<object>(s => GetBySearch(s as Komitent));
             Transakcije = new ObservableCollection<TransakcijaWrapper>();
             Konta = new ObservableCollection<Konto>();
             VrsteNaloga = new List<VrsteNaloga>();
 
             CreateTransakcijaCommand = new RelayCommand(CreateNewTransakcija);
             CreateBrojNalogaCommand = new RelayCommand(CreateBrojNaloga);
+            SelectMestoTroskaCommand = new RelayCommand(SelectMestoTroska);
 
             SaveCommand = new SaveTransakcijaCommand(this);
+        }
+
+        private void SelectMestoTroska(object? obj)
+        {
+            if (obj != null)
+            {
+                var komitent = obj as Komitent;
+                Transakcija.MestoTroska = komitent.MestoTroska;
+            }
+        }
+
+        private bool GetBySearch(Komitent? komitent)
+        {
+            if (komitent.Naziv != null)
+            {
+                return komitent != null ? KomitentFilter == null || komitent.Naziv.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 || komitent.Sifra.ToString().StartsWith(KomitentFilter, StringComparison.OrdinalIgnoreCase) : false;
+            }
+            else
+            {
+                return komitent != null ? KomitentFilter == null || komitent.Sifra.ToString().StartsWith(KomitentFilter, StringComparison.OrdinalIgnoreCase) || komitent.Ime.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 || komitent.Prezime.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 : false;
+            }
+        }
+
+        public string? KomitentFilter
+        {
+            get { return _komitentFilter; }
+            set
+            {
+                var oldValue = _komitentFilter;
+                _komitentFilter = value;
+                OnModelPropertyChanged(oldValue, value);
+                FilteredKomitenti.Refresh();
+            }
         }
 
         public bool HasChanges
@@ -74,26 +118,14 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             get { return _header; }
             set { }
         }
-        public string SearchKomitentText
-        {
-            get { return _searchKomitentText; }
-            set
-            {
-                var oldValue = _searchKomitentText;
-                _searchKomitentText = value;
-                OnModelPropertyChanged(oldValue, value, nameof(FilteredKomitent));
-                if (_searchKomitentText != "")
-                {
-                    Transakcija.Komitent = FilteredKomitent;
-                    Transakcija.MestoTroska = Transakcija.Komitent.MestoTroska;
-                }
-            }
-        }
         public ICommand CreateTransakcijaCommand { get; }
         public ICommand CreateBrojNalogaCommand { get; }
+        public ICommand SelectMestoTroskaCommand { get; }
         public IAsyncCommand SaveCommand { get; }
 
         public ObservableCollection<Komitent> Komitenti { get; }
+        public ObservableCollection<MestoTroska> MestaTroska { get; }
+        public ICollectionView FilteredKomitenti { get; private set; }
         public ObservableCollection<TransakcijaWrapper> Transakcije { get; }
         public ObservableCollection<Konto> Konta { get; }
 
@@ -125,10 +157,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 };
             }
         }
-        public Komitent? FilteredKomitent
-        {
-            get { return SearchKomitentText != null ? Komitenti.FirstOrDefault(x => x.Sifra.ToString().Equals(SearchKomitentText, StringComparison.OrdinalIgnoreCase)) : null; }
-        }
+
 
         #endregion
 
@@ -150,6 +179,15 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 foreach (var konto in kontaList)
                 {
                     Konta.Add(konto);
+                }
+            }
+
+            if (MestaTroska.IsNullOrEmpty())
+            {
+                var mestaList = await _mestoTroskaRepository.GetAll();
+                foreach (var mesto in mestaList)
+                {
+                    MestaTroska.Add(mesto);
                 }
             }
 
@@ -217,7 +255,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
             transakcija.Datum = DateTime.Now;
             Transakcija = new TransakcijaWrapper(transakcija, true);
-            SearchKomitentText = "";
+            //SearchKomitentText = "";
         }
 
         #endregion

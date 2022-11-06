@@ -4,7 +4,7 @@ namespace MivexBlagajna.UI.Wrappers
 
     public class KomitentWrapper : ModelWrapper<Komitent>
     {
-
+        private string _punNaziv;
         private bool _isEditable;
         private bool _isPravnoLiceEditable;
         private bool _isFizickoLiceEditable;
@@ -241,6 +241,25 @@ namespace MivexBlagajna.UI.Wrappers
             get { return _isFizickoLiceEditable; }
             set { _isFizickoLiceEditable = value; OnModelPropertyChanged(); }
         }
+
+
+        public string PunNaziv
+        {
+            get { return _punNaziv; }
+            set
+            {
+                if (PravnoLice == true)
+                {
+                    _punNaziv = Sifra.ToString() + " - " + Naziv;
+                }
+                else
+                {
+                    _punNaziv = Sifra.ToString() + " - " + Ime + " " + Prezime;
+                }
+                OnModelPropertyChanged();
+            }
+        }
+
         public override void BeginEdit()
         {
 

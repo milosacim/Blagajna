@@ -24,7 +24,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
 
         public async Task<IEnumerable<Transakcija>> GetAllAsync()
         {
-            IEnumerable<Transakcija> transakcije = await _context.Transakcije.Include(t => t.VrstaNaloga).Include(t => t.Komitent).ThenInclude(t => t.MestoTroska).ToListAsync();
+            IEnumerable<Transakcija> transakcije = await _context.Transakcije.Include(t => t.Konto).Include(t => t.VrstaNaloga).Include(t => t.Komitent).Include(t => t.MestoTroska).ToListAsync();
             return transakcije;
         }
 
