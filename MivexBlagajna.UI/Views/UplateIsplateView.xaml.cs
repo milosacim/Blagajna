@@ -34,7 +34,7 @@ namespace MivexBlagajna.UI.Views
         // EventHandler kada se kreira novi nalog
         // menja DataBinding textBox-a za sifru komitenta
         // tako da je moguca pretraga komitenata
-        private void novNalogBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void novNalogOrEditBtn_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             Binding textBoxBinding = new Binding("KomitentFilter");
             textBoxBinding.Source = this.DataContext;

@@ -63,7 +63,7 @@
                             <syncfusion:DateTimeEdit
                                 DateTime="{Binding Transakcija.Datum, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                 DropDownView="Calendar"
-                                IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}" />
+                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}" />
                         </StackPanel>
 
                         <StackPanel Grid.Row="1" Margin="0,10">
@@ -73,7 +73,7 @@
                                 Height="25"
                                 VerticalAlignment="Center"
                                 BorderThickness="0.5"
-                                IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                 ItemsSource="{Binding Konta}"
                                 SelectedValue="{Binding Transakcija.Konto_Id, Mode=TwoWay}"
                                 SelectedValuePath="Id" />
@@ -110,7 +110,7 @@
                                     Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                     TextChanged="SearchBox_TextChanged"/>
 
                             </StackPanel>
@@ -129,7 +129,7 @@
                                     DisplayMemberPath="Naziv"
                                     SelectedValue="{Binding Transakcija.Komitent_Id, Mode=TwoWay}"
                                     SelectedValuePath="Id"
-                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}">
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}">
 
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="SelectionChanged">
@@ -175,7 +175,7 @@
                                     Margin="20,0,0,0"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                     Text="{Binding Transakcija.Opis, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
 
                             </StackPanel>
@@ -213,7 +213,7 @@
                                     Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                     Text="{Binding Transakcija.MestoTroska.Prefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                             </StackPanel>
@@ -227,7 +227,7 @@
                                     Margin="20,0"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="True"
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                     Text="{Binding Transakcija.MestoTroska.Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                             </StackPanel>
@@ -248,7 +248,7 @@
                                     Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                     ItemsSource="{Binding VrsteNaloga}"
                                     SelectedValue="{Binding Transakcija.VrsteNaloga_Id, Mode=TwoWay}"
                                     SelectedValuePath="Id">
@@ -293,7 +293,7 @@
                                     Height="35"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                     Text="{Binding Transakcija.Uplata, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                     Watermark="0.00" />
 
@@ -306,7 +306,7 @@
                                     Height="35"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                     Text="{Binding Transakcija.Isplata, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                     Watermark="0.00" />
                             </StackPanel>
@@ -328,7 +328,9 @@
                                     Width="100"
                                     Label="Izmeni"
                                     SizeMode="Normal"
-                                    SmallIcon="/Images/icons8-edit-property-48.png" />
+                                    Command="{Binding EditTransakcijaCommand}"
+                                    SmallIcon="/Images/icons8-edit-property-48.png" 
+                                    Click="novNalogOrEditBtn_Click"/>
                                 <syncfusion:ButtonAdv
                                     Width="100"
                                     Margin="20,0"
@@ -360,7 +362,7 @@
                                 Label="Nov Nalog"
                                 LargeIcon="/Images/icons8-add-48.png"
                                 SizeMode="Large" 
-                                Click="novNalogBtn_Click"/>
+                                Click="novNalogOrEditBtn_Click"/>
                             
                             <syncfusion:ButtonAdv
                                 Margin="20,0"

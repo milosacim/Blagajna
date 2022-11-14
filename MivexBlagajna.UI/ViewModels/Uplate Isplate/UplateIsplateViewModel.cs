@@ -5,6 +5,7 @@ using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.Commands.Transakcije;
 using MivexBlagajna.UI.EventArgs;
+using MivexBlagajna.UI.ViewModels.Komitenti.Details;
 using MivexBlagajna.UI.Wrappers;
 using Syncfusion.Windows.Controls.Input;
 using System;
@@ -65,7 +66,19 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             CreateBrojNalogaCommand = new RelayCommand(CreateBrojNaloga);
             SelectMestoTroskaCommand = new RelayCommand(SelectMestoTroska);
 
+            EditTransakcijaCommand = new RelayCommand(EditTransakcija);
+
             SaveCommand = new SaveTransakcijaCommand(this);
+        }
+
+        private void EditTransakcija(object? obj)
+        {
+            if(Transakcija!= null)
+            {
+                var model = (UplateIsplateViewModel)this.MemberwiseClone();
+                BackupTransakcija = model.Transakcija;
+                Transakcija.BeginEdit();
+            }
         }
 
         private void SelectMestoTroska(object? obj)
@@ -124,6 +137,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         public ICommand CreateTransakcijaCommand { get; }
         public ICommand CreateBrojNalogaCommand { get; }
         public ICommand SelectMestoTroskaCommand { get; }
+
+        public ICommand EditTransakcijaCommand { get; }
         public IAsyncCommand SaveCommand { get; }
 
         public ObservableCollection<Komitent> Komitenti { get; }
@@ -150,14 +165,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 var oldValue = _transakcija;
                 _transakcija = value;
                 OnModelPropertyChanged(oldValue, value);
-
-                //KomitentFilter = _transakcija.Komitent.Sifra.ToString();
-
-                //if (value != null)
-                //{
-                //    OnTransakcijaSelected?.Invoke(this, new SelectedTransakcijaArgs(_transakcija.Id));
-                //}
-
                 Transakcija.PropertyChanged += (s, e) =>
                 {
                     if (!HasChanges)
@@ -168,6 +175,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             }
         }
 
+        public TransakcijaWrapper BackupTransakcija { get; private set; }
 
         #endregion
 
@@ -266,8 +274,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
             transakcija.Datum = DateTime.Now;
             Transakcija = new TransakcijaWrapper(transakcija, true);
-
-            Transakcija.BeginEdit();
         }
 
         #endregion

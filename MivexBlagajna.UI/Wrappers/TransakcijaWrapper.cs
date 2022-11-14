@@ -100,17 +100,17 @@ namespace MivexBlagajna.UI.Wrappers
 
         public override void BeginEdit()
         {
-            _isEditable = true;
+            IsEditable = true;
         }
 
         public override void CancelEdit()
         {
-            _isEditable = false;
+            IsEditable = false;
         }
 
         public override void EndEdit()
         {
-            _isEditable = false;
+            IsEditable = false;
         }
     }
 }
