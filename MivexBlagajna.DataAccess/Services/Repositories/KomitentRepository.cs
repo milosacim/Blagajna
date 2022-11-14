@@ -13,7 +13,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public async Task<IEnumerable<Komitent>> GetAllAsync()
         {
-            return await _context.Komitenti.Where(k => k.Obrisano == false).Include(k => k.MestoTroska)
+            return await _context.Komitenti.Where(k => k.Obrisano == false).Include(k => k.MestoTroska).Include(k => k.Transakcije)
             .Select(k => new Komitent
             {
                 Id = k.Id,

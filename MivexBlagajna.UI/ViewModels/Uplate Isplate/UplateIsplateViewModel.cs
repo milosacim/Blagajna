@@ -66,16 +66,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             SelectMestoTroskaCommand = new RelayCommand(SelectMestoTroska);
 
             SaveCommand = new SaveTransakcijaCommand(this);
-
-            this.OnTransakcijaSelected += LoadTransakcija;
-
-        }
-
-        private void LoadTransakcija(object? sender, SelectedTransakcijaArgs e)
-        {
-            //Transakcija = Transakcije.Single(t => t.Id == e.id);
-
-            //KomitentFilter = Transakcija.Komitent.Sifra.ToString();
         }
 
         private void SelectMestoTroska(object? obj)
@@ -91,7 +81,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         {
             if (komitent.Naziv != null)
             {
-                return komitent != null ? KomitentFilter == null || komitent.Naziv.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 || komitent.Sifra.ToString().StartsWith(KomitentFilter, StringComparison.OrdinalIgnoreCase) : false;
+                return komitent != null ? KomitentFilter == null || komitent.Naziv.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 || komitent.Sifra.ToString().Equals(KomitentFilter) : false;
             }
             else
             {
@@ -110,9 +100,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 FilteredKomitenti.Refresh();
             }
         }
-
-        
-
 
         public bool HasChanges
         {
@@ -163,7 +150,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 var oldValue = _transakcija;
                 _transakcija = value;
                 OnModelPropertyChanged(oldValue, value);
-                KomitentFilter = _transakcija.Komitent.Sifra.ToString();
+
+                //KomitentFilter = _transakcija.Komitent.Sifra.ToString();
 
                 //if (value != null)
                 //{
@@ -276,10 +264,10 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             var transakcija = new Transakcija();
             _transakcijeRepository.Add(transakcija);
 
-
             transakcija.Datum = DateTime.Now;
             Transakcija = new TransakcijaWrapper(transakcija, true);
-            //SearchKomitentText = "";
+
+            Transakcija.BeginEdit();
         }
 
         #endregion

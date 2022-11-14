@@ -110,8 +110,8 @@
                                     Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    Text="{Binding Path=KomitentFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                    TextChanged="SfTextBoxExt_TextChanged" />
+                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                    TextChanged="SearchBox_TextChanged"/>
 
                             </StackPanel>
 
@@ -127,10 +127,9 @@
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
                                     DisplayMemberPath="Naziv"
-                                    ItemsSource="{Binding FilteredKomitenti}"
                                     SelectedValue="{Binding Transakcija.Komitent_Id, Mode=TwoWay}"
                                     SelectedValuePath="Id"
-                                    IsEnabled="False">
+                                    IsEnabled="{Binding Transakcija.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}">
 
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="SelectionChanged">
@@ -261,11 +260,7 @@
                                     </b:Interaction.Triggers>
 
                                 </syncfusion:ComboBoxAdv>
-
-
-
                             </StackPanel>
-
                         </StackPanel>
 
                     </Grid>
@@ -360,10 +355,13 @@
                         <StackPanel Margin="10,10" Orientation="Horizontal">
 
                             <syncfusion:ButtonAdv
+                                x:Name="novNalogBtn"
                                 Command="{Binding CreateTransakcijaCommand}"
                                 Label="Nov Nalog"
                                 LargeIcon="/Images/icons8-add-48.png"
-                                SizeMode="Large" />
+                                SizeMode="Large" 
+                                Click="novNalogBtn_Click"/>
+                            
                             <syncfusion:ButtonAdv
                                 Margin="20,0"
                                 Label="Obriši unos"
@@ -426,7 +424,8 @@
                     AutoGenerateColumns="False"
                     ColumnSizer="Star"
                     ItemsSource="{Binding Transakcije}"
-                    SelectedItem="{Binding Transakcija, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    SelectedItem="{Binding Transakcija, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    >
 
                     <syncfusion:SfDataGrid.Columns>
 
