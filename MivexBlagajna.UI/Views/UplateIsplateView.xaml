@@ -126,17 +126,16 @@
                                     Margin="20,0,0,0"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
-                                    DisplayMemberPath="Naziv"
                                     SelectedValue="{Binding Transakcija.Komitent_Id, Mode=TwoWay}"
                                     SelectedValuePath="Id"
-                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}">
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                    SelectionChanged="KomitentNaziv_SelectionChanged">
 
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="SelectionChanged">
-                                            <b:InvokeCommandAction Command="{Binding SelectMestoTroskaCommand}" CommandParameter="{Binding ElementName=KomitentNaziv, Path=SelectedItem}" />
+                                            <b:InvokeCommandAction Command="{Binding SetRelatedDataCommand}" CommandParameter="{Binding ElementName=KomitentNaziv, Path=SelectedItem}" />
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
-
                                 </syncfusion:ComboBoxAdv>
 
                             </StackPanel>
@@ -336,6 +335,7 @@
                                     Margin="20,0"
                                     Label="Otkaži"
                                     SizeMode="Normal"
+                                    Command="{Binding CancelCommand}"
                                     SmallIcon="/Images/icons8-unavailable-50.png" />
 
                             </StackPanel>
@@ -380,7 +380,8 @@
                             Command="{Binding SaveCommand}"
                             Label="Sačuvaj"
                             LargeIcon="/Images/icons8-save-48.png"
-                            SizeMode="Large" />
+                            SizeMode="Large" 
+                            Click="SaveButton_Click"/>
 
                     </Grid>
 
@@ -425,7 +426,7 @@
                     AllowResizingColumns="True"
                     AutoGenerateColumns="False"
                     ColumnSizer="Star"
-                    ItemsSource="{Binding Transakcije}"
+                    ItemsSource="{Binding UplateIsplate}"
                     SelectedItem="{Binding Transakcija, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     >
 

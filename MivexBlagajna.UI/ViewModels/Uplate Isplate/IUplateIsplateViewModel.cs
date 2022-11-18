@@ -1,6 +1,4 @@
-﻿using MivexBlagajna.Data.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 {
@@ -8,6 +6,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
     {
         Task LoadAsync();
         Task SaveTransakcijaAsync();
+        Task CancelChange();
         void CreateBrojNaloga(object? obj);
+        bool HasChanges { get; set; }
     }
 }

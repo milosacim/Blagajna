@@ -10,5 +10,6 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         Task<int> GetLastBrojNalogaAsync();
         List<VrsteNaloga> GetAllVrsteNaloga();
         bool HasChanges();
+        void CancelChanges();
     }
 }

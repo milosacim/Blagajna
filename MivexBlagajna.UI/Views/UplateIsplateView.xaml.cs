@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xaml.Behaviors;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -20,15 +21,7 @@ namespace MivexBlagajna.UI.Views
         // Setuje podrazumevani DataBinding za komitente
         private void UplateIsplateView_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            Binding textBoxBinding = new Binding("Transakcija.Komitent.Sifra");
-            textBoxBinding.Source = this.DataContext;
-            textBoxBinding.Mode = BindingMode.TwoWay;
-            textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
-
-            Binding comboBoxBinding = new Binding("Komitenti");
-            comboBoxBinding.Source = DataContext;
-            KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
+            SetDefaultDataBinding();
         }
 
         // EventHandler kada se kreira novi nalog
@@ -36,22 +29,14 @@ namespace MivexBlagajna.UI.Views
         // tako da je moguca pretraga komitenata
         private void novNalogOrEditBtn_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Binding textBoxBinding = new Binding("KomitentFilter");
-            textBoxBinding.Source = this.DataContext;
-            textBoxBinding.Mode = BindingMode.TwoWay;
-            textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
-
-            Binding comboBoxBinding = new Binding("FilteredKomitenti");
-            comboBoxBinding.Source = DataContext;
-            KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
+            SetCustomDataBinding();
         }
 
         // EventHandler kada se menja text u textBoxu za sifru komitenta
         // ako je isEnabled property comboBox-a true onda ce na promeni texta biti otvorena padajuca lista
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (KomitentNaziv.IsEnabled == true)
+            if (KomitentNaziv.IsEnabled == true && KomitentNaziv.SelectedItem == null)
             {
                 KomitentNaziv.IsDropDownOpen = true;
             }
@@ -59,6 +44,48 @@ namespace MivexBlagajna.UI.Views
             {
                 KomitentNaziv.IsDropDownOpen = false;
             }
+        }
+
+        private void SaveButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            SetDefaultDataBinding();
+        }
+
+        private void SetDefaultDataBinding()
+        {
+            var defaultTextBoxBinding = "Transakcija.Komitent.Sifra";
+            var defaultComboBoxBinding = "Komitenti";
+
+            Binding textBoxBinding = new Binding(defaultTextBoxBinding);
+            textBoxBinding.Source = DataContext;
+            textBoxBinding.Mode = BindingMode.TwoWay;
+            textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+
+            Binding comboBoxBinding = new Binding(defaultComboBoxBinding);
+            comboBoxBinding.Source = DataContext;
+            KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
+        }
+
+        private void SetCustomDataBinding()
+        {
+            var alternateTextBoxBinding = "KomitentFilter";
+            var alternateComboBoxBinding = "FilteredKomitenti";
+
+            Binding textBoxBinding = new Binding(alternateTextBoxBinding);
+            textBoxBinding.Source = DataContext;
+            textBoxBinding.Mode = BindingMode.TwoWay;
+            textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+
+            Binding comboBoxBinding = new Binding(alternateComboBoxBinding);
+            comboBoxBinding.Source = DataContext;
+            KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
+        }
+
+        private void KomitentNaziv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            KomitentNaziv.IsDropDownOpen = false;
         }
     }
 }

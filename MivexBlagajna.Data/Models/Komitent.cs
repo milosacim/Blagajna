@@ -40,5 +40,12 @@ namespace MivexBlagajna.Data.Models
         public int? MestoTroska_Id { get; set; }
         public virtual MestoTroska MestoTroska { get; set; }
         public virtual ICollection<Transakcija> Transakcije { get; set; }
+
+        public override string ToString()
+        {
+            return Naziv;
+        }
     }
+
+    
 }
