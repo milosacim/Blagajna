@@ -84,11 +84,11 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         }
         private void SetRelatedData(object? obj)
         {
-            if (obj != null)
+            if (obj != null && Transakcija.IsEditable == true)
             {
                 var komitent = obj as Komitent;
-                Transakcija.MestoTroska = komitent.MestoTroska;
                 KomitentFilter = komitent.Sifra.ToString();
+                Transakcija.MestoTroska = komitent.MestoTroska;
             }
         }
         private bool GetBySearch(Komitent? komitent)
@@ -103,6 +103,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 return komitent != null ? KomitentFilter == null || komitent.Sifra.ToString().StartsWith(KomitentFilter, StringComparison.OrdinalIgnoreCase) || komitent.Ime.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 || komitent.Prezime.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 : false;
             }
         }
+
         public string? KomitentFilter
         {
             get { return _komitentFilter; }

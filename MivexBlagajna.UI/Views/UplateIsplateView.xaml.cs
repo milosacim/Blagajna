@@ -21,7 +21,16 @@ namespace MivexBlagajna.UI.Views
         // Setuje podrazumevani DataBinding za komitente
         private void UplateIsplateView_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            SetDefaultDataBinding();
+            //SetDefaultDataBinding();
+            Binding textBoxBinding = new Binding("Transakcija.Komitent.Sifra");
+            textBoxBinding.Source = this.DataContext;
+            textBoxBinding.Mode = BindingMode.TwoWay;
+            textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+
+            Binding comboBoxBinding = new Binding("Komitenti");
+            comboBoxBinding.Source = DataContext;
+            KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
         }
 
         // EventHandler kada se kreira novi nalog
@@ -29,7 +38,16 @@ namespace MivexBlagajna.UI.Views
         // tako da je moguca pretraga komitenata
         private void novNalogOrEditBtn_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            SetCustomDataBinding();
+            //SetCustomDataBinding();
+            Binding textBoxBinding = new Binding("KomitentFilter");
+            textBoxBinding.Source = this.DataContext;
+            textBoxBinding.Mode = BindingMode.TwoWay;
+            textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+
+            Binding comboBoxBinding = new Binding("FilteredKomitenti");
+            comboBoxBinding.Source = DataContext;
+            KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
         }
 
         // EventHandler kada se menja text u textBoxu za sifru komitenta
@@ -53,32 +71,53 @@ namespace MivexBlagajna.UI.Views
 
         private void SetDefaultDataBinding()
         {
-            var defaultTextBoxBinding = "Transakcija.Komitent.Sifra";
-            var defaultComboBoxBinding = "Komitenti";
 
-            Binding textBoxBinding = new Binding(defaultTextBoxBinding);
-            textBoxBinding.Source = DataContext;
+            Binding textBoxBinding = new Binding("Transakcija.Komitent.Sifra");
+            textBoxBinding.Source = this.DataContext;
             textBoxBinding.Mode = BindingMode.TwoWay;
             textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
 
-            Binding comboBoxBinding = new Binding(defaultComboBoxBinding);
+            Binding comboBoxBinding = new Binding("Komitenti");
             comboBoxBinding.Source = DataContext;
             KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
+
+            //var defaultTextBoxBinding = "Transakcija.Komitent.Sifra";
+            //var defaultComboBoxBinding = "Komitenti";
+
+            //Binding textBoxBinding = new Binding(defaultTextBoxBinding);
+            //textBoxBinding.Source = DataContext;
+            //textBoxBinding.Mode = BindingMode.TwoWay;
+            //textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+
+            //Binding comboBoxBinding = new Binding(defaultComboBoxBinding);
+            //comboBoxBinding.Source = DataContext;
+            //KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
         }
 
         private void SetCustomDataBinding()
         {
-            var alternateTextBoxBinding = "KomitentFilter";
-            var alternateComboBoxBinding = "FilteredKomitenti";
+            //var alternateTextBoxBinding = "KomitentFilter";
+            //var alternateComboBoxBinding = "FilteredKomitenti";
 
-            Binding textBoxBinding = new Binding(alternateTextBoxBinding);
-            textBoxBinding.Source = DataContext;
+            //Binding textBoxBinding = new Binding(alternateTextBoxBinding);
+            //textBoxBinding.Source = DataContext;
+            //textBoxBinding.Mode = BindingMode.TwoWay;
+            //textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+
+            //Binding comboBoxBinding = new Binding(alternateComboBoxBinding);
+            //comboBoxBinding.Source = DataContext;
+            //KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
+
+            Binding textBoxBinding = new Binding("KomitentFilter");
+            textBoxBinding.Source = this.DataContext;
             textBoxBinding.Mode = BindingMode.TwoWay;
             textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
 
-            Binding comboBoxBinding = new Binding(alternateComboBoxBinding);
+            Binding comboBoxBinding = new Binding("FilteredKomitenti");
             comboBoxBinding.Source = DataContext;
             KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
         }

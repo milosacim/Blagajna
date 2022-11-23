@@ -43,7 +43,18 @@ namespace MivexBlagajna.Data.Models
 
         public override string ToString()
         {
-            return Naziv;
+            if (PravnoLice)
+            {
+                return Naziv;
+            }
+            else if (FizickoLice)
+            {
+                return String.Format("{0} {1}", this.Ime, this.Prezime);
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 
