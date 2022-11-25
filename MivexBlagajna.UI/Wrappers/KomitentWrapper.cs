@@ -4,7 +4,7 @@ namespace MivexBlagajna.UI.Wrappers
 
     public class KomitentWrapper : ModelWrapper<Komitent>
     {
-        private string _punNaziv;
+        private string? _punNaziv;
         private bool _isEditable;
         private bool _isPravnoLiceEditable;
         private bool _isFizickoLiceEditable;

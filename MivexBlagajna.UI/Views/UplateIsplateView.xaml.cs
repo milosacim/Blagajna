@@ -1,4 +1,4 @@
-﻿using Microsoft.Xaml.Behaviors;
+﻿using Syncfusion.UI.Xaml.Grid.Helpers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,7 +13,6 @@ namespace MivexBlagajna.UI.Views
         public UplateIsplateView()
         {
             InitializeComponent();
-
             this.DataContextChanged += UplateIsplateView_DataContextChanged;
         }
 
@@ -49,16 +48,14 @@ namespace MivexBlagajna.UI.Views
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             SetDefaultDataBinding();
+            tabela.RefreshColumns();
         }
 
         private void SetDefaultDataBinding()
         {
-
             var defaultTextBoxBinding = "Transakcija.Komitent.Sifra";
             var defaultComboBoxBinding = "Komitenti";
 
-            var collectionViewSource = this.FindResource("MestaTroska") as CollectionViewSource;
- 
             Binding textBoxBinding = new Binding(defaultTextBoxBinding);
             textBoxBinding.Source = DataContext;
             textBoxBinding.Mode = BindingMode.TwoWay;

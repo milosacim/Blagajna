@@ -4,6 +4,11 @@ namespace MivexBlagajna.Data.Models
 {
     public class MestoTroska : ISoftDeletable
     {
+        public MestoTroska()
+        {
+            Komitenti = new List<Komitent>();
+            Transakcije = new List<Transakcija>();
+        }
         [Key]
         public int Id { get; set;}
 

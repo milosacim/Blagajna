@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MivexBlagajna.DataAccess;
 
@@ -11,9 +12,10 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    partial class MivexBlagajnaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221124085005_Modified_Configuration")]
+    partial class Modified_Configuration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,8 +165,8 @@ namespace MivexBlagajna.DataAccess.Migrations
 
                     b.Property<decimal>("Isplata")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,5)")
-                        .HasDefaultValue(0.0000m);
+                        .HasColumnType("decimal(20,2)")
+                        .HasDefaultValue(0.0m);
 
                     b.Property<int?>("Komitent_Id")
                         .HasColumnType("int");
@@ -179,16 +181,13 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Obrisano")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Opis")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Uplata")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,5)")
-                        .HasDefaultValue(0.0000m);
+                        .HasColumnType("decimal(20,2)")
+                        .HasDefaultValue(0.0m);
 
                     b.Property<int?>("VrsteNaloga_Id")
                         .HasColumnType("int");

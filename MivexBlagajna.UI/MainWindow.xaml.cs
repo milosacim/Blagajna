@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using MivexBlagajna.UI.ViewModels;
 using Syncfusion.SfSkinManager;
 using Syncfusion.Themes.FluentDark.WPF;
@@ -18,6 +19,7 @@ namespace MivexBlagajna.UI
         {
             //MaterialLightThemeSettings materialLightThemeSettings = new MaterialLightThemeSettings();
             Office2019ColorfulThemeSettings office2019ColorfulThemeSettings = new Office2019ColorfulThemeSettings();
+            office2019ColorfulThemeSettings.FontFamily = new FontFamily("Segoe UI");
             //FluentLightThemeSettings fluentLightThemeSettings = new FluentLightThemeSettings();
             //FluentDarkThemeSettings fluentDarkThemeSettings = new FluentDarkThemeSettings();
 

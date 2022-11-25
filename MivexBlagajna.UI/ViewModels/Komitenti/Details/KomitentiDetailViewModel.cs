@@ -96,7 +96,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
             }
         }
-
         public IAsyncCommand SaveCommand { get; }
         public IAsyncCommand CancelCommand { get; }
         public IAsyncCommand CreateNewKomitentCommand { get; }

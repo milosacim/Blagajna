@@ -12,37 +12,18 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
             _context = context;
         }
 
-        public void Add(Transakcija transakcija)
-        {
-            _context.Add(transakcija);
-        }
-
-        public async Task SaveAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
+        public void Add(Transakcija transakcija) => _context.Add(transakcija);
+        public async Task SaveAsync() => await _context.SaveChangesAsync();
         public async Task<IEnumerable<Transakcija>> GetAllAsync()
         {
-            IEnumerable<Transakcija> transakcije = await _context.Transakcije.Include(t => t.Konto).Include(t => t.VrstaNaloga).Include(t => t.Komitent).Include(t => t.MestoTroska).ToListAsync();
+            IEnumerable<Transakcija> transakcije = await _context.Transakcije.Where(t => t.Obrisano == false).Include(t => t.Konto).Include(t => t.VrstaNaloga).Include(t => t.Komitent).Include(t => t.MestoTroska).ToListAsync();
             return transakcije;
         }
-
-        public async Task<int> GetLastBrojNalogaAsync()
-        {
-            return await _context.Transakcije.MaxAsync(t => t.Broj);
-        }
-        
-        public List<VrsteNaloga> GetAllVrsteNaloga()
-        {
-            return _context.VrsteNalogas.ToList();
-        }
-
-        public bool HasChanges()
-        {
-            return _context.ChangeTracker.HasChanges();
-        }
-
+        public async Task<List<Komitent>> GetAllKomitenti() => await _context.Komitenti.Where(m => m.Obrisano == false).ToListAsync();
+        public async Task<List<MestoTroska>> GetAllMestaTroska() => await _context.MestaTroska.Where(m => m.Obrisano == false).ToListAsync();
+        public async Task<List<Konto>> GetAllKonta() => await _context.Konta.ToListAsync();
+        public async Task<List<VrsteNaloga>> GetAllVrsteNaloga() => await _context.VrsteNalogas.ToListAsync();
+        public bool HasChanges() => _context.ChangeTracker.HasChanges();
         public void CancelChanges()
         {
             var changedEntries = _context.ChangeTracker.Entries()
@@ -60,6 +41,14 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                         entry.State = EntityState.Unchanged;
                         break;
                 }
+            }
+        }
+        public async Task DeleteAsync(Transakcija transakcija)
+        {
+            if (transakcija != null)
+            {
+                _context.Transakcije.Remove(transakcija);
+                await _context.SaveChangesAsync();
             }
         }
     }

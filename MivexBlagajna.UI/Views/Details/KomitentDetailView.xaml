@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:converters="clr-namespace:MivexBlagajna.UI.Converters"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -35,6 +36,10 @@
             </Style.Triggers>
 
         </Style>
+
+        <CollectionViewSource x:Key="ComboBoxItems" Source="{Binding MestaTroska}"/>
+
+        <converters:NullItemConverter x:Key="NullConverter" />
 
     </UserControl.Resources>
 
@@ -295,11 +300,19 @@
                 <StackPanel Grid.Row="1" Margin="0,40,0,0">
                     <Label Margin="0,5,0,0" Content="Pripadnost (mesto troska): " />
 
-                    <syncfusion:ComboBoxAdv 
+                    <ComboBox
                         IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"
-                        ItemsSource="{Binding MestaTroska}"
-                        SelectedValue="{Binding Komitent.MestoTroska_Id, Mode=TwoWay}"
-                        SelectedValuePath="Id"/>
+                        SelectedValue="{Binding Komitent.MestoTroska_Id, Mode=TwoWay, Converter={StaticResource NullConverter}}"
+                        SelectedValuePath="Id">
+
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <ComboBoxItem Content=" - " />
+                                <CollectionContainer Collection="{Binding Source={StaticResource ComboBoxItems}}" />
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+
+                    </ComboBox>
 
                 </StackPanel>
                 

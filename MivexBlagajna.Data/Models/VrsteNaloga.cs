@@ -4,6 +4,10 @@ namespace MivexBlagajna.Data.Models
 {
     public class VrsteNaloga
     {
+        public VrsteNaloga()
+        {
+            Transakcije = new List<Transakcija>();
+        }
         [Key]
         public int Id { get; set; }
         public string VrstaNaloga { get; set; }

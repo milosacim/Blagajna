@@ -18,7 +18,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             return await _context.MestaTroska.Where(m => m.Obrisano == false)
                 .Include(m => m.DecaMestoTroska)
-                .Include(m => m.RoditeljMestoTroska )
+                .Include(m => m.RoditeljMestoTroska)
                 .Select(m => new MestoTroska()
                 {
                     Id = m.Id,

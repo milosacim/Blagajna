@@ -3,11 +3,13 @@ using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Interfaces;
+using MivexBlagajna.UI.Commands.Komitenti;
 using MivexBlagajna.UI.Commands.Transakcije;
 using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.ViewModels.Komitenti.Details;
 using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
+using Syncfusion.Data.Extensions;
 using Syncfusion.Windows.Controls.Input;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         private readonly DockState _dockState;
         private readonly string _header;
         private readonly IKomitentRepository _komitentRepository;
+        private readonly IMestoTroskaRepository _mestoTroskaRepository;
         private readonly IKontoRepository _kontoRepository;
         private readonly ITransakcijeRepository _transakcijeRepository;
         private readonly IMessageDialogService _messageDialogService;
@@ -41,6 +44,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         #region Constructor
         public UplateIsplateViewModel(
             IKomitentRepository komitentRepository,
+            IMestoTroskaRepository mestoTroskaRepository,
             IKontoRepository kontoRepository,
             ITransakcijeRepository transakcijeRepository,
             IMessageDialogService messageDialogService
@@ -49,28 +53,35 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             _dockState = DockState.Document;
             _header = "Uplate / Isplate";
             _komitentRepository = komitentRepository;
+            _mestoTroskaRepository = mestoTroskaRepository;
             _kontoRepository = kontoRepository;
             _transakcijeRepository = transakcijeRepository;
             _messageDialogService = messageDialogService;
 
             Komitenti = new ObservableCollection<Komitent>();
+            MestaTroska = new ObservableCollection<MestoTroska>();
+            Konta = new ObservableCollection<Konto>();
+            VrsteNaloga = new ObservableCollection<VrsteNaloga>();
 
             FilteredKomitenti = CollectionViewSource.GetDefaultView(Komitenti);
             FilteredKomitenti.Filter += new Predicate<object>(s => GetBySearch(s as Komitent));
 
             Transakcije = new ObservableCollection<TransakcijaWrapper>();
-
-            Konta = new List<Konto>();
-            VrsteNaloga = new List<VrsteNaloga>();
+            UplateIsplate = CollectionViewSource.GetDefaultView(Transakcije);
 
             CreateTransakcijaCommand = new RelayCommand(CreateNewTransakcija);
             CreateBrojNalogaCommand = new RelayCommand(CreateBrojNaloga);
-            SetRelatedDataCommand = new RelayCommand(SetRelatedData);
+            SetFilterCommand = new RelayCommand(SetFilter);
             EditTransakcijaCommand = new RelayCommand(EditTransakcija);
-
-            CancelCommand = new TransakcijaCancelChangeCommand(this);
+            CancelCommand = new RelayCommand(CancelChange, CanCanceChange);
 
             SaveCommand = new SaveTransakcijaCommand(this);
+            DeleteCommand = new DeleteTransakcijaCommand(this);
+        }
+
+        private bool CanCanceChange(object? obj)
+        {
+            return HasChanges;
         }
 
         private void EditTransakcija(object? obj)
@@ -82,25 +93,33 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 Transakcija.BeginEdit();
             }
         }
-        private void SetRelatedData(object? obj)
+
+        private void SetFilter(object? obj)
         {
             if (obj != null && Transakcija.IsEditable == true)
             {
                 var komitent = obj as Komitent;
-                KomitentFilter = komitent.Sifra.ToString();
+                KomitentFilter = komitent?.Sifra.ToString();
                 Transakcija.MestoTroska = komitent.MestoTroska;
             }
         }
+
         private bool GetBySearch(Komitent? komitent)
         {
-            if (komitent.Naziv != null)
+            if (komitent?.Naziv != null)
             {
-                return komitent != null ? KomitentFilter == null || komitent.Naziv.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 || komitent.Sifra.ToString().Equals(KomitentFilter) : false;
-                
+                if (komitent != null)
+                {
+                    return KomitentFilter == null || komitent.Naziv?.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 || komitent.Sifra.ToString().Equals(KomitentFilter);
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return komitent != null ? KomitentFilter == null || komitent.Sifra.ToString().StartsWith(KomitentFilter, StringComparison.OrdinalIgnoreCase) || komitent.Ime.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 || komitent.Prezime.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 : false;
+                return komitent != null ? KomitentFilter == null || komitent.Sifra.ToString().Equals(KomitentFilter, StringComparison.OrdinalIgnoreCase) || komitent.Ime?.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 || komitent.Prezime?.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 : false;
             }
         }
 
@@ -121,35 +140,39 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             get { return _hasChanges; }
             set
             {
-                var oldValue = _hasChanges;
-                _hasChanges = value;
-                OnModelPropertyChanged(oldValue, value);
+                if (_hasChanges != value)
+                {
+                    var oldValue = _hasChanges;
+                    _hasChanges = value;
+                    OnModelPropertyChanged(oldValue, value);
+                }
             }
-        }
-        public DockState State
-        {
-            get { return _dockState; }
-            set { }
         }
         public string Header
         {
             get { return _header; }
             set { }
         }
+        public DockState State
+        {
+            get { return _dockState; }
+            set { }
+        }
         public ICommand CreateTransakcijaCommand { get; }
         public ICommand CreateBrojNalogaCommand { get; }
-        public ICommand SetRelatedDataCommand { get; }
+        public ICommand SetFilterCommand { get; }
         public ICommand EditTransakcijaCommand { get; }
         public ICommand SetSifraCommand { get; private set; }
-        public IAsyncCommand CancelCommand { get; }
+        public ICommand CancelCommand { get; }
         public IAsyncCommand SaveCommand { get; }
-
+        public IAsyncCommand DeleteCommand { get; }
         public ICollectionView FilteredKomitenti { get; private set; }
-        public ICollectionView UplateIsplate { get; set; }
+        public ICollectionView UplateIsplate { get; private set; }
         public ObservableCollection<TransakcijaWrapper> Transakcije { get; }
         public ObservableCollection<Komitent> Komitenti { get; }
-        public List<Konto> Konta { get; }
-        public List<VrsteNaloga> VrsteNaloga { get; set; }
+        public ObservableCollection<MestoTroska> MestaTroska { get; }
+        public ObservableCollection<Konto> Konta { get; }
+        public ObservableCollection<VrsteNaloga> VrsteNaloga { get; set; }
         public TransakcijaWrapper Transakcija
         {
             get { return _transakcija; }
@@ -158,6 +181,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 var oldValue = _transakcija;
                 _transakcija = value;
                 OnModelPropertyChanged(oldValue, value);
+
                 Transakcija.PropertyChanged += (s, e) =>
                 {
                     if (!HasChanges)
@@ -176,7 +200,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         {
             if (Komitenti.IsNullOrEmpty())
             {
-                var listOfKomitenti = await _komitentRepository.GetAllAsync();
+                var listOfKomitenti = await _transakcijeRepository.GetAllKomitenti();
                 foreach (var item in listOfKomitenti)
                 {
                     Komitenti.Add(item);
@@ -185,7 +209,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
             if (Konta.IsNullOrEmpty())
             {
-                var kontaList = await _kontoRepository.GetAllAsync();
+                var kontaList = await _transakcijeRepository.GetAllKonta();
                 foreach (var konto in kontaList)
                 {
                     Konta.Add(konto);
@@ -194,10 +218,19 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
             if (VrsteNaloga.IsNullOrEmpty())
             {
-                var listaNaloga = _transakcijeRepository.GetAllVrsteNaloga();
+                var listaNaloga = await _transakcijeRepository.GetAllVrsteNaloga();
                 foreach (var vrsta in listaNaloga)
                 {
                     VrsteNaloga.Add(vrsta);
+                }
+            }
+
+            if (MestaTroska.IsNullOrEmpty())
+            {
+                var mestaList = await _transakcijeRepository.GetAllMestaTroska();
+                foreach (var mesto in mestaList)
+                {
+                    MestaTroska.Add(mesto);
                 }
             }
 
@@ -208,26 +241,29 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 {
                     Transakcije.Add(new TransakcijaWrapper(t, false));
                 }
-                UplateIsplate = CollectionViewSource.GetDefaultView(Transakcije);
             }
         }
         public async Task SaveTransakcijaAsync()
         {
             await _transakcijeRepository.SaveAsync();
+            HasChanges = _transakcijeRepository.HasChanges();
+            Transakcije.Add(Transakcija);
+            UplateIsplate.Refresh();
             Transakcija.EndEdit();
         }
-        public async Task CancelChange()
+
+        public async Task DeleteTransakcijaAsync(TransakcijaWrapper transakcija)
         {
-            var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene. Da li želite da otkažete?", "Question");
+            var result = _messageDialogService.ShowOKCancelDialog("Izabrali ste da izbrišete transakciju. Da li ste sigurni?", "Question");
 
             if (result == MessageDialogResult.Potvrdi)
             {
-                _transakcijeRepository.CancelChanges();
-                HasChanges = _transakcijeRepository.HasChanges();
-                Transakcija?.EndEdit();
+                await _transakcijeRepository.DeleteAsync(transakcija.Model);
+                Transakcija = Transakcije[Transakcije.IndexOf(transakcija) + 1];
+                Transakcije.RemoveAt(Transakcije.IndexOf(transakcija));
+                UplateIsplate.Refresh();
             }
         }
-
         public void CreateBrojNaloga(object? obj)
         {
             if (HasChanges)
@@ -269,6 +305,26 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
             transakcija.Datum = DateTime.Now;
             Transakcija = new TransakcijaWrapper(transakcija, true);
+        }
+        public void CancelChange(object? obj)
+        {
+            var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene. Da li želite da otkažete?", "Question");
+
+            if (result == MessageDialogResult.Potvrdi)
+            {
+                _transakcijeRepository.CancelChanges();
+                HasChanges = _transakcijeRepository.HasChanges();
+                Transakcija?.EndEdit();
+                
+                if(BackupTransakcija!= null)
+                {
+                    Transakcija = BackupTransakcija;
+                }
+                else
+                {
+                    Transakcija = Transakcije.LastOrDefault();
+                }
+            }
         }
 
         #endregion

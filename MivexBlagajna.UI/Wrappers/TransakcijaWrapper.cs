@@ -14,10 +14,10 @@ namespace MivexBlagajna.UI.Wrappers
 
         public int Id { get { return Model.Id; } }
 
-        public int Komitent_Id
+        public int? Komitent_Id
         {
-            get { return GetValue<int>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            get { return GetValue<int?>(); }
+            set { SetValue(value); }
         }
 
         public Komitent Komitent
@@ -26,10 +26,10 @@ namespace MivexBlagajna.UI.Wrappers
             set { SetValue(value); OnModelPropertyChanged(); }
         }
 
-        public int MestoTroska_Id
+        public int? MestoTroska_Id
         {
-            get { return GetValue<int>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            get { return GetValue<int?>(); }
+            set { SetValue(value); }
         }
 
         public MestoTroska MestoTroska
@@ -38,10 +38,10 @@ namespace MivexBlagajna.UI.Wrappers
             set { SetValue(value); OnModelPropertyChanged(); }
         }
 
-        public int Konto_Id
+        public int? Konto_Id
         {
-            get { return GetValue<int>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            get { return GetValue<int?>(); }
+            set { SetValue(value); }
         }
 
         public Konto Konto
@@ -56,10 +56,10 @@ namespace MivexBlagajna.UI.Wrappers
             set { SetValue(value); OnModelPropertyChanged(); }
         }
 
-        public int VrsteNaloga_Id
+        public int? VrsteNaloga_Id
         {
-            get { return GetValue<int>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            get { return GetValue<int?>(); }
+            set { SetValue(value); }
         }
 
         public VrsteNaloga VrstaNaloga

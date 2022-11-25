@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MivexBlagajna.DataAccess;
 
@@ -11,9 +12,10 @@ using MivexBlagajna.DataAccess;
 namespace MivexBlagajna.DataAccess.Migrations
 {
     [DbContext(typeof(MivexBlagajnaDbContext))]
-    partial class MivexBlagajnaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221123101156_Modified_Transakcija_Model")]
+    partial class Modified_Transakcija_Model
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,9 +181,6 @@ namespace MivexBlagajna.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Obrisano")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Opis")
                         .HasColumnType("nvarchar(max)");
 
@@ -228,7 +227,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "MestoTroska")
                         .WithMany("Komitenti")
                         .HasForeignKey("MestoTroska_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("MestoTroska");
                 });
@@ -248,7 +247,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.HasOne("MivexBlagajna.Data.Models.Komitent", "Komitent")
                         .WithMany("Transakcije")
                         .HasForeignKey("Komitent_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MivexBlagajna.Data.Models.Konto", "Konto")
                         .WithMany("Transakcije")
@@ -258,7 +257,7 @@ namespace MivexBlagajna.DataAccess.Migrations
                     b.HasOne("MivexBlagajna.Data.Models.MestoTroska", "MestoTroska")
                         .WithMany("Transakcije")
                         .HasForeignKey("MestoTroska_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("MivexBlagajna.Data.Models.VrsteNaloga", "VrstaNaloga")
                         .WithMany("Transakcije")
