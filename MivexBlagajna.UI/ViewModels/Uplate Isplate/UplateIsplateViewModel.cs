@@ -28,9 +28,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         #region Fields
         private readonly DockState _dockState;
         private readonly string _header;
-        private readonly IKomitentRepository _komitentRepository;
-        private readonly IMestoTroskaRepository _mestoTroskaRepository;
-        private readonly IKontoRepository _kontoRepository;
         private readonly ITransakcijeRepository _transakcijeRepository;
         private readonly IMessageDialogService _messageDialogService;
         private bool _hasChanges;
@@ -43,18 +40,12 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
         #region Constructor
         public UplateIsplateViewModel(
-            IKomitentRepository komitentRepository,
-            IMestoTroskaRepository mestoTroskaRepository,
-            IKontoRepository kontoRepository,
             ITransakcijeRepository transakcijeRepository,
             IMessageDialogService messageDialogService
             )
         {
             _dockState = DockState.Document;
             _header = "Uplate / Isplate";
-            _komitentRepository = komitentRepository;
-            _mestoTroskaRepository = mestoTroskaRepository;
-            _kontoRepository = kontoRepository;
             _transakcijeRepository = transakcijeRepository;
             _messageDialogService = messageDialogService;
 
@@ -81,7 +72,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
         private bool CanCanceChange(object? obj)
         {
-            return HasChanges;
+            return Transakcija != null ? HasChanges || Transakcija.IsEditable : false;
         }
 
         private void EditTransakcija(object? obj)
@@ -131,6 +122,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 var oldValue = _komitentFilter;
                 _komitentFilter = value;
                 OnModelPropertyChanged(oldValue, value);
+
                 FilteredKomitenti.Refresh();
             }
         }
@@ -148,6 +140,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 }
             }
         }
+
         public string Header
         {
             get { return _header; }
@@ -162,7 +155,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         public ICommand CreateBrojNalogaCommand { get; }
         public ICommand SetFilterCommand { get; }
         public ICommand EditTransakcijaCommand { get; }
-        public ICommand SetSifraCommand { get; private set; }
         public ICommand CancelCommand { get; }
         public IAsyncCommand SaveCommand { get; }
         public IAsyncCommand DeleteCommand { get; }
@@ -314,6 +306,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             {
                 _transakcijeRepository.CancelChanges();
                 HasChanges = _transakcijeRepository.HasChanges();
+                KomitentFilter = "";
+                FilteredKomitenti.Refresh();
                 Transakcija?.EndEdit();
                 
                 if(BackupTransakcija!= null)

@@ -8,77 +8,191 @@
     xmlns:converters="clr-namespace:MivexBlagajna.UI.Converters"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignWidth="1725"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-
         <CollectionViewSource x:Key="ComboBoxItems" Source="{Binding MestaTroska}"/>
-
         <converters:NullItemConverter x:Key="NullConverter" />
-
     </UserControl.Resources>
 
+    <!--Glavni Grid-->
     <Grid>
-
         <Grid.RowDefinitions>
-
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition />
-
         </Grid.RowDefinitions>
 
+        <!--Gornji grid-->
         <Grid>
-
             <Border
                 Width="auto"
                 Height="auto"
-                Margin="0,10"
+                Margin="0 10"
                 Background="#F7F8F8">
-
                 <Border.Effect>
                     <DropShadowEffect
                         BlurRadius="5"
                         Direction="-90"
-                        Opacity="0.1" />
+                        Opacity="0.1"/>
                 </Border.Effect>
 
-                <Grid Margin="40,10">
+                <!--Polja za unos podataka-->
+                <Grid Margin="40 10">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
-
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition />
-
                     </Grid.ColumnDefinitions>
 
-                    <Grid Margin="10,0,10,0">
-
-                        <Grid.RowDefinitions>
-
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition />
-
-                        </Grid.RowDefinitions>
-
+                    <!--Prvi red-->
+                    <StackPanel Orientation="Horizontal">
+                        <!--Datum naloga-->
                         <StackPanel>
                             <Label Content="Datum" />
                             <syncfusion:DateTimeEdit
+                                Width="90"
                                 DateTime="{Binding Transakcija.Datum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 DropDownView="Calendar"
                                 IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}" />
                         </StackPanel>
+                        <!--Sifra komitenta-->
+                        <StackPanel Margin="20 0 0 0">
+                            <Label Content="Šifra" />
+                            <syncfusion:SfTextBoxExt
+                                x:Name="SearchBox"
+                                Width="80"
+                                Height="25"
+                                VerticalAlignment="Center"
+                                BorderThickness="0.5"
+                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                TextChanged="SearchBox_TextChanged"/>
+                        </StackPanel>
+                        <!--Naziv komitenta-->
+                        <StackPanel Margin="20,0,0,0" >
 
-                        <StackPanel Grid.Row="1" Margin="0,10">
-                            <Label Content="Konto" />
-
+                            <Label Content="Komitent" />
                             <syncfusion:ComboBoxAdv
+                                x:Name="KomitentNaziv"
+                                Width="350"
+                                Height="25"
+                                VerticalAlignment="Center"
+                                BorderThickness="0.5"
+                                ItemsSource="{Binding FilteredKomitenti}"
+                                SelectedItem="{Binding Transakcija.Komitent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedValue="{Binding Transakcija.Komitent_Id, Mode=TwoWay}"
+                                SelectedValuePath="Id"
+                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                SelectionChanged="KomitentNaziv_SelectionChanged">
+                                
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="SelectionChanged">
+                                        <b:InvokeCommandAction Command="{Binding SetFilterCommand}" CommandParameter="{Binding ElementName=KomitentNaziv, Path=SelectedItem}" />
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                                
+                            </syncfusion:ComboBoxAdv>
+                        </StackPanel>
+                        <!--Mesto Troska-->
+                        <StackPanel Margin="20 0 0 0">
+
+                            <Label Content="Mesto troška" />
+                            
+                            <syncfusion:ComboBoxAdv
+                                x:Name="mestaComboBox"
+                                Width="250"
+                                Height="25"
+                                VerticalAlignment="Center"
+                                BorderThickness="0.5"
+                                ItemsSource="{Binding MestaTroska}"
+                                SelectedItem="{Binding Transakcija.MestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedValue="{Binding Transakcija.MestoTroska_Id, Mode=TwoWay}"
+                                SelectedValuePath="Id"
+                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}">
+
+                            </syncfusion:ComboBoxAdv>
+
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <!--Polje za unos uplate-->
+                        <StackPanel Margin="20 0 0 0">
+                            <Label Content="Uplata" />
+                            <syncfusion:SfTextBoxExt
+                                Width="150"
+                                Height="25"
+                                VerticalAlignment="Center"
+                                BorderThickness="0.5"
+                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                Text="{Binding Transakcija.Uplata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Watermark="0.00" />
+
+                        </StackPanel>
+                        <!--Polje za unos isplate-->
+                        <StackPanel Margin="20 0 0 0">
+                            <Label Content="Isplata" />
+                            <syncfusion:SfTextBoxExt
+                                Width="150"
+                                Height="25"
+                                VerticalAlignment="Center"
+                                BorderThickness="0.5"
+                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                Text="{Binding Transakcija.Isplata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Watermark="0.00" />
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <!--Nov nalog, izmeni, otkazi-->
+                    <StackPanel Grid.Column="2" Margin="20 0 0 0">
+
+                        <StackPanel Orientation="Horizontal">
+                            
+                            <syncfusion:ButtonAdv
+                                Command="{Binding CreateTransakcijaCommand}"
+                                Label="Nov Nalog"
+                                Width="75"
+                                LargeIcon="/Images/icons8-add-48.png"
+                                SizeMode="Large" 
+                                Click="novNalogOrEditBtn_Click"/>
+                            
+                            <syncfusion:ButtonAdv
+                                Label="Izmeni"
+                                Margin="10 0 0 0"
+                                Width="75"
+                                SizeMode="Large"
+                                Command="{Binding EditTransakcijaCommand}"
+                                LargeIcon="/Images/icons8-edit-property-48.png" 
+                                Click="novNalogOrEditBtn_Click"/>
+
+                            <syncfusion:ButtonAdv
+                                Label="Otkaži"
+                                Margin="10 0 0 0 "
+                                Width="75"
+                                SizeMode="Large"
+                                Command="{Binding CancelCommand}"
+                                LargeIcon="/Images/icons8-unavailable-50.png" 
+                                Click="CancelBtn_Click"/>
+
+                        </StackPanel>
+                        
+                    </StackPanel>
+                    <!--Drugi red-->
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <!--Konto-->
+                        <StackPanel >
+                            <Label Content="Konto" />
+                            <syncfusion:ComboBoxAdv
+                                Width="90"
                                 Height="25"
                                 VerticalAlignment="Center"
                                 BorderThickness="0.5"
@@ -87,163 +201,10 @@
                                 SelectedValue="{Binding Transakcija.Konto_Id, Mode=TwoWay}"
                                 SelectedValuePath="Id" />
                         </StackPanel>
-                    </Grid>
-
-                    <Grid Grid.Column="1" Margin="10,0,10,0">
-
-                        <Grid.RowDefinitions>
-
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition />
-
-                        </Grid.RowDefinitions>
-
-                        <Grid>
-
-                            <Grid.ColumnDefinitions>
-
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel>
-
-                                <Label Content="Šifra" />
-
-                                <syncfusion:SfTextBoxExt
-                                    x:Name="SearchBox"
-                                    Width="80"
-                                    Height="25"
-                                    VerticalAlignment="Center"
-                                    BorderThickness="0.5"
-                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                    TextChanged="SearchBox_TextChanged"/>
-
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="1">
-
-                                <Label Margin="20,0" Content="Komitent" />
-
-                                <syncfusion:ComboBoxAdv
-                                    x:Name="KomitentNaziv"
-                                    Width="350"
-                                    Height="25"
-                                    Margin="20,0,0,0"
-                                    VerticalAlignment="Center"
-                                    BorderThickness="0.5"
-                                    SelectedValue="{Binding Transakcija.Komitent_Id, Mode=TwoWay}"
-                                    SelectedValuePath="Id"
-                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                    SelectionChanged="KomitentNaziv_SelectionChanged">
-
-                                    <b:Interaction.Triggers>
-                                        <b:EventTrigger EventName="SelectionChanged">
-                                            <b:InvokeCommandAction Command="{Binding SetFilterCommand}" CommandParameter="{Binding ElementName=KomitentNaziv, Path=SelectedItem}" />
-                                        </b:EventTrigger>
-                                    </b:Interaction.Triggers>
-
-                                </syncfusion:ComboBoxAdv>
-
-                            </StackPanel>
-
-                        </Grid>
-
-                        <Grid Grid.Row="1" Margin="0,10">
-
-                            <Grid.ColumnDefinitions>
-
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Margin="0,0,0,0">
-
-                                <Label Content="Nalog" />
-
-                                <syncfusion:SfTextBoxExt
-                                    Width="80"
-                                    Height="25"
-                                    VerticalAlignment="Center"
-                                    BorderThickness="0.5"
-                                    IsEnabled="False"
-                                    Text="{Binding Transakcija.Nalog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="1">
-
-                                <Label Margin="20,0" Content="Opis" />
-
-                                <syncfusion:SfTextBoxExt
-                                    Width="350"
-                                    Height="25"
-                                    Margin="20,0,0,0"
-                                    VerticalAlignment="Center"
-                                    BorderThickness="0.5"
-                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                    Text="{Binding Transakcija.Opis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                            </StackPanel>
-
-                        </Grid>
-
-                    </Grid>
-
-                    <Grid Grid.Column="2" Margin="10,0,10,0">
-
-                        <Grid.RowDefinitions>
-
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition />
-
-                        </Grid.RowDefinitions>
-
-                        <Grid>
-
-                            <Grid.ColumnDefinitions>
-
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel>
-
-                                <Label Content="Mesto troška" />
-                                <syncfusion:ComboBoxAdv
-                                    x:Name="mestaComboBox"
-                                    Width="350"
-                                    Height="25"
-                                    VerticalAlignment="Center"
-                                    BorderThickness="0.5"
-                                    ItemsSource="{Binding MestaTroska}"
-                                    SelectedItem="{Binding Transakcija.MestoTroska, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    SelectedValue="{Binding Transakcija.MestoTroska_Id, Mode=TwoWay}"
-                                    SelectedValuePath="Id"
-                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}">
-
-                                </syncfusion:ComboBoxAdv>
-
-                            </StackPanel>
-
-                        </Grid>
-
-                        <StackPanel
-                            Grid.Row="1"
-                            Margin="0,10"
-                            Orientation="Horizontal">
-
-                            <StackPanel Orientation="Vertical">
-                                <Label Content="Vrsta naloga" IsEnabled="True" />
-
-                                <syncfusion:ComboBoxAdv
+                        <!--Vrsta naloga-->
+                        <StackPanel Margin="20 0 0 0">
+                            <Label Content="Vrsta naloga" IsEnabled="True" />
+                            <syncfusion:ComboBoxAdv
                                     x:Name="Vrste"
                                     Width="200"
                                     Height="25"
@@ -254,179 +215,79 @@
                                     SelectedValue="{Binding Transakcija.VrsteNaloga_Id, Mode=TwoWay}"
                                     SelectedValuePath="Id">
 
-                                    <b:Interaction.Triggers>
-                                        <b:EventTrigger EventName="SelectionChanged">
-                                            <b:InvokeCommandAction Command="{Binding CreateBrojNalogaCommand}" CommandParameter="{Binding ElementName=Vrste, Path=SelectedItem}" />
-                                        </b:EventTrigger>
-                                    </b:Interaction.Triggers>
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="SelectionChanged">
+                                        <b:InvokeCommandAction Command="{Binding CreateBrojNalogaCommand}" CommandParameter="{Binding ElementName=Vrste, Path=SelectedItem}" />
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
 
-                                </syncfusion:ComboBoxAdv>
+                            </syncfusion:ComboBoxAdv>
 
-                            </StackPanel>
                         </StackPanel>
-
-                    </Grid>
-
-                    <Grid Grid.Column="3">
-
-                        <Grid.RowDefinitions>
-
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition />
-
-                        </Grid.RowDefinitions>
-
-                        <Grid>
-
-                            <Grid.ColumnDefinitions>
-
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition />
-
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel>
-                                <Label Content="Uplata" />
-                                <syncfusion:SfTextBoxExt
-                                    Width="150"
-                                    Height="35"
+                        <!--Broj naloga-->
+                        <StackPanel Margin="20 0 0 0">
+                            <Label Content="Nalog" />
+                            <syncfusion:SfTextBoxExt
+                                    Width="80"
+                                    Height="25"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0.5"
+                                    IsEnabled="False"
+                                    Text="{Binding Transakcija.Nalog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                        <!--Opis-->
+                        <StackPanel Margin="20 0 0 0">
+                            <Label Content="Opis" />
+                            <syncfusion:SfTextBoxExt
+                                    Width="400"
+                                    Height="25"
                                     VerticalAlignment="Center"
                                     BorderThickness="0.5"
                                     IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                    Text="{Binding Transakcija.Uplata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Watermark="0.00" />
+                                    Text="{Binding Transakcija.Opis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="1" Margin="20,0,0,0">
-                                <Label Content="Isplata" />
-                                <syncfusion:SfTextBoxExt
-                                    Width="150"
-                                    Height="35"
-                                    VerticalAlignment="Center"
-                                    BorderThickness="0.5"
-                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                    Text="{Binding Transakcija.Isplata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Watermark="0.00" />
-                            </StackPanel>
-
-                        </Grid>
-
-                        <Grid Grid.Row="1" Margin="50,0">
-
-                            <Grid.RowDefinitions>
-
-                                <RowDefinition Height="auto" />
-                                <RowDefinition />
-
-                            </Grid.RowDefinitions>
-
-                            <StackPanel Margin="0,25" Orientation="Horizontal">
-
-                                <syncfusion:ButtonAdv
-                                    Width="100"
-                                    Label="Izmeni"
-                                    SizeMode="Normal"
-                                    Command="{Binding EditTransakcijaCommand}"
-                                    SmallIcon="/Images/icons8-edit-property-48.png" 
-                                    Click="novNalogOrEditBtn_Click"/>
-                                <syncfusion:ButtonAdv
-                                    Width="100"
-                                    Margin="20,0"
-                                    Label="Otkaži"
-                                    SizeMode="Normal"
-                                    Command="{Binding CancelCommand}"
-                                    SmallIcon="/Images/icons8-unavailable-50.png" />
-
-                            </StackPanel>
-
-                        </Grid>
-
-                    </Grid>
-
-                    <Grid Grid.Column="4">
-
-                        <Grid.RowDefinitions>
-
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-
-                        </Grid.RowDefinitions>
-
-                        <StackPanel Margin="10,10" Orientation="Horizontal">
-
-                            <syncfusion:ButtonAdv
-                                x:Name="novNalogBtn"
-                                Command="{Binding CreateTransakcijaCommand}"
-                                Label="Nov Nalog"
-                                LargeIcon="/Images/icons8-add-48.png"
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="60 10 0 0">
+                        <syncfusion:ButtonAdv
+                                Command="{Binding SaveCommand}"
+                                Label="Sačuvaj"
+                                Height="47"
+                                Width="75"
+                                LargeIcon="/Images/icons8-save-48.png"
                                 SizeMode="Large" 
-                                Click="novNalogOrEditBtn_Click"/>
+                                Click="SaveButton_Click"/>
 
-                            <syncfusion:ButtonAdv
-                                Margin="20,0"
+                        <syncfusion:ButtonAdv
                                 Label="Obriši unos"
+                                Margin="10 0 0 0"
+                                Height="47"
+                                Width="75"
                                 LargeIcon="/Images/icons8-remove-48.png"
                                 SizeMode="Large" 
                                 Command="{Binding DeleteCommand}"/>
-
-                        </StackPanel>
-
-                        <syncfusion:ButtonAdv
-                            Grid.Row="1"
-                            Width="100"
-                            Margin="0,0,20,0"
-                            HorizontalAlignment="Stretch"
-                            Command="{Binding SaveCommand}"
-                            Label="Sačuvaj"
-                            LargeIcon="/Images/icons8-save-48.png"
-                            SizeMode="Large" 
-                            Click="SaveButton_Click"/>
-
-                    </Grid>
-
-                    <Grid Grid.Column="5">
-
-                        <Grid.RowDefinitions>
-
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-
-                        </Grid.RowDefinitions>
-
-                        <syncfusion:ButtonAdv
-                            Grid.Row="0"
-                            Width="150"
-                            Margin="5,5"
-                            Label="Finansijska kartica"
-                            LargeIcon="/Images/icons8-report-file-48.png"
-                            SizeMode="large" />
-                        <syncfusion:ButtonAdv
-                            Grid.Row="1"
-                            Width="150"
-                            Margin="5,10"
-                            Label="Komitenti"
-                            LargeIcon="/Images/icons8-customer-48.png"
-                            SizeMode="Large" />
-                    </Grid>
-
+                    </StackPanel>
+                    
+                    <!--Export to Excel Button-->
+                    <syncfusion:ButtonAdv
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Width="90"
+                        Height="47"
+                        Label="Export to Excel"
+                        LargeIcon="/Images/excel.png"
+                        SizeMode="Large" 
+                        Click="ExportExcel_Click"/>
                 </Grid>
-
             </Border>
-
         </Grid>
-
+        <!--Donji Grid-->
         <Grid Grid.Row="1">
-
-            <Border Margin="0,10" Background="#F7F8F8">
-
+            <Border Background="#F7F8F8">
+                <!--Tabela sa nalozima-->
                 <syncfusion:SfDataGrid
                     x:Name="tabela"
+                    Margin="5 0 0 5"
                     AllowResizingColumns="True"
                     AutoGenerateColumns="False"
                     ColumnSizer="Star"
@@ -437,17 +298,18 @@
                     <syncfusion:SfDataGrid.Columns>
 
                         <syncfusion:GridTextColumn
-                            Width="50"
+                            Width="100"
                             HeaderText="Nalog"
                             MappingName="Nalog" />
                         <syncfusion:GridTextColumn
                             Width="100"
                             HeaderText="Vrsta Naloga"
                             MappingName="VrstaNaloga" />
-                        <syncfusion:GridTextColumn
+                        <syncfusion:GridDateTimeColumn
                             Width="100"
                             HeaderText="Datum"
-                            MappingName="Datum" />
+                            MappingName="Datum"
+                            Pattern="ShortDate"/>
                         <syncfusion:GridTextColumn
                             Width="100"
                             HeaderText="Konto"
@@ -457,11 +319,11 @@
                             HeaderText="Sifra"
                             MappingName="Komitent.Sifra" />
                         <syncfusion:GridTextColumn
-                            Width="300"
+                            Width="350"
                             HeaderText="Komitent"
                             MappingName="Komitent.Naziv" />
                         <syncfusion:GridTextColumn
-                            Width="100"
+                            Width="60"
                             HeaderText="Sifra MT"
                             MappingName="MestoTroska.Prefix" />
                         <syncfusion:GridTextColumn
@@ -473,34 +335,25 @@
                             HeaderText="Opis"
                             MappingName="Opis" />
 
-                        <syncfusion:GridTextColumn HeaderText="Uplata" MappingName="Uplata" />
-                        <syncfusion:GridTextColumn HeaderText="Isplata" MappingName="Isplata" />
-
-                        <syncfusion:GridCheckBoxSelectorColumn HeaderText="Izabrano" MappingName="IsEditable" />
-
+                        <syncfusion:GridNumericColumn HeaderText="Uplata" MappingName="Uplata" NumberDecimalDigits="2" NumberGroupSizes="3" NumberGroupSeparator="." Width="215"/>
+                        <syncfusion:GridNumericColumn HeaderText="Isplata" MappingName="Isplata" NumberDecimalDigits="2" NumberGroupSizes="3" NumberGroupSeparator="." Width="215"/>
+                        
                     </syncfusion:SfDataGrid.Columns>
 
                     <syncfusion:SfDataGrid.TableSummaryRows>
                         <syncfusion:GridTableSummaryRow Position="Bottom" ShowSummaryInRow="False">
                             <syncfusion:GridTableSummaryRow.SummaryColumns>
-                                
-                                <syncfusion:GridSummaryColumn Name="totalUplate" Format="'Ukupno uplaceno: {Sum:c}'" MappingName="Uplata" SummaryType="DoubleAggregate">
-                                    
-                                </syncfusion:GridSummaryColumn>
-                                
-                                <syncfusion:GridSummaryColumn Name="totalIsplate" Format="'Ukupno isplaceno: {Sum:c}'" MappingName="Isplata" SummaryType="DoubleAggregate">
-
-                                </syncfusion:GridSummaryColumn>
-                                
+                                <syncfusion:GridSummaryColumn Name="totalUplate" Format="'Ukupno uplaceno: {Sum:c}'" MappingName="Uplata" SummaryType="DoubleAggregate"/>
+                                <syncfusion:GridSummaryColumn Name="totalIsplate" Format="'Ukupno isplaceno: {Sum:c}'" MappingName="Isplata" SummaryType="DoubleAggregate"/>
                             </syncfusion:GridTableSummaryRow.SummaryColumns>
                         </syncfusion:GridTableSummaryRow>
                     </syncfusion:SfDataGrid.TableSummaryRows>
 
                 </syncfusion:SfDataGrid>
-
             </Border>
-
         </Grid>
-
+        
+        
     </Grid>
+
 </UserControl>
