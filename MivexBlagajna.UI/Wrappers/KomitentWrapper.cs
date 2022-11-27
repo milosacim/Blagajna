@@ -40,6 +40,8 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string Naziv2
@@ -47,11 +49,14 @@ namespace MivexBlagajna.UI.Wrappers
             get
             {
                 return GetValue<string>();
+
             }
 
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string? Ime
@@ -64,9 +69,12 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string? Prezime
+
         {
             get
             {
@@ -76,6 +84,8 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string? Jmbg
@@ -88,6 +98,8 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string PostanskiBroj
@@ -100,6 +112,8 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string? Pib
@@ -112,6 +126,8 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string? MaticniBroj
@@ -124,6 +140,8 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string Mesto
@@ -136,6 +154,8 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string Adresa
@@ -148,6 +168,8 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string KontaktOsoba
@@ -160,6 +182,8 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public string Telefon
@@ -172,6 +196,8 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
+                OnModelPropertyChanged();
+
             }
         }
         public bool PravnoLice
@@ -187,11 +213,14 @@ namespace MivexBlagajna.UI.Wrappers
                 {
                     FizickoLice = false;
                     SetValue(value);
+
                 }
                 else
                 {
                     SetValue(value);
                 }
+                OnModelPropertyChanged();
+
             }
         }
         public bool FizickoLice
@@ -212,6 +241,8 @@ namespace MivexBlagajna.UI.Wrappers
                 {
                     SetValue(value);
                 }
+                OnModelPropertyChanged();
+
             }
         }
         public int? MestoTroska_Id
@@ -223,7 +254,7 @@ namespace MivexBlagajna.UI.Wrappers
         public MestoTroska? MestoTroska
         {
             get { return GetValue<MestoTroska?>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnModelPropertyChanged(); }
         }
 
         public bool IsEditable

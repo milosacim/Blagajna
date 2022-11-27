@@ -7,7 +7,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
     {
         string? Header { get; set; }
         DockState State { get; set; }
-        void Dispose();
         Task LoadAsync();
     }
 }

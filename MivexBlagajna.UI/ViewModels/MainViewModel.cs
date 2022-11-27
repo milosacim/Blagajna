@@ -2,6 +2,7 @@
 using MivexBlagajna.UI.ViewModels.Komitenti;
 using MivexBlagajna.UI.ViewModels.MestaTroska;
 using MivexBlagajna.UI.ViewModels.Uplate_Isplate;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,22 +15,27 @@ namespace MivexBlagajna.UI.ViewModels
         private ObservableCollection<ViewModelBase>? _workspaces;
         private ViewModelBase? _selectedViewModel;
         private ViewModelBase? _activeDocument;
+
+        private Func<KomitentiViewModel> _komitentiViewModelCreator;
+        private Func<MestaTroskaViewModel> _mestaTroskaViewModelCreator;
+        private Func<UplateIsplateViewModel> _uplateIsplateViewModelCreator;
         #endregion
 
         #region Konstruktor
 
         public MainViewModel(
-            KomitentiViewModel komitentiViewModel,
-            MestaTroskaViewModel mestaTroskaViewModel,
-            UplateIsplateViewModel uplateIsplateViewModel)
+            Func<KomitentiViewModel> komitentiViewModelCreator
+            , Func<MestaTroskaViewModel> mestaTroskaViewModelCreator
+            , Func<UplateIsplateViewModel> uplateIsplateViewModelCreator
+            )
         {
             // Initializations
             Workspaces = new ObservableCollection<ViewModelBase>();
-            KomitentiViewModel = komitentiViewModel;
-            MestaTroskaViewModel = mestaTroskaViewModel;
-            UplateIsplateViewModel = uplateIsplateViewModel;
+            _komitentiViewModelCreator = komitentiViewModelCreator;
+            _mestaTroskaViewModelCreator = mestaTroskaViewModelCreator;
+            _uplateIsplateViewModelCreator = uplateIsplateViewModelCreator;
 
-            SelectViewModelCommand = new SelectViewModelCommand<ViewModelBase>(this);
+            SelectViewModelCommand = new SelectViewModelCommand<ViewModelType>(this);
         }
 
         #endregion
@@ -41,6 +47,8 @@ namespace MivexBlagajna.UI.ViewModels
             get { return _workspaces; }
             set { _workspaces = value; }
         }
+
+
         public ViewModelBase? ActiveViewModel
         {
             get { return _activeDocument; }
@@ -61,16 +69,32 @@ namespace MivexBlagajna.UI.ViewModels
             }
         }
 
-        public KomitentiViewModel KomitentiViewModel { get; }
-        public MestaTroskaViewModel MestaTroskaViewModel { get; }
-        public UplateIsplateViewModel UplateIsplateViewModel { get; }
+        //public KomitentiViewModel KomitentiViewModel { get; }
+        //public MestaTroskaViewModel MestaTroskaViewModel { get; }
+        //public UplateIsplateViewModel UplateIsplateViewModel { get; }
 
         #endregion
 
         #region Methods
         public async Task SelectViewModel(object parameter)
         {
-            SelectedViewModel = parameter as ViewModelBase;
+            switch (parameter)
+            {
+                case ViewModelType.Komitenti:
+                    SelectedViewModel = _komitentiViewModelCreator();
+                    break;
+                case ViewModelType.MestaTroska:
+                    SelectedViewModel = _mestaTroskaViewModelCreator();
+                    break;
+                case ViewModelType.UplateIsplate:
+                    SelectedViewModel = _uplateIsplateViewModelCreator();
+                    break;
+
+                default:
+                    throw new ArgumentException("The ViewType does not have a ViewModel", "viewType");
+
+            }
+            //SelectedViewModel = parameter as ViewModelBase;
             if (SelectedViewModel != null)
             {
                 await SelectedViewModel.LoadAsync();
@@ -93,10 +117,12 @@ namespace MivexBlagajna.UI.ViewModels
                 }
             }
         }
+
+        
         #endregion
 
         #region Commands
-        public AsyncCommandGeneric<ViewModelBase> SelectViewModelCommand { get; }
+        public AsyncCommandGeneric<ViewModelType> SelectViewModelCommand { get; }
 
         #endregion
     }

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels
 {
+
+    public delegate TViewModel CreateViewModel<TViewModel>() where TViewModel : ViewModelBase;
     public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
         public event PropertyChangedEventHandler? PropertyChanged;

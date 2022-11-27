@@ -1,6 +1,6 @@
 ﻿namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 {
-    public class KomitentiNavigationItemViewModel : ObservableObject
+    public class KomitentiNavigationItemViewModel : ViewModelBase
     {
         private string _punNaziv;
         private bool _pravnoLice;
@@ -25,7 +25,7 @@
             {
                 _punNaziv = value;
                 var oldValue = _punNaziv;
-                OnObjectPropertyChanged(oldValue, value);
+                OnModelPropertyChanged(oldValue, value);
             }
         }
         public bool PravnoLice
@@ -35,7 +35,7 @@
             {
                 _pravnoLice = value;
                 var oldValue = _pravnoLice;
-                OnObjectPropertyChanged(oldValue, value);
+                OnModelPropertyChanged(oldValue, value);
             }
         }
         public bool FizickoLice
@@ -45,7 +45,7 @@
             {
                 _fizickoLice = value;
                 var oldValue = _fizickoLice;
-                OnObjectPropertyChanged(oldValue, value);
+                OnModelPropertyChanged(oldValue, value);
             }
         }
 
@@ -56,8 +56,13 @@
             {
                 _isSelected = value;
                 var oldValue = _isSelected;
-                OnObjectPropertyChanged(oldValue, value);
+                OnModelPropertyChanged(oldValue, value);
             }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
         }
     }
 }

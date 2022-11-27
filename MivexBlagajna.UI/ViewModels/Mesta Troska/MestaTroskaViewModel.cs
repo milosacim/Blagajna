@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace MivexBlagajna.UI.ViewModels.MestaTroska
 {
-    public class MestaTroskaViewModel : ViewModelBase, IDockElement
+    public class MestaTroskaViewModel : ViewModelBase, IDockElement, IMestaTroskaViewModel
     {
         private readonly string? _header;
         private readonly DockState _state;
@@ -47,7 +47,7 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
 
                 await MestaTroskaDetailsViewModel.LoadAsync(e.newid);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

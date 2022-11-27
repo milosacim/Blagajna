@@ -68,20 +68,36 @@ namespace MivexBlagajna.UI
             services.AddTransient<ILookupKomitentDataService, LookupKomitentDataService>();
             services.AddTransient<ILookupMestoTroskaDataService, LookupMestoTroskaDataService>();
 
-            services.AddSingleton<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
-            services.AddSingleton<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
+            services.AddTransient<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
+            services.AddTransient<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
 
-            services.AddSingleton<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
-            services.AddSingleton<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
+            services.AddTransient<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
+            services.AddTransient<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
 
-            services.AddSingleton<IUplateIsplateViewModel, UplateIsplateViewModel>();
+            services.AddTransient<IUplateIsplateViewModel, UplateIsplateViewModel>();
 
-            services.AddSingleton<MestaTroskaViewModel>();
-            services.AddSingleton<KomitentiViewModel>();
-            services.AddSingleton<UplateIsplateViewModel>();
+            services.AddSingleton<Func<KomitentiViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<KomitentiViewModel>();
+            });
+
+            services.AddSingleton<Func<MestaTroskaViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<MestaTroskaViewModel>();
+            });
+
+            services.AddSingleton<Func<UplateIsplateViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<UplateIsplateViewModel>();
+            });
+
+            services.AddTransient<MestaTroskaViewModel>();
+            services.AddTransient<KomitentiViewModel>();
+            services.AddTransient<UplateIsplateViewModel>();
+
             services.AddSingleton<MainViewModel>();
 
-            services.AddSingleton<IMessageDialogService, MessageDialogService>();
+            services.AddTransient<IMessageDialogService, MessageDialogService>();
             services.AddSingleton<DockingAdapter>();
             services.AddSingleton<MainWindow>();
 

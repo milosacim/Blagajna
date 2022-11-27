@@ -13,8 +13,8 @@
         <syncfusion:DockingManager
             x:Name="PART_DockingManager"
             ActiveWindowChanged="PART_DockingManager_ActiveWindowChanged"
-            DocumentCloseButtonType="Individual"
             ContainerMode="TDI"
+            DocumentCloseButtonType="Individual"
             UseDocumentContainer="True" />
     </Grid>
 </UserControl>

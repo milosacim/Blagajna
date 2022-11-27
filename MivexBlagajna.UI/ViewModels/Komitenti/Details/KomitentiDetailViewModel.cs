@@ -200,22 +200,32 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
             if (result == MessageDialogResult.Potvrdi)
             {
-                _komitentRepository.CancelChanges();
-                HasChanges = _komitentRepository.HasChanges();
+                if (HasChanges)
+                {
+                    _komitentRepository.CancelChanges();
+                    HasChanges = _komitentRepository.HasChanges();
+                    Komitent?.EndEdit();
+                    await LoadAsync(BackupKomitent?.Id);
+                }
+                else
+                {
+                    Komitent = BackupKomitent;
+                    BackupKomitent = null;
+                    Komitent?.EndEdit();
+                }
             }
-            
-            if (Komitent != null)
-            {
-                Komitent?.EndEdit();
-                await LoadAsync(BackupKomitent?.Id);
-            }
+
         }
         public override void Dispose()
         {
             if (HasChanges)
             {
-                _komitentRepository.CancelChanges();
-                HasChanges = _komitentRepository.HasChanges();
+                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene? Da li zelite da otkazete?", "Question");
+                if (result == MessageDialogResult.Potvrdi)
+                {
+                    _komitentRepository.CancelChanges();
+                    HasChanges = _komitentRepository.HasChanges();
+                }
             }
 
             base.Dispose();
