@@ -69,10 +69,6 @@ namespace MivexBlagajna.UI.ViewModels
             }
         }
 
-        //public KomitentiViewModel KomitentiViewModel { get; }
-        //public MestaTroskaViewModel MestaTroskaViewModel { get; }
-        //public UplateIsplateViewModel UplateIsplateViewModel { get; }
-
         #endregion
 
         #region Methods
@@ -94,7 +90,6 @@ namespace MivexBlagajna.UI.ViewModels
                     throw new ArgumentException("The ViewType does not have a ViewModel", "viewType");
 
             }
-            //SelectedViewModel = parameter as ViewModelBase;
             if (SelectedViewModel != null)
             {
                 await SelectedViewModel.LoadAsync();
@@ -118,7 +113,6 @@ namespace MivexBlagajna.UI.ViewModels
             }
         }
 
-        
         #endregion
 
         #region Commands

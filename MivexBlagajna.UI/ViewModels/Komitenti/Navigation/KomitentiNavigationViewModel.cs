@@ -153,13 +153,10 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 
         public override void Dispose()
         {
-
             foreach (var item in Komitenti)
             {
                 item.Dispose();
             }
-            FilteredList.Refresh();
-            FilteredList.Filter -= new Predicate<object>(o => FilterNaziv(o as KomitentiNavigationItemViewModel) && FilterPravnoLice(o as KomitentiNavigationItemViewModel) && FilterFizickoLice(o as KomitentiNavigationItemViewModel));
 
             base.Dispose();
         }

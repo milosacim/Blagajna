@@ -76,24 +76,24 @@ namespace MivexBlagajna.UI
 
             services.AddTransient<IUplateIsplateViewModel, UplateIsplateViewModel>();
 
-            services.AddSingleton<Func<KomitentiViewModel>>(services =>
+            services.AddTransient<Func<KomitentiViewModel>>(services =>
             {
                 return () => services.GetRequiredService<KomitentiViewModel>();
             });
 
-            services.AddSingleton<Func<MestaTroskaViewModel>>(services =>
+            services.AddTransient<Func<MestaTroskaViewModel>>(services =>
             {
                 return () => services.GetRequiredService<MestaTroskaViewModel>();
             });
 
-            services.AddSingleton<Func<UplateIsplateViewModel>>(services =>
+            services.AddTransient<Func<UplateIsplateViewModel>>(services =>
             {
                 return () => services.GetRequiredService<UplateIsplateViewModel>();
             });
 
-            services.AddTransient<MestaTroskaViewModel>();
-            services.AddTransient<KomitentiViewModel>();
-            services.AddTransient<UplateIsplateViewModel>();
+            services.AddSingleton<MestaTroskaViewModel>();
+            services.AddSingleton<KomitentiViewModel>();
+            services.AddSingleton<UplateIsplateViewModel>();
 
             services.AddSingleton<MainViewModel>();
 

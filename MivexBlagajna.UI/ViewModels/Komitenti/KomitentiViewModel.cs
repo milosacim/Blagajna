@@ -132,11 +132,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
         }
 
-        ~KomitentiViewModel()
-        {
-
-        }
-
         public override void Dispose()
         {
             if (KomitentiDetailViewModel != null && KomitentiNavigationViewModel != null)
@@ -166,6 +161,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             }
 
             base.Dispose();
+        }
+
+        ~KomitentiViewModel()
+        {
+
         }
         #endregion
     }

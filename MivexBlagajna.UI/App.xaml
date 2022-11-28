@@ -2,14 +2,33 @@
     x:Class="MivexBlagajna.UI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:komitenti="clr-namespace:MivexBlagajna.UI.ViewModels.Komitenti"
+    xmlns:mesta="clr-namespace:MivexBlagajna.UI.ViewModels.MestaTroska"
+    xmlns:uplateIsplate="clr-namespace:MivexBlagajna.UI.ViewModels.Uplate_Isplate"
+    xmlns:views="clr-namespace:MivexBlagajna.UI.Views"
     DispatcherUnhandledException="Application_DispatcherUnhandledException">
 
     <Application.Resources>
 
-        <Style TargetType="{x:Type ComboBoxItem}">
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-        </Style>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ComboBoxStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <DataTemplate DataType="{x:Type komitenti:KomitentiViewModel}">
+                <views:KomitentiView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type mesta:MestaTroskaViewModel}">
+                <views:MestaTroskaView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type uplateIsplate:UplateIsplateViewModel}">
+                <views:UplateIsplateView />
+            </DataTemplate>
+            
+        </ResourceDictionary>
 
     </Application.Resources>
 

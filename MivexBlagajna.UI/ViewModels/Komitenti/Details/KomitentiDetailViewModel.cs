@@ -216,6 +216,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             }
 
         }
+
         public override void Dispose()
         {
             if (HasChanges)
@@ -230,6 +231,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
 
             base.Dispose();
         }
+
+        ~KomitentiDetailViewModel() { }
 
         #endregion
     }
