@@ -224,6 +224,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                     Transakcije.Add(new TransakcijaWrapper(t, false));
                 }
             }
+            //_transakcija = Transakcije.LastOrDefault();
         }
         public async Task SaveTransakcijaAsync()
         {

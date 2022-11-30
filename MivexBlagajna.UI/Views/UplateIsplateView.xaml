@@ -242,7 +242,7 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="0.5"
                                 IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                Text="{Binding Transakcija.Opis, Mode=TwoWay, UpdateSourceTrigger=Explicit}" />
+                                Text="{Binding Transakcija.Opis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         </StackPanel>
                     </StackPanel>
