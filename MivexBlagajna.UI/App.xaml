@@ -13,9 +13,9 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/ComboBoxStyle.xaml"/>
+                <ResourceDictionary Source="/Styles/ComboBoxStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <DataTemplate DataType="{x:Type komitenti:KomitentiViewModel}">
                 <views:KomitentiView />
             </DataTemplate>
@@ -27,7 +27,7 @@
             <DataTemplate DataType="{x:Type uplateIsplate:UplateIsplateViewModel}">
                 <views:UplateIsplateView />
             </DataTemplate>
-            
+
         </ResourceDictionary>
 
     </Application.Resources>

@@ -24,7 +24,7 @@
         <controls:DockingAdapter
             x:Name="dockingadapter"
             Grid.Row="1"
-            ActiveDocument="{Binding ActiveViewModel, Mode=TwoWay}"
+            ActiveDocument="{Binding SelectedViewModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ItemsSource="{Binding Workspaces}" />
 
     </Grid>

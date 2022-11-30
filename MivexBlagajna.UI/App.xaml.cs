@@ -1,22 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using MivexBlagajna.DataAccess;
-using MivexBlagajna.DataAccess.Services.Lookups;
-using MivexBlagajna.DataAccess.Services.Repositories;
-using MivexBlagajna.UI.Controls;
-using MivexBlagajna.UI.ViewModels;
-using MivexBlagajna.UI.ViewModels.Komitenti;
-using MivexBlagajna.UI.ViewModels.Komitenti.Details;
-using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
-using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
-using MivexBlagajna.UI.ViewModels.Mesta_Troska.Details;
-using MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation;
-using MivexBlagajna.UI.ViewModels.MestaTroska;
-using MivexBlagajna.UI.ViewModels.Uplate_Isplate;
-using MivexBlagajna.UI.Views.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using MivexBlagajna.UI.ServiceBuilders;
 using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -27,81 +12,37 @@ namespace MivexBlagajna.UI
     /// </summary>
     public partial class App : Application
     {
-        public IConfiguration Configuration { get; private set; }
+        private readonly IHost _host;
+        public App()
+        {
+            _host = CreateHostBuilder().Build();
+        }
+
+        private static IHostBuilder CreateHostBuilder(string[] args = null)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .AddDbContext()
+                .AddDataServices()
+                .AddDialogService()
+                .AddViewModels()
+                .AddMainWindow();
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            IServiceProvider serviceProvider = CreateServiceProvider();
+            _host.Start();
 
-            Window? window = serviceProvider.GetService<MainWindow>();
+            Window? window = _host.Services.GetRequiredService<MainWindow>();
             window.WindowState = WindowState.Maximized;
             window?.Show();
             base.OnStartup(e);
         }
 
-        private string GetConnectionString(string name)
+        protected override async void OnExit(ExitEventArgs e)
         {
-            return new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .Build()
-                .GetConnectionString(name);
-        }
-
-        private IServiceProvider CreateServiceProvider()
-        {
-            IServiceCollection services = new ServiceCollection();
-
-            services.AddDbContext<MivexBlagajnaDbContext>(options => {
-
-                options.UseSqlServer(GetConnectionString("TestDatabase"));
-                options.UseTriggers(triggerOptions => {
-                    triggerOptions.AddTrigger<SoftDeleteTrigger>();
-                });
-
-            }, ServiceLifetime.Singleton);
-
-            services.AddTransient<IKomitentRepository, KomitentRepository>();
-            services.AddTransient<IMestoTroskaRepository, MestoTroskaRepository>();
-            services.AddTransient<IKontoRepository, KontoRepository>();
-            services.AddTransient<ITransakcijeRepository, TransakcijeRepository>();
-
-            services.AddTransient<ILookupKomitentDataService, LookupKomitentDataService>();
-            services.AddTransient<ILookupMestoTroskaDataService, LookupMestoTroskaDataService>();
-
-            services.AddTransient<IKomitentiDetailViewModel, KomitentiDetailViewModel>();
-            services.AddTransient<IKomitentiNavigationViewModel, KomitentiNavigationViewModel>();
-
-            services.AddTransient<IMestaTroskaNavigationViewModel, MestaTroskaNavigationViewModel>();
-            services.AddTransient<IMestaTroskaDetailsViewModel, MestaTroskaDetailsViewModel>();
-
-            services.AddTransient<IUplateIsplateViewModel, UplateIsplateViewModel>();
-
-            services.AddTransient<Func<KomitentiViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<KomitentiViewModel>();
-            });
-
-            services.AddTransient<Func<MestaTroskaViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<MestaTroskaViewModel>();
-            });
-
-            services.AddTransient<Func<UplateIsplateViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<UplateIsplateViewModel>();
-            });
-
-            services.AddSingleton<MestaTroskaViewModel>();
-            services.AddSingleton<KomitentiViewModel>();
-            services.AddSingleton<UplateIsplateViewModel>();
-
-            services.AddSingleton<MainViewModel>();
-
-            services.AddTransient<IMessageDialogService, MessageDialogService>();
-            services.AddSingleton<DockingAdapter>();
-            services.AddSingleton<MainWindow>();
-
-            return services.BuildServiceProvider();
+            await _host.StopAsync();
+            _host.Dispose();
+            base.OnExit(e);
         }
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

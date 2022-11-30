@@ -31,6 +31,7 @@
 	<ItemGroup>
 
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
 		<PackageReference Include="Syncfusion.DataGridExcelExport.Wpf" Version="20.2.0.36" />
 		<PackageReference Include="Syncfusion.SfGrid.WPF" Version="20.2.0.36" />

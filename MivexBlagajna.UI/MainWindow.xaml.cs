@@ -36,41 +36,19 @@ namespace MivexBlagajna.UI
             InitializeComponent();
             _viewModel = viewModel;
             DataContext = _viewModel;
-            Loaded += MainWindow_Loaded;
             DockingManager manager = (dockingadapter.Content as Grid).Children[0] as DockingManager;
             manager.CloseButtonClick += Manager_CloseButtonClick;
         }
 
         private void Manager_CloseButtonClick(object sender, CloseButtonEventArgs e)
         {
-            UpdateActiveTab(e);
-        }
+            IClosing context = DataContext as IClosing;
 
-        private void UpdateActiveTab(CloseButtonEventArgs e)
-        {
-
-            ViewModelBase item = (ViewModelBase)e.TargetItem.GetType().GetProperty(nameof(Content)).GetValue(e.TargetItem);
-
-            if (_viewModel.Workspaces.Contains(item))
+            if (context != null)
             {
-                item.Dispose();
-
-                _viewModel.Workspaces.Remove(item);
-
-                if (_viewModel.Workspaces.Count == 0)
-                {
-                    _viewModel.ActiveViewModel = null;
-                }
-                else
-                {
-                    _viewModel.ActiveViewModel = _viewModel.Workspaces.Last();
-                }
+                e.Cancel = !context.OnClosing();
             }
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

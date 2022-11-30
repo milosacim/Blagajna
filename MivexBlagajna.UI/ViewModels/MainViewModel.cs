@@ -1,4 +1,5 @@
 ﻿using MivexBlagajna.UI.Commands;
+using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti;
 using MivexBlagajna.UI.ViewModels.MestaTroska;
 using MivexBlagajna.UI.ViewModels.Uplate_Isplate;
@@ -6,15 +7,15 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels
 {
-    public class MainViewModel : ViewModelBase, IMainViewModel
+    public class MainViewModel : ViewModelBase, IClosing
     {
         #region Fields
         private ObservableCollection<ViewModelBase>? _workspaces;
         private ViewModelBase? _selectedViewModel;
-        private ViewModelBase? _activeDocument;
 
         private Func<KomitentiViewModel> _komitentiViewModelCreator;
         private Func<MestaTroskaViewModel> _mestaTroskaViewModelCreator;
@@ -38,6 +39,7 @@ namespace MivexBlagajna.UI.ViewModels
             SelectViewModelCommand = new SelectViewModelCommand<ViewModelType>(this);
         }
 
+
         #endregion
 
         #region Properties
@@ -48,16 +50,6 @@ namespace MivexBlagajna.UI.ViewModels
             set { _workspaces = value; }
         }
 
-
-        public ViewModelBase? ActiveViewModel
-        {
-            get { return _activeDocument; }
-            set {
-                var oldValue = _activeDocument;
-                _activeDocument = value; 
-                OnModelPropertyChanged(oldValue, value); 
-            }
-        }
         public ViewModelBase? SelectedViewModel
         {
             get { return _selectedViewModel; }
@@ -88,35 +80,40 @@ namespace MivexBlagajna.UI.ViewModels
 
                 default:
                     throw new ArgumentException("The ViewType does not have a ViewModel", "viewType");
-
-            }
-            if (SelectedViewModel != null)
-            {
-                await SelectedViewModel.LoadAsync();
             }
 
-            if (SelectedViewModel != null && ActiveViewModel == SelectedViewModel)
+            if (Workspaces.Contains(SelectedViewModel))
             {
                 return;
             }
             else
             {
-                if (Workspaces.Contains(SelectedViewModel))
+                Workspaces.Add(SelectedViewModel);
+            }
+
+            await SelectedViewModel.LoadAsync();
+        }
+
+        public bool OnClosing()
+        {
+            if (Workspaces.Contains(SelectedViewModel))
+            {
+                Workspaces.Remove(SelectedViewModel);
+                SelectedViewModel.Dispose();
+
+                if (Workspaces.Count >= 1)
                 {
-                    ActiveViewModel = SelectedViewModel;
-                }
-                else
-                {
-                    Workspaces.Add(SelectedViewModel);
-                    ActiveViewModel = Workspaces.LastOrDefault();
+                    SelectedViewModel = Workspaces.Last();
                 }
             }
+
+            return true;
         }
 
         #endregion
 
         #region Commands
-        public AsyncCommandGeneric<ViewModelType> SelectViewModelCommand { get; }
+        public IAsyncCommandGeneric<ViewModelType> SelectViewModelCommand { get; }
 
         #endregion
     }

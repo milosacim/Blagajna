@@ -4,7 +4,6 @@ using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.Commands.Transakcije;
-using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
 using Syncfusion.Data.Extensions;
@@ -14,7 +13,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 {
@@ -28,8 +26,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         private bool _hasChanges;
         private string? _komitentFilter;
         private TransakcijaWrapper _transakcija;
-
-        public event EventHandler<SelectedTransakcijaArgs>? OnTransakcijaSelected;
 
         #endregion
 
@@ -74,8 +70,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         {
             if (Transakcija != null)
             {
-                var model = (UplateIsplateViewModel)this.MemberwiseClone();
-                BackupTransakcija = model.Transakcija;
+
                 Transakcija.BeginEdit();
             }
         }
@@ -139,18 +134,16 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         public string Header
         {
             get { return _header; }
-            set { }
         }
         public DockState State
         {
             get { return _dockState; }
-            set { }
         }
-        public ICommand CreateTransakcijaCommand { get; }
-        public ICommand CreateBrojNalogaCommand { get; }
-        public ICommand SetFilterCommand { get; }
-        public ICommand EditTransakcijaCommand { get; }
-        public ICommand CancelCommand { get; }
+        public RelayCommand CreateTransakcijaCommand { get; }
+        public RelayCommand CreateBrojNalogaCommand { get; }
+        public RelayCommand SetFilterCommand { get; }
+        public RelayCommand EditTransakcijaCommand { get; }
+        public RelayCommand CancelCommand { get; }
         public IAsyncCommand SaveCommand { get; }
         public IAsyncCommand DeleteCommand { get; }
         public ICollectionView FilteredKomitenti { get; private set; }
@@ -169,16 +162,18 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 _transakcija = value;
                 OnModelPropertyChanged(oldValue, value);
 
-                Transakcija.PropertyChanged += (s, e) =>
+                if (Transakcija != null)
                 {
-                    if (!HasChanges)
+                    Transakcija.PropertyChanged += (s, e) =>
                     {
-                        HasChanges = _transakcijeRepository.HasChanges();
-                    }
-                };
+                        if (!HasChanges)
+                        {
+                            HasChanges = _transakcijeRepository.HasChanges();
+                        }
+                    };
+                }
             }
         }
-        public TransakcijaWrapper BackupTransakcija { get; set; }
 
         #endregion
 
@@ -238,7 +233,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             UplateIsplate.Refresh();
             Transakcija.EndEdit();
         }
-
         public async Task DeleteTransakcijaAsync(TransakcijaWrapper transakcija)
         {
             var result = _messageDialogService.ShowOKCancelDialog("Izabrali ste da izbrišete transakciju. Da li ste sigurni?", "Question");
@@ -302,19 +296,22 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 _transakcijeRepository.CancelChanges();
                 HasChanges = _transakcijeRepository.HasChanges();
                 KomitentFilter = "";
-                FilteredKomitenti.Refresh();
                 Transakcija?.EndEdit();
-                
-                if(BackupTransakcija!= null)
-                {
-                    Transakcija = BackupTransakcija;
-                }
-                else
-                {
-                    Transakcija = Transakcije.LastOrDefault();
-                }
+                FilteredKomitenti.Refresh();
             }
         }
+
+
+        public override void Dispose()
+        {
+            CreateTransakcijaCommand.Dispose();
+            CreateBrojNalogaCommand.Dispose();
+            SetFilterCommand.Dispose();
+            EditTransakcijaCommand.Dispose();
+            CancelCommand.Dispose();
+            base.Dispose();
+        }
+
 
         #endregion
     }

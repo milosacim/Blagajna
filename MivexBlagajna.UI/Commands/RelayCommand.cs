@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace MivexBlagajna.UI.Commands
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand : ICommand, IDisposable
     {
         private readonly Action<object?> _execute;
         private readonly Func<object?, bool>? _canExecute;
@@ -24,6 +24,10 @@ namespace MivexBlagajna.UI.Commands
         public bool CanExecute(object? parameter)
         {
             return _canExecute == null || _canExecute(parameter);
+        }
+
+        public void Dispose()
+        {
         }
 
         public void Execute(object? parameter)

@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels
 {
-
-    public delegate TViewModel CreateViewModel<TViewModel>() where TViewModel : ViewModelBase;
     public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -25,7 +23,7 @@ namespace MivexBlagajna.UI.ViewModels
             public virtual object? OldValue { get; private set; }
             public virtual object? NewValue { get; private set; }
         }
-
+         
         public virtual Task LoadAsync() => Task.CompletedTask;
 
         public virtual void Dispose()

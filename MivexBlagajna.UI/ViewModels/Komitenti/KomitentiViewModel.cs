@@ -138,7 +138,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
             {
                 if (KomitentiDetailViewModel.HasChanges || KomitentiDetailViewModel.Komitent.IsEditable)
                 {
-
                     KomitentiDetailViewModel.CancelChange();
 
                     KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
@@ -159,6 +158,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 }
 
             }
+
 
             base.Dispose();
         }
