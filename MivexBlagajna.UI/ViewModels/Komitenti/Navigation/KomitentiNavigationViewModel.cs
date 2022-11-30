@@ -153,9 +153,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 
         public override void Dispose()
         {
+            SelectedKomitent?.Dispose();
+
             foreach (var item in Komitenti)
             {
-                item.Dispose();
+                item?.Dispose();
             }
 
             base.Dispose();

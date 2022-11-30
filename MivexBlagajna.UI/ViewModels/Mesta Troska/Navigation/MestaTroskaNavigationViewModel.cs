@@ -58,6 +58,10 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
         }
         public override void Dispose()
         {
+            //foreach (var item in MestaTroska)
+            //{
+            //    item.Dispose();
+            //}
             base.Dispose();
         }
     }

@@ -1,5 +1,4 @@
-﻿using MivexBlagajna.Data.Models;
-using MivexBlagajna.UI.EventArgs;
+﻿using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
 using MivexBlagajna.UI.Views.Services;
@@ -134,31 +133,35 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
         public override void Dispose()
         {
-            if (KomitentiDetailViewModel != null && KomitentiNavigationViewModel != null)
-            {
                 if (KomitentiDetailViewModel.HasChanges || KomitentiDetailViewModel.Komitent.IsEditable)
                 {
-                    KomitentiDetailViewModel.CancelChange();
+                    var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene. Da li želite da otkažete?", "Question");
+
+                    if (result == MessageDialogResult.Potvrdi)
+                    {
+                        KomitentiDetailViewModel.CancelChange();
+
+                    KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
+                    KomitentiNavigationViewModel.OnkomitentSelected -= UpdateisSelected;
 
                     KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
-                    KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
                     KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
 
                     KomitentiDetailViewModel?.Dispose();
-                    KomitentiNavigationViewModel?.Dispose();
+                        KomitentiNavigationViewModel?.Dispose();
+                    }
                 }
                 else
                 {
-                    KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
-                    KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
-                    KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
+                KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
+                KomitentiNavigationViewModel.OnkomitentSelected -= UpdateisSelected;
 
-                    KomitentiDetailViewModel.Dispose();
-                    KomitentiNavigationViewModel.Dispose();
+                KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
+                KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
+
+                KomitentiDetailViewModel?.Dispose();
+                    KomitentiNavigationViewModel?.Dispose();
                 }
-
-            }
-
 
             base.Dispose();
         }

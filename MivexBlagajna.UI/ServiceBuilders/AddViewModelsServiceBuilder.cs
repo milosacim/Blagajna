@@ -52,14 +52,14 @@ namespace MivexBlagajna.UI.ServiceBuilders
             );
         }
 
-        private static KomitentiNavigationViewModel CreateKomitentiNavigationViewModel(IServiceProvider services)
+        private static IKomitentiNavigationViewModel CreateKomitentiNavigationViewModel(IServiceProvider services)
         {
             return new KomitentiNavigationViewModel(
                 services.GetRequiredService<ILookupKomitentDataService>()
             );
         }
 
-        private static KomitentiDetailViewModel CreateKomitentiDetailViewModel(IServiceProvider services)
+        private static IKomitentiDetailViewModel CreateKomitentiDetailViewModel(IServiceProvider services)
         {
             return new KomitentiDetailViewModel(
                 services.GetRequiredService<IKomitentRepository>(),
@@ -75,7 +75,7 @@ namespace MivexBlagajna.UI.ServiceBuilders
             );
         }
 
-        private static MestaTroskaDetailsViewModel CreateMestaTroskaDetailsViewModel(IServiceProvider services)
+        private static IMestaTroskaDetailsViewModel CreateMestaTroskaDetailsViewModel(IServiceProvider services)
         {
             return new MestaTroskaDetailsViewModel(
                 services.GetRequiredService<IMestoTroskaRepository>(),
@@ -83,14 +83,14 @@ namespace MivexBlagajna.UI.ServiceBuilders
             );
         }
 
-        private static MestaTroskaNavigationViewModel CreateMestaTroskaNavigationViewModel(IServiceProvider services)
+        private static IMestaTroskaNavigationViewModel CreateMestaTroskaNavigationViewModel(IServiceProvider services)
         {
             return new MestaTroskaNavigationViewModel(
                 services.GetRequiredService<ILookupMestoTroskaDataService>()
             );
         }
 
-        private static UplateIsplateViewModel CreateUplateIsplateViewModel(IServiceProvider services)
+        private static IUplateIsplateViewModel CreateUplateIsplateViewModel(IServiceProvider services)
         {
             return new UplateIsplateViewModel(
                 services.GetRequiredService<ITransakcijeRepository>(),

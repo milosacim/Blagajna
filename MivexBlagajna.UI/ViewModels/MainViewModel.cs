@@ -7,7 +7,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels
 {
@@ -99,6 +98,7 @@ namespace MivexBlagajna.UI.ViewModels
             if (Workspaces.Contains(SelectedViewModel))
             {
                 Workspaces.Remove(SelectedViewModel);
+
                 SelectedViewModel.Dispose();
 
                 if (Workspaces.Count >= 1)

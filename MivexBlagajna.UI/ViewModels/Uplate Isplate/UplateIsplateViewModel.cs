@@ -6,13 +6,13 @@ using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.Commands.Transakcije;
 using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
-using Syncfusion.Data.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 {
@@ -46,6 +46,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             VrsteNaloga = new ObservableCollection<VrsteNaloga>();
 
             FilteredKomitenti = CollectionViewSource.GetDefaultView(Komitenti);
+
             FilteredKomitenti.Filter += new Predicate<object>(s => GetBySearch(s as Komitent));
 
             Transakcije = new ObservableCollection<TransakcijaWrapper>();
@@ -70,7 +71,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         {
             if (Transakcija != null)
             {
-
+                BackupTransakcija = Transakcija.DeepClone();
                 Transakcija.BeginEdit();
             }
         }
@@ -139,6 +140,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         {
             get { return _dockState; }
         }
+
+        public TransakcijaWrapper BackupTransakcija { get; set; }
         public RelayCommand CreateTransakcijaCommand { get; }
         public RelayCommand CreateBrojNalogaCommand { get; }
         public RelayCommand SetFilterCommand { get; }
@@ -158,8 +161,10 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             get { return _transakcija; }
             set
             {
+                if (value == _transakcija) return;
                 var oldValue = _transakcija;
                 _transakcija = value;
+
                 OnModelPropertyChanged(oldValue, value);
 
                 if (Transakcija != null)
@@ -224,7 +229,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                     Transakcije.Add(new TransakcijaWrapper(t, false));
                 }
             }
-            //_transakcija = Transakcije.LastOrDefault();
         }
         public async Task SaveTransakcijaAsync()
         {
@@ -246,49 +250,45 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 UplateIsplate.Refresh();
             }
         }
-        public void CreateBrojNaloga(object? obj)
+        private void CreateBrojNaloga(object? obj)
         {
-            if (HasChanges)
+            var vrsta = obj as VrsteNaloga;
+
+            switch (vrsta.VrstaNaloga)
             {
-                var vrsta = obj as VrsteNaloga;
+                case "Dnevnica":
+                    {
+                        Transakcija.Nalog = String.Format("DN - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                        break;
+                    }
 
-                switch (vrsta.VrstaNaloga)
-                {
-                    case "Dnevnica":
-                        {
-                            Transakcija.Nalog = String.Format("DN - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
-                            break;
-                        }
+                case "Plata":
+                    {
+                        Transakcija.Nalog = String.Format("PL - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                        break;
+                    }
 
-                    case "Plata":
-                        {
-                            Transakcija.Nalog = String.Format("PL - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
-                            break;
-                        }
+                case "Trosak":
+                    {
+                        Transakcija.Nalog = String.Format("TR - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                        break;
+                    }
 
-                    case "Trosak":
-                        {
-                            Transakcija.Nalog = String.Format("TR - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
-                            break;
-                        }
-
-                    case "Pazar":
-                        {
-                            Transakcija.Nalog = String.Format("PA - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
-                            break;
-                        }
-                }
+                case "Pazar":
+                    {
+                        Transakcija.Nalog = String.Format("PA - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                        break;
+                    }
             }
         }
         private void CreateNewTransakcija(object? obj)
         {
             var transakcija = new Transakcija();
             _transakcijeRepository.Add(transakcija);
-
             transakcija.Datum = DateTime.Now;
             Transakcija = new TransakcijaWrapper(transakcija, true);
         }
-        public void CancelChange(object? obj)
+        private void CancelChange(object? obj)
         {
             var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene. Da li želite da otkažete?", "Question");
 
@@ -297,19 +297,24 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 _transakcijeRepository.CancelChanges();
                 HasChanges = _transakcijeRepository.HasChanges();
                 KomitentFilter = "";
+
+                Transakcije[Transakcije.IndexOf(Transakcija)] = BackupTransakcija;
+                Transakcija = Transakcije[Transakcije.IndexOf(BackupTransakcija)];
+
+                UplateIsplate.Refresh();
+
                 Transakcija?.EndEdit();
                 FilteredKomitenti.Refresh();
             }
         }
 
+        ~UplateIsplateViewModel()
+        {
+        }
+
 
         public override void Dispose()
         {
-            CreateTransakcijaCommand.Dispose();
-            CreateBrojNalogaCommand.Dispose();
-            SetFilterCommand.Dispose();
-            EditTransakcijaCommand.Dispose();
-            CancelCommand.Dispose();
             base.Dispose();
         }
 

@@ -322,7 +322,7 @@
                         <syncfusion:GridTextColumn
                             Width="350"
                             HeaderText="Komitent"
-                            MappingName="Komitent.Naziv" />
+                            MappingName="Komitent" />
                         <syncfusion:GridTextColumn
                             Width="60"
                             HeaderText="Sifra MT"

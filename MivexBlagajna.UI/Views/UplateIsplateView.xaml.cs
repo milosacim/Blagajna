@@ -145,6 +145,7 @@ namespace MivexBlagajna.UI.Views
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             SetDefaultDataBinding();
+            tabela.RefreshColumns();
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using MivexBlagajna.Data.Models;
 using System;
+using System.Windows.Threading;
 
 namespace MivexBlagajna.UI.Wrappers
 {
-    public class TransakcijaWrapper : ModelWrapper<Transakcija>
+    public class TransakcijaWrapper : ModelWrapper<Transakcija>, IPrototype<TransakcijaWrapper>
     {
         private bool _isEditable;
 
@@ -77,7 +78,11 @@ namespace MivexBlagajna.UI.Wrappers
         public string Opis
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set
+            {
+                SetValue(value); 
+                OnModelPropertyChanged();
+            }
         }
 
         public decimal Uplata
@@ -106,6 +111,27 @@ namespace MivexBlagajna.UI.Wrappers
         public override void CancelEdit()
         {
             IsEditable = false;
+        }
+
+        public TransakcijaWrapper Clone()
+        {
+            return MemberwiseClone() as TransakcijaWrapper;
+        }
+
+        public TransakcijaWrapper DeepClone()
+        {
+            var newTransakcija = Clone();
+            newTransakcija.Komitent = this.Komitent;
+            newTransakcija.MestoTroska= this.MestoTroska;
+            newTransakcija.Uplata = this.Uplata;
+            newTransakcija.Isplata = this.Isplata;
+            newTransakcija.Nalog = this.Nalog;
+            newTransakcija.VrstaNaloga= this.VrstaNaloga;
+            newTransakcija.Konto = this.Konto;
+            newTransakcija.Opis= this.Opis;
+            newTransakcija.Datum= this.Datum;
+
+            return newTransakcija;
         }
 
         public override void EndEdit()

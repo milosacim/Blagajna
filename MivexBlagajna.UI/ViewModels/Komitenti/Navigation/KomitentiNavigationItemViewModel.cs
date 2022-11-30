@@ -1,4 +1,6 @@
-﻿namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
+﻿using System;
+
+namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 {
     public class KomitentiNavigationItemViewModel : ViewModelBase
     {
@@ -60,6 +62,9 @@
             }
         }
 
-        ~KomitentiNavigationItemViewModel() { }
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }

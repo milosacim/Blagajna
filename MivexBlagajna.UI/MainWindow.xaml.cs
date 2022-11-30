@@ -1,12 +1,6 @@
-﻿using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
-using MivexBlagajna.UI.ViewModels;
 using Syncfusion.SfSkinManager;
-using Syncfusion.Themes.FluentDark.WPF;
-using Syncfusion.Themes.FluentLight.WPF;
-using Syncfusion.Themes.MaterialLight.WPF;
 using Syncfusion.Themes.Office2019Colorful.WPF;
 using Syncfusion.Windows.Tools.Controls;
 
@@ -14,9 +8,10 @@ namespace MivexBlagajna.UI
 {
     public partial class MainWindow : RibbonWindow
     {
-        private MainViewModel _viewModel;
-        public MainWindow(MainViewModel viewModel)
+        public MainWindow(object dataContext)
         {
+            DataContext = dataContext;
+
             //MaterialLightThemeSettings materialLightThemeSettings = new MaterialLightThemeSettings();
             Office2019ColorfulThemeSettings office2019ColorfulThemeSettings = new Office2019ColorfulThemeSettings();
             office2019ColorfulThemeSettings.FontFamily = new FontFamily("Segoe UI");
@@ -34,10 +29,10 @@ namespace MivexBlagajna.UI
             //SfSkinManager.SetTheme(this, new Theme("FluentLight"));
 
             InitializeComponent();
-            _viewModel = viewModel;
-            DataContext = _viewModel;
+
             DockingManager manager = (dockingadapter.Content as Grid).Children[0] as DockingManager;
             manager.CloseButtonClick += Manager_CloseButtonClick;
+
         }
 
         private void Manager_CloseButtonClick(object sender, CloseButtonEventArgs e)
