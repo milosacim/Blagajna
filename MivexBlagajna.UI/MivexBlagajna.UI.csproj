@@ -34,6 +34,7 @@
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
 		<PackageReference Include="Syncfusion.DataGridExcelExport.Wpf" Version="20.2.0.36" />
+		<PackageReference Include="Syncfusion.Licensing" Version="20.3.0.59" />
 		<PackageReference Include="Syncfusion.SfGrid.WPF" Version="20.2.0.36" />
 		<PackageReference Include="Syncfusion.SfInput.WPF" Version="20.2.0.38" />
 		<PackageReference Include="Syncfusion.SfTextInputLayout.WPF" Version="20.2.0.38" />

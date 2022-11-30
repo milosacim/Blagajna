@@ -90,7 +90,7 @@ namespace MivexBlagajna.UI.ServiceBuilders
             );
         }
 
-        private static IUplateIsplateViewModel CreateUplateIsplateViewModel(IServiceProvider services)
+        private static UplateIsplateViewModel CreateUplateIsplateViewModel(IServiceProvider services)
         {
             return new UplateIsplateViewModel(
                 services.GetRequiredService<ITransakcijeRepository>(),

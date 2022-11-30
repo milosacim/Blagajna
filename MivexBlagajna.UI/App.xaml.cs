@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MivexBlagajna.UI.ServiceBuilders;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -15,6 +17,7 @@ namespace MivexBlagajna.UI
         private readonly IHost _host;
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NzcxMjAxQDMyMzAyZTMzMmUzMGxXN1dlZ1ljbTNYbUhaRTgxSUpoZDd6Z3FVMzEwaXBYenFYWDZGa0UzQTg9");
             _host = CreateHostBuilder().Build();
         }
 
@@ -26,6 +29,15 @@ namespace MivexBlagajna.UI
                 .AddDialogService()
                 .AddViewModels()
                 .AddMainWindow();
+        }
+
+        private static string GetLicenseKey(string name)
+        {
+            return new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .Build()
+                    .GetSection(name).Value;
         }
 
         protected override void OnStartup(StartupEventArgs e)

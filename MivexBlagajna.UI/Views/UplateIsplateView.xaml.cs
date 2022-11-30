@@ -58,33 +58,23 @@ namespace MivexBlagajna.UI.Views
         private void SetDefaultDataBinding()
         {
             var defaultTextBoxBinding = "Transakcija.Komitent.Sifra";
-            //var defaultComboBoxBinding = "Komitenti";
 
             Binding textBoxBinding = new Binding(defaultTextBoxBinding);
             textBoxBinding.Source = DataContext;
             textBoxBinding.Mode = BindingMode.TwoWay;
             textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
-
-            //Binding comboBoxBinding = new Binding(defaultComboBoxBinding);
-            //comboBoxBinding.Source = DataContext;
-            //KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
         }
 
         private void SetCustomDataBinding()
         {
             var alternateTextBoxBinding = "KomitentFilter";
-            //var alternateComboBoxBinding = "FilteredKomitenti";
 
             Binding textBoxBinding = new Binding(alternateTextBoxBinding);
             textBoxBinding.Source = DataContext;
             textBoxBinding.Mode = BindingMode.OneWayToSource;
             textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
-
-            //Binding comboBoxBinding = new Binding(alternateComboBoxBinding);
-            //comboBoxBinding.Source = DataContext;
-            //KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
         }
 
         private void KomitentNaziv_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -104,8 +94,6 @@ namespace MivexBlagajna.UI.Views
 
             var excelEngine = tabela.ExportToExcel(tabela.View, options);
             var workbook = excelEngine.Excel.Workbooks[0];
-
-            FileStream fileStream = new FileStream("Tabela.xlsx", FileMode.Create);
 
             SaveFileDialog sfd = new SaveFileDialog()
             {
@@ -130,7 +118,7 @@ namespace MivexBlagajna.UI.Views
                     {
                         workbook.Version = ExcelVersion.Excel2013;
                     }
-                    workbook.SaveAs(fileStream);
+                    workbook.SaveAs(stream);
                 }
             }
 
