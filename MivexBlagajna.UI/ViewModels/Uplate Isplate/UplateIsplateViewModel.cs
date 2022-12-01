@@ -238,15 +238,15 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
             if (result == MessageDialogResult.Potvrdi)
             {
-                await _transakcijeRepository.DeleteAsync(transakcija.Model);
-                Transakcija = Transakcije[Transakcije.IndexOf(transakcija) + 1];
+                Transakcija = Transakcije[Transakcije.IndexOf(transakcija)-1];
                 Transakcije.RemoveAt(Transakcije.IndexOf(transakcija));
+                await _transakcijeRepository.DeleteAsync(transakcija.Model);
                 UplateIsplate.Refresh();
             }
         }
         private void CreateBrojNaloga(object? obj)
         {
-            if (Transakcija.IsEditable)
+            if (Transakcija != null && Transakcija.IsEditable)
             {
                 var vrsta = obj as VrsteNaloga;
 

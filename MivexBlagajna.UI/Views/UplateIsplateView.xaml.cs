@@ -136,7 +136,7 @@ namespace MivexBlagajna.UI.Views
                         MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
             {
                 //Launching the Excel file using the default Application.[MS Excel Or Free ExcelViewer]
-                System.Diagnostics.Process.Start(sfd.FileName);
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(sfd.FileName) { UseShellExecute = true });
             }
         }
 
