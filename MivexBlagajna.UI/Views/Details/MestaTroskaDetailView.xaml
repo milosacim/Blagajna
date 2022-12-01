@@ -5,7 +5,7 @@
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" xmlns:converters="clr-namespace:MivexBlagajna.UI.Converters"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -21,7 +21,7 @@
                             <TextBlock
                                 FontSize="10"
                                 Foreground="Red"
-                                Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
+                                Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[1].ErrorContent}" />
                         </StackPanel>
                     </ControlTemplate>
                 </Setter.Value>
@@ -30,10 +30,13 @@
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
                     <Setter Property="Background" Value="#FFA1AA" />
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[1].ErrorContent}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <CollectionViewSource x:Key="ComboBoxItems" Source="{Binding MestaTroska}"/>
+        <converters:NullItemConverter x:Key="NullConverter" />
 
     </UserControl.Resources>
 
@@ -104,13 +107,19 @@
 
                 <Label Content="Nadređeno mesto troška" />
 
-                <syncfusion:ComboBoxAdv
+                <ComboBox
                     x:Name="Mesta"
                     Width="185"
                     IsEnabled="{Binding MestoTroska.IsEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    ItemsSource="{Binding MestaTroska}"
                     SelectedValue="{Binding MestoTroska.NadredjenoMesto_Id, Mode=TwoWay}"
                     SelectedValuePath="Id">
+
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <ComboBoxItem Content=" - " />
+                            <CollectionContainer Collection="{Binding Source={StaticResource ComboBoxItems}}" />
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
 
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="SelectionChanged">
@@ -118,7 +127,7 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
 
-                </syncfusion:ComboBoxAdv>
+                </ComboBox>
 
             </StackPanel>
 

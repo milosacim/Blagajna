@@ -69,7 +69,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             }
         }
 
-
         public void SetPrefix(object? obj)
         {
             CreatePrefix(obj);
@@ -81,7 +80,18 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             {
                 var mesto = obj as MestoTroska;
 
-                MestoTroska.Prefix = mesto?.Prefix + "0" + (mesto?.DecaMestoTroska.Count() + 1).ToString() + ".";
+                if (mesto == null)
+                {
+                    MestoTroska.Prefix = String.Format("0{0}", (MestaTroska.Where(m => m.NadredjenoMesto_Id == null).Count() + 1).ToString());
+                }
+                else if (MestaTroska.Contains(mesto) && mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() == 0)
+                {
+                    MestoTroska.Prefix = mesto?.Prefix + ".0" + (mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() + 1).ToString() + ".";
+                }
+                else
+                {
+                    MestoTroska.Prefix = mesto?.Prefix + ".0" + (mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() + 1).ToString() + ".";
+                }
             }
         }
 
@@ -206,6 +216,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 
             MestoTroska = new MestoTroskaWrapper(mesto, true);
             MestoTroska.Naziv = "";
+            MestoTroska.Prefix = String.Format("0{0}", (MestaTroska.Where(m => m.NadredjenoMesto_Id == null).Count() + 1).ToString());
 
             return MestoTroska;
         }
