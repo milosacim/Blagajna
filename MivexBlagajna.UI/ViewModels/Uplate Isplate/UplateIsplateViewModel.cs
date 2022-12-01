@@ -66,26 +66,24 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         {
             return Transakcija != null ? HasChanges || Transakcija.IsEditable : false;
         }
-
         private void EditTransakcija(object? obj)
         {
             if (Transakcija != null)
             {
                 BackupTransakcija = Transakcija.DeepClone();
+                KomitentFilter = Transakcija.Komitent.Sifra.ToString();
                 Transakcija.BeginEdit();
             }
         }
-
         private void SetFilter(object? obj)
         {
-            if (obj != null && Transakcija.IsEditable == true)
+            if (obj != null && Transakcija?.IsEditable == true)
             {
                 var komitent = obj as Komitent;
-                KomitentFilter = komitent?.Sifra.ToString();
+                KomitentFilter = komitent.Sifra.ToString();
                 Transakcija.MestoTroska = komitent.MestoTroska;
             }
         }
-
         private bool GetBySearch(Komitent? komitent)
         {
             if (komitent?.Naziv != null)
@@ -104,7 +102,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 return komitent != null ? KomitentFilter == null || komitent.Sifra.ToString().Equals(KomitentFilter, StringComparison.OrdinalIgnoreCase) || komitent.Ime?.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 || komitent.Prezime?.IndexOf(KomitentFilter, StringComparison.OrdinalIgnoreCase) != -1 : false;
             }
         }
-
         public string? KomitentFilter
         {
             get { return _komitentFilter; }
@@ -113,11 +110,9 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 var oldValue = _komitentFilter;
                 _komitentFilter = value;
                 OnModelPropertyChanged(oldValue, value);
-
                 FilteredKomitenti.Refresh();
             }
         }
-
         public bool HasChanges
         {
             get { return _hasChanges; }
@@ -131,7 +126,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 }
             }
         }
-
         public string Header
         {
             get { return _header; }
@@ -147,8 +141,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         public RelayCommand SetFilterCommand { get; }
         public RelayCommand EditTransakcijaCommand { get; }
         public RelayCommand CancelCommand { get; }
-        public IAsyncCommand SaveCommand { get; }
-        public IAsyncCommand DeleteCommand { get; }
+        public AsyncCommand SaveCommand { get; }
+        public AsyncCommand DeleteCommand { get; }
         public ICollectionView FilteredKomitenti { get; private set; }
         public ICollectionView UplateIsplate { get; private set; }
         public ObservableCollection<TransakcijaWrapper> Transakcije { get; }
@@ -156,12 +150,11 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         public ObservableCollection<MestoTroska> MestaTroska { get; }
         public ObservableCollection<Konto> Konta { get; }
         public ObservableCollection<VrsteNaloga> VrsteNaloga { get; set; }
-        public TransakcijaWrapper Transakcija
+        public TransakcijaWrapper? Transakcija
         {
             get { return _transakcija; }
             set
             {
-                if (value == _transakcija) return;
                 var oldValue = _transakcija;
                 _transakcija = value;
 
@@ -229,6 +222,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                     Transakcije.Add(new TransakcijaWrapper(t, false));
                 }
             }
+
         }
         public async Task SaveTransakcijaAsync()
         {
@@ -252,33 +246,36 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         }
         private void CreateBrojNaloga(object? obj)
         {
-            var vrsta = obj as VrsteNaloga;
-
-            switch (vrsta.VrstaNaloga)
+            if (Transakcija.IsEditable)
             {
-                case "Dnevnica":
-                    {
-                        Transakcija.Nalog = String.Format("DN - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
-                        break;
-                    }
+                var vrsta = obj as VrsteNaloga;
 
-                case "Plata":
-                    {
-                        Transakcija.Nalog = String.Format("PL - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
-                        break;
-                    }
+                switch (vrsta.VrstaNaloga)
+                {
+                    case "Dnevnica":
+                        {
+                            Transakcija.Nalog = String.Format("DN - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            break;
+                        }
 
-                case "Trosak":
-                    {
-                        Transakcija.Nalog = String.Format("TR - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
-                        break;
-                    }
+                    case "Plata":
+                        {
+                            Transakcija.Nalog = String.Format("PL - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            break;
+                        }
 
-                case "Pazar":
-                    {
-                        Transakcija.Nalog = String.Format("PA - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
-                        break;
-                    }
+                    case "Trosak":
+                        {
+                            Transakcija.Nalog = String.Format("TR - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            break;
+                        }
+
+                    case "Pazar":
+                        {
+                            Transakcija.Nalog = String.Format("PA - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            break;
+                        }
+                }
             }
         }
         private void CreateNewTransakcija(object? obj)

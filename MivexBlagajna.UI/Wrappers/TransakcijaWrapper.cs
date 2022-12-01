@@ -1,6 +1,5 @@
 ﻿using MivexBlagajna.Data.Models;
 using System;
-using System.Windows.Threading;
 
 namespace MivexBlagajna.UI.Wrappers
 {

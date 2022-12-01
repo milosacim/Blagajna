@@ -17,7 +17,7 @@ namespace MivexBlagajna.UI
         private readonly IHost _host;
         public App()
         {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NzcxMjAxQDMyMzAyZTMzMmUzMGxXN1dlZ1ljbTNYbUhaRTgxSUpoZDd6Z3FVMzEwaXBYenFYWDZGa0UzQTg9");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(GetLicenseKey("SyncfusionLicenseKey:key"));
             _host = CreateHostBuilder().Build();
         }
 

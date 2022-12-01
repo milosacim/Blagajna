@@ -88,8 +88,6 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="0.5"
                                 IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                ItemsSource="{Binding FilteredKomitenti}"
-                                SelectedItem="{Binding Transakcija.Komitent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 SelectedValue="{Binding Transakcija.Komitent_Id, Mode=TwoWay}"
                                 SelectedValuePath="Id"
                                 SelectionChanged="KomitentNaziv_SelectionChanged">
@@ -198,6 +196,7 @@
                                 ItemsSource="{Binding Konta}"
                                 SelectedValue="{Binding Transakcija.Konto_Id, Mode=TwoWay}"
                                 SelectedValuePath="Id" />
+                            
                         </StackPanel>
                         <!--  Vrsta naloga  -->
                         <StackPanel Margin="20,0,0,0">
@@ -277,7 +276,7 @@
                         Width="90"
                         Height="47"
                         Click="ExportExcel_Click"
-                        Label="Export to Excel"
+                        Label="Izvezi u Excel"
                         LargeIcon="/Images/excel.png"
                         SizeMode="Large" />
                 </Grid>
