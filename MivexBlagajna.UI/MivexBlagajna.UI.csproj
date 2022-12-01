@@ -23,10 +23,13 @@
 		<None Remove="Images\icons8-cost-60.png" />
 		<None Remove="Images\icons8-customer-48.png" />
 		<None Remove="Images\icons8-edit-property-48.png" />
+		<None Remove="Images\icons8-load-67.png" />
+		<None Remove="Images\icons8-microsoft-excel-2019-48.png" />
 		<None Remove="Images\icons8-remove-48.png" />
 		<None Remove="Images\icons8-report-file-48.png" />
 		<None Remove="Images\icons8-save-48.png" />
 		<None Remove="Images\icons8-unavailable-50.png" />
+		<None Remove="Images\refresh.png" />
 	</ItemGroup>
 	<ItemGroup>
 
@@ -83,6 +86,12 @@
 		<Resource Include="Images\icons8-edit-property-48.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
+		<Resource Include="Images\icons8-load-67.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Images\icons8-microsoft-excel-2019-48.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Images\icons8-remove-48.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
@@ -94,6 +103,9 @@
 		</Resource>
 		<Resource Include="Images\icons8-unavailable-50.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Images\refresh.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>
 </Project>

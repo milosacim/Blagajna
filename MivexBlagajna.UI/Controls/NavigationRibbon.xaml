@@ -60,6 +60,8 @@
                     Margin="10,5,10,0"
                     FontSize="12"
                     Label="Finansijska kartica"
+                    Command="{Binding SelectViewModelCommand}"
+                    CommandParameter="{x:Static local:ViewModelType.Kartica}"
                     LargeIcon="/Images/icons8-report-file-48.png"
                     SizeForm="Large" />
             </syncfusion:RibbonBar>

@@ -7,10 +7,12 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         void Add(Transakcija transakcija);
         Task SaveAsync();
         Task<IEnumerable<Transakcija>> GetAllAsync();
+        Task<IEnumerable<Transakcija>> GetFinansijskaKarticaAsync(DateTime datumDo);
         Task<List<Komitent>> GetAllKomitenti();
         Task<List<MestoTroska>> GetAllMestaTroska();
         Task<List<Konto>> GetAllKonta();
         Task<List<VrsteNaloga>> GetAllVrsteNaloga();
+
         bool HasChanges();
         void CancelChanges();
         Task DeleteAsync(Transakcija transakcija);

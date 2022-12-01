@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:komitenti="clr-namespace:MivexBlagajna.UI.ViewModels.Komitenti"
     xmlns:mesta="clr-namespace:MivexBlagajna.UI.ViewModels.MestaTroska"
-    xmlns:uplateIsplate="clr-namespace:MivexBlagajna.UI.ViewModels.Uplate_Isplate"
+    xmlns:uplateIsplate="clr-namespace:MivexBlagajna.UI.ViewModels.Uplate_Isplate" 
+    xmlns:kartica="clr-namespace:MivexBlagajna.UI.ViewModels.Kartica" 
     xmlns:views="clr-namespace:MivexBlagajna.UI.Views"
     DispatcherUnhandledException="Application_DispatcherUnhandledException">
 
@@ -26,6 +27,10 @@
 
             <DataTemplate DataType="{x:Type uplateIsplate:UplateIsplateViewModel}">
                 <views:UplateIsplateView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type kartica:FinansijskaKarticaViewModel}">
+                <views:FinansijskaKarticaView />
             </DataTemplate>
 
         </ResourceDictionary>

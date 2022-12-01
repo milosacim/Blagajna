@@ -1,5 +1,6 @@
 ﻿using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Interfaces;
+using MivexBlagajna.UI.ViewModels.Kartica;
 using MivexBlagajna.UI.ViewModels.Komitenti;
 using MivexBlagajna.UI.ViewModels.MestaTroska;
 using MivexBlagajna.UI.ViewModels.Uplate_Isplate;
@@ -13,12 +14,12 @@ namespace MivexBlagajna.UI.ViewModels
     public class MainViewModel : ViewModelBase, IClosing
     {
         #region Fields
-        private ObservableCollection<ViewModelBase>? _workspaces;
         private ViewModelBase? _selectedViewModel;
 
         private Func<KomitentiViewModel> _komitentiViewModelCreator;
         private Func<MestaTroskaViewModel> _mestaTroskaViewModelCreator;
         private Func<UplateIsplateViewModel> _uplateIsplateViewModelCreator;
+        private Func<FinansijskaKarticaViewModel> _finansijskaKarticaViewModelCreator;
         #endregion
 
         #region Konstruktor
@@ -27,6 +28,7 @@ namespace MivexBlagajna.UI.ViewModels
             Func<KomitentiViewModel> komitentiViewModelCreator
             , Func<MestaTroskaViewModel> mestaTroskaViewModelCreator
             , Func<UplateIsplateViewModel> uplateIsplateViewModelCreator
+            , Func<FinansijskaKarticaViewModel> finansijskaKarticaViewModelCreator
             )
         {
             // Initializations
@@ -34,6 +36,7 @@ namespace MivexBlagajna.UI.ViewModels
             _komitentiViewModelCreator = komitentiViewModelCreator;
             _mestaTroskaViewModelCreator = mestaTroskaViewModelCreator;
             _uplateIsplateViewModelCreator = uplateIsplateViewModelCreator;
+            _finansijskaKarticaViewModelCreator = finansijskaKarticaViewModelCreator;
 
             SelectViewModelCommand = new SelectViewModelCommand<ViewModelType>(this);
         }
@@ -45,8 +48,7 @@ namespace MivexBlagajna.UI.ViewModels
 
         public ObservableCollection<ViewModelBase> Workspaces
         {
-            get { return _workspaces; }
-            set { _workspaces = value; }
+            get;
         }
 
         public ViewModelBase? SelectedViewModel
@@ -65,6 +67,24 @@ namespace MivexBlagajna.UI.ViewModels
         #region Methods
         public async Task SelectViewModel(object parameter)
         {
+            CreateViewModel(parameter);
+
+            if (Workspaces.Any())
+            {
+                foreach (var model in Workspaces)
+                {
+                    if (model?.GetType().GetProperty("Header").GetValue(model, null) == SelectedViewModel?.GetType().GetProperty("Header").GetValue(SelectedViewModel, null))
+                    {
+                        return;
+                    }
+                }
+            }
+            Workspaces.Add(SelectedViewModel);
+            await SelectedViewModel.LoadAsync();
+        }
+
+        private void CreateViewModel(object parameter)
+        {
             switch (parameter)
             {
                 case ViewModelType.Komitenti:
@@ -76,21 +96,13 @@ namespace MivexBlagajna.UI.ViewModels
                 case ViewModelType.UplateIsplate:
                     SelectedViewModel = _uplateIsplateViewModelCreator();
                     break;
+                case ViewModelType.Kartica:
+                    SelectedViewModel = _finansijskaKarticaViewModelCreator();
+                    break;
 
                 default:
                     throw new ArgumentException("The ViewType does not have a ViewModel", "viewType");
             }
-
-            if (Workspaces.Contains(SelectedViewModel))
-            {
-                return;
-            }
-            else
-            {
-                Workspaces.Add(SelectedViewModel);
-            }
-
-            await SelectedViewModel.LoadAsync();
         }
 
         public bool OnClosing()

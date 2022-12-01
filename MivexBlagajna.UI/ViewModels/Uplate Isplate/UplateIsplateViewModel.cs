@@ -304,17 +304,10 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 FilteredKomitenti.Refresh();
             }
         }
-
-        ~UplateIsplateViewModel()
-        {
-        }
-
-
         public override void Dispose()
         {
             base.Dispose();
         }
-
 
         #endregion
     }

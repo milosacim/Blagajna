@@ -6,12 +6,10 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
     public class TransakcijeRepository : ITransakcijeRepository
     {
         private readonly MivexBlagajnaDbContext _context;
-
         public TransakcijeRepository(MivexBlagajnaDbContext context)
         {
             _context = context;
         }
-
         public void Add(Transakcija transakcija) => _context.Add(transakcija);
         public async Task SaveAsync() => await _context.SaveChangesAsync();
         public async Task<IEnumerable<Transakcija>> GetAllAsync()
@@ -42,6 +40,11 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                         break;
                 }
             }
+        }
+        public async Task<IEnumerable<Transakcija>> GetFinansijskaKarticaAsync(DateTime datumDo)
+        {
+            var datum = datumDo;
+            return await _context.Transakcije.FromSqlRaw($"exec Vrati_Finansijsku_Karicu @{0}", datumDo).ToListAsync();
         }
         public async Task DeleteAsync(Transakcija transakcija)
         {

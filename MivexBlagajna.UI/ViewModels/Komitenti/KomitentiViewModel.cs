@@ -133,14 +133,13 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
         public override void Dispose()
         {
-                if (KomitentiDetailViewModel.HasChanges || KomitentiDetailViewModel.Komitent.IsEditable)
+            if (KomitentiDetailViewModel.HasChanges || KomitentiDetailViewModel.Komitent.IsEditable)
+            {
+                var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene. Da li želite da otkažete?", "Question");
+
+                if (result == MessageDialogResult.Potvrdi)
                 {
-                    var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene. Da li želite da otkažete?", "Question");
-
-                    if (result == MessageDialogResult.Potvrdi)
-                    {
-                        KomitentiDetailViewModel.CancelChange();
-
+                    KomitentiDetailViewModel.CancelChange();
                     KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
                     KomitentiNavigationViewModel.OnkomitentSelected -= UpdateisSelected;
 
@@ -148,11 +147,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                     KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
 
                     KomitentiDetailViewModel?.Dispose();
-                        KomitentiNavigationViewModel?.Dispose();
-                    }
+                    KomitentiNavigationViewModel?.Dispose();
                 }
-                else
-                {
+            }
+            else
+            {
                 KomitentiNavigationViewModel.OnkomitentSelected -= OnOpenDetails;
                 KomitentiNavigationViewModel.OnkomitentSelected -= UpdateisSelected;
 
@@ -160,8 +159,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
 
                 KomitentiDetailViewModel?.Dispose();
-                    KomitentiNavigationViewModel?.Dispose();
-                }
+                KomitentiNavigationViewModel?.Dispose();
+            }
 
             base.Dispose();
         }

@@ -25,7 +25,6 @@ namespace MivexBlagajna.UI.ViewModels
         }
          
         public virtual Task LoadAsync() => Task.CompletedTask;
-
         public virtual void Dispose()
         {
 

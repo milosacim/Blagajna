@@ -52,13 +52,11 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void UpdateSelectedMestoTroska(object? sender, MestoTroskaArgs e)
         {
             var model = sender as MestaTroskaNavigationViewModel;
             UpdateIsSelected(e, model);
         }
-
         private static void UpdateIsSelected(MestoTroskaArgs e, MestaTroskaNavigationViewModel? model)
         {
             if (model != null)
@@ -81,7 +79,6 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
                 }
             }
         }
-
         public string? Header
         {
             get { return _header; }
@@ -90,10 +87,8 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
         {
             get { return _state; }
         }
-
         public IMestaTroskaNavigationViewModel MestaTroskaNavigationViewModel { get; }
         public IMestaTroskaDetailsViewModel MestaTroskaDetailsViewModel { get; }
-
         private void OnMestoTroskaSaved(object? sender, SavedMestoTroskaArgs e)
         {
             var lookupitem = MestaTroskaNavigationViewModel.MestaTroska.SingleOrDefault(l => l.Id == e.id);
@@ -108,7 +103,6 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
                 lookupitem.Sifra = e.prefix; lookupitem.Naziv = e.naziv; lookupitem.Nadredjeni_Id = e.nadId;
             }
         }
-
         private void OnMestoDeleted(object? sender, MestoTroskaDeletedArgs e)
         {
             var mesto = MestaTroskaNavigationViewModel.MestaTroska.SingleOrDefault(m => m.Id == e.id);
@@ -119,7 +113,6 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
                 MestaTroskaNavigationViewModel.MestaTroska.Remove(mesto);
             }
         }
-
         public override async Task LoadAsync()
         {
             if (MestaTroskaNavigationViewModel != null)
@@ -127,7 +120,6 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
                 await MestaTroskaNavigationViewModel.LoadAsync();
             }
         }
-
         public override void Dispose()
         {
             MestaTroskaNavigationViewModel.OnMestoSelected -= UpdateSelectedMestoTroska;

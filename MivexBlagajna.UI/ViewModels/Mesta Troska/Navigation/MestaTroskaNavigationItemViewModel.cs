@@ -1,9 +1,9 @@
 ﻿namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
 {
-    public class MestaTroskaNavigationItemViewModel : ObservableObject
+    public class MestaTroskaNavigationItemViewModel : ViewModelBase
     {
-        private string _naziv;
-        private string _sifra;
+        private string? _naziv;
+        private string? _sifra;
         private int? _nadredjeniId;
         private bool _isSelected;
 
@@ -26,7 +26,7 @@
             {
                 var oldValue = _sifra;
                 _sifra = value;
-                OnObjectPropertyChanged(oldValue, value);
+                OnModelPropertyChanged(oldValue, value);
             }
         }
 
@@ -37,7 +37,7 @@
             {
                 var oldValue = _naziv;
                 _naziv = value;
-                OnObjectPropertyChanged(oldValue, value);
+                OnModelPropertyChanged(oldValue, value);
             }
         }
 
@@ -47,7 +47,7 @@
             set { 
                 var oldValue = _nadredjeniId;
                 _nadredjeniId = value;
-                OnObjectPropertyChanged(oldValue, value);
+                OnModelPropertyChanged(oldValue, value);
             }
         }
 
@@ -58,8 +58,13 @@
             {
                 _isSelected = value;
                 var oldValue = _isSelected;
-                OnObjectPropertyChanged(oldValue, value);
+                OnModelPropertyChanged(oldValue, value);
             }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
         }
     }
 }

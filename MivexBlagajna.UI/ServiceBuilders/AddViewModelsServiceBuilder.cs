@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using MivexBlagajna.DataAccess.Services.Lookups;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.ViewModels;
+using MivexBlagajna.UI.ViewModels.Kartica;
 using MivexBlagajna.UI.ViewModels.Komitenti;
 using MivexBlagajna.UI.ViewModels.Komitenti.Details;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
@@ -31,10 +32,12 @@ namespace MivexBlagajna.UI.ServiceBuilders
                 services.AddTransient(CreateMestaTroskaViewModel);
 
                 services.AddTransient(CreateUplateIsplateViewModel);
+                services.AddTransient(CreateFinansijskaKarticaViewModel);
 
                 services.AddTransient<Func<KomitentiViewModel>>(services => () => services.GetRequiredService<KomitentiViewModel>());
                 services.AddTransient<Func<MestaTroskaViewModel>>(services => () => services.GetRequiredService<MestaTroskaViewModel>());
                 services.AddTransient<Func<UplateIsplateViewModel>>(services => () => services.GetRequiredService<UplateIsplateViewModel>());
+                services.AddTransient<Func<FinansijskaKarticaViewModel>>(services => () => services.GetRequiredService<FinansijskaKarticaViewModel>());
 
                 services.AddTransient<MainViewModel>();
 
@@ -95,6 +98,14 @@ namespace MivexBlagajna.UI.ServiceBuilders
             return new UplateIsplateViewModel(
                 services.GetRequiredService<ITransakcijeRepository>(),
                 services.GetRequiredService<IMessageDialogService>()
+            );
+        }
+
+        private static FinansijskaKarticaViewModel CreateFinansijskaKarticaViewModel(IServiceProvider services)
+        {
+            return new FinansijskaKarticaViewModel(
+                services.GetRequiredService<ITransakcijeRepository>()
+                //services.GetRequiredService<IMessageDialogService>()
             );
         }
 

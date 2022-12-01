@@ -4,7 +4,7 @@
     {
         Komitenti,
         MestaTroska,
-        UplateIsplate
-        //Kartica
+        UplateIsplate,
+        Kartica
     }
 }

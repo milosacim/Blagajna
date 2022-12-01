@@ -103,12 +103,12 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 _backupMestoTroska = value;
             }
         }
-        public IAsyncCommand SaveCommand { get; }
-        public IAsyncCommand CreateCommand { get; }
-        public IAsyncCommand CancelCommand { get; }
-        public IAsyncCommand DeleteCommand { get; }
-        public ICommand CreatePrefixCommand { get; }
-        public ICommand EditMestoTroskaPropertyCommand { get; }
+        public AsyncCommand SaveCommand { get; }
+        public AsyncCommand CreateCommand { get; }
+        public AsyncCommand CancelCommand { get; }
+        public AsyncCommand DeleteCommand { get; }
+        public RelayCommand CreatePrefixCommand { get; }
+        public RelayCommand EditMestoTroskaPropertyCommand { get; }
 
         public bool HasChanges
         {
@@ -232,6 +232,11 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 var mestoTroska = await _mestoTroskaRepository.GetByIdAsync(mestoTroskaId.Value);
                 MestoTroska = new MestoTroskaWrapper(mestoTroska, false);
             }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
         }
     }
 }

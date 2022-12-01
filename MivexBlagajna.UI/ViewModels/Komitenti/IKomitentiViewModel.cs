@@ -1,5 +1,4 @@
-﻿using MivexBlagajna.UI.Commands;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels.Komitenti
 {
