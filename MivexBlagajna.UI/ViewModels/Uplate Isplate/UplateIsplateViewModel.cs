@@ -291,25 +291,25 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 {
                     case "Dnevnica":
                         {
-                            Transakcija.Nalog = String.Format("DN - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            Transakcija.Nalog = $"DN - {Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1}";
                             break;
                         }
 
                     case "Plata":
                         {
-                            Transakcija.Nalog = String.Format("PL - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            Transakcija.Nalog = $"PL - {Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1}";
                             break;
                         }
 
                     case "Trosak":
                         {
-                            Transakcija.Nalog = String.Format("TR - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            Transakcija.Nalog = $"TR - {Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1}";
                             break;
                         }
 
                     case "Pazar":
                         {
-                            Transakcija.Nalog = String.Format("PA - {0}", (Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1).ToString());
+                            Transakcija.Nalog = $"PA - {Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1}";
                             break;
                         }
                 }
