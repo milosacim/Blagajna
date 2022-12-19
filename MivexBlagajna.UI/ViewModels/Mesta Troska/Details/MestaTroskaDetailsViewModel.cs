@@ -42,9 +42,14 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 
             EditMestoTroskaPropertyCommand = new RelayCommand(EditMestoTroskaProperty);
 
-            CreatePrefixCommand = new RelayCommand(SetPrefix);
+            CreatePrefixCommand = new RelayCommand(SetPrefix, CanSetPrefix);
 
             MestaTroska = new ObservableCollection<MestoTroska>();
+        }
+
+        private bool CanSetPrefix(object? arg)
+        {
+            return MestoTroska.IsEditable;
         }
 
         public ObservableCollection<MestoTroska> MestaTroska { get; }
@@ -78,9 +83,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         {
             if (obj != null && MestoTroska.IsEditable == true)
             {
-                var mesto = obj as MestoTroska;
-
-                if (mesto == null)
+                if (obj is not MestoTroska mesto)
                 {
                     MestoTroska.Prefix = String.Format("0{0}", (MestaTroska.Where(m => m.NadredjenoMesto_Id == null).Count() + 1).ToString());
                 }
@@ -161,15 +164,15 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         }
         public async Task LoadAllMestaTroska()
         {
-            if (MestaTroska.IsNullOrEmpty())
-            {
-                var mestaTroska = await _mestoTroskaRepository.GetAll();
+            MestaTroska.Clear();
 
-                foreach (var mesto in mestaTroska)
-                {
-                    MestaTroska.Add(mesto);
-                }
+            var mestaTroska = await _mestoTroskaRepository.GetAll();
+
+            foreach (var mesto in mestaTroska)
+            {
+                MestaTroska.Add(mesto);
             }
+
         }
         public async Task LoadAsync(int? mestoTroskaId)
         {
