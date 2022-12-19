@@ -255,11 +255,11 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         }
         public async Task SaveTransakcijaAsync()
         {
+            Transakcija.EndEdit();
             await _transakcijeRepository.SaveAsync();
             HasChanges = _transakcijeRepository.HasChanges();
             Transakcije.Add(Transakcija);
             UplateIsplate.Refresh();
-            Transakcija.EndEdit();
         }
         public async Task DeleteTransakcijaAsync(TransakcijaWrapper transakcija)
         {
