@@ -52,14 +52,43 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             Transakcije = new ObservableCollection<TransakcijaWrapper>();
             UplateIsplate = CollectionViewSource.GetDefaultView(Transakcije);
 
-            CreateTransakcijaCommand = new RelayCommand(CreateNewTransakcija);
-            CreateBrojNalogaCommand = new RelayCommand(CreateBrojNaloga);
+            CreateTransakcijaCommand = new RelayCommand(CreateNewTransakcija, CanCreateNewTransakcija);
+            CreateBrojNalogaCommand = new RelayCommand(CreateBrojNaloga, CanCreateBrojNaloga);
             SetFilterCommand = new RelayCommand(SetFilter);
-            EditTransakcijaCommand = new RelayCommand(EditTransakcija);
+            EditTransakcijaCommand = new RelayCommand(EditTransakcija, CanEditTransakcija);
             CancelCommand = new RelayCommand(CancelChange, CanCanceChange);
 
             SaveCommand = new SaveTransakcijaCommand(this);
             DeleteCommand = new DeleteTransakcijaCommand(this);
+        }
+
+        private bool CanCreateNewTransakcija(object? arg)
+        {
+            if (Transakcija == null)
+            {
+                return true;
+            }
+            else
+            {
+                return !Transakcija.IsEditable;
+            }
+        }
+
+        private bool CanEditTransakcija(object? arg)
+        {
+            return Transakcija != null && !Transakcija.IsEditable;  
+        }
+
+        private bool CanCreateBrojNaloga(object? arg)
+        {
+            if (Transakcija == null)
+            {
+                return true;
+            }
+            else
+            {
+                return Transakcija.IsEditable;
+            }
         }
 
         private bool CanCanceChange(object? obj)
@@ -238,10 +267,18 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
             if (result == MessageDialogResult.Potvrdi)
             {
-                Transakcija = Transakcije[Transakcije.IndexOf(transakcija)-1];
-                Transakcije.RemoveAt(Transakcije.IndexOf(transakcija));
-                await _transakcijeRepository.DeleteAsync(transakcija.Model);
-                UplateIsplate.Refresh();
+                if(Transakcije.Count > 1)
+                {
+                    Transakcije.RemoveAt(Transakcije.IndexOf(transakcija));
+                    Transakcija = Transakcije[Transakcije.IndexOf(transakcija) + 1];
+                    await _transakcijeRepository.DeleteAsync(transakcija.Model);
+                    UplateIsplate.Refresh();
+                }
+                else
+                {
+                    Transakcije.RemoveAt(Transakcije.IndexOf(transakcija));
+                    Transakcije.Clear();
+                }
             }
         }
         private void CreateBrojNaloga(object? obj)
