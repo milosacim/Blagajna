@@ -23,13 +23,15 @@ namespace MivexBlagajna.UI.Wrappers
             if (value != null)
             {
                 typeof(T).GetProperty(propertyName).SetValue(Model, value);
-                ValidatePropertyInternal(propertyName, value); 
+                ValidatePropertyInternal(propertyName, value);
+                OnModelPropertyChanged(propertyName);
             }
         }
         private void ValidatePropertyInternal(string propertyName, object currentValue)
         {
             ClearErrors(propertyName);
             ValidateDataAnnotations(propertyName, currentValue);
+            ValidateCustomErrors(propertyName);
         }
         private void ValidateDataAnnotations(string propertyName, object currentValue)
         {
@@ -42,6 +44,23 @@ namespace MivexBlagajna.UI.Wrappers
             {
                 AddError(propertyName, result.ErrorMessage);
             }
+        }
+
+        private void ValidateCustomErrors(string propertyName)
+        {
+            var errors = ValidateProperty(propertyName);
+            if (errors != null)
+            {
+                foreach (var error in errors)
+                {
+                    AddError(propertyName, error);
+                }
+            }
+        }
+
+        protected virtual IEnumerable<string>? ValidateProperty(string propertyName)
+        {
+            return null;
         }
 
         public abstract void BeginEdit();

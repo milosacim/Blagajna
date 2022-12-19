@@ -13,7 +13,7 @@ namespace MivexBlagajna.UI.Commands.Transakcije
         }
         public override bool CanExecute()
         {
-            return uplateIsplateViewModel.HasChanges;
+            return uplateIsplateViewModel.HasChanges && !uplateIsplateViewModel.Transakcija.HasErrors;
         }
 
         public override async Task ExecuteAsync()

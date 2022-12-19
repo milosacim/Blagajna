@@ -2,7 +2,6 @@
 using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
-using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.Commands.Transakcije;
 using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
@@ -12,7 +11,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows.Threading;
 
 namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 {
@@ -52,7 +50,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             Transakcije = new ObservableCollection<TransakcijaWrapper>();
             UplateIsplate = CollectionViewSource.GetDefaultView(Transakcije);
 
-            CreateTransakcijaCommand = new RelayCommand(CreateNewTransakcija, CanCreateNewTransakcija);
+            CreateTransakcijaCommand = new RelayCommand(CreateNewTransakcija);
             CreateBrojNalogaCommand = new RelayCommand(CreateBrojNaloga, CanCreateBrojNaloga);
             SetFilterCommand = new RelayCommand(SetFilter);
             EditTransakcijaCommand = new RelayCommand(EditTransakcija, CanEditTransakcija);
@@ -60,18 +58,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
             SaveCommand = new SaveTransakcijaCommand(this);
             DeleteCommand = new DeleteTransakcijaCommand(this);
-        }
-
-        private bool CanCreateNewTransakcija(object? arg)
-        {
-            if (Transakcija == null)
-            {
-                return true;
-            }
-            else
-            {
-                return !Transakcija.IsEditable;
-            }
         }
 
         private bool CanEditTransakcija(object? arg)
@@ -287,7 +273,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             {
                 var vrsta = obj as VrsteNaloga;
 
-                switch (vrsta.VrstaNaloga)
+                switch (vrsta?.VrstaNaloga)
                 {
                     case "Dnevnica":
                         {
@@ -312,6 +298,12 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                             Transakcija.Nalog = $"PA - {Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1}";
                             break;
                         }
+
+                    case "Pocetno stanje":
+                        {
+                            Transakcija.Nalog = $"PS - {Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1}";
+                            break;
+                        }
                 }
             }
         }
@@ -332,8 +324,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 HasChanges = _transakcijeRepository.HasChanges();
                 KomitentFilter = "";
 
-                Transakcije[Transakcije.IndexOf(Transakcija)] = BackupTransakcija;
-                Transakcija = Transakcije[Transakcije.IndexOf(BackupTransakcija)];
+                Transakcija = Transakcije[Transakcije.IndexOf(BackupTransakcija)+1];
 
                 UplateIsplate.Refresh();
 

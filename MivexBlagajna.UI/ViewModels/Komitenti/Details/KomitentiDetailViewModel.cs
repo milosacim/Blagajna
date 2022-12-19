@@ -232,8 +232,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
             base.Dispose();
         }
 
-        ~KomitentiDetailViewModel() { }
-
         #endregion
     }
 }

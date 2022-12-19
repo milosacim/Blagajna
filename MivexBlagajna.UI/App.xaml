@@ -7,6 +7,7 @@
     xmlns:uplateIsplate="clr-namespace:MivexBlagajna.UI.ViewModels.Uplate_Isplate" 
     xmlns:kartica="clr-namespace:MivexBlagajna.UI.ViewModels.Kartica" 
     xmlns:views="clr-namespace:MivexBlagajna.UI.Views"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     DispatcherUnhandledException="Application_DispatcherUnhandledException">
 
     <Application.Resources>

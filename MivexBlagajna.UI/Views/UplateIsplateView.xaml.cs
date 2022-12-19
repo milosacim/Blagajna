@@ -145,5 +145,21 @@ namespace MivexBlagajna.UI.Views
             SetDefaultDataBinding();
             tabela.RefreshColumns();
         }
+
+        private void UplateBoxExt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (uplataTextBox.Text == "")
+            {
+                uplataTextBox.Text = "0";
+            }
+        }
+
+        private void isplateTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (isplateTxtBox.Text == "")
+            {
+                isplateTxtBox.Text = "0";
+            }
+        }
     }
 }

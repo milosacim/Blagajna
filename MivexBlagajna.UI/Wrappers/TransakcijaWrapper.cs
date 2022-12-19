@@ -1,5 +1,6 @@
 ﻿using MivexBlagajna.Data.Models;
 using System;
+using System.Collections.Generic;
 
 namespace MivexBlagajna.UI.Wrappers
 {
@@ -138,6 +139,35 @@ namespace MivexBlagajna.UI.Wrappers
             IsEditable = false;
         }
 
+        protected override IEnumerable<string>? ValidateProperty(string propertyName)
+        {
+            switch(propertyName)
+            {
+                case nameof(Uplata):
+                    if(Uplata > 0 && Isplata > 0)
+                    {
+                        yield return $"Isplata je već uneta.";
+                    }
+                    else
+                    {
+                        ClearErrors(nameof(Isplata));
+                        break;
+                    }
+                    break;
+
+                case nameof(Isplata):
+                    if (Uplata > 0 && Isplata > 0)
+                    {
+                        yield return $"Uplata je već uneta.";
+                    }
+                    else
+                    {
+                        ClearErrors(nameof(Isplata));
+                        break;
+                    }
+                    break;
+            }
+        }
         public override void Dispose()
         {
             base.Dispose();

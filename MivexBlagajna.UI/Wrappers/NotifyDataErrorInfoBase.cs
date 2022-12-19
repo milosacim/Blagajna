@@ -39,7 +39,6 @@ namespace MivexBlagajna.UI.Wrappers
         }
         protected void ClearErrors(string propertyName)
         {
-
             if (_errorsByPropertyName.ContainsKey(propertyName)) // Ako _errorsByPropertyName sadrzi TKey za propertyName onda se brise i podize ErrorsChanged event
             {
                 _errorsByPropertyName.Remove(propertyName);
