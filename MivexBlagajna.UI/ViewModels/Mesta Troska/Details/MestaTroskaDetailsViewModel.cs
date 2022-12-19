@@ -85,22 +85,36 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             {
                 if (obj is not MestoTroska mesto)
                 {
-                    MestoTroska.Prefix = $"0{MestaTroska.Where(m => m.NadredjenoMesto_Id == null).Count() + 1}";
+                    MestoTroska.Prefix = $"0{MestaTroska.Where(m => m.NadredjenoMesto_Id == null).Count() + 1}.";
                 }
                 else if (MestaTroska.Contains(mesto) && mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() == 0)
                 {
                     if (mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() < 10)
                     {
-                        MestoTroska.Prefix = $"{mesto?.Prefix}.0{mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() + 1}.";
+                        MestoTroska.Prefix = $"{mesto?.Prefix}0{mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() + 1}.";
                     }
                     else
                     {
-                        MestoTroska.Prefix = $"{mesto?.Prefix}.{mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() + 1}.";
+                        if (mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() < 10)
+                        {
+                            MestoTroska.Prefix = $"{mesto?.Prefix}0{mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() + 1}.";
+                        }
+                        else
+                        {
+                            MestoTroska.Prefix = $"{mesto?.Prefix}{mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() + 1}.";
+                        }
                     }
                 }
                 else
                 {
-                    MestoTroska.Prefix = $"{mesto?.Prefix}.{mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() + 1}.";
+                    if (mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() < 10)
+                    {
+                        MestoTroska.Prefix = $"{mesto?.Prefix}0{mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() + 1}.";
+                    }
+                    else
+                    {
+                        MestoTroska.Prefix = $"{mesto?.Prefix}{mesto?.DecaMestoTroska.Where(d => d.Obrisano == false).Count() + 1}.";
+                    }
                 }
             }
         }

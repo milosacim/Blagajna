@@ -336,5 +336,10 @@ namespace MivexBlagajna.UI.Wrappers
         {
             return string.Format($"{0}", Naziv);
         }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace MivexBlagajna.UI.ServiceBuilders
                         triggerOptions.AddTrigger<SoftDeleteTrigger>();
                     });
 
-                }, ServiceLifetime.Singleton);
+                }, ServiceLifetime.Transient);
             });
 
             return host;

@@ -73,5 +73,10 @@ namespace MivexBlagajna.UI.Wrappers
         {
             IsEditable = false;
         }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }
