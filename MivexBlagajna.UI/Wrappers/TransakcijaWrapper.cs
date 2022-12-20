@@ -24,7 +24,7 @@ namespace MivexBlagajna.UI.Wrappers
         public Komitent Komitent
         {
             get { return GetValue<Komitent>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); OnPropertyChanged(); }
         }
 
         public int? MestoTroska_Id
@@ -36,7 +36,7 @@ namespace MivexBlagajna.UI.Wrappers
         public MestoTroska MestoTroska
         {
             get { return GetValue<MestoTroska>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); OnPropertyChanged(); }
         }
 
         public int? Konto_Id
@@ -48,13 +48,13 @@ namespace MivexBlagajna.UI.Wrappers
         public Konto Konto
         {
             get { return GetValue<Konto>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); OnPropertyChanged(); }
         }
 
         public DateTime Datum
         {
             get { return GetValue<DateTime>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); OnPropertyChanged(); }
         }
 
         public int? VrsteNaloga_Id
@@ -66,13 +66,13 @@ namespace MivexBlagajna.UI.Wrappers
         public VrsteNaloga VrstaNaloga
         {
             get { return GetValue<VrsteNaloga>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); OnPropertyChanged(); }
         }
 
         public string Nalog
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); OnPropertyChanged(); }
         }
 
         public string Opis
@@ -81,26 +81,26 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value); 
-                OnModelPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
         public decimal Uplata
         {
             get { return GetValue<decimal>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); OnPropertyChanged(); }
         }
 
         public decimal Isplata
         {
             get { return GetValue<decimal>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); OnPropertyChanged(); }
         }
 
         public bool IsEditable
         {
             get { return _isEditable; }
-            set { _isEditable = value; OnModelPropertyChanged(); }
+            set { _isEditable = value; OnPropertyChanged(); }
         }
 
         public override void BeginEdit()
@@ -167,10 +167,6 @@ namespace MivexBlagajna.UI.Wrappers
                     }
                     break;
             }
-        }
-        public override void Dispose()
-        {
-            base.Dispose();
         }
     }
 }

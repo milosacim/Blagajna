@@ -13,6 +13,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
     {
         private readonly ILookupMestoTroskaDataService _lookupMestoTroskaDataService;
         private MestaTroskaNavigationItemViewModel? _selectedMestoTroska;
+        private bool disposedValue;
 
         public event EventHandler<MestoTroskaArgs> OnMestoSelected;
 
@@ -56,13 +57,15 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
             
             SelectedMestoTroska = MestaTroska.FirstOrDefault();
         }
-        public override void Dispose()
+
+        protected override void Dispose(bool disposing)
         {
             foreach (var item in MestaTroska)
             {
                 item.Dispose();
             }
-            base.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

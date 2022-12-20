@@ -1,4 +1,5 @@
 ﻿using MivexBlagajna.UI.EventArgs;
+using MivexBlagajna.UI.ViewModels.Komitenti.Details;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
 using MivexBlagajna.UI.Views.Services;
@@ -130,8 +131,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 KomitentiNavigationViewModel.Komitenti.Remove(komitent);
             }
         }
-
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
             if (KomitentiDetailViewModel.HasChanges || KomitentiDetailViewModel.Komitent.IsEditable)
             {
@@ -146,8 +146,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                     KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
                     KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
 
-                    KomitentiDetailViewModel?.Dispose();
-                    KomitentiNavigationViewModel?.Dispose();
+                    //KomitentiDetailViewModel?.Dispose();
+                    //KomitentiNavigationViewModel?.Dispose();
                 }
             }
             else
@@ -158,11 +158,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
                 KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
                 KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
 
-                KomitentiDetailViewModel?.Dispose();
-                KomitentiNavigationViewModel?.Dispose();
+                //KomitentiDetailViewModel?.Dispose();
+                //KomitentiNavigationViewModel?.Dispose();
             }
 
-            base.Dispose();
+            base.Dispose(disposing);
         }
 
         #endregion

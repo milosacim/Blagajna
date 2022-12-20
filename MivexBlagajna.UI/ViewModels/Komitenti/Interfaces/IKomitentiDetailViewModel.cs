@@ -15,7 +15,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Interfaces
         Task SaveKomitentAsync();
         Task DeleteKomitentAsync();
         Task CancelChange();
-        void Dispose();
 
         event EventHandler<KomitentDeletedArgs> OnKomitentDeleted;
         event EventHandler<KomitentSavedArgs> OnKomitentSaved;

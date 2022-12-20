@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace MivexBlagajna.UI.Wrappers
 {
-    public abstract class ModelWrapper<T> : NotifyDataErrorInfoBase, IEditableObject
+    public abstract class ModelWrapper<T> : NotifyDataErrorInfoBase, IEditableObject, INotifyPropertyChanged
     {
         public T Model { get; }
 
@@ -13,6 +14,14 @@ namespace MivexBlagajna.UI.Wrappers
         {
             Model = model;
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         protected virtual TValue GetValue<TValue>([CallerMemberName] string? propertyName = null)
         {
             return (TValue)typeof(T).GetProperty(propertyName).GetValue(Model);
@@ -24,7 +33,7 @@ namespace MivexBlagajna.UI.Wrappers
             {
                 typeof(T).GetProperty(propertyName).SetValue(Model, value);
                 ValidatePropertyInternal(propertyName, value);
-                OnModelPropertyChanged(propertyName);
+                OnPropertyChanged(propertyName);
             }
         }
         private void ValidatePropertyInternal(string propertyName, object currentValue)

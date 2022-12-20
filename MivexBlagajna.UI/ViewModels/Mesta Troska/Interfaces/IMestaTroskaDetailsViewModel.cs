@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 {
-    public interface IMestaTroskaDetailsViewModel
+    public interface IMestaTroskaDetailsViewModel : IDisposable
     {
         MestoTroskaWrapper MestoTroska { get; set; }
         Task LoadAsync(int? mestoTroskaId);
@@ -18,7 +18,6 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         event EventHandler<SavedMestoTroskaArgs> OnMestoSaved;
         event EventHandler<MestoTroskaDeletedArgs> OnMestoDeleted;
         bool HasChanges { get; }
-        void Dispose();
         void SetPrefix(object? parameter);
     }
 }

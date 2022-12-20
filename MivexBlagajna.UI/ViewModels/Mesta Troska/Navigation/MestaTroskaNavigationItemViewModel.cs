@@ -1,4 +1,6 @@
-﻿namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
+﻿using System;
+
+namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
 {
     public class MestaTroskaNavigationItemViewModel : ViewModelBase
     {
@@ -61,10 +63,13 @@
                 OnModelPropertyChanged(oldValue, value);
             }
         }
-
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            base.Dispose();
+            _naziv = null;
+            _sifra = null;
+            _nadredjeniId = null;
+
+            base.Dispose(disposing);
         }
     }
 }

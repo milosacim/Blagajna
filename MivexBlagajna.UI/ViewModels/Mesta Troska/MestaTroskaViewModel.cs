@@ -12,7 +12,6 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
     {
         private readonly string? _header;
         private readonly DockState _state;
-
         public MestaTroskaViewModel(
 
             IMestaTroskaNavigationViewModel mestaTroskaNavigationViewModel
@@ -120,7 +119,8 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
                 await MestaTroskaNavigationViewModel.LoadAsync();
             }
         }
-        public override void Dispose()
+
+        protected override void Dispose(bool disposing)
         {
             MestaTroskaNavigationViewModel.OnMestoSelected -= UpdateSelectedMestoTroska;
             MestaTroskaNavigationViewModel.OnMestoSelected -= OpenMestoTroskaDetails;
@@ -128,8 +128,10 @@ namespace MivexBlagajna.UI.ViewModels.MestaTroska
             MestaTroskaDetailsViewModel.OnMestoDeleted -= OnMestoDeleted;
             MestaTroskaDetailsViewModel.OnMestoSaved -= OnMestoTroskaSaved;
 
-            base.Dispose();
+            MestaTroskaDetailsViewModel.Dispose();
+            MestaTroskaNavigationViewModel.Dispose();
+
+            base.Dispose(disposing);
         }
     }
-
 }

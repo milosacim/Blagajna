@@ -21,6 +21,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
         private KomitentiNavigationItemViewModel? _selectedKomitent;
 
         public event EventHandler<SelectedKomitentArgs>? OnkomitentSelected;
+        private readonly Predicate<object>? filterDelegate;
 
         #endregion
 
@@ -30,7 +31,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             _lookupKomitentDataService = lookupKomitentDataService;
             Komitenti = new ObservableCollection<KomitentiNavigationItemViewModel>();
             FilteredList = CollectionViewSource.GetDefaultView(Komitenti);
-            FilteredList.Filter += new Predicate<object>(o => FilterNaziv(o as KomitentiNavigationItemViewModel) && FilterPravnoLice(o as KomitentiNavigationItemViewModel) && FilterFizickoLice(o as KomitentiNavigationItemViewModel));
+            filterDelegate = new Predicate<object>(o => FilterNaziv(o as KomitentiNavigationItemViewModel) && FilterPravnoLice(o as KomitentiNavigationItemViewModel) && FilterFizickoLice(o as KomitentiNavigationItemViewModel));
+            FilteredList.Filter += filterDelegate;
         }
 
         #endregion
@@ -112,7 +114,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
 
         private bool FilterNaziv(KomitentiNavigationItemViewModel? item)
         {
-            return item != null ? NazivFilter == null || item.PunNaziv.IndexOf(NazivFilter, StringComparison.OrdinalIgnoreCase) != -1 : false;
+            return item != null && (NazivFilter == null || item.PunNaziv.IndexOf(NazivFilter, StringComparison.OrdinalIgnoreCase) != -1);
         }
         private bool FilterPravnoLice(KomitentiNavigationItemViewModel? item)
         {
@@ -151,16 +153,18 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            SelectedKomitent?.Dispose();
+            FilteredList.Filter -= filterDelegate;
 
             foreach (var item in Komitenti)
             {
                 item?.Dispose();
             }
 
-            base.Dispose();
+            SelectedKomitent?.Dispose();
+
+            base.Dispose(disposing);
         }
 
         #endregion

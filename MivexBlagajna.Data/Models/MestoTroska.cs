@@ -26,7 +26,25 @@ namespace MivexBlagajna.Data.Models
 
         public override string ToString()
         {
-            return String.Format("{0} - {1}", Prefix, Naziv);
+            if (RoditeljMestoTroska != null)
+            {
+                if (RoditeljMestoTroska.RoditeljMestoTroska != null)
+                {
+                    return $"{RoditeljMestoTroska.RoditeljMestoTroska?.Prefix} {RoditeljMestoTroska.RoditeljMestoTroska?.Naziv} / {RoditeljMestoTroska.Prefix} {RoditeljMestoTroska.Naziv} / {Prefix} {Naziv}";
+                }
+                else if (RoditeljMestoTroska != null)
+                {
+                    return $"{RoditeljMestoTroska.Prefix} {RoditeljMestoTroska.Naziv} / {Prefix} {Naziv}";
+                }
+                else
+                {
+                    return $"{Prefix} {Naziv}";
+                }
+            }
+            else
+            {
+                return $"{Prefix} {Naziv}";
+            }
         }
     }
 }

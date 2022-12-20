@@ -18,12 +18,15 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
     {
         #region Fields
         private readonly DockState _dockState;
-        private readonly string _header;
+        private readonly string? _header;
         private readonly ITransakcijeRepository _transakcijeRepository;
         private readonly IMessageDialogService _messageDialogService;
         private bool _hasChanges;
-        private string? _komitentFilter;
-        private TransakcijaWrapper _transakcija;
+        private string _komitentFilter;
+        private TransakcijaWrapper? _transakcija;
+
+        private readonly Predicate<object> _filterdelegate;
+            //new(s => GetBySearch(s as Komitent));
 
         #endregion
 
@@ -38,14 +41,15 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             _transakcijeRepository = transakcijeRepository;
             _messageDialogService = messageDialogService;
 
+            _filterdelegate = new(s => GetBySearch(s as Komitent));
+
             Komitenti = new ObservableCollection<Komitent>();
             MestaTroska = new ObservableCollection<MestoTroska>();
             Konta = new ObservableCollection<Konto>();
             VrsteNaloga = new ObservableCollection<VrsteNaloga>();
 
             FilteredKomitenti = CollectionViewSource.GetDefaultView(Komitenti);
-
-            FilteredKomitenti.Filter += new Predicate<object>(s => GetBySearch(s as Komitent));
+            FilteredKomitenti.Filter += _filterdelegate;
 
             Transakcije = new ObservableCollection<TransakcijaWrapper>();
             UplateIsplate = CollectionViewSource.GetDefaultView(Transakcije);
@@ -55,10 +59,10 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             SetFilterCommand = new RelayCommand(SetFilter);
             EditTransakcijaCommand = new RelayCommand(EditTransakcija, CanEditTransakcija);
             CancelCommand = new RelayCommand(CancelChange, CanCanceChange);
-
             SaveCommand = new SaveTransakcijaCommand(this);
             DeleteCommand = new DeleteTransakcijaCommand(this);
         }
+
 
         private bool CanEditTransakcija(object? arg)
         {
@@ -332,9 +336,12 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 FilteredKomitenti.Refresh();
             }
         }
-        public override void Dispose()
+
+        protected override void Dispose(bool disposing)
         {
-            base.Dispose();
+            _transakcija = null;
+            FilteredKomitenti.Filter -= _filterdelegate;
+            base.Dispose(disposing);
         }
 
         #endregion

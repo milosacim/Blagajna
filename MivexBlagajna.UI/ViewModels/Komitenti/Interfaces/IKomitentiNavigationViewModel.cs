@@ -13,6 +13,5 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Interfaces
         KomitentiNavigationItemViewModel? SelectedKomitent { get; set; }
         ObservableCollection<KomitentiNavigationItemViewModel> Komitenti { get; }
         Task LoadAsync();
-        void Dispose();
     }
 }

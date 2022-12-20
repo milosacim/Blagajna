@@ -1,5 +1,4 @@
-﻿using MivexBlagajna.UI.ViewModels;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +6,7 @@ using System.Linq;
 
 namespace MivexBlagajna.UI.Wrappers
 {
-    public class NotifyDataErrorInfoBase : ViewModelBase, INotifyDataErrorInfo
+    public class NotifyDataErrorInfoBase : INotifyDataErrorInfo
     {
         private Dictionary<string, List<string>> _errorsByPropertyName
              = new Dictionary<string, List<string>>();
@@ -23,7 +22,7 @@ namespace MivexBlagajna.UI.Wrappers
         protected virtual void OnErrorsChanged(string propertyName)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName)); // helper method koji podize ErrorsChanged Event
-            base.OnModelPropertyChanged(nameof(HasErrors));
+            //base.OnModelPropertyChanged(nameof(HasErrors));
         }
         protected void AddError(string propertyName, string error)    // Ako _errorsByPropertyName ne sadrzi Tkey za propertyName onda se kreira nova Lista za taj Tkey,
         {

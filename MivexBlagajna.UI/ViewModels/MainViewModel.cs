@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MivexBlagajna.UI.ViewModels
 {
-    public class MainViewModel : ViewModelBase, IClosing
+    public class MainViewModel : ViewModelBase, IClosing, IDisposable
     {
         #region Fields
         private ViewModelBase? _selectedViewModel;
@@ -20,6 +20,7 @@ namespace MivexBlagajna.UI.ViewModels
         private Func<MestaTroskaViewModel> _mestaTroskaViewModelCreator;
         private Func<UplateIsplateViewModel> _uplateIsplateViewModelCreator;
         private Func<FinansijskaKarticaViewModel> _finansijskaKarticaViewModelCreator;
+        private bool disposedValue;
         #endregion
 
         #region Konstruktor

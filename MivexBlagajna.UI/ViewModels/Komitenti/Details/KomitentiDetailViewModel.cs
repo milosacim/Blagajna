@@ -2,7 +2,6 @@
 using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
-using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.Commands.Komitenti;
 using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
@@ -93,13 +92,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                     _hasChanges = value;
                     OnModelPropertyChanged(oldValue, value);
                 }
-
             }
         }
-        public IAsyncCommand SaveCommand { get; }
-        public IAsyncCommand CancelCommand { get; }
-        public IAsyncCommand CreateNewKomitentCommand { get; }
-        public IAsyncCommand DeleteCommand { get; }
+        public AsyncCommand SaveCommand { get; }
+        public AsyncCommand CancelCommand { get; }
+        public AsyncCommand CreateNewKomitentCommand { get; }
+        public AsyncCommand DeleteCommand { get; }
         public RelayCommand EditKomitentPropertyCommand { get; }
 
         #endregion
@@ -214,10 +212,8 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                     Komitent?.EndEdit();
                 }
             }
-
         }
-
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
             if (HasChanges)
             {
@@ -229,7 +225,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                 }
             }
 
-            base.Dispose();
+            _backupkomitent = null;
+            _komitent = null;
+            OnKomitentDeleted = null;
+            OnKomitentSaved = null;
+            base.Dispose(disposing);
         }
 
         #endregion

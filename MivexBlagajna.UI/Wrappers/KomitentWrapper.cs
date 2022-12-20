@@ -40,7 +40,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -55,7 +55,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -69,7 +69,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -84,7 +84,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -98,7 +98,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -112,7 +112,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -126,7 +126,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -140,7 +140,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -154,7 +154,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -168,7 +168,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -182,7 +182,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -196,7 +196,7 @@ namespace MivexBlagajna.UI.Wrappers
             set
             {
                 SetValue(value);
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -219,7 +219,7 @@ namespace MivexBlagajna.UI.Wrappers
                 {
                     SetValue(value);
                 }
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -241,7 +241,7 @@ namespace MivexBlagajna.UI.Wrappers
                 {
                     SetValue(value);
                 }
-                OnModelPropertyChanged();
+                OnPropertyChanged();
 
             }
         }
@@ -254,23 +254,23 @@ namespace MivexBlagajna.UI.Wrappers
         public MestoTroska? MestoTroska
         {
             get { return GetValue<MestoTroska?>(); }
-            set { SetValue(value); OnModelPropertyChanged(); }
+            set { SetValue(value); OnPropertyChanged(); }
         }
 
         public bool IsEditable
         {
             get { return _isEditable; }
-            set { _isEditable = value; OnModelPropertyChanged(); }
+            set { _isEditable = value; OnPropertyChanged(); }
         }
         public bool IsPravnoLiceEditable
         {
             get { return _isPravnoLiceEditable; }
-            set { _isPravnoLiceEditable = value; OnModelPropertyChanged(); }
+            set { _isPravnoLiceEditable = value; OnPropertyChanged(); }
         }
         public bool IsFizickoLiceEditable
         {
             get { return _isFizickoLiceEditable; }
-            set { _isFizickoLiceEditable = value; OnModelPropertyChanged(); }
+            set { _isFizickoLiceEditable = value; OnPropertyChanged(); }
         }
 
 
@@ -287,7 +287,7 @@ namespace MivexBlagajna.UI.Wrappers
                 {
                     _punNaziv = Sifra.ToString() + " - " + Ime + " " + Prezime;
                 }
-                OnModelPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -335,11 +335,6 @@ namespace MivexBlagajna.UI.Wrappers
         public override string ToString()
         {
             return string.Format($"{0}", Naziv);
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
         }
     }
 }

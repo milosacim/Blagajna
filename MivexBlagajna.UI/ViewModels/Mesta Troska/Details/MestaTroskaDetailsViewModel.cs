@@ -1,8 +1,6 @@
-﻿using Castle.Core.Internal;
-using MivexBlagajna.Data.Models;
+﻿using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
-using MivexBlagajna.UI.Commands.Interfaces;
 using MivexBlagajna.UI.Commands.Mesta_Troska;
 using MivexBlagajna.UI.EventArgs;
 using MivexBlagajna.UI.Views.Services;
@@ -11,7 +9,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
 {
@@ -20,12 +17,12 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
         private readonly IMestoTroskaRepository _mestoTroskaRepository;
         private readonly IMessageDialogService _messageDialogService;
 
-        private MestoTroskaWrapper _mestoTroska;
-        private MestoTroskaWrapper _backupMestoTroska;
+        private MestoTroskaWrapper? _mestoTroska;
+        private MestoTroskaWrapper? _backupMestoTroska;
         private bool _hasChanges;
 
-        public event EventHandler<SavedMestoTroskaArgs> OnMestoSaved;
-        public event EventHandler<MestoTroskaDeletedArgs> OnMestoDeleted;
+        public event EventHandler<SavedMestoTroskaArgs>? OnMestoSaved;
+        public event EventHandler<MestoTroskaDeletedArgs>? OnMestoDeleted;
 
         public MestaTroskaDetailsViewModel(
             IMestoTroskaRepository mestoTroskaRepository
@@ -178,7 +175,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
                 }
             }
 
-            if (MestoTroska.IsEditable == true)
+            if (MestoTroska?.IsEditable == true)
             {
                 MestoTroska?.EndEdit();
             }
@@ -258,9 +255,43 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Details
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            base.Dispose();
+            _backupMestoTroska = null;
+            _mestoTroska = null;
+            OnMestoDeleted = null;
+            OnMestoSaved = null;
+
+            base.Dispose(disposing);
         }
+
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (!disposedValue)
+        //    {
+        //        if (disposing)
+        //        {
+        //            // TODO: dispose managed state (managed objects)
+        //        }
+
+        //        // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+        //        // TODO: set large fields to null
+        //        disposedValue = true;
+        //    }
+        //}
+
+        //// // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        //// ~MestaTroskaDetailsViewModel()
+        //// {
+        ////     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        ////     Dispose(disposing: false);
+        //// }
+
+        //public void Dispose()
+        //{
+        //    // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //    Dispose(disposing: true);
+        //    GC.SuppressFinalize(this);
+        //}
     }
 }
