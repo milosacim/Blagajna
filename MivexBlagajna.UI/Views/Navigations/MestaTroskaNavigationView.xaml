@@ -10,8 +10,16 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
         <syncfusion:SfTreeGrid
+            Grid.Row="1"
             AutoExpandMode="AllNodesExpanded"
+            AllowResizingColumns="True" 
             ExpanderColumn="Sifra"
             NavigationMode="Row"
             ParentPropertyName="Id"
@@ -20,12 +28,14 @@
             AutoGenerateColumns="False"
             SelectedItem="{Binding SelectedMestoTroska, Mode=TwoWay}"
             SelectionMode="Single"
-            ShowRowHeader="True">
+            ShowRowHeader="True"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            ScrollViewer.CanContentScroll="True">
 
             <syncfusion:SfTreeGrid.Columns>
 
-                <syncfusion:TreeGridTextColumn HeaderText="Šifra" MappingName="Sifra" />
-                <syncfusion:TreeGridTextColumn HeaderText="Mesto Troška" MappingName="Naziv" />
+                <syncfusion:TreeGridTextColumn HeaderText="Šifra" MappingName="Sifra"/>
+                <syncfusion:TreeGridTextColumn HeaderText="Mesto Troška" MappingName="Naziv"/>
 
             </syncfusion:SfTreeGrid.Columns>
 

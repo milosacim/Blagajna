@@ -145,9 +145,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
                     KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
                     KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
-
-                    //KomitentiDetailViewModel?.Dispose();
-                    //KomitentiNavigationViewModel?.Dispose();
                 }
             }
             else
@@ -157,9 +154,6 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
                 KomitentiDetailViewModel.OnKomitentDeleted -= OnKomitentDeleted;
                 KomitentiDetailViewModel.OnKomitentSaved -= OnKomitentSaved;
-
-                //KomitentiDetailViewModel?.Dispose();
-                //KomitentiNavigationViewModel?.Dispose();
             }
 
             base.Dispose(disposing);

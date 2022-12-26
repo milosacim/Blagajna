@@ -15,7 +15,6 @@ namespace MivexBlagajna.UI.Commands
         protected AsyncCommand()
         {
             runningTasks = new ObservableCollection<Task>();
-            runningTasks.CollectionChanged += OnRunningTasksChanged;
         }
 
         public event EventHandler? CanExecuteChanged
@@ -53,11 +52,6 @@ namespace MivexBlagajna.UI.Commands
             {
                 runningTasks.Remove(runningTask);
             }
-        }
-
-        private void OnRunningTasksChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            CommandManager.InvalidateRequerySuggested();
         }
     }
 }

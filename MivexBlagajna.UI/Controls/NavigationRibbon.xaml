@@ -26,7 +26,7 @@
                     CommandParameter="{x:Static local:ViewModelType.Komitenti}"
                     FontSize="12"
                     Label="Komitenti"
-                    LargeIcon="/Images/icons8-customer-48.png"
+                    LargeIcon="/Images/icons8-people-48.png"
                     SizeForm="Large" />
 
                 <syncfusion:RibbonButton
@@ -35,7 +35,7 @@
                     CommandParameter="{x:Static local:ViewModelType.MestaTroska}"
                     FontSize="12"
                     Label="Mesta troska"
-                    LargeIcon="/Images/icons8-cost-60.png"
+                    LargeIcon="/Images/icons8-post-office-48.png"
                     SizeForm="Large" />
 
             </syncfusion:RibbonBar>
@@ -54,7 +54,7 @@
                     CommandParameter="{x:Static local:ViewModelType.UplateIsplate}"
                     FontSize="12"
                     Label="Uplata / Isplata"
-                    LargeIcon="/Images/icons8-cash-register-64.png"
+                    LargeIcon="/Images/icons8-atm-48.png"
                     SizeForm="Large" />
                 <syncfusion:RibbonButton
                     Margin="10,5,10,0"

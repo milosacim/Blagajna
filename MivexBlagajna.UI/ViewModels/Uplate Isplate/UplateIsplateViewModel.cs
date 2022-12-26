@@ -257,11 +257,12 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
             if (result == MessageDialogResult.Potvrdi)
             {
-                if(Transakcije.Count > 1)
+                await _transakcijeRepository.DeleteAsync(transakcija.Model);
+
+                if (Transakcije.Count > 1)
                 {
                     Transakcije.RemoveAt(Transakcije.IndexOf(transakcija));
                     Transakcija = Transakcije[Transakcije.IndexOf(transakcija) + 1];
-                    await _transakcijeRepository.DeleteAsync(transakcija.Model);
                     UplateIsplate.Refresh();
                 }
                 else

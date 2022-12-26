@@ -7,10 +7,8 @@
     Title="Blagajna - Mivex D.O.O Cacak"
     Width="525"
     Height="350"
-    Icon="App.ico"
+    Icon="Blagajna.ico"
     TitleTextAlignment="Left">
-
-
 
     <Grid>
 
@@ -26,7 +24,6 @@
             Grid.Row="1"
             ActiveDocument="{Binding SelectedViewModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ItemsSource="{Binding Workspaces}" />
-
     </Grid>
 
 </syncfusion:RibbonWindow>

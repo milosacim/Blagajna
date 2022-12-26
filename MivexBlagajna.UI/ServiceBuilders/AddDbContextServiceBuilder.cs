@@ -15,14 +15,13 @@ namespace MivexBlagajna.UI.ServiceBuilders
             {
                 services.AddDbContext<MivexBlagajnaDbContext>(options =>
                 {
-
                     options.UseSqlServer(GetConnectionString("TestDatabase"));
                     options.UseTriggers(triggerOptions =>
                     {
                         triggerOptions.AddTrigger<SoftDeleteTrigger>();
                     });
 
-                }, ServiceLifetime.Transient);
+                }, ServiceLifetime.Scoped);
             });
 
             return host;
