@@ -8,35 +8,39 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <Border>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal">
-
-                <TextBox
+                <StackPanel Orientation="Horizontal">
+                    <TextBox
                     x:Name="Pretraga"
                     Width="100"
                     Text="{Binding Path=NazivFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                
-                <Label Margin="10,0,0,0" Content="Pravna lica" />
-                <CheckBox IsChecked="{Binding PravnoLiceFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                <Label Content="Fizicka lica" />
-                <CheckBox IsChecked="{Binding FizickoLiceFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-            </StackPanel>
+                    <Label Margin="10,0,0,0" Content="Pravna lica" />
+                    <CheckBox IsChecked="{Binding PravnoLiceFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <Label Content="Fizicka lica" />
+                    <CheckBox IsChecked="{Binding FizickoLiceFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </StackPanel>
 
-            <ListView
-                x:Name="ListOfKomitenti"
-                Grid.Row="1"
-                Margin="0,10"
-                DisplayMemberPath="PunNaziv"
-                ItemsSource="{Binding FilteredList}"
-                SelectedItem="{Binding SelectedKomitent, Mode=TwoWay}" />
-        </Grid>
-    </Border>
+                <ListView
+                    Grid.Row="1"
+                    DockPanel.Dock="Bottom"
+                    x:Name="ListOfKomitenti"
+                    Margin="0,10"
+                    DisplayMemberPath="PunNaziv"
+                    ItemsSource="{Binding FilteredList}"
+                    SelectedItem="{Binding SelectedKomitent, Mode=TwoWay}"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    ScrollViewer.CanContentScroll="True" />
+            </Grid>
+        </Border>
+
+
 </UserControl>

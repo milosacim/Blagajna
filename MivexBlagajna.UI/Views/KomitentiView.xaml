@@ -10,62 +10,54 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
-        <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Margin="0 10 10 10" Grid.RowSpan="3">
-
-        </Border>
-
+        
+        <!--Navigacija-->
         <Grid>
-            <StackPanel Margin="10 0" Width="auto" >
-                
-                <TextBlock Text="Lista komitenata" Margin="20" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
-                <navigation:KomitentiNavigationView DataContext="{Binding KomitentiNavigationViewModel}" Margin="10" Grid.RowSpan="3"/>
-                
-            </StackPanel>
+            <Border BorderBrush="LightGray" BorderThickness="2.5" CornerRadius="5" Margin="0 10 10 10"/>
+            <DockPanel Margin="10 0" Width="auto" >
+                <TextBlock DockPanel.Dock="Top" Text="Lista komitenata" Margin="20" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
+                <navigation:KomitentiNavigationView DockPanel.Dock="Bottom" DataContext="{Binding KomitentiNavigationViewModel}" Margin="10"/>
+            </DockPanel>
         </Grid>
 
         <Grid Grid.Column="1">
-            
-            <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Margin="0 10 10 0" />
-            
-            <details:KomitentDetailView DataContext="{Binding KomitentiDetailViewModel}" Margin="10 10"/>
-            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Detalji -->
+            <Grid>
+                <Border BorderBrush="LightGray" BorderThickness="2.5" CornerRadius="5" Margin="0 10 10 0" />
+                <details:KomitentDetailView DataContext="{Binding KomitentiDetailViewModel}" Margin="10 10"/>
+            </Grid>
+
+            <!--Tabela -->
+            <Grid Grid.Row="1">
+                <Border BorderBrush="LightGray" BorderThickness="2.5" CornerRadius="5" Margin="0 10 10 10" />
+
+                <syncfusion:SfDataGrid 
+                DataContext="{Binding KomitentiNavigationViewModel}" 
+                ItemsSource="{Binding Komitenti, UpdateSourceTrigger=PropertyChanged}" 
+                Margin="1 11 11 11" 
+                AllowResizingColumns="True" 
+                AutoGenerateColumns="False" 
+                AllowFiltering="True"
+                BorderThickness="0"
+                BorderBrush="Transparent">
+
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn HeaderText="Komitent" MappingName="PunNaziv" Width="500"/>
+                        <syncfusion:GridCheckBoxColumn HeaderText="Pravno lice" MappingName="PravnoLice" />
+                        <syncfusion:GridCheckBoxColumn HeaderText="Fizicko lice" MappingName="FizickoLice" />
+                    </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid>
+            </Grid>
         </Grid>
-
-        <Grid Grid.Row="3" Grid.Column="2">
-
-            <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Margin="0 10 10 10" />
-            
-            <syncfusion:SfDataGrid DataContext="{Binding KomitentiNavigationViewModel}" 
-                                   ItemsSource="{Binding Komitenti}" 
-                                   Margin="1 11 11 11" 
-                                   AllowResizingColumns="True" 
-                                   AutoGenerateColumns="False" 
-                                   AllowFiltering="True"
-                                   BorderThickness="0"
-                                   BorderBrush="Transparent">
-
-                <syncfusion:SfDataGrid.Columns>
-                    
-                    <syncfusion:GridTextColumn HeaderText="Komitent" MappingName="PunNaziv" Width="500"/>
-                    <syncfusion:GridCheckBoxColumn HeaderText="Pravno lice" MappingName="PravnoLice" />
-                    <syncfusion:GridCheckBoxColumn HeaderText="Fizicko lice" MappingName="FizickoLice" />
-                    
-                </syncfusion:SfDataGrid.Columns>
-                
-            </syncfusion:SfDataGrid>
-
-        </Grid>
-
     </Grid>
 </UserControl>

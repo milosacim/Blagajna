@@ -104,8 +104,11 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                     if (item != null)
                     {
                         Komitenti.Add(
-                            new KomitentiNavigationItemViewModel(item.Id, item.PunNaziv, item.PravnoLice, item.FizickoLice));
-
+                            new KomitentiNavigationItemViewModel(
+                                item.Id, 
+                                item.PunNaziv, 
+                                item.PravnoLice, 
+                                item.FizickoLice));
                     }
                 }
             }

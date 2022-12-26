@@ -81,6 +81,7 @@ namespace MivexBlagajna.UI.ViewModels
                 }
             }
             Workspaces.Add(SelectedViewModel);
+
             await SelectedViewModel.LoadAsync();
         }
 
