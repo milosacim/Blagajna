@@ -95,6 +95,5 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         {
             _context.Komitenti.Add(komitent);
         }
-
     }
 }

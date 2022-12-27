@@ -115,7 +115,7 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti
 
             if (lookupitem == null)
             {
-                KomitentiNavigationViewModel.Komitenti.Add(new KomitentiNavigationItemViewModel(e.id, e.naziv, e.pravno, e.fizicko));
+                KomitentiNavigationViewModel.Komitenti.Add(new KomitentiNavigationItemViewModel(e.id, e.naziv, e.pravno, e.fizicko, e.adresa, e.postBroj, e.mesto, e.telefon));
                 KomitentiNavigationViewModel.SelectedKomitent = KomitentiNavigationViewModel.Komitenti.First();
             }
 

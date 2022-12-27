@@ -8,14 +8,21 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
         private bool _pravnoLice;
         private bool _fizickoLice;
         private bool _isSelected;
+        private string _adresa;
+        private string _postBroj;
+        private string _mesto;
+        private string _telefon;
 
-        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool pravnoLice, bool fizickoLice)
+        public KomitentiNavigationItemViewModel(int id, string punNaziv, bool pravnoLice, bool fizickoLice, string adresa, string postBroj, string mesto, string telefon)
         {
             Id = id;
             _punNaziv = punNaziv;
             _pravnoLice = pravnoLice;
             _fizickoLice = fizickoLice;
-
+            _adresa = adresa;
+            _postBroj = postBroj;
+            _mesto = mesto;
+            _telefon = telefon;
             _isSelected = false;
         }
 
@@ -47,6 +54,50 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
             {
                 _fizickoLice = value;
                 var oldValue = _fizickoLice;
+                OnModelPropertyChanged(oldValue, value);
+            }
+        }
+
+        public string Adresa
+        {
+            get { return _adresa; }
+            set
+            {
+                _adresa = value;
+                var oldValue = _adresa;
+                OnModelPropertyChanged(oldValue, value);
+            }
+        }
+
+        public string Mesto
+        {
+            get { return _mesto; }
+            set
+            {
+                _mesto = value;
+                var oldValue = _mesto;
+                OnModelPropertyChanged(oldValue, value);
+            }
+        }
+
+        public string PostanskiBroj
+        {
+            get { return _postBroj; }
+            set
+            {
+                _postBroj = value;
+                var oldValue = _postBroj;
+                OnModelPropertyChanged(oldValue, value);
+            }
+        }
+
+        public string Kontakt
+        {
+            get { return _telefon; }
+            set
+            {
+                _telefon = value;
+                var oldValue = _telefon;
                 OnModelPropertyChanged(oldValue, value);
             }
         }

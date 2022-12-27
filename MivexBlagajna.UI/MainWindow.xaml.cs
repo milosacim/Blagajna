@@ -14,19 +14,8 @@ namespace MivexBlagajna.UI
             DataContext = dataContext;
 
             MaterialLightThemeSettings materialLightThemeSettings = new MaterialLightThemeSettings();
-            //Office2019ColorfulThemeSettings office2019ColorfulThemeSettings = new Office2019ColorfulThemeSettings();
-            //FluentLightThemeSettings fluentLightThemeSettings = new FluentLightThemeSettings();
-            //FluentDarkThemeSettings fluentDarkThemeSettings = new FluentDarkThemeSettings();
-
             SfSkinManager.RegisterThemeSettings("MaterialLightBlue", materialLightThemeSettings);
-            //SfSkinManager.RegisterThemeSettings("Office2019Colorful", office2019ColorfulThemeSettings);
-            //SfSkinManager.RegisterThemeSettings("FluentLight", fluentLightThemeSettings);
-            //SfSkinManager.RegisterThemeSettings("FluentDark", fluentDarkThemeSettings);
-
-            //SfSkinManager.SetTheme(this, new Theme("FluentDark"));
             SfSkinManager.SetTheme(this, new Theme("MaterialLightBlue"));
-            //SfSkinManager.SetTheme(this, new Theme("Office2019Colorful"));
-            //SfSkinManager.SetTheme(this, new Theme("FluentLight"));
 
             InitializeComponent();
 

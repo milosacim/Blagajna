@@ -57,6 +57,10 @@
                             <syncfusion:GridTextColumn HeaderText="Komitent" MappingName="PunNaziv" Width="500"/>
                             <syncfusion:GridCheckBoxColumn HeaderText="Pravno lice" MappingName="PravnoLice" />
                             <syncfusion:GridCheckBoxColumn HeaderText="Fizicko lice" MappingName="FizickoLice" />
+                            <syncfusion:GridTextColumn HeaderText="Poštanski broj" MappingName="PostanskiBroj" />
+                            <syncfusion:GridTextColumn HeaderText="Mesto" MappingName="Mesto" />
+                            <syncfusion:GridTextColumn HeaderText="Adresa" MappingName="Adresa" />
+                            <syncfusion:GridTextColumn HeaderText="Kontakt" MappingName="Kontakt" />
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
                 </Grid>

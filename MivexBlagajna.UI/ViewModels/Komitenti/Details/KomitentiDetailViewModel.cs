@@ -165,7 +165,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Details
                         Komitent.Id,
                         Komitent.PravnoLice == true ? $"{Komitent.Sifra} - {Komitent.Naziv}" : $"{Komitent.Sifra} - {Komitent.Ime} {Komitent.Prezime}"
                         , Komitent.PravnoLice
-                        , Komitent.FizickoLice));
+                        , Komitent.FizickoLice
+                        , Komitent.Adresa
+                        , Komitent.PostanskiBroj
+                        , Komitent.Mesto
+                        , Komitent.Telefon
+                        ));
                 }
             }
 

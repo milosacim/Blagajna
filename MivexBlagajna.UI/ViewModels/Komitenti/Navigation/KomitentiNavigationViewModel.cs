@@ -108,7 +108,12 @@ namespace MivexBlagajna.UI.ViewModels.Komitenti.Navigation
                                 item.Id, 
                                 item.PunNaziv, 
                                 item.PravnoLice, 
-                                item.FizickoLice));
+                                item.FizickoLice,
+                                item.Adresa,
+                                item.PostanskiBroj,
+                                item.Mesto,
+                                item.Kontakt
+                                ));
                     }
                 }
             }
