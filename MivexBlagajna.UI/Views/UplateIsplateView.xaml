@@ -78,7 +78,7 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <!--  Prvi red  -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" >
                                 <!--  Datum naloga  -->
                                 <StackPanel>
                                     <Label Content="Datum" />
@@ -235,7 +235,7 @@
                                 BorderThickness="0.5"
                                 IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                 Text="{Binding Transakcija.Isplata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                TextChanged="isplateTextBox_TextChanged"
+                                TextChanged="IsplateTextBox_TextChanged"
                                 Watermark="0.00" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}"/>
                             </StackPanel>
                         </StackPanel>
@@ -247,7 +247,7 @@
 
                                 <syncfusion:ButtonAdv
                                     Width="75"
-                                    Click="novNalogOrEditBtn_Click"
+                                    Click="NovNalogOrEditBtn_Click"
                                     Command="{Binding CreateTransakcijaCommand}"
                                     Label="Nov Nalog"
                                     LargeIcon="/Images/icons8-add-48.png"
@@ -256,7 +256,7 @@
                                 <syncfusion:ButtonAdv
                                     Width="75"
                                     Margin="10,0,0,0"
-                                    Click="novNalogOrEditBtn_Click"
+                                    Click="NovNalogOrEditBtn_Click"
                                     Command="{Binding EditTransakcijaCommand}"
                                     Label="Izmeni"
                                     LargeIcon="/Images/icons8-edit-property-48.png"

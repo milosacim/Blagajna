@@ -30,7 +30,7 @@ namespace MivexBlagajna.UI.Views
         // EventHandler kada se kreira novi nalog
         // menja DataBinding textBox-a za sifru komitenta
         // tako da je moguca pretraga komitenata
-        private void novNalogOrEditBtn_Click(object sender, RoutedEventArgs e)
+        private void NovNalogOrEditBtn_Click(object sender, RoutedEventArgs e)
         {
             SetCustomDataBinding();
         }
@@ -43,10 +43,19 @@ namespace MivexBlagajna.UI.Views
             {
                 KomitentNaziv.IsDropDownOpen = true;
             }
+            else if(KomitentNaziv.SelectedValue != null)
+            {
+                KomitentNaziv.IsDropDownOpen = false;
+            }
             else
             {
                 KomitentNaziv.IsDropDownOpen = false;
             }
+        }
+
+        private void KomitentNaziv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            KomitentNaziv.IsDropDownOpen = false;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -87,10 +96,7 @@ namespace MivexBlagajna.UI.Views
             KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
         }
 
-        private void KomitentNaziv_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            KomitentNaziv.IsDropDownOpen = false;
-        }
+
 
         private void ExportExcel_Click(object sender, RoutedEventArgs e)
         {
@@ -154,7 +160,7 @@ namespace MivexBlagajna.UI.Views
             }
         }
 
-        private void isplateTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void IsplateTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (isplateTxtBox.Text == "")
             {

@@ -5,6 +5,8 @@ using MivexBlagajna.UI.ServiceBuilders;
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace MivexBlagajna.UI
@@ -19,6 +21,8 @@ namespace MivexBlagajna.UI
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(GetLicenseKey("SyncfusionLicenseKey:key"));
             _host = CreateHostBuilder().Build();
+
+
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args = null)
@@ -48,6 +52,32 @@ namespace MivexBlagajna.UI
             window.WindowState = WindowState.Maximized;
             window?.Show();
             base.OnStartup(e);
+
+            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.KeyDownEvent, new KeyEventHandler(TextBox_KeyDown));
+            EventManager.RegisterClassHandler(typeof(ComboBox), ComboBox.KeyDownEvent, new KeyEventHandler(ComboBox_KeyDown));
+        }
+
+        private void ComboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            MoveToNextUIElement(e);
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter & (sender as TextBox).AcceptsReturn == false) MoveToNextUIElement(e);
+        }
+
+        private void MoveToNextUIElement(KeyEventArgs e)
+        {
+            FocusNavigationDirection focusNavigation = FocusNavigationDirection.Next;
+            TraversalRequest request = new TraversalRequest(focusNavigation);
+
+            UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+
+            if(elementWithFocus != null)
+            {
+                if(elementWithFocus.MoveFocus(request)) e.Handled = true;
+            }
         }
 
         protected override async void OnExit(ExitEventArgs e)
@@ -56,6 +86,8 @@ namespace MivexBlagajna.UI
             _host.Dispose();
             base.OnExit(e);
         }
+
+
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {

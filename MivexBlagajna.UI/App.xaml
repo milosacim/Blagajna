@@ -7,6 +7,8 @@
     xmlns:uplateIsplate="clr-namespace:MivexBlagajna.UI.ViewModels.Uplate_Isplate" 
     xmlns:kartica="clr-namespace:MivexBlagajna.UI.ViewModels.Kartica" 
     xmlns:views="clr-namespace:MivexBlagajna.UI.Views"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:MivexBlagajna.UI"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     DispatcherUnhandledException="Application_DispatcherUnhandledException">
 
@@ -36,6 +38,14 @@
 
         </ResourceDictionary>
 
+        <b:Interaction.Triggers>
+            <b:EventTrigger EventName="KeyUp">
+                <local:FilterKomitentNazivAction/> 
+            </b:EventTrigger>
+        </b:Interaction.Triggers>
+
     </Application.Resources>
+    
+    
 
 </Application>

@@ -26,7 +26,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         private TransakcijaWrapper? _transakcija;
 
         private readonly Predicate<object> _filterdelegate;
-            //new(s => GetBySearch(s as Komitent));
 
         #endregion
 
@@ -62,7 +61,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             SaveCommand = new SaveTransakcijaCommand(this);
             DeleteCommand = new DeleteTransakcijaCommand(this);
         }
-
 
         private bool CanEditTransakcija(object? arg)
         {
@@ -329,10 +327,9 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 HasChanges = _transakcijeRepository.HasChanges();
                 KomitentFilter = "";
 
-                Transakcija = Transakcije[Transakcije.IndexOf(BackupTransakcija)+1];
+                Transakcija = Transakcije.IsNullOrEmpty() != true ? Transakcije[Transakcije.IndexOf(BackupTransakcija) + 1] : null;
 
                 UplateIsplate.Refresh();
-
                 Transakcija?.EndEdit();
                 FilteredKomitenti.Refresh();
             }
