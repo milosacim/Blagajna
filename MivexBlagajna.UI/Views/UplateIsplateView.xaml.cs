@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Syncfusion.UI.Xaml.Grid.Converter;
 using Syncfusion.UI.Xaml.Grid.Helpers;
+using Syncfusion.Windows.Controls.Input;
 using Syncfusion.XlsIO;
 using System.IO;
 using System.Windows;
@@ -42,8 +43,10 @@ namespace MivexBlagajna.UI.Views
             if (KomitentNaziv.IsEnabled == true)
             {
                 KomitentNaziv.IsDropDownOpen = true;
+                KomitentNaziv.IsEditable = false;
+                
             }
-            else if(KomitentNaziv.SelectedValue != null)
+            else if (KomitentNaziv.SelectedValue != null)
             {
                 KomitentNaziv.IsDropDownOpen = false;
             }

@@ -21,8 +21,6 @@ namespace MivexBlagajna.UI
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(GetLicenseKey("SyncfusionLicenseKey:key"));
             _host = CreateHostBuilder().Build();
-
-
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args = null)
@@ -54,17 +52,18 @@ namespace MivexBlagajna.UI
             base.OnStartup(e);
 
             EventManager.RegisterClassHandler(typeof(TextBox), TextBox.KeyDownEvent, new KeyEventHandler(TextBox_KeyDown));
-            EventManager.RegisterClassHandler(typeof(ComboBox), ComboBox.KeyDownEvent, new KeyEventHandler(ComboBox_KeyDown));
+            //EventManager.RegisterClassHandler(typeof(ComboBox), ComboBox.KeyDownEvent, new KeyEventHandler(ComboBox_KeyDown));
         }
 
-        private void ComboBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            MoveToNextUIElement(e);
-        }
+        //private void ComboBox_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    MoveToNextUIElement(e);
+        //}
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter & (sender as TextBox).AcceptsReturn == false) MoveToNextUIElement(e);
+            if (e.Key == Key.Enter && (sender as TextBox).AcceptsReturn == false)
+                MoveToNextUIElement(e);
         }
 
         private void MoveToNextUIElement(KeyEventArgs e)
@@ -74,9 +73,10 @@ namespace MivexBlagajna.UI
 
             UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
 
-            if(elementWithFocus != null)
+            if (elementWithFocus != null)
             {
-                if(elementWithFocus.MoveFocus(request)) e.Handled = true;
+                if (elementWithFocus.MoveFocus(request))
+                    e.Handled = true;
             }
         }
 
@@ -86,7 +86,6 @@ namespace MivexBlagajna.UI
             _host.Dispose();
             base.OnExit(e);
         }
-
 
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

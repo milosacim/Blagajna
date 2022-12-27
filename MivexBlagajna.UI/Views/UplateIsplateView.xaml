@@ -5,6 +5,7 @@
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:converters="clr-namespace:MivexBlagajna.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MivexBlagajna.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     d:DesignHeight="450"
@@ -12,18 +13,36 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        
+
         <CollectionViewSource x:Key="ComboBoxItems" Source="{Binding MestaTroska}" />
         <converters:NullItemConverter x:Key="NullConverter" />
 
         <ControlTemplate x:Key="validationErrorTemplate">
             <DockPanel>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                     <Grid Width="12" Height="12">
-                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Foreground="White" FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                        <Ellipse
+                            Width="12"
+                            Height="12"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Fill="Red" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="8"
+                            FontWeight="Heavy"
+                            Foreground="White"
+                            TextAlignment="Center"
+                            ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                            X
+                        </TextBlock>
                     </Grid>
-                    <TextBlock Foreground="Red" FontSize="12" Margin="2 0 0 0" Text="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                    <TextBlock
+                        Margin="2,0,0,0"
+                        FontSize="12"
+                        Foreground="Red"
+                        Text="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
                 </StackPanel>
                 <AdornedElementPlaceholder x:Name="ErrorAdorner" />
             </DockPanel>
@@ -32,10 +51,13 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <StatusBar DockPanel.Dock="Bottom" Height="15" Background="CornflowerBlue"/>
-        
+        <StatusBar
+            Height="15"
+            Background="CornflowerBlue"
+            DockPanel.Dock="Bottom" />
+
         <!--  Glavni Grid  -->
-        <Grid >
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -45,15 +67,15 @@
             <!--  Gornji grid  -->
             <Grid>
                 <Border
-                Width="auto"
-                Height="auto"
-                Margin="0,10,0,10"
-                Background="#F7F8F8">
+                    Width="auto"
+                    Height="auto"
+                    Margin="0,10,0,10"
+                    Background="#F7F8F8">
                     <Border.Effect>
                         <DropShadowEffect
-                        BlurRadius="5"
-                        Direction="-90"
-                        Opacity="0.1" />
+                            BlurRadius="5"
+                            Direction="-90"
+                            Opacity="0.1" />
                     </Border.Effect>
 
                     <!--  Polja za unos podataka  -->
@@ -70,15 +92,15 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        
-                        <!--Levi grid-->
+
+                        <!--  Levi grid  -->
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <!--  Prvi red  -->
-                            <StackPanel Orientation="Horizontal" >
+                            <StackPanel Orientation="Horizontal">
                                 <!--  Datum naloga  -->
                                 <StackPanel>
                                     <Label Content="Datum" />
@@ -110,6 +132,7 @@
                                         Height="25"
                                         VerticalAlignment="Center"
                                         BorderThickness="0.5"
+                                        IsEditable="True"
                                         IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                         SelectedValue="{Binding Transakcija.Komitent_Id, Mode=TwoWay}"
                                         SelectedValuePath="Id"
@@ -119,7 +142,13 @@
                                             <b:EventTrigger EventName="SelectionChanged">
                                                 <b:InvokeCommandAction Command="{Binding SetFilterCommand}" CommandParameter="{Binding ElementName=KomitentNaziv, Path=SelectedItem}" />
                                             </b:EventTrigger>
+
+                                            <b:EventTrigger EventName="KeyUp">
+                                                <local:FilterKomitentNazivAction />
+                                            </b:EventTrigger>
+
                                         </b:Interaction.Triggers>
+
 
                                     </syncfusion:ComboBoxAdv>
                                 </StackPanel>
@@ -141,7 +170,7 @@
                                         SelectedValuePath="Id" />
 
                                 </StackPanel>
-                                
+
                             </StackPanel>
                             <!--  Drugi red  -->
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -149,29 +178,39 @@
                                 <StackPanel>
                                     <Label Content="Konto" />
                                     <syncfusion:ComboBoxAdv
-                                Width="90"
-                                Height="25"
-                                VerticalAlignment="Center"
-                                BorderThickness="0.5"
-                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                ItemsSource="{Binding Konta}"
-                                SelectedValue="{Binding Transakcija.Konto_Id, Mode=TwoWay}"
-                                SelectedValuePath="Id" />
+                                        Width="90"
+                                        Height="25"
+                                        VerticalAlignment="Center"
+                                        BorderThickness="0.5"
+                                        IsEditable="True"
+                                        IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                        ItemsSource="{Binding Konta}"
+                                        SelectedValue="{Binding Transakcija.Konto_Id, Mode=TwoWay}"
+                                        SelectedValuePath="Id">
+
+                                        <b:Interaction.Triggers>
+                                            <b:EventTrigger EventName="KeyUp">
+                                                <local:FilterKontoNazivAction />
+                                            </b:EventTrigger>
+                                        </b:Interaction.Triggers>
+
+                                    </syncfusion:ComboBoxAdv>
 
                                 </StackPanel>
                                 <!--  Vrsta naloga  -->
                                 <StackPanel Margin="20,0,0,0">
                                     <Label Content="Vrsta naloga" IsEnabled="True" />
                                     <syncfusion:ComboBoxAdv
-                                x:Name="Vrste"
-                                Width="200"
-                                Height="25"
-                                VerticalAlignment="Center"
-                                BorderThickness="0.5"
-                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                ItemsSource="{Binding VrsteNaloga}"
-                                SelectedValue="{Binding Transakcija.VrsteNaloga_Id, Mode=TwoWay}"
-                                SelectedValuePath="Id">
+                                        x:Name="Vrste"
+                                        Width="200"
+                                        Height="25"
+                                        VerticalAlignment="Center"
+                                        BorderThickness="0.5"
+                                        IsEditable="True"
+                                        IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                        ItemsSource="{Binding VrsteNaloga}"
+                                        SelectedValue="{Binding Transakcija.VrsteNaloga_Id, Mode=TwoWay}"
+                                        SelectedValuePath="Id">
 
                                         <b:Interaction.Triggers>
                                             <b:EventTrigger EventName="SelectionChanged">
@@ -186,60 +225,63 @@
                                 <StackPanel Margin="20,0,0,0">
                                     <Label Content="Nalog" />
                                     <syncfusion:SfTextBoxExt
-                                Width="80"
-                                Height="25"
-                                VerticalAlignment="Center"
-                                BorderThickness="0.5"
-                                IsEnabled="False"
-                                Text="{Binding Transakcija.Nalog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Width="80"
+                                        Height="25"
+                                        VerticalAlignment="Center"
+                                        BorderThickness="0.5"
+                                        IsEnabled="False"
+                                        Text="{Binding Transakcija.Nalog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
                                 <!--  Opis  -->
                                 <StackPanel Margin="20,0,0,0">
                                     <Label Content="Opis" />
                                     <syncfusion:SfTextBoxExt
-                                Width="400"
-                                Height="25"
-                                VerticalAlignment="Center"
-                                BorderThickness="0.5"
-                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                Text="{Binding Transakcija.Opis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Width="400"
+                                        Height="25"
+                                        VerticalAlignment="Center"
+                                        BorderThickness="0.5"
+                                        IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                        Text="{Binding Transakcija.Opis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                                 </StackPanel>
                             </StackPanel>
-                            
+
                         </Grid>
-                        
+
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <!--  Polje za unos uplate  -->
                             <StackPanel Margin="20,0,0,0">
                                 <Label Content="Uplata" />
                                 <syncfusion:SfTextBoxExt
-                                x:Name="uplataTextBox"
-                                Width="150"
-                                Height="25"
-                                VerticalAlignment="Center"
-                                BorderThickness="0.5"
-                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                Text="{Binding Transakcija.Uplata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                Watermark="0.00" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" TextChanged="UplateBoxExt_TextChanged"/>
+                                    x:Name="uplataTextBox"
+                                    Width="150"
+                                    Height="25"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0.5"
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                    Text="{Binding Transakcija.Uplata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    TextChanged="UplateBoxExt_TextChanged"
+                                    Validation.ErrorTemplate="{StaticResource validationErrorTemplate}"
+                                    Watermark="0.00" />
 
                             </StackPanel>
                             <!--  Polje za unos isplate  -->
                             <StackPanel Margin="20,0,0,0">
                                 <Label Content="Isplata" />
                                 <syncfusion:SfTextBoxExt
-                                x:Name="isplateTxtBox"
-                                Width="150"
-                                Height="25"
-                                VerticalAlignment="Center"
-                                BorderThickness="0.5"
-                                IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
-                                Text="{Binding Transakcija.Isplata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                TextChanged="IsplateTextBox_TextChanged"
-                                Watermark="0.00" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}"/>
+                                    x:Name="isplateTxtBox"
+                                    Width="150"
+                                    Height="25"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0.5"
+                                    IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                    Text="{Binding Transakcija.Isplata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    TextChanged="IsplateTextBox_TextChanged"
+                                    Validation.ErrorTemplate="{StaticResource validationErrorTemplate}"
+                                    Watermark="0.00" />
                             </StackPanel>
                         </StackPanel>
-                        
+
                         <!--  Nov nalog, izmeni, otkazi  -->
                         <StackPanel Grid.Column="2" Margin="20,0,0,0">
 
@@ -274,12 +316,12 @@
                             </StackPanel>
 
                         </StackPanel>
-                        
+
                         <StackPanel
                             Grid.Column="2"
                             Margin="60,60,0,0"
                             Orientation="Horizontal">
-                            
+
                             <syncfusion:ButtonAdv
                                 Width="75"
                                 Height="47"
@@ -298,7 +340,7 @@
                                 LargeIcon="/Images/icons8-remove-48.png"
                                 SizeMode="Large" />
                         </StackPanel>
-                        
+
                         <!--  Export to Excel Button  -->
                         <syncfusion:ButtonAdv
                             Grid.Row="0"
@@ -317,68 +359,68 @@
                 <Border Background="#F7F8F8">
                     <!--  Tabela sa nalozima  -->
                     <syncfusion:SfDataGrid
-                    x:Name="tabela"
-                    Margin="5,0,0,5"
-                    AllowResizingColumns="True"
-                    AutoGenerateColumns="False"
-                    ColumnSizer="Star"
-                    ItemsSource="{Binding UplateIsplate}"
-                    LiveDataUpdateMode="AllowSummaryUpdate"
-                    SelectedItem="{Binding Transakcija, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        x:Name="tabela"
+                        Margin="5,0,0,5"
+                        AllowResizingColumns="True"
+                        AutoGenerateColumns="False"
+                        ColumnSizer="Star"
+                        ItemsSource="{Binding UplateIsplate}"
+                        LiveDataUpdateMode="AllowSummaryUpdate"
+                        SelectedItem="{Binding Transakcija, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <syncfusion:SfDataGrid.Columns>
 
                             <syncfusion:GridTextColumn
-                            Width="100"
-                            HeaderText="Nalog"
-                            MappingName="Nalog" />
+                                Width="100"
+                                HeaderText="Nalog"
+                                MappingName="Nalog" />
                             <syncfusion:GridTextColumn
-                            Width="100"
-                            HeaderText="Vrsta Naloga"
-                            MappingName="VrstaNaloga" />
+                                Width="100"
+                                HeaderText="Vrsta Naloga"
+                                MappingName="VrstaNaloga" />
                             <syncfusion:GridDateTimeColumn
-                            Width="100"
-                            HeaderText="Datum"
-                            MappingName="Datum"
-                            Pattern="ShortDate" />
+                                Width="100"
+                                HeaderText="Datum"
+                                MappingName="Datum"
+                                Pattern="ShortDate" />
                             <syncfusion:GridTextColumn
-                            Width="100"
-                            HeaderText="Konto"
-                            MappingName="Konto" />
+                                Width="100"
+                                HeaderText="Konto"
+                                MappingName="Konto" />
                             <syncfusion:GridTextColumn
-                            Width="100"
-                            HeaderText="Sifra"
-                            MappingName="Komitent.Sifra" />
+                                Width="100"
+                                HeaderText="Sifra"
+                                MappingName="Komitent.Sifra" />
                             <syncfusion:GridTextColumn
-                            Width="350"
-                            HeaderText="Komitent"
-                            MappingName="Komitent" />
+                                Width="350"
+                                HeaderText="Komitent"
+                                MappingName="Komitent" />
                             <syncfusion:GridTextColumn
-                            Width="60"
-                            HeaderText="Sifra MT"
-                            MappingName="MestoTroska.Prefix" />
+                                Width="60"
+                                HeaderText="Sifra MT"
+                                MappingName="MestoTroska.Prefix" />
                             <syncfusion:GridTextColumn
-                            Width="300"
-                            HeaderText="Mesto Troska"
-                            MappingName="MestoTroska" />
+                                Width="300"
+                                HeaderText="Mesto Troska"
+                                MappingName="MestoTroska" />
                             <syncfusion:GridTextColumn
-                            Width="300"
-                            HeaderText="Opis"
-                            MappingName="Opis" />
+                                Width="300"
+                                HeaderText="Opis"
+                                MappingName="Opis" />
 
                             <syncfusion:GridNumericColumn
-                            Width="195"
-                            HeaderText="Uplata"
-                            MappingName="Uplata"
-                            NumberDecimalDigits="2"
-                            NumberGroupSeparator="."
-                            NumberGroupSizes="3" />
+                                Width="195"
+                                HeaderText="Uplata"
+                                MappingName="Uplata"
+                                NumberDecimalDigits="2"
+                                NumberGroupSeparator="."
+                                NumberGroupSizes="3" />
                             <syncfusion:GridNumericColumn
-                            Width="195"
-                            HeaderText="Isplata"
-                            MappingName="Isplata"
-                            NumberDecimalDigits="2"
-                            NumberGroupSeparator="."
-                            NumberGroupSizes="3" />
+                                Width="195"
+                                HeaderText="Isplata"
+                                MappingName="Isplata"
+                                NumberDecimalDigits="2"
+                                NumberGroupSeparator="."
+                                NumberGroupSizes="3" />
 
                         </syncfusion:SfDataGrid.Columns>
 
@@ -386,15 +428,15 @@
                             <syncfusion:GridTableSummaryRow Position="Bottom" ShowSummaryInRow="False">
                                 <syncfusion:GridTableSummaryRow.SummaryColumns>
                                     <syncfusion:GridSummaryColumn
-                                    Name="totalUplate"
-                                    Format="'Ukupno uplaceno: {Sum:c}'"
-                                    MappingName="Uplata"
-                                    SummaryType="DoubleAggregate" />
+                                        Name="totalUplate"
+                                        Format="'Ukupno uplaceno: {Sum:c}'"
+                                        MappingName="Uplata"
+                                        SummaryType="DoubleAggregate" />
                                     <syncfusion:GridSummaryColumn
-                                    Name="totalIsplate"
-                                    Format="'Ukupno isplaceno: {Sum:c}'"
-                                    MappingName="Isplata"
-                                    SummaryType="DoubleAggregate" />
+                                        Name="totalIsplate"
+                                        Format="'Ukupno isplaceno: {Sum:c}'"
+                                        MappingName="Isplata"
+                                        SummaryType="DoubleAggregate" />
                                 </syncfusion:GridTableSummaryRow.SummaryColumns>
                             </syncfusion:GridTableSummaryRow>
                         </syncfusion:SfDataGrid.TableSummaryRows>

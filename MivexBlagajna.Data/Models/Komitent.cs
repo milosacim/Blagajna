@@ -49,7 +49,7 @@ namespace MivexBlagajna.Data.Models
             }
             else if (FizickoLice)
             {
-                return String.Format("{0} {1}", this.Ime, this.Prezime);
+                return $"{Ime} {Prezime}";
             }
             else
             {

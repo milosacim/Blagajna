@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace MivexBlagajna.UI
 {
-    class FilterKomitentNazivAction : TargetedTriggerAction<ComboBoxAdv>
+    public class FilterKontoNazivAction : TargetedTriggerAction<ComboBoxAdv>
     {
         protected override void Invoke(object parameter)
         {
@@ -18,24 +18,23 @@ namespace MivexBlagajna.UI
                     return true;
                 else
                 {
-                    if ((o as Komitent).ToString().Contains(Target.Text, StringComparison.OrdinalIgnoreCase) && (o as Komitent).ToString() != null)
+                    if ((o as Konto).Naziv.Contains(Target.Text, StringComparison.OrdinalIgnoreCase) && (o as Konto).Naziv != null)
                     {
-                        if (Target.IsDropDownOpen == true)
-                        {
-                            
-                        }
-                        else
-                        {
-                            Target.IsDropDownOpen = true;
-                        }
+                        Target.IsDropDownOpen = true;
                         return true;
                     }
                     else
+                    {
+                        Target.IsDropDownOpen = true;
                         return false;
+                    }
+
+                    if (Target.Text == "")
+                    {
+                        Target.IsDropDownOpen = false;
+                    }
                 }
             });
-
-            items.Refresh();
         }
     }
 }
