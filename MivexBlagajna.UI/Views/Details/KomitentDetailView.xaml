@@ -277,7 +277,7 @@
                     </StackPanel>
 
                     <StackPanel Margin="20,0">
-                        <Label Margin="0,5,0,0" Content="Telefon: " />
+                        <Label Margin="0,5,0,0" Content="Telefon/Email: " />
                         <TextBox
                             x:Name="telefon"
                             Width="320"
