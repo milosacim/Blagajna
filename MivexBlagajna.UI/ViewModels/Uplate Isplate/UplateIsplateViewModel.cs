@@ -197,7 +197,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         {
             if (Komitenti.IsNullOrEmpty())
             {
-                var listOfKomitenti = await _transakcijeRepository.GetAllKomitenti();
+                var listOfKomitenti = await _transakcijeRepository.GetKomitentiAsync();
                 foreach (var item in listOfKomitenti)
                 {
                     Komitenti.Add(item);
@@ -224,7 +224,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
             if (MestaTroska.IsNullOrEmpty())
             {
-                var mestaList = await _transakcijeRepository.GetAllMestaTroska();
+                var mestaList = await _transakcijeRepository.GetMestaTroskaAsync();
                 foreach (var mesto in mestaList)
                 {
                     MestaTroska.Add(mesto);

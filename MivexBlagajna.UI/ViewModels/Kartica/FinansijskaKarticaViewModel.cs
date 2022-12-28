@@ -88,8 +88,8 @@ namespace MivexBlagajna.UI.ViewModels.Kartica
 
         public async override Task LoadAsync()
         {
-            var komitenti = await _transakcijeRepository.GetAllKomitenti();
-            var mesta = await _transakcijeRepository.GetAllMestaTroska();
+            var komitenti = await _transakcijeRepository.GetKomitentiAsync();
+            var mesta = await _transakcijeRepository.GetMestaTroskaAsync();
             var konta = await _transakcijeRepository.GetAllKonta();
             var vrste = await _transakcijeRepository.GetAllVrsteNaloga();
 

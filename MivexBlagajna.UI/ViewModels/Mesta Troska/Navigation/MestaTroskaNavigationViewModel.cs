@@ -12,9 +12,7 @@ namespace MivexBlagajna.UI.ViewModels.Mesta_Troska.Navigation
     public class MestaTroskaNavigationViewModel : ViewModelBase, IMestaTroskaNavigationViewModel
     {
         private readonly ILookupMestoTroskaDataService _lookupMestoTroskaDataService;
-        private MestaTroskaNavigationItemViewModel? _selectedMestoTroska;
-        private bool disposedValue;
-
+        private MestaTroskaNavigationItemViewModel _selectedMestoTroska;
         public event EventHandler<MestoTroskaArgs> OnMestoSelected;
 
         public MestaTroskaNavigationViewModel(ILookupMestoTroskaDataService lookupMestoTroskaDataService)

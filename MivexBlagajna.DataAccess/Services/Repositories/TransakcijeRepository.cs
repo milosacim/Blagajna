@@ -12,13 +12,7 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
         }
         public void Add(Transakcija transakcija) => _context.Add(transakcija);
         public async Task SaveAsync() => await _context.SaveChangesAsync();
-        public async Task<IEnumerable<Transakcija>> GetAllAsync()
-        {
-            IEnumerable<Transakcija> transakcije = await _context.Transakcije.Where(t => t.Obrisano == false).Include(t => t.Konto).Include(t => t.VrstaNaloga).Include(t => t.Komitent).Include(t => t.MestoTroska).ToListAsync();
-            return transakcije;
-        }
-        public async Task<List<Komitent>> GetAllKomitenti() => await _context.Komitenti.Where(m => m.Obrisano == false).ToListAsync();
-        public async Task<List<MestoTroska>> GetAllMestaTroska() => await _context.MestaTroska.Where(m => m.Obrisano == false).ToListAsync();
+        public async Task<IEnumerable<Transakcija>> GetAllAsync() => await _context.Transakcije.FromSqlRaw($"exec sp_vrati_sve_transakcije").ToListAsync();
         public async Task<List<Konto>> GetAllKonta() => await _context.Konta.ToListAsync();
         public async Task<List<VrsteNaloga>> GetAllVrsteNaloga() => await _context.VrsteNalogas.ToListAsync();
         public bool HasChanges() => _context.ChangeTracker.HasChanges();
@@ -41,10 +35,13 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                 }
             }
         }
-        public async Task<IEnumerable<StavkaKartice>> GetFinansijskaKarticaAsync(string? uslov)
-        {
-            return await _context.StavkeKartice.FromSqlRaw($"exec Vrati_Finansijsku_Karicu {uslov}").ToListAsync();
-        }
+        public async Task<IEnumerable<StavkaKartice>> GetFinansijskaKarticaAsync(string? uslov) => 
+            await _context.StavkeKartice.FromSqlRaw($"exec sp_vrati_finansijsku_karticu {uslov}").ToListAsync();
+        public async Task<IEnumerable<Komitent>> GetKomitentiAsync() => 
+            await _context.Komitenti.FromSqlRaw($"exec sp_vrati_komitente").ToListAsync();
+        public async Task<IEnumerable<MestoTroska>> GetMestaTroskaAsync() => 
+            await _context.MestaTroska.FromSqlRaw($"exec sp_vrati_mestaTroska").ToListAsync();
+
         public async Task DeleteAsync(Transakcija transakcija)
         {
             if (transakcija != null)
