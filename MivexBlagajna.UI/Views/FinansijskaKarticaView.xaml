@@ -5,112 +5,227 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MivexBlagajna.UI.Views" 
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d">
     <Grid>
-        <Border Background="#F7F8F8">
-            <Grid>
+        <Border Background="#F7F8F8"/>
 
+        <DockPanel>
+            <StatusBar
+                Height="15"
+                Background="CornflowerBlue"
+                DockPanel.Dock="Bottom"/>
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="auto"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Grid>
+                <Grid Margin="20 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel Orientation="Horizontal">
-                        
-                        <!--Datum Od-->
-                        <StackPanel>
-                            <Label Content="Datum Od:" />
-                            <syncfusion:DateTimeEdit
-                                DateTime="{Binding DatumOd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    <Border
+                        Width="auto"
+                        Height="auto"
+                        Margin="0,10,0,10"
+                        Background="#F7F8F8">
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <!--Datum Od-->
+                            <StackPanel>
+                                <Label Content="Datum Od:" />
+                                <syncfusion:DateTimeEdit
+                                    DateTime="{Binding DatumOd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="120"
+                                    BorderThickness="0.5"
+                                    DropDownView="Calendar"/>
+                            </StackPanel>
+
+                            <!--Datum Do-->
+                            <StackPanel Margin="20 0">
+                                <Label Content="Datum Do:" />
+                                <syncfusion:DateTimeEdit
+                                    DateTime="{Binding DatumDo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="120"
+                                    BorderThickness="0.5"
+                                    DropDownView="Calendar"/>
+                            </StackPanel>
+
+                            <!--Sifra komitenta-->
+                            <StackPanel>
+                                <Label Content="Sifra:" />
+                                <syncfusion:SfTextBoxExt
+                                    Width="120" 
+                                    Height="25"
+                                    BorderThickness="0.5"/>
+                            </StackPanel>
+
+                            <!--Komitent-->
+                            <StackPanel Margin="20 0">
+                                <Label Content="Komitent:" />
+                                <syncfusion:ComboBoxAdv
+                                    Width="300" 
+                                    Height="25"
+                                    BorderThickness="0.5"
+                                    ItemsSource="{Binding Komitenti}"
+                                    SelectedItem="{Binding Komitent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <!--Mesto troska-->
+                            <StackPanel Margin="20 0">
+                                <Label Content="Mesto Troska" />
+                                <syncfusion:ComboBoxAdv
+                                    Width="250" 
+                                    Height="25"
+                                    BorderThickness="0.5"
+                                    ItemsSource="{Binding MestaTroska}"
+                                    SelectedItem="{Binding Mesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <!--Konto-->
+                            <StackPanel Margin="20 0 0 0">
+                                <Label Content="Konto" />
+                                <syncfusion:ComboBoxAdv
+                                    Width="190" 
+                                    Height="25"
+                                    BorderThickness="0.5"
+                                    ItemsSource="{Binding Konta}"
+                                    SelectedItem="{Binding Konto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <!--Vrsta naloga-->
+                            <StackPanel Margin="20 0">
+                                <Label Content="Vrsta Naloga" />
+                                <syncfusion:ComboBoxAdv
+                                    Width="190" 
+                                    Height="25"
+                                    BorderThickness="0.5"
+                                    ItemsSource="{Binding VrsteNaloga}"
+                                    SelectedItem="{Binding Vrsta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <!--Ucitaj podatke-->
+                            <syncfusion:ButtonAdv
+                                Margin="25 0"
+                                Width="65"
+                                Height="50"
+                                Label="Ucitaj"
+                                SizeMode="Large"
+                                LargeIcon="/Images/icons8-load-67.png"
+                                Command="{Binding LoadKarticaCommand}"/>
+
+                            <!--Izvezi u Excel-->
+                            <syncfusion:ButtonAdv
+                                Margin="15 10"
                                 Width="90"
-                                DropDownView="Calendar"/>
-                        </StackPanel>
-                        <!--Datum Do-->
-                        <StackPanel Margin="10 0">
-                            <Label Content="Datum Do:" />
-                            <syncfusion:DateTimeEdit
-                                DateTime="{Binding DatumDo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Width="90"
-                                DropDownView="Calendar"/>
-                        </StackPanel>
-                        <!--Konto-->
-                        <StackPanel Margin="20 0 0 0">
-                            <Label Content="Konto" />
-                            <syncfusion:ComboBoxAdv
-                                Width="190" Height="25"/>
-                        </StackPanel>
-                        <!--Vrsta naloga-->
-                        <StackPanel Margin="10 0">
-                            <Label Content="Vrsta Naloga" />
-                            <syncfusion:ComboBoxAdv
-                                Width="190" Height="25"/>
-                        </StackPanel>
-                        <!--Ucitaj podatke-->
-                        <syncfusion:ButtonAdv
-                            Margin="25 0"
-                            Width="65"
-                            Height="50"
-                            Label="Ucitaj"
-                            SizeMode="Large"
-                            LargeIcon="/Images/icons8-load-67.png"
-                            Command="{Binding LoadKarticaCommand}"/>
+                                Height="50"
+                                Label="Izvezi u Excel"
+                                SizeMode="Large"
+                                LargeIcon="/Images/icons8-microsoft-excel-2019-48.png"/>
 
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        
-                        <!--Sifra komitenta-->
-                        <StackPanel>
-                            <Label Content="Sifra:" />
-                            <syncfusion:SfTextBoxExt
-                                Width="90" Height="25"/>
                         </StackPanel>
-                        <!--Komitent-->
-                        <StackPanel Margin="10 0">
-                            <Label Content="Komitent:" />
-                            <syncfusion:ComboBoxAdv
-                                Width="190" Height="25"/>
-                        </StackPanel>
-                        <!--Sifra mesta troska-->
-                        <StackPanel Margin="20 0 0 0">
-                            <Label Content="Sifra MT:" />
-                            <syncfusion:SfTextBoxExt
-                                Width="90" Height="25"/>
-                        </StackPanel>
-                        <!--Mesto troska-->
-                        <StackPanel Margin="10 0">
-                            <Label Content="Mesto Troska" />
-                            <syncfusion:ComboBoxAdv
-                                Width="190" Height="25"/>
-                        </StackPanel>
-                        <!--Izvezi u Excel-->
-                        <syncfusion:ButtonAdv
-                            Margin="15 0"
-                            Width="90"
-                            Height="50"
-                            Label="Izvezi u Excel"
-                            SizeMode="Large"
-                            LargeIcon="/Images/icons8-microsoft-excel-2019-48.png"/>
-
-                    </StackPanel>
+                    </Border>
                 </Grid>
 
                 <Grid Grid.Row="1">
-                    <syncfusion:SfDataGrid>
-                        
-                    </syncfusion:SfDataGrid>
+                    <Border Background="#F7F8F8">
+                        <Grid>
+                            <syncfusion:SfDataGrid
+                                Margin="5 0 5 0"
+                                ItemsSource="{Binding Transakcije}"
+                                AllowResizingColumns="True"
+                                AutoGenerateColumns="False"
+                                ColumnSizer="SizeToHeader">
+                                
+                                <syncfusion:SfDataGrid.Columns>
+
+                                    <syncfusion:GridTextColumn
+                                        Width="100"
+                                        HeaderText="Nalog"
+                                        MappingName="Nalog" />
+
+                                    <syncfusion:GridTextColumn
+                                        Width="100"
+                                        HeaderText="Vrsta Naloga"
+                                        MappingName="VrstaNaloga" />
+
+                                    <syncfusion:GridDateTimeColumn
+                                        Width="100"
+                                        HeaderText="Datum"
+                                        MappingName="Datum"
+                                        Pattern="ShortDate" />
+
+                                    <syncfusion:GridTextColumn
+                                        Width="100"
+                                        HeaderText="Konto"
+                                        MappingName="Konto" />
+
+                                    <syncfusion:GridTextColumn
+                                        Width="100"
+                                        HeaderText="Sifra"
+                                        MappingName="Sifra" />
+
+                                    <syncfusion:GridTextColumn
+                                        Width="350"
+                                        HeaderText="Komitent"
+                                        MappingName="Komitent" />
+
+                                    <syncfusion:GridTextColumn
+                                        Width="100"
+                                        HeaderText="Sifra MT"
+                                        MappingName="SifraMT" />
+
+                                    <syncfusion:GridTextColumn
+                                        Width="350"
+                                        HeaderText="Mesto Troska"
+                                        MappingName="Mesto" />
+
+                                    <syncfusion:GridTextColumn
+                                        Width="300"
+                                        HeaderText="Opis"
+                                        MappingName="Opis" />
+
+                                    <syncfusion:GridNumericColumn
+                                        Width="100"
+                                        HeaderText="Uplaćeno"
+                                        MappingName="Uplata"
+                                        NumberDecimalDigits="2"
+                                        NumberGroupSeparator="."
+                                        NumberGroupSizes="3" />
+
+                                    <syncfusion:GridNumericColumn
+                                        Width="100"
+                                        HeaderText="Isplaćeno"
+                                        MappingName="Isplata"
+                                        NumberDecimalDigits="2"
+                                        NumberGroupSeparator="."
+                                        NumberGroupSizes="3" />
+                                    <syncfusion:GridNumericColumn
+                                        Width="100"
+                                        HeaderText="Saldo"
+                                        MappingName="Saldo"
+                                        NumberDecimalDigits="2"
+                                        NumberGroupSeparator="."
+                                        NumberGroupSizes="3" />
+
+                                </syncfusion:SfDataGrid.Columns>
+                                
+                            </syncfusion:SfDataGrid>
+                        </Grid>
+                    </Border>
+
                 </Grid>
-                
+
             </Grid>
-        </Border>
+        </DockPanel>
     </Grid>
 </UserControl>

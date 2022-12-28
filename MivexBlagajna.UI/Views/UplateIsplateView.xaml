@@ -8,8 +8,6 @@
     xmlns:local="clr-namespace:MivexBlagajna.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-    d:DesignHeight="450"
-    d:DesignWidth="1725"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -363,7 +361,7 @@
                         Margin="5,0,0,5"
                         AllowResizingColumns="True"
                         AutoGenerateColumns="False"
-                        ColumnSizer="Star"
+                        ColumnSizer="SizeToCells"
                         ItemsSource="{Binding UplateIsplate}"
                         LiveDataUpdateMode="AllowSummaryUpdate"
                         SelectedItem="{Binding Transakcija, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

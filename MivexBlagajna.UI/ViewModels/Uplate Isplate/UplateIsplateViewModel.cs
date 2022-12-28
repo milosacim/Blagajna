@@ -243,8 +243,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         }
         public async Task SaveTransakcijaAsync()
         {
-            Transakcija.EndEdit();
             await _transakcijeRepository.SaveAsync();
+            Transakcija.EndEdit();
             HasChanges = _transakcijeRepository.HasChanges();
             Transakcije.Add(Transakcija);
             UplateIsplate.Refresh();
@@ -290,7 +290,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                             break;
                         }
 
-                    case "Trosak":
+                    case "Trošak":
                         {
                             Transakcija.Nalog = $"TR - {Transakcije.Where(t => t.VrstaNaloga.VrstaNaloga == vrsta.VrstaNaloga).Count() + 1}";
                             break;

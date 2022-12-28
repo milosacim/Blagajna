@@ -19,7 +19,7 @@ namespace MivexBlagajna.UI.Commands.Transakcije
 
         public override async Task ExecuteAsync()
         {
-            await _model.LoadData(_model.DatumOd);
+            await _model.LoadDataAsync();
         }
     }
 }

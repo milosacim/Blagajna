@@ -41,10 +41,9 @@ namespace MivexBlagajna.DataAccess.Services.Repositories
                 }
             }
         }
-        public async Task<IEnumerable<Transakcija>> GetFinansijskaKarticaAsync(DateTime datumDo)
+        public async Task<IEnumerable<StavkaKartice>> GetFinansijskaKarticaAsync(string? uslov)
         {
-            var datum = datumDo;
-            return await _context.Transakcije.FromSqlRaw($"exec Vrati_Finansijsku_Karicu @{0}", datumDo).ToListAsync();
+            return await _context.StavkeKartice.FromSqlRaw($"exec Vrati_Finansijsku_Karicu {uslov}").ToListAsync();
         }
         public async Task DeleteAsync(Transakcija transakcija)
         {

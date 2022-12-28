@@ -1,5 +1,4 @@
 ﻿using MivexBlagajna.UI.EventArgs;
-using MivexBlagajna.UI.ViewModels.Komitenti.Details;
 using MivexBlagajna.UI.ViewModels.Komitenti.Interfaces;
 using MivexBlagajna.UI.ViewModels.Komitenti.Navigation;
 using MivexBlagajna.UI.Views.Services;

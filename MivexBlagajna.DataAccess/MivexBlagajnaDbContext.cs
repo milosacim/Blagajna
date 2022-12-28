@@ -31,6 +31,7 @@ namespace MivexBlagajna.DataAccess
         public DbSet<Konto> Konta { get; set; }
         public DbSet<Transakcija> Transakcije { get; set; }
         public DbSet<VrsteNaloga> VrsteNalogas { get; set; }
+        public DbSet<StavkaKartice> StavkeKartice { get; set; }
 
         internal static MivexBlagajnaDbContext CreateContext()
         {
