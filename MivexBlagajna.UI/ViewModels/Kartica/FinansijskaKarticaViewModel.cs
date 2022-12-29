@@ -54,25 +54,25 @@ namespace MivexBlagajna.UI.ViewModels.Kartica
             set { _datumDo = value; OnModelPropertyChanged(); }
         }
 
-        public Komitent Komitent
+        public Komitent? Komitent
         {
             get { return _komitent; }
             set { _komitent = value; OnModelPropertyChanged(); }
         }
 
-        public MestoTroska Mesto
+        public MestoTroska? Mesto
         {
             get { return _mesto; }
             set { _mesto = value; OnModelPropertyChanged(); }
         }
 
-        public Konto Konto
+        public Konto? Konto
         {
             get { return _konto; }
             set { _konto = value; OnModelPropertyChanged(); }
         }
 
-        public VrsteNaloga Vrsta
+        public VrsteNaloga? Vrsta
         {
             get { return _vrstaNaloga; }
             set { _vrstaNaloga = value; OnModelPropertyChanged(); }
@@ -132,10 +132,10 @@ namespace MivexBlagajna.UI.ViewModels.Kartica
 
         public async Task LoadDataAsync()
         {
-            var kontoUslov = Konto != null ? $" AND k.id = {Konto.Id}" : null;
-            var komitentUslov = Komitent != null ? $" AND kom.Id = {Komitent.Id}" : null;
-            var mestoUslov = Mesto != null ? $" AND mt.Id = {Mesto.Id}" : null;
-            var vrstaUslov = Vrsta != null ? $" AND vn.Id = {Vrsta.Id}" : null;
+            var kontoUslov = Konto != null ? $" AND k.id = {Konto?.Id}" : null;
+            var komitentUslov = Komitent != null ? $" AND kom.Id = {Komitent?.Id}" : null;
+            var mestoUslov = Mesto != null ? $" AND mt.Id = {Mesto?.Id}" : null;
+            var vrstaUslov = Vrsta != null ? $" AND vn.Id = {Vrsta?.Id}" : null;
 
             var uslov = $"\'(t.Datum >= \'\'{DatumOd.Date:yyyy-MM-dd HH:mm:ss}\'\' AND t.Datum <= \'\'{DatumDo.Date.AddDays(1):yyyy-MM-dd HH:mm:ss}\'\'){kontoUslov}{komitentUslov}{mestoUslov}{vrstaUslov}\'";
 

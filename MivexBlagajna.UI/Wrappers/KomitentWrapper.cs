@@ -248,7 +248,7 @@ namespace MivexBlagajna.UI.Wrappers
         public int? MestoTroska_Id
         {
             get { return GetValue<int?>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnPropertyChanged(); }
         }
 
         public MestoTroska? MestoTroska

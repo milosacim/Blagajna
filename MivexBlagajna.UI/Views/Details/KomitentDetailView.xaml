@@ -301,12 +301,12 @@
 
                     <ComboBox
                         IsEnabled="{Binding Komitent.IsEditable, UpdateSourceTrigger=PropertyChanged}"
-                        SelectedValue="{Binding Komitent.MestoTroska_Id, Mode=TwoWay, Converter={StaticResource NullConverter}}"
+                        SelectedValue="{Binding Komitent.MestoTroska_Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullConverter}}"
                         SelectedValuePath="Id">
 
                         <ComboBox.ItemsSource>
                             <CompositeCollection>
-                                <ComboBoxItem Content=" - " />
+                                <ComboBoxItem Content=" - "/>
                                 <CollectionContainer Collection="{Binding Source={StaticResource ComboBoxItems}}" />
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
