@@ -4,8 +4,6 @@ namespace MivexBlagajna.Data.Models
 {
     public class StavkaKartice
     {
-        [Key]
-        public int Id { get; set; }
         public string Nalog { get; set; }
         public string VrstaNaloga { get; set; }
         public DateTime Datum { get; set; }

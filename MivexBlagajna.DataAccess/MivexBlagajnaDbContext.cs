@@ -19,6 +19,8 @@ namespace MivexBlagajna.DataAccess
             modelBuilder.Entity<Komitent>().Property(k => k.Sifra).HasDefaultValueSql("NEXT VALUE FOR Sifre");
             modelBuilder.Entity<Komitent>().HasIndex(k => k.Sifra).IsUnique(true);
 
+            modelBuilder.Entity<StavkaKartice>().HasNoKey();
+
             modelBuilder.ApplyConfiguration(new KomitentiConfiguration());
             modelBuilder.ApplyConfiguration(new MestoTroskaConfiguration());
             modelBuilder.ApplyConfiguration(new KontoConfiguration());

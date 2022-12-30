@@ -13,6 +13,7 @@
     <UserControl.Resources>
 
         <CollectionViewSource x:Key="ComboBoxItems" Source="{Binding MestaTroska}" />
+
         <converters:NullItemConverter x:Key="NullConverter" />
 
         <ControlTemplate x:Key="validationErrorTemplate">

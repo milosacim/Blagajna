@@ -137,7 +137,7 @@ namespace MivexBlagajna.UI.ViewModels.Kartica
             var mestoUslov = Mesto != null ? $" AND mt.Id = {Mesto?.Id}" : null;
             var vrstaUslov = Vrsta != null ? $" AND vn.Id = {Vrsta?.Id}" : null;
 
-            var uslov = $"\'(t.Datum >= \'\'{DatumOd.Date:yyyy-MM-dd HH:mm:ss}\'\' AND t.Datum <= \'\'{DatumDo.Date.AddDays(1):yyyy-MM-dd HH:mm:ss}\'\'){kontoUslov}{komitentUslov}{mestoUslov}{vrstaUslov}\'";
+            var uslov = $"\' t.Datum >= \'\'{DatumOd.Date:yyyy-MM-dd HH:mm:ss}\'\' AND t.Datum < \'\'{DatumDo.Date.AddDays(1):yyyy-MM-dd HH:mm:ss}\'\' {kontoUslov}{komitentUslov}{mestoUslov}{vrstaUslov}\'";
 
             var stavke = await _transakcijeRepository.GetFinansijskaKarticaAsync(uslov);
 
