@@ -123,6 +123,7 @@
                                         Text="{Binding Transakcija.Komitent.Sifra, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                         IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}" KeyUp="SearchBox_KeyUp"/>
                                 </StackPanel>
+                                
                                 <!--  Naziv komitenta  -->
                                 <StackPanel Margin="20,0,0,0">
 

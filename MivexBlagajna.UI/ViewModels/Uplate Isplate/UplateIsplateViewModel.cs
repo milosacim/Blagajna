@@ -285,7 +285,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             {
                 _transakcijeRepository.CancelChanges();
                 HasChanges = _transakcijeRepository.HasChanges();
-                Transakcija = Transakcija.Id == 0 ? BackupTransakcija : Transakcije[Transakcije.IndexOf(BackupTransakcija)];
+                Transakcija = Transakcija?.Id == 0 ? BackupTransakcija : Transakcije[Transakcije.IndexOf(BackupTransakcija)];
                 Transakcija?.EndEdit();
             }
         }
