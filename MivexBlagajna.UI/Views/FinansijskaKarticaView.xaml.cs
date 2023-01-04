@@ -67,7 +67,7 @@ namespace MivexBlagajna.UI.Views
 
         private void Komitenti_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count != 0)
+            if (e.AddedItems.Count != 0 && e.AddedItems[0] is not ComboBoxItem)
             {
                 SearchBox.Text = ((Komitent)e.AddedItems[0]).Sifra.ToString();
                 Komitenti.Items.Refresh();

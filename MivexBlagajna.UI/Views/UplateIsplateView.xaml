@@ -103,6 +103,7 @@
                             </Grid.RowDefinitions>
                             <!--  Prvi red  -->
                             <StackPanel Orientation="Horizontal">
+                                
                                 <!--  Datum naloga  -->
                                 <StackPanel>
                                     <Label Content="Datum" />
@@ -112,6 +113,7 @@
                                         DropDownView="Calendar"
                                         IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}" />
                                 </StackPanel>
+                                
                                 <!--  Sifra komitenta  -->
                                 <StackPanel Margin="20,0,0,0">
                                     <Label Content="Šifra" />
@@ -136,7 +138,7 @@
                                         IsEnabled="{Binding Transakcija.IsEditable, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
                                         ItemsSource="{Binding Komitenti}"
                                         SelectedValue="{Binding Transakcija.Komitent_Id, Mode=TwoWay}"
-                                        SelectedValuePath="Id">
+                                        SelectedValuePath="Id" SelectionChanged="KomitentNaziv_SelectionChanged">
 
                                     </syncfusion:ComboBoxAdv>
                                 </StackPanel>
@@ -286,6 +288,7 @@
                                     Width="75"
                                     Margin="10,0,0,0"
                                     Command="{Binding CancelCommand}"
+                                    Click="CancelBtn_Click"
                                     Label="Otkaži"
                                     LargeIcon="/Images/icons8-unavailable-50.png"
                                     SizeMode="Large" />

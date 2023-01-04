@@ -152,6 +152,7 @@
                                         x:Name="Komitenti"
                                         Width="300" 
                                         Height="25"
+                                        SelectedIndex="0"
                                         SelectedItem="{Binding Komitent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullConverter}}"
                                         Validation.ErrorTemplate="{StaticResource validationErrorTemplate}"
                                         SelectionChanged="Komitenti_SelectionChanged">

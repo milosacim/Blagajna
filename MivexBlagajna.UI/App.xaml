@@ -2,13 +2,13 @@
     x:Class="MivexBlagajna.UI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:kartica="clr-namespace:MivexBlagajna.UI.ViewModels.Kartica"
     xmlns:komitenti="clr-namespace:MivexBlagajna.UI.ViewModels.Komitenti"
-    xmlns:mesta="clr-namespace:MivexBlagajna.UI.ViewModels.MestaTroska"
-    xmlns:uplateIsplate="clr-namespace:MivexBlagajna.UI.ViewModels.Uplate_Isplate" 
-    xmlns:kartica="clr-namespace:MivexBlagajna.UI.ViewModels.Kartica" 
-    xmlns:views="clr-namespace:MivexBlagajna.UI.Views"
     xmlns:local="clr-namespace:MivexBlagajna.UI"
+    xmlns:mesta="clr-namespace:MivexBlagajna.UI.ViewModels.MestaTroska"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:uplateIsplate="clr-namespace:MivexBlagajna.UI.ViewModels.Uplate_Isplate"
+    xmlns:views="clr-namespace:MivexBlagajna.UI.Views"
     DispatcherUnhandledException="Application_DispatcherUnhandledException">
 
     <Application.Resources>
@@ -38,6 +38,6 @@
         </ResourceDictionary>
 
     </Application.Resources>
-    
+
 
 </Application>

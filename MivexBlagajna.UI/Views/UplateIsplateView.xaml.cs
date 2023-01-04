@@ -28,7 +28,8 @@ namespace MivexBlagajna.UI.Views
             if (e.AddedItems.Count != 0)
             {
                 SearchBox.Text = ((Komitent)e.AddedItems[0]).Sifra.ToString();
-                KomitentNaziv.Items.Refresh();
+                mestaComboBox.SelectedItem = ((Komitent)e.AddedItems[0]).MestoTroska;
+
                 e.AddedItems.Clear();
             }
             KomitentNaziv.IsDropDownOpen = false;
@@ -36,6 +37,12 @@ namespace MivexBlagajna.UI.Views
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            var collection = CollectionViewSource.GetDefaultView(KomitentNaziv.ItemsSource);
+            collection.Filter = (o) =>
+            {
+                return true;
+            };
+
             tabela.RefreshColumns();
         }
 
@@ -133,6 +140,15 @@ namespace MivexBlagajna.UI.Views
             {
                 return false;
             }
+        }
+
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var collection = CollectionViewSource.GetDefaultView(KomitentNaziv.ItemsSource);
+            collection.Filter = (o) =>
+            {
+                return true;
+            };
         }
     }
 }

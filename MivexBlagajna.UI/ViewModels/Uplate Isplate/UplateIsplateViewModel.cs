@@ -1,5 +1,4 @@
-﻿using Castle.Core.Internal;
-using MivexBlagajna.Data.Models;
+﻿using MivexBlagajna.Data.Models;
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Transakcije;
@@ -7,10 +6,8 @@ using MivexBlagajna.UI.Views.Services;
 using MivexBlagajna.UI.Wrappers;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Data;
 
 namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 {
@@ -22,10 +19,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         private readonly ITransakcijeRepository _transakcijeRepository;
         private readonly IMessageDialogService _messageDialogService;
         private bool _hasChanges;
-        //private string _komitentFilter;
         private TransakcijaWrapper? _transakcija;
 
-        //private readonly Predicate<object> _filterdelegate;
 
         #endregion
 
@@ -40,18 +35,15 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             _transakcijeRepository = transakcijeRepository;
             _messageDialogService = messageDialogService;
 
-            //_filterdelegate = new(s => GetBySearch(s as Komitent));
 
             Komitenti = new ObservableCollection<Komitent>();
             MestaTroska = new ObservableCollection<MestoTroska>();
             Konta = new ObservableCollection<Konto>();
             VrsteNaloga = new ObservableCollection<VrsteNaloga>();
             Transakcije = new ObservableCollection<TransakcijaWrapper>();
-            //UplateIsplate = CollectionViewSource.GetDefaultView(Transakcije);
 
             CreateTransakcijaCommand = new RelayCommand(CreateNewTransakcija);
             CreateBrojNalogaCommand = new RelayCommand(CreateBrojNaloga, CanCreateBrojNaloga);
-            //SetFilterCommand = new RelayCommand(SetFilter);
             EditTransakcijaCommand = new RelayCommand(EditTransakcija, CanEditTransakcija);
             CancelCommand = new RelayCommand(CancelChange, CanCanceChange);
             SaveCommand = new SaveTransakcijaCommand(this);
@@ -60,7 +52,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
 
         private bool CanEditTransakcija(object? arg)
         {
-            return Transakcija != null && !Transakcija.IsEditable;  
+            return Transakcija != null && !Transakcija.IsEditable;
         }
 
         private bool CanCreateBrojNaloga(object? arg)
@@ -112,18 +104,16 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
         public TransakcijaWrapper BackupTransakcija { get; set; }
         public RelayCommand CreateTransakcijaCommand { get; }
         public RelayCommand CreateBrojNalogaCommand { get; }
-        //public RelayCommand SetFilterCommand { get; }
         public RelayCommand EditTransakcijaCommand { get; }
         public RelayCommand CancelCommand { get; }
         public AsyncCommand SaveCommand { get; }
         public AsyncCommand DeleteCommand { get; }
-        //public ICollectionView FilteredKomitenti { get; private set; }
-        //public ICollectionView UplateIsplate { get; private set; }
+
         public ObservableCollection<TransakcijaWrapper> Transakcije { get; }
-        public ObservableCollection<Komitent> Komitenti { get;}
+        public ObservableCollection<Komitent> Komitenti { get; }
         public ObservableCollection<MestoTroska> MestaTroska { get; }
         public ObservableCollection<Konto> Konta { get; }
-        public ObservableCollection<VrsteNaloga> VrsteNaloga { get; set; }
+        public ObservableCollection<VrsteNaloga> VrsteNaloga { get; }
         public TransakcijaWrapper? Transakcija
         {
             get { return _transakcija; }
@@ -205,8 +195,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             await _transakcijeRepository.SaveAsync();
             Transakcija.EndEdit();
             HasChanges = _transakcijeRepository.HasChanges();
-            Transakcije.Add(Transakcija);
-            //UplateIsplate.Refresh();
         }
         public async Task DeleteTransakcijaAsync(TransakcijaWrapper transakcija)
         {
@@ -215,18 +203,6 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             if (result == MessageDialogResult.Potvrdi)
             {
                 await _transakcijeRepository.DeleteAsync(transakcija.Model);
-
-                if (Transakcije.Count > 1)
-                {
-                    Transakcije.RemoveAt(Transakcije.IndexOf(transakcija));
-                    Transakcija = Transakcije[Transakcije.IndexOf(transakcija) + 1];
-                    //UplateIsplate.Refresh();
-                }
-                else
-                {
-                    Transakcije.RemoveAt(Transakcije.IndexOf(transakcija));
-                    Transakcije.Clear();
-                }
             }
         }
         private void CreateBrojNaloga(object? obj)
@@ -269,6 +245,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
                 }
             }
         }
+
         private void CreateNewTransakcija(object? obj)
         {
             var transakcija = new Transakcija();
@@ -277,6 +254,7 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             BackupTransakcija = Transakcija != null ? Transakcija : Transakcije.FirstOrDefault();
             Transakcija = new TransakcijaWrapper(transakcija, true);
         }
+
         private void CancelChange(object? obj)
         {
             var result = _messageDialogService.ShowOKCancelDialog("Napravili ste promene. Da li želite da otkažete?", "Question");
@@ -285,7 +263,8 @@ namespace MivexBlagajna.UI.ViewModels.Uplate_Isplate
             {
                 _transakcijeRepository.CancelChanges();
                 HasChanges = _transakcijeRepository.HasChanges();
-                Transakcija = Transakcija?.Id == 0 ? BackupTransakcija : Transakcije[Transakcije.IndexOf(BackupTransakcija)];
+                Transakcija = BackupTransakcija;
+                BackupTransakcija?.EndEdit();
                 Transakcija?.EndEdit();
             }
         }
