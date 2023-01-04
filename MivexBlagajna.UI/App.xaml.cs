@@ -51,7 +51,7 @@ namespace MivexBlagajna.UI
             window?.Show();
             base.OnStartup(e);
 
-            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.KeyDownEvent, new KeyEventHandler(TextBox_KeyDown));
+            //EventManager.RegisterClassHandler(typeof(TextBox), TextBox.KeyDownEvent, new KeyEventHandler(TextBox_KeyDown));
             //EventManager.RegisterClassHandler(typeof(ComboBox), ComboBox.KeyDownEvent, new KeyEventHandler(ComboBox_KeyDown));
         }
 
@@ -60,25 +60,25 @@ namespace MivexBlagajna.UI
         //    MoveToNextUIElement(e);
         //}
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter && (sender as TextBox).AcceptsReturn == false)
-                MoveToNextUIElement(e);
-        }
+        //private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Enter && (sender as TextBox).AcceptsReturn == false)
+        //        MoveToNextUIElement(e);
+        //}
 
-        private void MoveToNextUIElement(KeyEventArgs e)
-        {
-            FocusNavigationDirection focusNavigation = FocusNavigationDirection.Next;
-            TraversalRequest request = new TraversalRequest(focusNavigation);
+        //private void MoveToNextUIElement(KeyEventArgs e)
+        //{
+        //    FocusNavigationDirection focusNavigation = FocusNavigationDirection.Next;
+        //    TraversalRequest request = new TraversalRequest(focusNavigation);
 
-            UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+        //    UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
 
-            if (elementWithFocus != null)
-            {
-                if (elementWithFocus.MoveFocus(request))
-                    e.Handled = true;
-            }
-        }
+        //    if (elementWithFocus != null)
+        //    {
+        //        if (elementWithFocus.MoveFocus(request))
+        //            e.Handled = true;
+        //    }
+        //}
 
         protected override async void OnExit(ExitEventArgs e)
         {

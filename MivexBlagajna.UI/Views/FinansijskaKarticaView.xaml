@@ -1,14 +1,12 @@
-﻿
-    <UserControl x:Class="MivexBlagajna.UI.Views.FinansijskaKarticaView"
+﻿<UserControl x:Class="MivexBlagajna.UI.Views.FinansijskaKarticaView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MivexBlagajna.UI.Views" 
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
              xmlns:converters="clr-namespace:MivexBlagajna.UI.Converters"
              mc:Ignorable="d">
-    
+
     <UserControl.Resources>
 
         <ControlTemplate x:Key="validationErrorTemplate">
@@ -46,155 +44,188 @@
         <CollectionViewSource x:Key="MestaTroskaItems" Source="{Binding MestaTroska}"/>
         <CollectionViewSource x:Key="KontaItems" Source="{Binding Konta}"/>
         <CollectionViewSource x:Key="VrsteNalogaItems" Source="{Binding VrsteNaloga}"/>
-        
+
         <converters:NullPropertyConverter x:Key="NullConverter" />
     </UserControl.Resources>
-    
-    <Grid>
-        <Border Background="#F7F8F8"/>
 
-        <DockPanel>
-            <StatusBar
+    <Grid>
+        <Border 
+            Background="#E2EDFA"
+            BorderBrush="#FF0F73AF"
+            CornerRadius="5"
+            BorderThickness="0.5"
+            Width="auto"
+            Height="auto"
+            Margin="5,10,5,10">
+            <Border.Effect>
+                <DropShadowEffect
+                    BlurRadius="5"
+                    Direction="-90"
+                    Opacity="0.1" />
+            </Border.Effect>
+            <DockPanel>
+                <StatusBar
                 Height="15"
                 Background="CornflowerBlue"
                 DockPanel.Dock="Bottom"/>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
 
-                <Grid Margin="20 10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 10 0" Height="25">
 
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Ukupne uplate: " FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TotalUplate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#,0.00}}" FontWeight="SemiBold" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="10 0" VerticalAlignment="Center">
+                        <TextBlock Text="Ukupne isplate: " FontWeight="SemiBold" /> 
+                        <TextBlock Text="{Binding TotalIsplate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#,0.00}}" FontWeight="SemiBold" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Saldo: " FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding TotalSaldo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#,0.00}}" FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <Border
-                        Width="auto"
-                        Height="auto"
-                        Margin="0,10,0,10"
-                        Background="#F7F8F8">
+                    <Grid Margin="20 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                        <StackPanel Orientation="Horizontal">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                            <!--Datum Od-->
-                            <StackPanel>
-                                <Label Content="Datum Od:" />
-                                <syncfusion:DateTimeEdit
+                        <Border
+                            Width="auto"
+                            Height="auto"
+                            Margin="0,10,0,10"
+                            Background="#E2EDFA">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <!--Datum Od-->
+                                <StackPanel>
+                                    <Label Content="Datum Od:" />
+                                    <syncfusion:DateTimeEdit
                                     DateTime="{Binding DatumOd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Width="120"
-                                    BorderThickness="0.5"
                                     DropDownView="Calendar"/>
-                            </StackPanel>
+                                </StackPanel>
 
-                            <!--Datum Do-->
-                            <StackPanel Margin="20 0">
-                                <Label Content="Datum Do:" />
-                                <syncfusion:DateTimeEdit
+                                <!--Datum Do-->
+                                <StackPanel Margin="20 0">
+                                    <Label Content="Datum Do:" />
+                                    <syncfusion:DateTimeEdit
                                     DateTime="{Binding DatumDo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Width="120"
-                                    BorderThickness="0.5"
                                     DropDownView="Calendar"/>
-                            </StackPanel>
+                                </StackPanel>
 
-                            <!--Sifra komitenta-->
-                            <StackPanel>
-                                <Label Content="Sifra:" />
-                                <syncfusion:SfTextBoxExt
-                                    Width="120" 
-                                    Height="25"
-                                    BorderThickness="0.5"/>
-                            </StackPanel>
+                                <!--Sifra komitenta-->
+                                <StackPanel>
+                                    <Label Content="Sifra:" />
+                                    <syncfusion:SfTextBoxExt
+                                        x:Name="SearchBox"
+                                        VerticalContentAlignment="Center"
+                                        Width="120" 
+                                        Height="25"
+                                        KeyUp="SfTextBoxExt_KeyUp"/>
+                                </StackPanel>
 
-                            <!--Komitent-->
-                            <StackPanel Margin="20 0">
-                                
-                                <Label Content="Komitent:" />
-                                
-                                <syncfusion:ComboBoxAdv
-                                    Width="300" 
-                                    Height="25"
-                                    BorderThickness="0.5"
-                                    SelectedItem="{Binding Komitent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullConverter}}"
-                                    Validation.ErrorTemplate="{StaticResource validationErrorTemplate}">
+                                <!--Komitent-->
+                                <StackPanel Margin="20 0">
 
-                                    <syncfusion:ComboBoxAdv.ItemsSource>
-                                        <CompositeCollection>
-                                            <ComboBoxItem Content=" - "/>
-                                            <CollectionContainer Collection="{Binding Source={StaticResource KomitentiItems}}" />
-                                        </CompositeCollection>
-                                    </syncfusion:ComboBoxAdv.ItemsSource>
+                                    <Label Content="Komitent:" />
 
-                                </syncfusion:ComboBoxAdv>
-                                
-                            </StackPanel>
+                                    <syncfusion:ComboBoxAdv
+                                        x:Name="Komitenti"
+                                        Width="300" 
+                                        Height="25"
+                                        SelectedItem="{Binding Komitent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullConverter}}"
+                                        Validation.ErrorTemplate="{StaticResource validationErrorTemplate}"
+                                        SelectionChanged="Komitenti_SelectionChanged">
 
-                            <!--Mesto troska-->
-                            <StackPanel Margin="20 0">
-                                <Label Content="Mesto Troska" />
-                                <syncfusion:ComboBoxAdv
+                                        <syncfusion:ComboBoxAdv.ItemsSource>
+                                            <CompositeCollection>
+                                                <ComboBoxItem Content=" - " Background="Transparent"/>
+                                                <CollectionContainer Collection="{Binding Source={StaticResource KomitentiItems}}" />
+                                            </CompositeCollection>
+                                        </syncfusion:ComboBoxAdv.ItemsSource>
+
+                                    </syncfusion:ComboBoxAdv>
+
+                                </StackPanel>
+
+                                <!--Mesto troska-->
+                                <StackPanel Margin="20 0">
+                                    <Label Content="Mesto Troska" />
+                                    <syncfusion:ComboBoxAdv
                                     Width="250" 
                                     Height="25"
-                                    BorderThickness="0.5"
+                                    SelectedIndex="0"
                                     SelectedItem="{Binding Mesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullConverter}}">
 
-                                    <syncfusion:ComboBoxAdv.ItemsSource>
-                                        <CompositeCollection>
-                                            <ComboBoxItem Content=" - "/>
-                                            <CollectionContainer Collection="{Binding Source={StaticResource MestaTroskaItems}}" />
-                                        </CompositeCollection>
-                                    </syncfusion:ComboBoxAdv.ItemsSource>
-                                    
-                                </syncfusion:ComboBoxAdv>
-                            </StackPanel>
+                                        <syncfusion:ComboBoxAdv.ItemsSource>
+                                            <CompositeCollection>
+                                                <ComboBoxItem Content=" - " Background="Transparent"/>
+                                                <CollectionContainer Collection="{Binding Source={StaticResource MestaTroskaItems}}" />
+                                            </CompositeCollection>
+                                        </syncfusion:ComboBoxAdv.ItemsSource>
 
-                            <!--Konto-->
-                            <StackPanel Margin="20 0 0 0">
-                                <Label Content="Konto" />
-                                <syncfusion:ComboBoxAdv
+                                    </syncfusion:ComboBoxAdv>
+                                </StackPanel>
+
+                                <!--Konto-->
+                                <StackPanel Margin="20 0 0 0">
+                                    <Label Content="Konto" />
+                                    <syncfusion:ComboBoxAdv
                                     Width="190" 
                                     Height="25"
-                                    BorderThickness="0.5"
+                                    SelectedIndex="0"
                                     SelectedItem="{Binding Konto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullConverter}}">
 
-                                    <syncfusion:ComboBoxAdv.ItemsSource>
-                                        <CompositeCollection>
-                                            <ComboBoxItem Content=" - "/>
-                                            <CollectionContainer Collection="{Binding Source={StaticResource KontaItems}}" />
-                                        </CompositeCollection>
-                                    </syncfusion:ComboBoxAdv.ItemsSource>
+                                        <syncfusion:ComboBoxAdv.ItemsSource>
+                                            <CompositeCollection>
+                                                <ComboBoxItem Content=" - " Background="Transparent"/>
+                                                <CollectionContainer Collection="{Binding Source={StaticResource KontaItems}}" />
+                                            </CompositeCollection>
+                                        </syncfusion:ComboBoxAdv.ItemsSource>
 
-                                </syncfusion:ComboBoxAdv>
-                            </StackPanel>
+                                    </syncfusion:ComboBoxAdv>
+                                </StackPanel>
 
-                            <!--Vrsta naloga-->
-                            <StackPanel Margin="20 0">
-                                <Label Content="Vrsta Naloga" />
-                                <syncfusion:ComboBoxAdv
+                                <!--Vrsta naloga-->
+                                <StackPanel Margin="20 0">
+                                    <Label Content="Vrsta Naloga" />
+                                    <syncfusion:ComboBoxAdv
                                     Width="190" 
                                     Height="25"
-                                    BorderThickness="0.5"
+                                    SelectedIndex="0"
                                     SelectedItem="{Binding Vrsta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullConverter}}">
 
-                                    <syncfusion:ComboBoxAdv.ItemsSource>
-                                        <CompositeCollection>
-                                            <ComboBoxItem Content=" - "/>
-                                            <CollectionContainer Collection="{Binding Source={StaticResource VrsteNalogaItems}}" />
-                                        </CompositeCollection>
-                                    </syncfusion:ComboBoxAdv.ItemsSource>
+                                        <syncfusion:ComboBoxAdv.ItemsSource>
+                                            <CompositeCollection>
+                                                <ComboBoxItem Content=" - " Background="Transparent"/>
+                                                <CollectionContainer Collection="{Binding Source={StaticResource VrsteNalogaItems}}" />
+                                            </CompositeCollection>
+                                        </syncfusion:ComboBoxAdv.ItemsSource>
 
-                                </syncfusion:ComboBoxAdv>
-                            </StackPanel>
+                                    </syncfusion:ComboBoxAdv>
+                                </StackPanel>
 
-                            <!--Ucitaj podatke-->
-                            <syncfusion:ButtonAdv
+                                <!--Ucitaj podatke-->
+                                <syncfusion:ButtonAdv
                                 Margin="25 0"
                                 Width="65"
                                 Height="50"
@@ -203,8 +234,8 @@
                                 LargeIcon="/Images/icons8-load-67.png"
                                 Command="{Binding LoadKarticaCommand}"/>
 
-                            <!--Izvezi u Excel-->
-                            <syncfusion:ButtonAdv
+                                <!--Izvezi u Excel-->
+                                <syncfusion:ButtonAdv
                                 Margin="15 10"
                                 Width="90"
                                 Height="50"
@@ -212,69 +243,73 @@
                                 SizeMode="Large"
                                 LargeIcon="/Images/icons8-microsoft-excel-2019-48.png"/>
 
-                        </StackPanel>
-                    </Border>
-                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
 
-                <Grid Grid.Row="1">
-                    <Border Background="#F7F8F8">
-                        <Grid>
-                            <syncfusion:SfDataGrid
-                                Margin="5 0 5 0"
+                    <Grid Grid.Row="1">
+                        <Border Background="#F7F8F8">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <syncfusion:SfDataGrid
                                 ItemsSource="{Binding Transakcije}"
                                 AllowResizingColumns="True"
                                 AutoGenerateColumns="False"
-                                ColumnSizer="SizeToHeader">
-                                
-                                <syncfusion:SfDataGrid.Columns>
+                                ColumnSizer="SizeToHeader" LiveDataUpdateMode="AllowSummaryUpdate">
 
-                                    <syncfusion:GridTextColumn
+                                    <syncfusion:SfDataGrid.Columns>
+
+                                        <syncfusion:GridTextColumn
                                         Width="100"
                                         HeaderText="Nalog"
                                         MappingName="Nalog" />
 
-                                    <syncfusion:GridTextColumn
+                                        <syncfusion:GridTextColumn
                                         Width="100"
                                         HeaderText="Vrsta Naloga"
                                         MappingName="VrstaNaloga" />
 
-                                    <syncfusion:GridDateTimeColumn
+                                        <syncfusion:GridDateTimeColumn
                                         Width="100"
                                         HeaderText="Datum"
                                         MappingName="Datum"
                                         Pattern="ShortDate" />
 
-                                    <syncfusion:GridTextColumn
+                                        <syncfusion:GridTextColumn
                                         Width="100"
                                         HeaderText="Konto"
                                         MappingName="Konto" />
 
-                                    <syncfusion:GridTextColumn
+                                        <syncfusion:GridTextColumn
                                         Width="100"
                                         HeaderText="Sifra"
                                         MappingName="Sifra" />
 
-                                    <syncfusion:GridTextColumn
+                                        <syncfusion:GridTextColumn
                                         Width="350"
                                         HeaderText="Komitent"
                                         MappingName="Komitent" />
 
-                                    <syncfusion:GridTextColumn
+                                        <syncfusion:GridTextColumn
                                         Width="100"
                                         HeaderText="Sifra MT"
                                         MappingName="SifraMT" />
 
-                                    <syncfusion:GridTextColumn
+                                        <syncfusion:GridTextColumn
                                         Width="350"
                                         HeaderText="Mesto Troska"
                                         MappingName="Mesto" />
 
-                                    <syncfusion:GridTextColumn
+                                        <syncfusion:GridTextColumn
                                         Width="300"
                                         HeaderText="Opis"
                                         MappingName="Opis" />
 
-                                    <syncfusion:GridNumericColumn
+                                        <syncfusion:GridNumericColumn
                                         Width="100"
                                         HeaderText="Uplaćeno"
                                         MappingName="Uplata"
@@ -282,14 +317,14 @@
                                         NumberGroupSeparator="."
                                         NumberGroupSizes="3" />
 
-                                    <syncfusion:GridNumericColumn
+                                        <syncfusion:GridNumericColumn
                                         Width="100"
                                         HeaderText="Isplaćeno"
                                         MappingName="Isplata"
                                         NumberDecimalDigits="2"
                                         NumberGroupSeparator="."
                                         NumberGroupSizes="3" />
-                                    <syncfusion:GridNumericColumn
+                                        <syncfusion:GridNumericColumn
                                         Width="100"
                                         HeaderText="Saldo"
                                         MappingName="Saldo"
@@ -297,16 +332,18 @@
                                         NumberGroupSeparator="."
                                         NumberGroupSizes="3" />
 
-                                </syncfusion:SfDataGrid.Columns>
-                                
-                            </syncfusion:SfDataGrid>
-                        </Grid>
-                        
-                    </Border>
+                                    </syncfusion:SfDataGrid.Columns>
 
+                                </syncfusion:SfDataGrid>
+
+                            </Grid>
+                        </Border>
+                    </Grid>
                 </Grid>
 
-            </Grid>
-        </DockPanel>
+
+
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

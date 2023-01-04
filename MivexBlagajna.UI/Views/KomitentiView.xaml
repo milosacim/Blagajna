@@ -19,7 +19,7 @@
 
             <!--Navigacija-->
             <Grid>
-                <Border BorderBrush="LightGray" BorderThickness="2.5" CornerRadius="5" Margin="0 10 10 10"/>
+                <Border BorderBrush="#FF0F73AF" BorderThickness="1" CornerRadius="5" Margin="0 10 10 10"/>
                 <DockPanel Margin="10 0" Width="auto" >
                     <TextBlock DockPanel.Dock="Top" Text="Lista komitenata" Margin="20" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
                     <navigation:KomitentiNavigationView DockPanel.Dock="Bottom" DataContext="{Binding KomitentiNavigationViewModel}" Margin="10"/>
@@ -35,23 +35,23 @@
 
                 <!-- Detalji -->
                 <Grid>
-                    <Border BorderBrush="LightGray" BorderThickness="2.5" CornerRadius="5" Margin="0 10 10 0" />
+                    <Border BorderBrush="#FF0F73AF" BorderThickness="1" CornerRadius="5" Margin="0 10 10 0" />
                     <details:KomitentDetailView DataContext="{Binding KomitentiDetailViewModel}" Margin="10 10"/>
                 </Grid>
 
                 <!--Tabela -->
                 <Grid Grid.Row="1">
-                    <Border BorderBrush="LightGray" BorderThickness="2.5" CornerRadius="5" Margin="0 10 10 10" />
+                    <Border BorderBrush="#FF0F73AF" BorderThickness="1" CornerRadius="5" Margin="0 10 10 10" />
 
                     <syncfusion:SfDataGrid 
-                DataContext="{Binding KomitentiNavigationViewModel}" 
-                ItemsSource="{Binding Komitenti, UpdateSourceTrigger=PropertyChanged}" 
-                Margin="1 11 11 11" 
-                AllowResizingColumns="True" 
-                AutoGenerateColumns="False" 
-                AllowFiltering="True"
-                BorderThickness="0"
-                BorderBrush="Transparent">
+                        DataContext="{Binding KomitentiNavigationViewModel}" 
+                        ItemsSource="{Binding Komitenti, UpdateSourceTrigger=PropertyChanged}" 
+                        Margin="1 11 11 11" 
+                        AllowResizingColumns="True" 
+                        AutoGenerateColumns="False" 
+                        AllowFiltering="True"
+                        BorderThickness="0"
+                        BorderBrush="Transparent">
 
                         <syncfusion:SfDataGrid.Columns>
                             <syncfusion:GridTextColumn HeaderText="Komitent" MappingName="PunNaziv" Width="500"/>
@@ -62,6 +62,7 @@
                             <syncfusion:GridTextColumn HeaderText="Adresa" MappingName="Adresa" />
                             <syncfusion:GridTextColumn HeaderText="Kontakt" MappingName="Kontakt" />
                         </syncfusion:SfDataGrid.Columns>
+                        
                     </syncfusion:SfDataGrid>
                 </Grid>
             </Grid>

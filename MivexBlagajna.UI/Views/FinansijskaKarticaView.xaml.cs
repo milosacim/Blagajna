@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using MivexBlagajna.Data.Models;
+using Syncfusion.Data.Extensions;
+using System;
+using System.Collections;
+using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MivexBlagajna.UI.Views
 {
@@ -23,6 +17,63 @@ namespace MivexBlagajna.UI.Views
         public FinansijskaKarticaView()
         {
             InitializeComponent();
+
+        }
+
+        private void SfTextBoxExt_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                CompositeCollection collection = (CompositeCollection)CollectionViewSource.GetDefaultView(Komitenti.ItemsSource).SourceCollection;
+
+                CollectionContainer container = new();
+
+                foreach (var item in collection)
+                {
+                    if (item is CollectionContainer)
+                    {
+
+                        container = (CollectionContainer)item;
+
+                        var items = (ListCollectionView)container.Collection;
+
+                        items.Refresh();
+
+                        items.Filter = (o) =>
+                        {
+                            return FilterItems(sender, o);
+                        };
+
+                        items.Refresh();
+                    }
+                }
+
+                if (!Komitenti.IsDropDownOpen)
+                {
+                    Komitenti.IsDropDownOpen = true;
+                }
+            }
+        }
+
+        private static bool FilterItems(object sender, object o)
+        {
+            if (o.ToString().Contains((sender as TextBox).Text, StringComparison.OrdinalIgnoreCase) && o.ToString() != null)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private void Komitenti_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count != 0)
+            {
+                SearchBox.Text = ((Komitent)e.AddedItems[0]).Sifra.ToString();
+                Komitenti.Items.Refresh();
+                e.AddedItems.Clear();
+            }
+            Komitenti.IsDropDownOpen = false;
         }
     }
 }

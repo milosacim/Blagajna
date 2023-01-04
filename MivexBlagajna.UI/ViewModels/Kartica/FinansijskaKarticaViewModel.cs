@@ -2,7 +2,6 @@
 using MivexBlagajna.DataAccess.Services.Repositories;
 using MivexBlagajna.UI.Commands;
 using MivexBlagajna.UI.Commands.Transakcije;
-using Syncfusion.XPS;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +19,9 @@ namespace MivexBlagajna.UI.ViewModels.Kartica
         private Konto _konto;
         private Komitent _komitent;
         private MestoTroska _mesto;
-
+        private decimal _totalUplate;
+        private decimal _totalIsplate;
+        private decimal _totalSaldo;
 
         public FinansijskaKarticaViewModel( ITransakcijeRepository transakcijeRepository)
         {
@@ -78,10 +79,28 @@ namespace MivexBlagajna.UI.ViewModels.Kartica
             set { _vrstaNaloga = value; OnModelPropertyChanged(); }
         }
 
+        public decimal TotalUplate
+        {
+            get { return _totalUplate; }
+            set { _totalUplate = value; OnModelPropertyChanged(); }
+        }
+
+        public decimal TotalIsplate
+        {
+            get { return _totalIsplate; }
+            set { _totalIsplate = value; OnModelPropertyChanged(); }
+        }
+
+        public decimal TotalSaldo
+        {
+            get { return _totalSaldo; }
+            set { _totalSaldo = value; OnModelPropertyChanged(); }
+        }
+
         public ObservableCollection<Komitent> Komitenti { get; }
         public ObservableCollection<MestoTroska> MestaTroska { get; }
         public ObservableCollection<Konto> Konta { get; }
-        public ObservableCollection<VrsteNaloga> VrsteNaloga { get; set; }
+        public ObservableCollection<VrsteNaloga> VrsteNaloga { get;}
         public ObservableCollection<StavkaKartice> Transakcije { get; }
 
         public AsyncCommand LoadKarticaCommand { get; }
@@ -157,6 +176,10 @@ namespace MivexBlagajna.UI.ViewModels.Kartica
             foreach (var item in stavke)
             {
                 Transakcije.Add(item);
+
+                TotalUplate += item.Uplata;
+                TotalIsplate += item.Isplata;
+                TotalSaldo += item.Uplata - item.Isplata;
             }
         }
     }

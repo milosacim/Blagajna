@@ -1,12 +1,15 @@
 ﻿using Microsoft.Win32;
+using MivexBlagajna.Data.Models;
 using Syncfusion.UI.Xaml.Grid.Converter;
 using Syncfusion.UI.Xaml.Grid.Helpers;
 using Syncfusion.Windows.Controls.Input;
 using Syncfusion.XlsIO;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace MivexBlagajna.UI.Views
 {
@@ -18,88 +21,92 @@ namespace MivexBlagajna.UI.Views
         public UplateIsplateView()
         {
             InitializeComponent();
-            this.DataContextChanged += UplateIsplateView_DataContextChanged;
+            //this.DataContextChanged += UplateIsplateView_DataContextChanged;
         }
 
         // EventHandler kada se setuje DataContext na ucitavanju kontrole
         // Setuje podrazumevani DataBinding za komitente
-        private void UplateIsplateView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            SetDefaultDataBinding();
-        }
+        //private void UplateIsplateView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        //{
+        //    SetDefaultDataBinding();
+        //}
 
         // EventHandler kada se kreira novi nalog
         // menja DataBinding textBox-a za sifru komitenta
         // tako da je moguca pretraga komitenata
         private void NovNalogOrEditBtn_Click(object sender, RoutedEventArgs e)
         {
-            SetCustomDataBinding();
+            //SetCustomDataBinding();
         }
 
         // EventHandler kada se menja text u textBoxu za sifru komitenta
         // ako je isEnabled property comboBox-a true onda ce na promeni texta biti otvorena padajuca lista
-        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (KomitentNaziv.IsEnabled == true)
-            {
-                KomitentNaziv.IsDropDownOpen = true;
-                KomitentNaziv.IsEditable = false;
+        //private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (KomitentNaziv.IsEnabled == true)
+        //    {
+        //        KomitentNaziv.IsDropDownOpen = true;
+        //        KomitentNaziv.IsEditable = false;
                 
-            }
-            else if (KomitentNaziv.SelectedValue != null)
-            {
-                KomitentNaziv.IsDropDownOpen = false;
-            }
-            else
-            {
-                KomitentNaziv.IsDropDownOpen = false;
-            }
-        }
+        //    }
+        //    else if (KomitentNaziv.SelectedValue != null)
+        //    {
+        //        KomitentNaziv.IsDropDownOpen = false;
+        //    }
+        //    else
+        //    {
+        //        KomitentNaziv.IsDropDownOpen = false;
+        //    }
+        //}
 
         private void KomitentNaziv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (e.AddedItems.Count != 0)
+            {
+                SearchBox.Text = ((Komitent)e.AddedItems[0]).Sifra.ToString();
+                KomitentNaziv.Items.Refresh();
+                e.AddedItems.Clear();
+            }
             KomitentNaziv.IsDropDownOpen = false;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            SetDefaultDataBinding();
+            //SetDefaultDataBinding();
             tabela.RefreshColumns();
         }
 
-        private void SetDefaultDataBinding()
-        {
-            var defaultTextBoxBinding = "Transakcija.Komitent.Sifra";
-            var defaultComboBoxBinding = "Komitenti";
+        //private void SetDefaultDataBinding()
+        //{
+        //    var defaultTextBoxBinding = "Transakcija.Komitent.Sifra";
+        //    var defaultComboBoxBinding = "Komitenti";
 
-            Binding textBoxBinding = new Binding(defaultTextBoxBinding);
-            textBoxBinding.Source = DataContext;
-            textBoxBinding.Mode = BindingMode.TwoWay;
-            textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+        //    Binding textBoxBinding = new Binding(defaultTextBoxBinding);
+        //    textBoxBinding.Source = DataContext;
+        //    textBoxBinding.Mode = BindingMode.TwoWay;
+        //    textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+        //    SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
 
-            Binding comboBoxBinding = new Binding(defaultComboBoxBinding);
-            comboBoxBinding.Source = DataContext;
-            KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
-        }
+        //    Binding comboBoxBinding = new Binding(defaultComboBoxBinding);
+        //    comboBoxBinding.Source = DataContext;
+        //    KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
+        //}
 
-        private void SetCustomDataBinding()
-        {
-            var alternateTextBoxBinding = "KomitentFilter";
-            var alternateComboBoxBinding = "FilteredKomitenti";
+        //private void SetCustomDataBinding()
+        //{
+        //    var alternateTextBoxBinding = "KomitentFilter";
+        //    var alternateComboBoxBinding = "FilteredKomitenti";
 
-            Binding textBoxBinding = new Binding(alternateTextBoxBinding);
-            textBoxBinding.Source = DataContext;
-            textBoxBinding.Mode = BindingMode.TwoWay;
-            textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+        //    Binding textBoxBinding = new Binding(alternateTextBoxBinding);
+        //    textBoxBinding.Source = DataContext;
+        //    textBoxBinding.Mode = BindingMode.TwoWay;
+        //    textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+        //    SearchBox.SetBinding(TextBox.TextProperty, textBoxBinding);
 
-            Binding comboBoxBinding = new Binding(alternateComboBoxBinding);
-            comboBoxBinding.Source = DataContext;
-            KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
-        }
-
-
+        //    Binding comboBoxBinding = new Binding(alternateComboBoxBinding);
+        //    comboBoxBinding.Source = DataContext;
+        //    KomitentNaziv.SetBinding(ItemsControl.ItemsSourceProperty, comboBoxBinding);
+        //}
 
         private void ExportExcel_Click(object sender, RoutedEventArgs e)
         {
@@ -149,11 +156,11 @@ namespace MivexBlagajna.UI.Views
             }
         }
 
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            SetDefaultDataBinding();
-            tabela.RefreshColumns();
-        }
+        //private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //SetDefaultDataBinding();
+        //    tabela.RefreshColumns();
+        //}
 
         private void UplateBoxExt_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -168,6 +175,38 @@ namespace MivexBlagajna.UI.Views
             if (isplateTxtBox.Text == "")
             {
                 isplateTxtBox.Text = "0";
+            }
+        }
+
+        private void SearchBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && SearchBox.IsEnabled == true)
+            {
+                var collection = CollectionViewSource.GetDefaultView(KomitentNaziv.ItemsSource);
+
+                collection.Filter = (o) =>
+                {
+                    return FilterItems(sender, o);
+                };
+
+                collection.Refresh();
+
+                if (!KomitentNaziv.IsDropDownOpen)
+                {
+                    KomitentNaziv.IsDropDownOpen = true;
+                }
+            }
+        }
+
+        private bool FilterItems(object sender, object o)
+        {
+            if (o.ToString().Contains((sender as TextBox).Text, StringComparison.OrdinalIgnoreCase) && o.ToString() != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
