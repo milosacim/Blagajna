@@ -73,6 +73,10 @@ namespace MivexBlagajna.UI.Views
                 Komitenti.Items.Refresh();
                 e.AddedItems.Clear();
             }
+            else if (e.AddedItems[0] is ComboBoxItem)
+            {
+                SearchBox.Text = string.Empty;
+            }
             Komitenti.IsDropDownOpen = false;
         }
     }
