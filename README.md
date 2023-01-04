@@ -1,4 +1,4 @@
-A cash management app that I am developing for a client using WPF MVVM and Syncfusion Controls.
+A cash management app developed for a client using WPF MVVM and Syncfusion Controls.
 All terms in user interface and some components of the viewmodels are going to be in Serbian language.
 
 Learning is still in progress so any funky and weird code you see is the result of the learning process. 
